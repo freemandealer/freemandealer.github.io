@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>用QEMU来调试内核 -- 亲身体验篇 | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我在用QEMU来调试内核 – 亲身体验篇中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：
+
+QEMU调试果然爽快
+调试环境搭建过程中有很多细节需要注意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用QEMU来调试内核 -- 亲身体验篇">
+<meta property="og:url" content="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="我在用QEMU来调试内核 – 亲身体验篇中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：
+
+QEMU调试果然爽快
+调试环境搭建过程中有很多细节需要注意">
+<meta property="og:updated_time" content="2015-10-04T14:34:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用QEMU来调试内核 -- 亲身体验篇">
+<meta name="twitter:description" content="我在用QEMU来调试内核 – 亲身体验篇中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：
+
+QEMU调试果然爽快
+调试环境搭建过程中有很多细节需要注意">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 15px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-debug-kernel-with-qemu-2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/04/debug-kernel-with-qemu-2/" class="article-date">
+  	<time datetime="2015-10-04T05:37:39.000Z" itemprop="datePublished">2015-10-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      用QEMU来调试内核 -- 亲身体验篇
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
+<ul>
+<li>QEMU调试果然爽快</li>
+<li>调试环境搭建过程中有很多细节需要注意</li>
+</ul>
+<a id="more"></a>
+<p>先来看看有了QEMU内核调试环境后，我调试内核的大致步骤。</p>
+<ul>
+<li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。执行</p>
+<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage -initrd initramfs-busybox-x86<span class="class">.cpio</span><span class="class">.gz</span>
+</code></pre></li>
+<li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">上篇文章的末尾</a>)。</p>
+<pre><code>gdb vmlinux
+&gt; <span class="keyword">target</span> remote localhost:1234
+</code></pre></li>
+<li><p>进入弹出的QEMU窗口，<code>CTRL+ALT+2</code>进入QEMU控制台，输入<code>gdbserver</code>。</p>
+</li>
+<li><p>调试开始！</p>
+</li>
+</ul>
+<p>再也不用像使用VMware那样等一万年去<code>make modules&amp;&amp;make install &amp;&amp;make modules_install</code>以及费尽心思去调教grub了。节省了大量时间，同时资源占用也少太多。一切都是整整齐齐的模样。</p>
+<p>本文采取倒叙的描述方式，上面就是我们的目标啦。怎么才能实现呢？参考LFS，我们进行下面的步骤。</p>
+<p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="external">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p>
+<p>第一步，内核编译我已经不想再说了。使用默认配置文件即可：</p>
+<pre><code><span class="built_in">make</span> x86_64_defconfig
+</code></pre><p>看最上面运行QEMU的那条命令，其实我们缺的就是initramfs-busybox-x86.cpio.gz文件——一个Initial RamDisk——开机时需要挂载的rootfs和一些二进制工具。据说有initrd 和 initramfs 两种方式实现这个Initial RamDisk。我我选择使用initramfs。这里就用到了大名鼎鼎的BusyBox套件。先用下面的命令下载并解压缩BusyBox:</p>
+<pre><code>curl <span class="string">http:</span><span class="comment">//busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -</span>
+</code></pre><p>为BusyBox创建工作目录:</p>
+<pre><code><span class="label">mkdir</span> -pv obj/<span class="keyword">busybox-x86
+</span><span class="label">make</span> O<span class="label">=obj</span>/<span class="keyword">busybox-x86 </span>defconfig
+</code></pre><p>使用menuconfig配置BusyBox:</p>
+<pre><code><span class="label">make</span> O<span class="label">=obj</span>/<span class="keyword">busybox-x86 </span>menuconfig
+</code></pre><p>选择静态链接:</p>
+<pre><code>-&gt; <span class="keyword">Busybox </span>Settings
+    -&gt; <span class="keyword">Build </span>Options
+    [ ] <span class="keyword">Build </span><span class="keyword">BusyBox </span>as a static <span class="keyword">binary </span>(no shared libs)
+</code></pre><p>编译、安装BusyBox:</p>
+<pre><code><span class="keyword">cd</span> obj/busybox-x86
+<span class="keyword">make</span> -j2
+<span class="keyword">make</span> install
+</code></pre><p>拷贝安装目录中的工具到initramfs目录中，这个文件夹就是日后的initramfs:</p>
+<pre><code>mkdir -p initramfs/x86-busybox
+cd initramfs/x86-busybox
+mkdir -pv {bin,sbin,etc,<span class="keyword">proc</span>,sys,usr/{bin,sbin}}
+cp -av obj/busybox-x86/_install/* 
+</code></pre><p>initramfs目录中没有init脚本，这可不行，我们的内核起来以后运行什么程序呢？我们手动创建一个：</p>
+<pre><code><span class="comment">#!/bin/sh</span>
+
+/bin/mount -t <span class="keyword">proc</span><span class="symbol"> none</span> /<span class="keyword">proc</span>
+/bin/mount -t<span class="symbol"> sysfs</span> sysfs /sys<span class="symbol">
+
+cat</span> &lt;&lt;'EOF'<span class="symbol">
+                       _</span> <span class="symbol">            _</span> _<span class="symbol">                  
+ _</span> __<span class="symbol"> ___</span> <span class="symbol">  __</span> _<span class="symbol">  __</span> _| |<span class="symbol"> __</span> _<span class="symbol"> ___</span>  | (_)_<span class="symbol"> __</span> <span class="symbol"> _</span> <span class="symbol">  ___</span> <span class="symbol"> __</span>
+| '_ `<span class="symbol"> _</span> \ /<span class="symbol"> _`</span> |/<span class="symbol"> _`</span> | |/<span class="symbol"> _`</span> /<span class="symbol"> __|</span> | | | '_ \| | | \ \/ /
+| | | | | | (_| | (_| | | (_| \__ \ | | | | | | |_| |&gt;  &lt; 
+|_| |_| |_|\__, |\__,_|_|\__, |___/ |_|_|_| |_|\__,_/_/\_\
+           |___/         |___/<span class="symbol">                            
+
+EOF</span>
+echo 'Enjoy<span class="symbol"> your</span> new<span class="symbol"> system!'</span>
+
+/bin/sh
+</code></pre><p>生成initramfs:</p>
+<pre><code><span class="comment">find</span> <span class="string">.</span> <span class="literal">-</span><span class="comment">print0</span> <span class="comment">|</span> <span class="comment">cpio</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">null</span> <span class="literal">-</span><span class="comment">ov</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">format=newc</span> <span class="comment">|</span> <span class="comment">gzip</span> <span class="literal">-</span><span class="comment">9</span> &gt; <span class="comment">initramfs</span><span class="literal">-</span><span class="comment">busybox</span><span class="literal">-</span><span class="comment">x86</span><span class="string">.</span><span class="comment">cpio</span><span class="string">.</span><span class="comment">gz</span>
+</code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p>
+<p>这里是<a href="http://mgalgs.github.io/2012/03/23/how-to-build-a-custom-linux-kernel-for-qemu.html" target="_blank" rel="external">参考</a>，简化版的LFS。</p>
+<p>可以考虑参考完全版的LFS增加这个发行版的功能。解决内核模块开机装载的问题也要解决（修改init文件？）</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/01/the-wild-great-wall/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">野长城</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="debug-kernel-with-qemu-2" data-title="用QEMU来调试内核 -- 亲身体验篇" data-url="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

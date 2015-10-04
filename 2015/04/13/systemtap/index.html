@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>内核调试工具SystemTap:适合懒人的printk替代品 | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在不修改内核代码、不重复编译内核、不重启机器的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内核调试工具SystemTap:适合懒人的printk替代品">
+<meta property="og:url" content="http://yoursite.com/2015/04/13/systemtap/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在不修改内核代码、不重复编译内核、不重启机器的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YA">
+<meta property="og:image" content="http://yoursite.com/img/systemtap.png">
+<meta property="og:updated_time" content="2015-10-04T14:39:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内核调试工具SystemTap:适合懒人的printk替代品">
+<meta name="twitter:description" content="SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在不修改内核代码、不重复编译内核、不重启机器的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YA">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 15px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-systemtap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/13/systemtap/" class="article-date">
+  	<time datetime="2015-04-13T09:14:23.000Z" itemprop="datePublished">2015-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      内核调试工具SystemTap:适合懒人的printk替代品
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>
+<a id="more"></a>
+<h2 id="SystemTap工作流程">SystemTap工作流程</h2><p>SystemTap使用了Kprobe技术探测内核信息，辅以Relayfs向用户传递消息。</p>
+<p>SystemTap首先将SystemTap脚本文件翻译成C源文件。这个C源文件实际上是一个内核模块，实现了脚本文件中描述的功能。接着SystemTap编译源文件获得二进制模块文件，并动态加载模块。模块被载入运行内核后，会报告脚本文件中指定的一些事件。事件会触发脚本文件中编写的处理函数，执行相关操作。一般操作内容是：收集所需信息，并通过标准输出打印给用户。SystemTap会话结束于用户发出中断信号，即<code>Ctrl + C</code>，内核模块将随之被安全卸载。</p>
+<p><img src="/img/systemtap.png" alt=""></p>
+<p>SystemTap提供了一些内置函数，帮助我们快速开发测试脚本。常用的内置函数如：</p>
+<ul>
+<li>print(str) - 打印str的值</li>
+<li>printf(fmt) - 如同C语言的printf函数</li>
+<li>probefunc() - 返回当前探测函数的函数名</li>
+<li>execname() - 返回当前进程的名字</li>
+<li>pid() - 返回当前进程ID</li>
+<li>uid() - 返回当前进程用户ID</li>
+<li>cpu() - 返回运行当前进程的CPU号</li>
+</ul>
+<p>另外一些内置功能以Tapset的形式出现。Tapset相当于SystemTap的库。它提供的功能不仅仅是函数，还包括一些预定义的探测点,如：</p>
+<ul>
+<li>timer.ms(N) - 每N毫秒探测一次（用于性能测试）</li>
+<li>begin - 探测模块加载时执行一次</li>
+</ul>
+<p>当然，用户也可以开发自己的Tapset。</p>
+<h2 id="SystemTap的使用">SystemTap的使用</h2><p>在CentOS中SystemTap可以用下面命令安装升级：</p>
+<pre><code>sudo yum install<span class="keyword"> system</span>tap<span class="keyword"> system</span>tap-runtime
+</code></pre><p>编写脚本后，使用这个命令执行：</p>
+<pre><code>stap &lt;<span class="keyword">script</span>-<span class="property">name</span>&gt;
+</code></pre><p>注意：如果探测的是模块，要确保模块被复制到<code>/lib/modules/&lt;kernel-version&gt;/</code>中，否则脚本解析时会在<code>module</code>处出错。</p>
+<h2 id="SystemTap脚本语言">SystemTap脚本语言</h2><p>SystemTap语言是一种与C语言和awk语言类似的脚本语言。限于篇幅，这里并不系统地介绍SystemTap语言，而是结合毕业设计的调试场景，使用例子说明SystemTap的语法特征和编程结构。</p>
+<pre><code><span class="shebang">#!/usr/bin/stap</span>
+probe <span class="keyword">module</span>(<span class="string">"yavis"</span>).<span class="built_in">function</span>(<span class="string">"*"</span>).call {
+        printf(<span class="string">"%s -&gt; %s\n"</span>, thread_indent(<span class="number">1</span>), probefunc())
+}
+probe <span class="keyword">module</span>(<span class="string">"yavis"</span>).<span class="built_in">function</span>(<span class="string">"*"</span>).<span class="keyword">return</span> {
+        printf(<span class="string">"%s -&gt; %s\n"</span>, thread_indent(-<span class="number">1</span>), probefunc());
+}
+</code></pre><p>上述代码的功能是输出YAVIS的代码调用关系图。第一行描述脚本采用的解释器是stap程序。第二行表示在yavis模块中所有函数中插入探针，并在这些函数调用时触发第三行的代码。第三行代码向标准输出打印一串信息，信息包括当前函数的名字，由内置的probefunc收集。第五至第七行代码与上面的类似，只是在函数返回时触发。这样，所有YAVIS模块的函数在调用时输出函数名，返回时再次输出函数名，同时由内置的thread_indent函数负责自动的缩进，最终绘制了整个YAVIS模块的函数调用关系图。</p>
+<pre><code><span class="comment">#!/usr/bin/stap</span>
+probe module(<span class="string">"yavis"</span>).function(<span class="string">"yavis_poll"</span>) {
+       <span class="keyword">if</span> (<span class="variable">$revt</span>-&gt;type == <span class="number">0</span>) {
+          <span class="keyword">printf</span>(<span class="string">"-- package received --\n"</span>)
+          <span class="keyword">printf</span>(<span class="string">"revt.msg_len = <span class="variable">%d</span>\n"</span>, <span class="variable">$revt</span>-&gt;msg_len)
+          <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="variable">$revt</span>-&gt;msg_len; i++) {
+             <span class="keyword">printf</span>(<span class="string">"<span class="variable">%x</span>"</span>, <span class="variable">$revt</span>-&gt;rbuff[i])
+          }
+          <span class="keyword">printf</span>(<span class="string">"\n"</span>)
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$sevt</span>-&gt;type == <span class="number">0</span>) {
+          <span class="keyword">printf</span>(<span class="string">"-- package sent --\n"</span>);
+       }
+}
+
+probe module(<span class="string">"yavis"</span>).function(<span class="string">"yavis_tx"</span>) {
+       <span class="keyword">printf</span>(<span class="string">"-- sending package --\n"</span>);
+       <span class="keyword">printf</span>(<span class="string">"skb-&gt;len = <span class="variable">%d</span>\n"</span>, <span class="variable">$skb</span>-&gt;len)
+       <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; <span class="variable">$skb</span>-&gt;len; j++) {
+           <span class="keyword">printf</span>(<span class="string">"<span class="variable">%x</span>"</span>, <span class="variable">$skb</span>-&gt;data[j])
+       }
+       <span class="keyword">printf</span>(<span class="string">"\n"</span>)
+}
+</code></pre><p>上面这段脚本可以让我们在发送和接收过程中查看数据。注意结构体类型的数据，无论指针与否，一律使用<code>-&gt;</code>方式访问成员变量。</p>
+<h2 id="参考">参考</h2><p>[1] SystemTap: Instrumenting the Linux Kernel for Analyzing Performance and Functional Problems. IBM, 2009.</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/24/hotplug/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Linux热插拔机制的介绍和应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/03/18/kernel-debugging/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux环境下通过Vmware调试内核及模块</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="systemtap" data-title="内核调试工具SystemTap:适合懒人的printk替代品" data-url="http://yoursite.com/2015/04/13/systemtap/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

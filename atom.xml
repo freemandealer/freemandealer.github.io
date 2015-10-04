@@ -1,0 +1,1284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Freeman]]></title>
+  <subtitle><![CDATA[This world is a playground.]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2015-10-04T14:34:03.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name><![CDATA[Freeman]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[用QEMU来调试内核 -- 亲身体验篇]]></title>
+    <link href="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/"/>
+    <id>http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/</id>
+    <published>2015-10-04T05:37:39.000Z</published>
+    <updated>2015-10-04T14:34:03.000Z</updated>
+    <content type="html"><![CDATA[<p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
+<ul>
+<li>QEMU调试果然爽快</li>
+<li>调试环境搭建过程中有很多细节需要注意</li>
+</ul>
+<a id="more"></a>
+<p>先来看看有了QEMU内核调试环境后，我调试内核的大致步骤。</p>
+<ul>
+<li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。执行</p>
+<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage -initrd initramfs-busybox-x86<span class="class">.cpio</span><span class="class">.gz</span>
+</code></pre></li>
+<li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">上篇文章的末尾</a>)。</p>
+<pre><code>gdb vmlinux
+&gt; <span class="keyword">target</span> remote localhost:1234
+</code></pre></li>
+<li><p>进入弹出的QEMU窗口，<code>CTRL+ALT+2</code>进入QEMU控制台，输入<code>gdbserver</code>。</p>
+</li>
+<li><p>调试开始！</p>
+</li>
+</ul>
+<p>再也不用像使用VMware那样等一万年去<code>make modules&amp;&amp;make install &amp;&amp;make modules_install</code>以及费尽心思去调教grub了。节省了大量时间，同时资源占用也少太多。一切都是整整齐齐的模样。</p>
+<p>本文采取倒叙的描述方式，上面就是我们的目标啦。怎么才能实现呢？参考LFS，我们进行下面的步骤。</p>
+<p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="external">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p>
+<p>第一步，内核编译我已经不想再说了。使用默认配置文件即可：</p>
+<pre><code><span class="built_in">make</span> x86_64_defconfig
+</code></pre><p>看最上面运行QEMU的那条命令，其实我们缺的就是initramfs-busybox-x86.cpio.gz文件——一个Initial RamDisk——开机时需要挂载的rootfs和一些二进制工具。据说有initrd 和 initramfs 两种方式实现这个Initial RamDisk。我我选择使用initramfs。这里就用到了大名鼎鼎的BusyBox套件。先用下面的命令下载并解压缩BusyBox:</p>
+<pre><code>curl <span class="string">http:</span><span class="comment">//busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -</span>
+</code></pre><p>为BusyBox创建工作目录:</p>
+<pre><code><span class="label">mkdir</span> -pv obj/<span class="keyword">busybox-x86
+</span><span class="label">make</span> O<span class="label">=obj</span>/<span class="keyword">busybox-x86 </span>defconfig
+</code></pre><p>使用menuconfig配置BusyBox:</p>
+<pre><code><span class="label">make</span> O<span class="label">=obj</span>/<span class="keyword">busybox-x86 </span>menuconfig
+</code></pre><p>选择静态链接:</p>
+<pre><code>-&gt; <span class="keyword">Busybox </span>Settings
+    -&gt; <span class="keyword">Build </span>Options
+    [ ] <span class="keyword">Build </span><span class="keyword">BusyBox </span>as a static <span class="keyword">binary </span>(no shared libs)
+</code></pre><p>编译、安装BusyBox:</p>
+<pre><code><span class="keyword">cd</span> obj/busybox-x86
+<span class="keyword">make</span> -j2
+<span class="keyword">make</span> install
+</code></pre><p>拷贝安装目录中的工具到initramfs目录中，这个文件夹就是日后的initramfs:</p>
+<pre><code>mkdir -p initramfs/x86-busybox
+cd initramfs/x86-busybox
+mkdir -pv {bin,sbin,etc,<span class="keyword">proc</span>,sys,usr/{bin,sbin}}
+cp -av obj/busybox-x86/_install/* 
+</code></pre><p>initramfs目录中没有init脚本，这可不行，我们的内核起来以后运行什么程序呢？我们手动创建一个：</p>
+<pre><code><span class="comment">#!/bin/sh</span>
+
+/bin/mount -t <span class="keyword">proc</span><span class="symbol"> none</span> /<span class="keyword">proc</span>
+/bin/mount -t<span class="symbol"> sysfs</span> sysfs /sys<span class="symbol">
+
+cat</span> &lt;&lt;'EOF'<span class="symbol">
+                       _</span> <span class="symbol">            _</span> _<span class="symbol">                  
+ _</span> __<span class="symbol"> ___</span> <span class="symbol">  __</span> _<span class="symbol">  __</span> _| |<span class="symbol"> __</span> _<span class="symbol"> ___</span>  | (_)_<span class="symbol"> __</span> <span class="symbol"> _</span> <span class="symbol">  ___</span> <span class="symbol"> __</span>
+| '_ `<span class="symbol"> _</span> \ /<span class="symbol"> _`</span> |/<span class="symbol"> _`</span> | |/<span class="symbol"> _`</span> /<span class="symbol"> __|</span> | | | '_ \| | | \ \/ /
+| | | | | | (_| | (_| | | (_| \__ \ | | | | | | |_| |&gt;  &lt; 
+|_| |_| |_|\__, |\__,_|_|\__, |___/ |_|_|_| |_|\__,_/_/\_\
+           |___/         |___/<span class="symbol">                            
+
+EOF</span>
+echo 'Enjoy<span class="symbol"> your</span> new<span class="symbol"> system!'</span>
+
+/bin/sh
+</code></pre><p>生成initramfs:</p>
+<pre><code><span class="comment">find</span> <span class="string">.</span> <span class="literal">-</span><span class="comment">print0</span> <span class="comment">|</span> <span class="comment">cpio</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">null</span> <span class="literal">-</span><span class="comment">ov</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">format=newc</span> <span class="comment">|</span> <span class="comment">gzip</span> <span class="literal">-</span><span class="comment">9</span> &gt; <span class="comment">initramfs</span><span class="literal">-</span><span class="comment">busybox</span><span class="literal">-</span><span class="comment">x86</span><span class="string">.</span><span class="comment">cpio</span><span class="string">.</span><span class="comment">gz</span>
+</code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p>
+<p>这里是<a href="http://mgalgs.github.io/2012/03/23/how-to-build-a-custom-linux-kernel-for-qemu.html" target="_blank" rel="external">参考</a>，简化版的LFS。</p>
+<p>可以考虑参考完全版的LFS增加这个发行版的功能。解决内核模块开机装载的问题也要解决（修改init文件？）</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
+<ul>
+<li>QEMU调试果然爽快</li>
+<li>调试环境搭建过程中有很多细节需要注意</li>
+</ul>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[野长城]]></title>
+    <link href="http://yoursite.com/2015/10/01/the-wild-great-wall/"/>
+    <id>http://yoursite.com/2015/10/01/the-wild-great-wall/</id>
+    <published>2015-10-01T09:07:59.000Z</published>
+    <updated>2015-10-04T14:41:43.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://i11.tietuku.com/2acd988527e65ae4.jpg" alt=""></p>
+<p>写一篇文章，纪录在国科大的见闻，给我的父母、姐姐和可能关心我近况的朋友们。</p>
+<a id="more"></a>
+<p>##1 遇见国科大<br>现在是报到的第二天，我在国科大的第一个早晨。昨天幸幸苦苦赶了一天路，但没想到起得出奇的早。吃完早饭才六点多，便忍不住逛了校园。自己真真实实地走了完整一圈，停在图书馆前仰头看，真是感动的无法言语。精心修剪的草坪加上宏伟的建筑，配上怀柔才有的蓝天——在现实里，还真是浮夸呀；这估计就是高考前幻想中大学校园，终于在我的研究生阶段遇见了。</p>
+<p><img src="http://i11.tietuku.com/d095c57ba0c0eb15.jpg" alt=""></p>
+<p>##2 怀柔<br>网上有人说怀柔是北京最后一片净土。是不是最后一片，我没有考证。但是在这里，我见到的星星比在之前呆过的任何地方都多。开学典礼上那个“脱口秀”马校长称赞这里是天然氧吧，我看并不过分。连续几天打开天气App，都是十几的PM2.5（不过截至到敲这段文字的时候，空气质量已经中度污染了）。不过我现在也不怎么关注什么App呢，直接看看周围的山色就知道今天能不能贪婪地呼吸空气了。</p>
+<p><img src="http://i11.tietuku.com/f4180cb2a7da5049.png" alt=""></p>
+<p>##3 爬野长城，并活着回来<br>室友们似乎开始进入了早睡早起的节奏了。现在是下午一点，一个个困得不行都在拉窗帘、锁门、睡午觉。楼道里遇见黄班长，兴奋地拉着我说要组队去爬野长城，希望叫上我们宿舍的伙伴们。</p>
+<p>野长城的事情，不久前学校刚刚警告我们不要试图去爬。危险不说，上去会被抓，要拘留。我一想拘留就不用去上课了，所以就答应黄班长的邀请。毕竟第一次班级“组织活动”，我们宿舍就不参加，不是一个好开头。舍友张刚也是一个特别有责任感的同志，尽管鞋子没有干，也是困得不行，还是硬着头皮一同上路了。就这样，我的小米手环告诉我这一天我步行了20公里。</p>
+<p>我没有去过真正的长城，看来我不是好汉。但是我去过野长城。我觉得野长城没什么不好，可能就是游人不多，入口的地方有可爱的大妈守着（大妈说反正你们不能从我这里过，不过前面还有一个口子可以上长城）。很多修行的人坐在古老的石道上参禅打坐，很安静。有一段石道长满杂草，很怀旧。</p>
+<p><img src="/img/wild-wall.jpg" alt=""></p>
+<p>##4 第一堂课<br>昨天校车刚进大门的时候，看到了气派的建筑群，就听到车里有同学尖叫说：好像国外学校！我想说，果壳大不仅是外表洋气，上起课来格调也是拽的不行。</p>
+<p>第一堂课是数据挖掘，老师用英语上的，课程安排、作业什么的给人感觉就像从coursera里蹦出来的。美中不足的就是共有500个人选，但国科大最大的教室才300人（你们在干什么啊，讲台都要坐满了呀！）记得我六点半过去位子就没有了——上课时间是八点半。在写这篇文章时，我已经把这门课退了。</p>
+<p><img src="http://i11.tietuku.com/582cfa7ff56d520d.jpg" alt=""></p>
+<p>##5 国科大的老师<br>我这一个星期见到的院士比以往一生都多。因为我之前从来没有见过院士。而国科大的老师呢？可把我这个乡下孩子看傻眼了。</p>
+<p>胡伟武老师，龙芯设计组组长。关于他的新闻，网上很多。我很喜欢上他的课，说得很有带入感，有技术背景喜欢发挥。更关键地是他一直和蔼地笑着讲课。加上他的课都是在晚上，让我回忆起大一晚上上马廷淮的C语言启蒙课的日子。</p>
+<p>林惠民。听不懂啊听不懂啊听不懂啊。不仅不知道他在讲什么，关键是不知道他为什么讲这些。一查卧槽——中科院院士——怪不得跟不上他的思维境界。不管怎么样，写这篇文章时我已经把他的课退了。</p>
+<p>杨力祥，操作系统老师，讲Linux内核的老师我都喜欢……他如果不吹牛的话。“我第一次赚大钱的时候”“买一个地球仪在办公室里转着看”“花了10年把计算机做到世界顶级”。</p>
+<p>##6 释放能量<br>依山伴水，天然氧吧，跑跑步便是极好。健身房就在宿舍楼前，虽不精致却能激发荷尔蒙，一次4块也算便宜。操场就在窗外，踢踢球也很娱乐。在国科大呆一年身体如果虚弱了，那真是没救了。</p>
+<p><img src="http://i11.tietuku.com/1cb1cfde387c0bb8.jpg" alt=""></p>
+<p>##7 友好邻居爱串门<br>明天是国庆节:) </p>
+<p>今天晚上可不能浪费。正巧遇见孟轲溜去二食堂就餐，我毫不犹豫地把他拽回一食堂。吃饭时说道上个星期摆脱他给我写的一个课程同步工具ucs出现了一些bug，吃完饭便拿了电脑去他宿舍单元找他解决问题。</p>
+<p>推开门这货竟然坐在飘窗上谈吉他。飘窗上铺了毯子，放了一个颇有质感的大靠垫，也是很有孟博士该有的智慧和情调。然后我就一边听他弹琴，一边想办法让bug重现。大前研一在他的《一万小时天才理论》里曾经说过：如果路人辨认出了练习的曲子，那么他的练习方法就不正确。这样看来，孟轲是真的在练琴。</p>
+<p>孟博士充满激情地调着代码，不时地说着冷笑话。我感觉很冷，我就开始玩我自己的电脑。突然想到前几天在群里聊“科学上网”认识的大神刘洪亮，约好有机会见面聊聊天来着，这不正好有空，还正好住在孟博士楼上，果断抱着电脑去串门，让孟轲一个人好好静一静，不要老分神讲冷笑话。</p>
+<p>推开门一看，倒是他先认出了我：“这不是一个小时前上操作系统课上坐我旁边那哥们儿？”我的天，原来我要找的人坐我边上上了半个下午的课。刘洪亮东北辽宁人，不过我本科宿舍就有一哥们儿大庆的，我也不害怕。聊了几句，发现他果然是计算机网络方面的大神，随随便便就带我入门IPv6，把我的科学上网能力有带进步了一大截。他人有非常好，我随随便便就把他拉进我的粉丝群，并且拉着他帮我们一块儿做计算机网络小组作业。</p>
+<p>回到孟轲宿舍，果不其然，他把bug都解决了。我非常感激，就把楼上刘洪亮刚刚教我的科学上网大法传授给了他。我们都很开心。</p>
+<p>年轻人，就应该快乐地生活在一起，互相学习。学杂了才能学精。不然为什么要有大学呢？</p>
+<p>##8 UCS上线!<br>今天是国庆节:)</p>
+<p>也是ucs上线的大日子！昨天孟轲辛辛苦苦解决了所有已知bug，我不能藏着这个宝贝不分享，而是要让它发挥更大的作用。我做了一系列“最终”测试，重新整理了软件说明书，在11点20分向各大社交网络的群体广播了ucs“上线”的消息：</p>
+<blockquote>
+<p>国庆快乐!可是大家不要忘了写作业和学习！<br>推荐大家一个国科大课程材料同步工具UCS</p>
+<p>懒得天天打开网页挨个下课件，所以求计算机学院孟轲同学帮我写了一份，热气腾腾，大家也试试吧：）</p>
+<p>同时欢迎报告Bug，更欢迎大家贡献代码  <a href="https://github.com/tianxianbaobao/UCS" target="_blank" rel="external">https://github.com/tianxianbaobao/UCS</a></p>
+</blockquote>
+<p>消息一发送，收到了无数个赞。当然，用户反应的问题比赞多，更比想象中的多——这时我才意识到Beta测试是多么的重要。</p>
+<p>计算所的同学群无疑是给我们支持最多的一个群体。小伙伴们早已不把自己当用户很多年，纷纷撸起袖子测试、watch、star、fork我们的项目，耐心细致地报告bug，甚至已经操刀为ucs增加新特性了。</p>
+<p>其实我的github账号注册几年了，也用了很久了，可是作为我亲手初始化的项目，这是第一次受到怎么多（几十次，至少对于我来说是多的）访问。Issue、fork、branch这些功能，我原以为是可有可无的，是无聊的教课书才会涉及的，或是高手卖弄才学的，而现在它们正灵活地运用在实际项目中——虽然它就像麻雀那般小。</p>
+<p>代码这些事大家一起玩真的很刺激！感谢孟轲感谢大家，并希望ucs能为大家带来些许的方便。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://i11.tietuku.com/2acd988527e65ae4.jpg" alt=""></p>
+<p>写一篇文章，纪录在国科大的见闻，给我的父母、姐姐和可能关心我近况的朋友们。</p>]]>
+    
+    </summary>
+    
+      <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[暑假回顾]]></title>
+    <link href="http://yoursite.com/2015/09/06/end-of-summer-holiday/"/>
+    <id>http://yoursite.com/2015/09/06/end-of-summer-holiday/</id>
+    <published>2015-09-06T12:33:26.000Z</published>
+    <updated>2015-10-04T14:34:15.000Z</updated>
+    <content type="html"><![CDATA[<p>现在是2015年暑假的最后一晚。这个暑假可能是人生中最后一个像样的暑假。因此暑假刚开始时自己诚惶诚恐，做了各种计划和尝试，害怕自己不能把这个暑假过得有意义。</p>
+<a id="more"></a>
+<p>六月十八号我领到毕业证就往姐姐家走——她邀请我去她的新房做一回客人。毕业心情太激动，都不晓得怎么回家了。还记得路上给室友打电话，说我走了，最后说拜拜的时候声音都变了，赶紧挂了电话。毕业那一瞬间真是若有所失，我在姐姐家打了半天游戏才缓过神。不过那也是到现在为止我最后一次玩电脑游戏啦，真是破了记录。</p>
+<p>回到自己家里，离校前班主任王金伟的尊尊教诲还回荡在耳边。他让我意识到即将进入的新平台，与南信大有着大大小小的不同，伴随这方方面面的挑战。说实话，这给了我不少额外压力。我很压抑：我似乎不能再像以前那么浪了。我很茫然：没有更多的参考，没有更多建议，我突然不晓得自己想成为什么样的人了。我直哆嗦：站在从来没有到达过的高度上，我更要为自己的选择和动作负责。</p>
+<p>对于这些大问题，我没得到答案，但我清楚了两点。不管要不要做规划、不管怎么做规划，规划路径之外的事，也是可以去做的。做这些规划之外的事不用太内疚，谁知道它们以后会不会成为救命稻草呢？谁知道目前的规划就一定长久意义上的正确呢？</p>
+<p>另外一点，我决定出去走走，见见人。建议不找我，我就自己找建议。见了一些大学忙上之后就没怎么联系的人。见不到的就晚饭散步后给他们打电话。聊聊天，不说智慧，至少情绪也是豁然开朗。</p>
+<p>当然我没有放弃我的计划，首先我想在七月份找一份实习。我大二实习了一次，我知道实习对我意味着什么：离开我的安全区。离开自己的安全区，是使自己进步的一种重要方式。我游荡于北邮人论坛、水木论坛、中科院找工作群以及邮件列表之上，遇到了很多贵人。其中我心向往之的红帽公司联系过我参加他们的笔试，结果当然是没有结果，但我还是非常兴奋！事实上由于我的实习期太短，而公司除非是提前老早申请，一般只招准职员性质的实习生（其实就是试用期），所有的尝试都惨遭失败。不过这次”暑期实习求领走“的经历，让我有机会从应聘者的角度了解了社会的需求，从而肤浅地思考了职业规划。</p>
+<p>眼看要过了七月上旬，找实习是不可能了。我采取了第二方案。不实习就意味这我有大把的时间可自由支配，我就可以对自己的技能、爱好进行时间上的投资，并获得充分的度假休息。听起来不错，但光靠自己自觉非常容易跑偏，所以在暑假一开始将此列为第二方案。具体说，我的活动主要是：算法刷题、xv6操作系统的学习、机器学习的入门、试图参与开源项目和用开源软件InkScape画画。还拿出一些时间和资金参加社会活动。</p>
+<p>说到社会活动，我鬼使神差般地参加了陆滢同学组织的在线讲座，学习如何高效阅读。高效阅读的技能为我打开了一扇虚掩已久的大门，我根本停不下来地在一个暑假阅读了12本书，超过了我出生以来读书数量的无限大倍（我并没有读过什么书），暑假进入新的阶段。</p>
+<p>同时，我又继续参加了陆滢组织的时间管理讲座。讲座内容具有启发性但并没有具体内容，不过讲授人和大家推荐整理的书单兼职是一大宝藏！我复习了GTD、番茄工作法，了解了10000小时天才理论，学习了OFF学、时间统计法、断舍离和知识管理。现在我一个人在家工作的效率，在之前是不敢想象的。因为通过阅读学习时间管理技巧，我不再依赖自己的意志力，而是相信自己学习的这套时间管理系统。我也不用再和自己做斗争，而是顺着认知规律去引导自己学习。我觉得这一切，将让我收益终身。</p>
+<p>八月中后旬的一些旅游、生日、聚餐活动的点缀，生活丰富多彩，但略显零碎。中旬去威海，肤色又加深了一些。灰灰的回来、和雷妈相聚，神奇地洗去了这一年的无奈和疲惫。24号过生日前前后后很嗨，但是开学的惆怅开始慢慢袭来。直到今天。而明天这个时候，我就在北京的宿舍里啦。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>现在是2015年暑假的最后一晚。这个暑假可能是人生中最后一个像样的暑假。因此暑假刚开始时自己诚惶诚恐，做了各种计划和尝试，害怕自己不能把这个暑假过得有意义。</p>]]>
+    
+    </summary>
+    
+      <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[用QEMU来调试内核 -- 道听途说篇]]></title>
+    <link href="http://yoursite.com/2015/08/27/debug-kernel-with-qemu/"/>
+    <id>http://yoursite.com/2015/08/27/debug-kernel-with-qemu/</id>
+    <published>2015-08-27T01:28:12.000Z</published>
+    <updated>2015-10-04T14:34:09.000Z</updated>
+    <content type="html"><![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/" target="_blank" rel="external">之前文章</a>):</p>
+<ul>
+<li>简单、轻便，通过命令参数指定内核</li>
+<li>编译出内核即能调试，不需要应用层</li>
+<li>能调试诸多硬件平台(ARM/MIPS等等)</li>
+</ul>
+<p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>
+<a id="more"></a>
+<h2 id="调试内核">调试内核</h2><h3 id="编译带调试信息的内核镜像">编译带调试信息的内核镜像</h3><p>首先我们得有一个被调试的内核二进制镜像。这个内核镜像必须是打开调试模式编译出来的，即内核配置中：</p>
+<pre><code><span class="attribute">CONFIG_DEBUG_INFO</span>=<span class="string">y</span>
+</code></pre><h3 id="运行内核">运行内核</h3><p>根据邮件原文，接着运行:</p>
+<pre><code>qemu -s -S  -kernel <span class="keyword">arch</span>/x86/<span class="keyword">boot</span>/bzImage -<span class="keyword">append</span> <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
+</code></pre><p>或者</p>
+<pre><code>qemu -s -S -smp <span class="number">1</span>,cores=<span class="number">1</span>  -hda /dev/zero -kernel arch/x86/boot/bzImage
+</code></pre><p>就可以启动内核。但我在操作时，单独一个<code>qemu</code>并不是一个程序，而是：</p>
+<pre><code>qemu-aarch64              qemu-mipsn32              qemu-system-i386        
+qemu-aarch64-<span class="keyword">static</span>       qemu-mipsn32el            qemu-system-lm32        
+qemu-<span class="built_in">alpha</span>                qemu-mipsn32el-<span class="keyword">static</span>     qemu-system-m68k        
+qemu-<span class="built_in">alpha</span>-<span class="keyword">static</span>         qemu-mipsn32-<span class="keyword">static</span>       qemu-system-microblaze  
+qemu-arm                  qemu-mips-<span class="keyword">static</span>          qemu-system-microblazeel
+qemu-armeb                qemu-nbd                  qemu-system-mips        
+qemu-armeb-<span class="keyword">static</span>         qemu-or32                 qemu-system-mips64      
+qemu-arm-<span class="keyword">static</span>           qemu-or32-<span class="keyword">static</span>          qemu-system-mips64el    
+qemu-cris                 qemu-ppc                  qemu-system-mipsel      
+qemu-cris-<span class="keyword">static</span>          qemu-ppc64                qemu-system-moxie       
+qemu-debootstrap          qemu-ppc64abi32           qemu-system-or32        
+qemu-i386                 qemu-ppc64abi32-<span class="keyword">static</span>    qemu-system-ppc         
+qemu-i386-<span class="keyword">static</span>          qemu-ppc64-<span class="keyword">static</span>         qemu-system-ppc64       
+qemu-img                  qemu-ppc-<span class="keyword">static</span>           qemu-system-ppcemb      
+qemu-io                   qemu-s390x                qemu-system-s390x       
+qemu-m68k                 qemu-s390x-<span class="keyword">static</span>         qemu-system-sh4         
+qemu-m68k-<span class="keyword">static</span>          qemu-sh4                  qemu-system-sh4eb       
+qemu-make-debian-root     qemu-sh4eb                qemu-system-sparc       
+qemu-microblaze           qemu-sh4eb-<span class="keyword">static</span>         qemu-system-sparc64     
+qemu-microblazeel         qemu-sh4-<span class="keyword">static</span>           qemu-system-unicore32   
+qemu-microblazeel-<span class="keyword">static</span>  qemu-sparc                qemu-system-x86_64      
+qemu-microblaze-<span class="keyword">static</span>    qemu-sparc32plus          qemu-system-xtensa      
+qemu-mips                 qemu-sparc32plus-<span class="keyword">static</span>   qemu-system-xtensaeb    
+qemu-mips64               qemu-sparc64              qemu-unicore32          
+qemu-mips64el             qemu-sparc64-<span class="keyword">static</span>       qemu-unicore32-<span class="keyword">static</span>   
+qemu-mips64el-<span class="keyword">static</span>      qemu-sparc-<span class="keyword">static</span>         qemu-x86_64             
+qemu-mips64-<span class="keyword">static</span>        qemu-system-<span class="built_in">alpha</span>         qemu-x86_64-<span class="keyword">static</span>      
+qemu-mipsel               qemu-system-arm                                   
+qemu-mipsel-<span class="keyword">static</span>        qemu-system-cris                                 
+</code></pre><p>这么多<code>qemu-xxx</code>… 其中<code>qemu-system-xxx</code>是运行<code>xxx</code>硬件平台下整个操作系统的模拟器，比如我有一个x86_64平台的内核，那就使用下面命令运行之：</p>
+<pre><code>qemu-system-x86_64 -s -S -kernel /boot/vmlinuz-<span class="number">3.13</span><span class="number">.0</span>-<span class="number">58</span>-generic -append <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
+</code></pre><h3 id="调试！">调试！</h3><p>接着就可以打开GDB进行连接、调试:</p>
+<pre><code><span class="variable">$gdb</span> vmlinux
+(gdb) target remote localhost:<span class="number">1234</span>
+(gdb) b start_kernel
+(gdb) c
+</code></pre><h2 id="调试模块">调试模块</h2><p>qemu运行参数需要加上<code>-initrd　&lt;Your Init-RamDisk&gt;</code>选项，确保模块被安装。如果没有现成的initrd，那就做一个：</p>
+<pre><code>sudo make modules_install
+mkinitrdramfs -o initrd<span class="class">.img</span> -v &lt;your-version&gt;
+</code></pre><p>接着使用下列命令载入模块符号：</p>
+<pre><code>(gdb<span class="function">)</span><span class="instruction"> add-symbol-file </span>/home/aruna/kmod/misc.ko 0xffffffffa057e000 -s .data　0xffffffffa0580000 -s .bss 0xffffffffa05802c8
+</code></pre><p>后面的那些地址可以通过如下命令查看:</p>
+<pre><code>sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">text</span></span>
+sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">data</span></span>
+</code></pre><h2 id="其它平台">其它平台</h2><p>qemu不是虚拟机，而是一款模拟器。这意味着它可以模拟很多硬件平台。对于多种硬件平台的内核，只需选择对应的<code>qemu-system-xxx</code>即可。我恰巧有一块cubieboard的板子，电脑里有它的内核，那么我就这样运行这个内核:</p>
+<pre><code>qemu-system-arm -machine cubieboard -s -S -kernel <span class="keyword">project</span><span class="regexp">/cubieboard/</span>linux-<span class="keyword">source</span>-<span class="number">3.4</span>.<span class="number">79</span>-sun7i<span class="regexp">/arch/</span>arm<span class="regexp">/boot/</span>zImage -<span class="keyword">append</span> <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
+</code></pre><p>可以看到多使用了<code>-machine</code>参数，来指定机器类型(是因为SoC的原因？)。</p>
+<h2 id="出错处理">出错处理</h2><p>GDB报错：”Remote ‘g’ packet reply is too long”<br>处理办法<a href="http://lists.gnu.org/archive/html/qemu-discuss/2014-10/msg00069.html" target="_blank" rel="external">(参考这个)</a>：<br>下载GDB代码，修改remote.c文件注释下面两行:</p>
+<pre><code><span class="number">6157</span>  <span class="comment">//if (buf_len &gt; 2 * rsa-&gt;sizeof_g_packet)</span>
+<span class="number">6158</span>  <span class="comment">//  error (_("Remote 'g' packet reply is too long: %s"), rs-&gt;buf);</span>
+</code></pre><p>然后重新编译安装GDB。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/">之前文章</a>):</p>
+<ul>
+<li>简单、轻便，通过命令参数指定内核</li>
+<li>编译出内核即能调试，不需要应用层</li>
+<li>能调试诸多硬件平台(ARM/MIPS等等)</li>
+</ul>
+<p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python Tricks]]></title>
+    <link href="http://yoursite.com/2015/08/26/python-tricks/"/>
+    <id>http://yoursite.com/2015/08/26/python-tricks/</id>
+    <published>2015-08-26T05:08:37.000Z</published>
+    <updated>2015-10-04T14:38:42.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>开一篇博客作为Python备忘录</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Python模拟浏览器登陆网站">Python模拟浏览器登陆网站</h2><p>方式一，使用httplib2模块:<a href="http://blog.csdn.net/five3/article/details/7079140" target="_blank" rel="external">参考资料</a></p>
+<pre><code>http = httplib2.<span class="type">Http</span>()
+myuri = <span class="symbol">'http</span>:<span class="comment">//www.2-vpn3.org/lr.action'</span>
+mybody = {<span class="symbol">'user</span>.nick': <span class="symbol">'NAM</span>E', <span class="symbol">'user</span>.password': <span class="symbol">'PASSWOR</span>D',<span class="symbol">'validationCod</span>e': <span class="symbol">'VCOD</span>E'} 
+myheaders = {<span class="symbol">'Content</span>-<span class="class"><span class="keyword">type</span>':</span> <span class="symbol">'application</span>/x-www-form-urlencoded'}
+response, content = http.request(myuri, <span class="symbol">'POS</span>T', headers=myheaders,     body=urlencode(mybody))
+myheaders = {<span class="symbol">'Cooki</span>e': response[<span class="symbol">'set</span>-cookie']}
+myuri = <span class="symbol">'http</span>:<span class="comment">//www.2-vpn3.org/home!sl.action'</span>
+response, content = http.request(uri=myuri, method=<span class="symbol">'GE</span>T', headers=myheaders)
+</code></pre><p>方式二，使用urllib2模块:</p>
+<pre><code><span class="keyword">import</span> urllib2
+headers = {<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255'</span>}
+req = urllib2.Request(url = <span class="string">'http://dict.youdao.com/search?q=manipulate&amp;keyfrom=dict.index'</span>, headers = headers)
+res = urllib2.urlopen(req)
+html = res.<span class="keyword">read</span>()
+</code></pre><blockquote>
+<p>Tip: 可以使用Chrome的开发者模式下Network工具来分析数据包。</p>
+</blockquote>
+<h2 id="Python正则表达式">Python正则表达式</h2><pre><code>ips = re.findall(<span class="string">r'\d+\.\d+\.\d+\.\d+'</span>, content) <span class="comment">#寻找ip地址，返回列表</span>
+
+<span class="comment"># 判断record中是否包含日期 #</span>
+<span class="keyword">if</span> re.search(<span class="string">'\[[0-9].[0-3]*[0-9]\]'</span>, record):
+    do_something()
+</code></pre><h2 id="Python验证码识别">Python验证码识别</h2><p>安装依赖库:</p>
+<pre><code>sudo apt-get <span class="operator"><span class="keyword">install</span> python-pil
+sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> tesseract-ocr
+sudo pip <span class="keyword">install</span> pytesserac</span>
+</code></pre><p>使用:</p>
+<pre><code>import pytesseract
+from PIL import Image
+image = Image.<span class="function"><span class="title">open</span><span class="params">(<span class="string">'vcode.jpg'</span>)</span></span>
+vcode = pytesseract.<span class="function"><span class="title">image_to_string</span><span class="params">(image)</span></span>
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>开一篇博客作为Python备忘录</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Linux如何分配页]]></title>
+    <link href="http://yoursite.com/2015/08/12/allcating-pages/"/>
+    <id>http://yoursite.com/2015/08/12/allcating-pages/</id>
+    <published>2015-08-12T12:15:29.000Z</published>
+    <updated>2015-10-04T14:32:29.000Z</updated>
+    <content type="html"><![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
+<a id="more"></a>
+<p>简单说，上述过程可以描述为：</p>
+<ul>
+<li>获得物理页返回页描述符地址(alloc_pages)</li>
+<li>修改页表增加映射(set_pte)</li>
+<li>返回页的线性地址(kmap)</li>
+</ul>
+<p>我撒谎了，第一段描述中可没有体现出第二步。且听我慢慢给大家解释：物理内存被分为三类区域：DMA专用的区域、高端内存使用的区域和剩下的普通区域。所有的物理内存在系统初始化时，被切成片片，每一片描述为一个<code>struct page</code>，用一个叫<code>mem_map</code>的数组把所有的<code>struct page</code>装起来。初始化时建立的页表映射了前896MB内存，也就是前229376个页框。这个映射非常规范:</p>
+<pre><code><span class="attribute">线性地址 </span>=<span class="string"> 页框物理地址 + PAGE_SHIFT</span>
+</code></pre><p>这个公式对前229376个页框都成立。所以，<code>__v()</code>和<code>__p()</code>能通过简单的加减<code>PAGE_SHIFT</code>就完成物理地址和线性地址的互相转换，而不用查页表。</p>
+<p>大家发现，这229376个页框是在系统初始化时就已经被映射好的。回到问题，这就是为什么有的页分配过程中不用修改页表增加额外的映射：所有内核需要做的就是设置一个标志说明这个页框已经被分配出去了。</p>
+<p>但对于另外一些页分配的过程，增加映射的过程是必不可少的——这就是高端内存的分配。在高端内存中进行页分配有两种方式：永久映射和临时映射。它们的区别简言之就是：永久映射每次都要在896~1024的线性空间找一个空闲的4K空间，然后在找一片排名229376开外的物理页框（排名229376前的已经被映射了），然后建立两者的映射。而临时映射采用固定预留的高端线性空间，多条内存控制路径分时复用这些线性地址空间——执行不同的路径需要修改页表项。临时映射没有有寻找空闲线性空间的过程，就减少了“找不到空闲线性空间”阻塞的风险。然而固定预留空间有限，所以不能同时大量建立临时映射。</p>
+<p>为了完成永久映射的寻址，Linux引进了pkmap_page_table页表，每个页表项都可以用来映射4K高端物理内存区域。这满足了硬件分页电路寻址的需要，但是内核自己也想要寻址，需要像<code>__p()</code>以及<code>__v()</code>这样的简单方式，于是Linux又加了一个哈希表<code>address_htable</code>专门存放物理页框和线性地址的映射关系。</p>
+<p>这里记录一个通用寻址函数<code>page_address()</code>。它可以通过一个页描述符，计算返回线性地址。之所以说它通用，是因为这个函数是<code>__v</code>和<code>address_htable</code>的组合，可以自动分辨页框属于正常区域、还是高端内存区域。</p>
+<p>映射是建立物理地址和线性地址联系的过程。在文章开头，我们使用<code>kmap()</code>对一个普通区域的页框进行了映射。这个映射其实什么也没干，就是调用<code>page_address()</code>（实际上就是<code>__v()</code>）返回了线性地址。而对于高端内存，如果<code>page_address()</code>返回<code>NULL</code>，那就得为它修改或增加映射。</p>
+<p>所以说，Linux中页的分配就是这样的一个过程：利用伙伴系统从<code>mem_map</code>描述的这一串内存区域中取得一个空闲物理页框（实际上还用了缓存来提高效率）。然后找一片线性空间并为线性空间和页框建立映射，返回这段空间的线性地址。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[个人管理参考]]></title>
+    <link href="http://yoursite.com/2015/08/09/personal-management-reference/"/>
+    <id>http://yoursite.com/2015/08/09/personal-management-reference/</id>
+    <published>2015-08-09T02:30:56.000Z</published>
+    <updated>2015-10-04T14:38:35.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>
+<a id="more"></a>]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>]]>
+    
+    </summary>
+    
+      <category term="Meta" scheme="http://yoursite.com/tags/Meta/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[内核模块编译安装杂记]]></title>
+    <link href="http://yoursite.com/2015/08/08/note-on-make-kernel/"/>
+    <id>http://yoursite.com/2015/08/08/note-on-make-kernel/</id>
+    <published>2015-08-08T14:18:12.000Z</published>
+    <updated>2015-10-04T14:38:20.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>真男(tu)人(hao)敢于用实体机做内核实验，而善良的人用虚拟机，善良的真男人给虚拟机徒手装内核！ ————　我刚说的</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="徒手装内核!">徒手装内核!</h2><p>虚拟机编译好慢好慢的，实验过程不爽快！所以之前在实体机上编译模块，传到虚拟机上测试。现在延生出了一个想法，就是在实体机上编译整个内核，然后到虚拟机上安装——也就是模拟了<code>make install</code>和 <code>make modules_install</code>的过程。</p>
+<p>查看<code>/boot/grub.cfg</code>文件我们得知Grub启动系统需要两个文件：vmlinuz-x.y.z-m和initrd.img-x.y.z-m。但是人家也喜欢把System.map-x.y.z-m放在<code>/boot</code>中，不晓得有什么用，我们也放一个，反正不麻烦。</p>
+<p>获得vmlinuz的方法很简单，make完后<code>arch/x86_64/boot/</code>里的<code>bzImage</code>其实就是它，改个名字vmlinuz-x.y.z-m就好，其中x.y.z是版本号，m是魔法串。</p>
+<p>获得initrd.img文件过程有一些坎坷。它是由这个命令产生的：</p>
+<pre><code>sudo mkinitramfs -o initrd<span class="class">.img-x</span><span class="class">.y</span><span class="class">.z-m</span> x<span class="class">.y</span><span class="class">.z-m</span>
+</code></pre><p>在<code>/boot</code>目录执行这个命令会报错，提示你需要准备<code>/lib/modules/x.y.z-m/</code>目录。你需要在这个目录中提供modules.order文件和modules.builtin文件。你可以在编译源代码的目录中找到它们并拷贝过去。你还需要准备<code>/lib/modules/x.y.z-m/kernel</code>，让里面装着对应版本的内核模块文件，否则重启后连根文件系统都挂载不了，只能在initramdisk的busybox环境里飘荡(好像WindowsPE :( )。为了这些内核模块，我把整个源代码目录备份一遍，然后把不是*.ko的文件都删掉减小空间，然后拷贝到<code>/lib/modules/x.y.z-m/kernel</code>。</p>
+<p>最后修改<code>grub.cfg</code>文件为我们的内核增加一个启动项。</p>
+<h2 id="应万变的命令">应万变的命令</h2><p>如果要为一个已有内核编译模块，那过程将会很让人懊恼，这个老教程可能会给你一些提示。你需要编译一个模块，那么你最好安装自己的内核。然后你可以：1)脱离树独立编译 2)make menuconfig后整体编译(因为你已经编译过内核了，所以make的差量构建性质会使得这个过程快很多)但更好的办法是使用这条以不变应万变的命令：</p>
+<pre><code>make -C &lt;KERN-<span class="keyword">DIR</span>&gt; <span class="keyword">M</span>=&lt;MODULE-<span class="keyword">DIR</span>&gt; [CONFIG_XXX=<span class="keyword">m</span>]
+</code></pre><p>如果想单独编译一个目录</p>
+<pre><code><span class="built_in">make</span> /xxx/yyy/zzz
+</code></pre><p>但上述命令只能获得.o中间文件，要想得到.ko模块文件，需要执行：</p>
+<pre><code>make <span class="constant">M</span>=<span class="regexp">/xxx/yyy</span><span class="regexp">/zzz</span>
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>真男(tu)人(hao)敢于用实体机做内核实验，而善良的人用虚拟机，善良的真男人给虚拟机徒手装内核！ ————　我刚说的</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何优雅地使用iPad阅读源代码]]></title>
+    <link href="http://yoursite.com/2015/07/30/RTFS-with-ipad/"/>
+    <id>http://yoursite.com/2015/07/30/RTFS-with-ipad/</id>
+    <published>2015-07-30T06:10:50.000Z</published>
+    <updated>2015-10-04T14:39:23.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>“Read the fucking source code! “<br>– Linus Torvalds</p>
+</blockquote>
+<p>如何优雅地使用iPad阅读源代码？答案很简单呐！只要花50大洋买一套国人开发的CodeNavigator付费版就好了。作为代码阅读工具至少有两个handy的功能吧：语法高亮和代码跳转。CodeNavigator提供的注释功能可以写写笔记也很贴心！并且，CodeNavigator还支持git的整合（反正能想到的功能和不需要的功能人家都做好了）。作为比较，AppStrore里我所检索到的其他工具，大部分仅支持语法高亮。</p>
+<a id="more"></a>
+<p>本博客到此结束，结论就是：想优雅地在iPad上阅读代码，那就去购买CodeNavigator吧。下面进入问答环节：</p>
+<p><strong> 1) 50块好贵…人家只想看小工程而已… </strong><br>对于个位数的源文件、每个文件几百行的小工程，看代码其实只要高亮功能就好了，随便去AppStore下个免费的代码编辑器就好了。</p>
+<p><strong> 2) 我没钱！我要看<em>大</em>工程！ </strong><br>如果你读的是Linux内核代码，那么使用Safari打开一个LXR(Linux Cross Reference)网站就可以在线阅读各个版本的Linux内核代码了。</p>
+<p><a href="http://lxr.free-electrons.com" target="_blank" rel="external">lxr.free-electrons.com</a><br><a href="http://www.cs.fsu.edu/~baker/devices/xref.html" target="_blank" rel="external">www.cs.fsu.edu</a><br><a href="http://lxr.oss.org.cn" target="_blank" rel="external">lxr.oss.org.cn</a></p>
+<p><strong> 3) 我没钱！我看代码的地方没网！我还是要看<em>大</em>工程 ! </strong><br>那你得有台树莓派，自己架设一个LXR服务器随身带着。</p>
+<p><strong> 4) 我没钱！我没网！我没树莓派！我依然要看<em>大</em>工程！ </strong><br>那…那你得越狱iPad装破解软件。</p>
+<p><strong> 5) 我没钱！我没网！我没树莓派！而且我不能将就使用盗版软件！我依然要看<em>大</em>工程！ </strong></p>
+<p>你！！你这个性格很像我啊。你这种情况也能解决，但前提是你爱好折腾。</p>
+<p>现在我们就用开源软件和免费软件为原材料，自己动手做一个CodeNavigator，就叫做HodeNavigator　(HOme-maDE Navigator) 。其实就是个山寨版，名字不用太洋气，就这样吧～！</p>
+<p>咱们的HodeNavigator需要解决的问题是：它需要实现语法高亮以及最重要的，代码跳转的功能———用行话说是交叉引用(Cross Reference)———而且不能借助于服务器（毕竟我们没网没设备什么都没有嘛）。问题复杂但我的思路很简单：将要观摩的代码生成一个支持跳转的文件，然后放到iPad里打开不就行了？（不要打我）</p>
+<p>这样支持导航和跳转的文件类型我知道的有:HTML和PDF。那到底选择谁？我淘汰了PDF选项，因为我并没有想到从源代码生成PDF文件的好办法。用于生成文档的Doxy也许是个办法，可是我还没有学会设定配置文件以产出纯粹的交叉引用代码，换言之就是生成的文档很杂，尺寸大到ipad爆炸！不过PDF的好处是使用iPad自带的iBook就可以轻易打开，如果看官们有好的生成办法一定要留言分享啊！这里我们选择使用HTML。</p>
+<p>这是开源界为我们提供的交叉应用服务工具：</p>
+<p><a href="https://github.com/OpenGrok/OpenGrok/wiki/Comparison-with-Similar-Tools" target="_blank" rel="external">Comparison with Similar Tools</a></p>
+<p>这么多，我们选谁？由于我们生成的是静态HTML文件(动态的就牵涉到使用服务器了)，我们看<code>Static HTML</code>那个指标，就知道GNU的Global软件是我们的唯一选择。</p>
+<p>通过你自己喜好的方法安装好global之后，我们进入到需要观摩的源代码目录并执行：</p>
+<pre><code><span class="title">gtags</span> &amp;&amp; htags
+</code></pre><p>经过一段时间等待后，我们就可以在当前目录下找到<code>HTML</code>文件夹，打开里面的<code>index.html</code>，你会发现我们的交叉引用生成好了！</p>
+<p>可是问题又来了，这个交叉引用不是一个单一文件，而是目录（中所有文件组成的）。我们怎么在非越狱的iPad中打开一个目录呢？</p>
+<p>答案是，我们可以用工具整合这个目录变成单一的文件。我这里选择使用Windows下的QuickCHM工具对整个目录进行编译，编译后得到了单一文件。该文件格式为<code>*.chm</code>，是Microsoft的一种古老的帮助文件。一个额外的奖励是：文件变小了！当然你可以采取任何你喜欢的方式得到这个单一文件，比如使用其它工具(linux底下也有chm编译工具，被粗暴地命名为chmc，但目前版本的chmc并不能胜任如此复杂的编译)，甚至编译出其它格式——前提是iPad下有对应工具可以打开这种格式的文件。</p>
+<p>对于<code>*.chm</code>格式，AppStore里可有不少能阅读它的App，可以根据个人喜好选择。我选择了一款没有广告闪瞎我双眼的App叫”CHM Sharp”。</p>
+<p>通过百度云或其他方式把制作好的chm文件传到iPad上打开，就可以在像金陵图书馆这样没有WIFI、饭菜难吃、公共自行车站设置到地图边界以外的地方，按亮pad，翻开<em>Understanding the Linux Kernel</em>，感受“啃核”的激情了！</p>
+<p><strong> 6) 我没钱！我没网！我没树莓派！我不能将就使用盗版软件！我还没iPad！ </strong><br>那就放弃使用iPad, 这个点子很是easy adopting. 尝试在其它平台实现这个想法，回头告诉我你的创意吧 :)</p>
+<p><img src="/img/rtfsc-ipad.png" alt="截图"></p>
+<p><strong>福利！</strong> 附制作好的Linux2.6内核阅读文件(52MB):<br><a href="http://download.csdn.net/detail/freemandealer/8948651" target="_blank" rel="external">CSDN资源</a><br><a href="http://pan.baidu.com/s/1hqm1sPm" target="_blank" rel="external">百度盘资源</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>“Read the fucking source code! “<br>– Linus Torvalds</p>
+</blockquote>
+<p>如何优雅地使用iPad阅读源代码？答案很简单呐！只要花50大洋买一套国人开发的CodeNavigator付费版就好了。作为代码阅读工具至少有两个handy的功能吧：语法高亮和代码跳转。CodeNavigator提供的注释功能可以写写笔记也很贴心！并且，CodeNavigator还支持git的整合（反正能想到的功能和不需要的功能人家都做好了）。作为比较，AppStrore里我所检索到的其他工具，大部分仅支持语法高亮。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[高效阅读]]></title>
+    <link href="http://yoursite.com/2015/07/15/reading/"/>
+    <id>http://yoursite.com/2015/07/15/reading/</id>
+    <published>2015-07-15T12:54:25.000Z</published>
+    <updated>2015-10-04T14:39:05.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>本文是对指导员吴刚《如何持续高效阅读》悦读会内容的整理，夹杂了一些我自己简陋的理解。</p>
+</blockquote>
+<p>阅读界里我觉得自己是个奇葩。看到书架上那一本看了我一个童年+青春期的《童年》，我才意识到自己从小到大没有看完任何一本文学名著。去中科院后被那里高知的同学用《三国演义》和《封神榜》羞辱得体无完肤，至今记忆犹新，发誓要好好研究读书的学问，好好读书，好好做事！</p>
+<a id="more"></a>
+<h2 id="阅读的分类">阅读的分类</h2><p>从实用角度来划分，阅读分为愉悦型阅读和实用型阅读。愉悦型阅读的目的就是享受阅读过程本身带来的乐趣和美的体验。实用型阅读目的是从文字中获取养料，从精神上武装自己，并通过进一步实践或创新以解决生活中的问题。两类阅读没有贵贱之分，我们不必为自己阅读的目的感到傲娇或是羞愧。</p>
+<p>从阅读难易上划分，可以分为α型（容易）和β型（困难）阅读。难易程度是由阅读材料所涉及的领域与读者自身具备背景知识的关系决定的。如果阅读材料涉及的领域包含在或轻微超出读者的已有知识范围，那么这样的阅读就是轻松的。反而反之。这给了我两点启发。其一、面对困难的阅读其实我们应该很欣慰——可以学到的太多。接触新领域，每遇到一个新词汇啃下来就是一个新知识。知识的增长率颇高，伴随难度曲线也很陡峭。如果阅读的难度大到一定程度，对这个学习的过程不是有利的。怎么办？第二点启发就是，我们可以通过主题阅读，就一个主题，由浅入深，多花时间铺垫知识背景，有意识地把学习曲线平稳下来。但个人觉得由浅入深的过程还是要适当：尽量对自己狠一点，远离Comfort Zone。</p>
+<p>如果同时使用实用角度和难易角度这两个维度去描述阅读的分类，那么可以得到一张二维图：</p>
+<p><img src="/img/reading-categories.png" alt="两个维度看阅读分类"></p>
+<p>图中色块的大小代表实际生活中此类阅读的可能性。为了获得愉悦的阅读体验，我们可能更多地进行相对容易的阅读 —— α-愉悦型阅读。我们理想中的又容易又实用的α-实用型阅读，相对而言，可能性会低很多。毕竟No pain no gain!</p>
+<h2 id="阅读的目的">阅读的目的</h2><p>书的本质是作者思想的结构化的表达。我们应该尊重书籍，但不因神话书。读书本身并不是目的 —— 除非你是追求阅读过程的愉悦。读书的意义在于指导我们的行动。如果我们不行动自然就会感叹读书并不起什么作用。</p>
+<p>本来阅读的目的就是这么简单。只是考试的出现搅了局，让读书增加了许多有意思的特性：首先，应试的读书弱化了行动的重要性，增加了记忆的重要性。似乎我们只要背背书就能在某些类型的考试中拿到不错的成绩。就像驾校理论考试，并不需要坐进驾驶室，光靠一本小册子背完就能过关。其次，应试的读书弱化了兴趣爱好，人们只能被迫读自己不感兴趣的书，更糟糕的是考试压力过大时甚至没有时间去阅读自己喜欢阅读的材料——这让孩子们对读书感到绝望。</p>
+<p>考试才分对错，行动方知利弊。关于应试阅读的讨论就此打住，下文中的所有阅读特指非应试、实用类阅读。因此考试党或是讨厌实用主义、不带功利心的纯粹阅读者可以不用看了。</p>
+<h2 id="杠杆阅读法">杠杆阅读法</h2><p>阅读类型没有贵贱，但是阅读习惯却有效能的高低之分。这里介绍杠杆阅读法。</p>
+<p><img src="/img/leverage-reading.jpg" alt="杠杆阅读术——本田直之"></p>
+<p>杠杆阅读法核心是三个步骤：选书、读书、用书。下面分别介绍它们的具体步骤。</p>
+<h3 id="先别急，你的问题呢？">先别急，你的问题呢？</h3><p>阅读他人所著之书，应先反省自己。为了高效用，读者应该首先弄清楚自己想通过阅读解决什么问题。我想炒股，但对经济、政治一无所知，这就是一个问题。这样，我在下面选书、读书的环节会更有针对性。</p>
+<p>如果选书前不提问，那么容易陷入一种糟糕的情况——不清楚自己为什么读书，别人推荐或是听说某读物是畅销书就去盲目阅读。与其寻找各种“三十岁之前必读的100本书”，不如列出自己“最近希望解决的十个问题”。</p>
+<p>如果正式阅读前不提问，那就容易被作者带跑偏。我们知道书本是作者把自己的想法系统地表达出来的载体，作者需要保证讨论的完整性。我们往往不需要花费过多时间在这些“完整性”章节上。如果我们能带着问题读，就是在和作者对话，进入了我问他答的形式，大大增加了读者的参与度，从而提高了学习效率。</p>
+<p>另外一方面，提出问题就是在确定自己的阅读目标，知道自己想要了解什么，了解到什么程度。我们做事都需要目标 —— 不是因为什么“指路的明灯”、“前进的动力”，而是告诉我们什么时候停下，充满成就感地对自己说“可以了”，同时防止把事情做过头。</p>
+<p>丢开面向书本的思想，选择面向读者自己。那么，我们启程阅读！</p>
+<h3 id="选书">选书</h3><p>如何高效能地确定自己的书单？首先选书的地点必须是实体书店。因为实体书店可以让选书者随意翻阅全文。</p>
+<p>拿到书后，需要关注作者的身份。作者在一个领域中承担的角色往往决定了书籍的质量。我们希望读到大牛对一个领域精辟的讲解，无奈却出现很多伪大牛，或是说着正确的废话，或是拼凑他人成果。甄别大牛的一种方法是调研作者的实践经历，看他们真真正正做了哪些实实在在的事。只是对于纯理论研究的领域，这个甄别工作将会变得微妙起来。不过实践者vs理论家，读者原则上应优先选择实践者的书籍。</p>
+<p>第三点，参考书籍的价格、厚度。30块以下的小薄书能推测出：第一，作者很牛，牛到不缺卖书钱。第二，作者的文字主要是自己的经验总结，是实实在在地“著”书，而不是东拼西凑地“编著”。</p>
+<p>最后，选书时应限制时间 —— 提高读书的效用从选书开始。例如可以规定自己在15分钟内选出一篮子书，然后再按上述标准进行筛选。</p>
+<h3 id="读书">读书</h3><h4 id="选择性跳读">选择性跳读</h4><p>有了问题，读书的过程会变得容易起来。因为有了针对性，我们只需要寻找阅读自己需要了解的内容。别忘了书自身的结构可以帮助我们筛选信息。通过阅读前言、后续、目录，我们很有可能就能弄明白书籍的主题和叙述方式。特别是前言里的最后几段，有很大概率作者会在这里显式标注书本篇章结构。</p>
+<p>很多人不愿意选择跳读，而喜欢从第一页第一个字看到最后一页最后一个字的阅读方式。身边的例子使我相信会有人把书看得很全，想得很透。他们读一本书很慢，但真的做到了看完一本书就学到一本书的知识，成为这本书知识范围内的专家。可以肯定的是这样的阅读就单本书而言效率会很低，但从长久意义上看来全读和选读谁更有效用，谁知道呢？</p>
+<p>因此全读是不是误区，我说不准。但需要注意的是一个心理误区：读书的强迫症和虚构的危机感。很多人选择全读是出于强迫症，没有意识到读书本身不是目的，得到启发、去用行动解决实际问题才是关键。虚构的危机感是总是在跳过部分章节时心怀不安，总觉得错过了什么。跳读需要克服这些心理障碍。</p>
+<p>不要从第一页开始读，只要这一招就能建立特别有效的读书方法。舍弃完美主义是第一步。把精力放在以较少的劳动创造大大的回报上比较好。一本书的重点大约只占全部内容的两成，而掌握到八成就可以了。若以200页的书看来，总共只有32页（200x20%x80%）。尽管多少有些漏网之鱼，但由于读懂许多书，因为掌握了更多的东西。</p>
+<p>如果跳过的内容恰恰是需要学习的知识，怎么办？如果只是小小的错过，那么无伤大雅。毕竟世界那么大，挂一漏万，能取的总量也不过沧海一粟。但若跳过的章节总恰好是需要学习的知识，那么就真是问题了。以我自己的经验说，我会忍不住跳读的章节，往往那些难度大的内容。就是上文描述的β型（困难）阅读。因为没有背景知识，感觉内容很复杂，而且感觉和自己不相关从而觉得无趣。很明显，这种选择性跳读的本质是在避重就轻，是一种逃避，偷懒。而真正选择性跳读的原则只有：对于我解决问题有没有帮助，有就读，没有就跳过。这两种跳读的初衷并不相同，因此阅读的结果也不一样。偷懒的跳读只会让人越跳越多，很快翻完一本书却觉得颗粒无收。</p>
+<p>一个人不去欺负别人，可能是因为他善良，也可能是因为他懦弱。一个人全读一本书，可能是出于热情，也可能是被自己的心理牵绊。一个人选择跳读，可能是因为他有智慧，也可能他没有耐心。同样的表现形式，不同的初衷，会有不同的结果。因此清楚地认识自己，不要因为表象被自己欺骗。</p>
+<h4 id="做笔记">做笔记</h4><p>一个杠杆阅读法的笔记形式不固定，可以是这样的：</p>
+<ul>
+<li>问题</li>
+<li>阅读时限</li>
+<li>书本结构</li>
+<li>要点记录</li>
+<li>触发行动</li>
+</ul>
+<p>其中阅读时限分为计划时限和实际时限。书本结构是用自己的语言专属正本书的篇章结构。要点记录一栏填写书中有助于问题解决的观点。一个杠杆阅读法的笔记实例：</p>
+<p><img src="/img/reading-note.jpg" alt="杠杆阅读笔记实例——来自吴刚"></p>
+<p>纸笔记笔记相对于键盘录入，思维连续性较好，没有过多的转换过程，因此不容易被打断，而且留下更深刻的印象。为了归档或随时查阅，也可以考虑将手写内容数字化存进电脑。</p>
+<h3 id="用书">用书</h3><p>读书是考虑执行力的活动：不仅读书的过程需要我们限定时间高效完成，读完之后更是要在短时间内触发行动，践行理论。</p>
+<p>只读书的是学者，读完行动的才能成专家。所谓知行合一，就是读完书、做完笔记后应在24小时内把学到的东西转换为行动，去解决先前提出的实际问题。我们的问题是如何提高工作效率，那么看完《Get Things Done》就应该立即用GTD去管理时间。我们的问题是如何使系统设计更加鲁棒和易于维护，那么看完《设计模式》就应当投入到项目重构实战中。有一次我面试前为了增加自己简历上的技能数量，强行看完了一本TinyOS入门书，看完后从没实践过，结果可以说这本书也就是白读了。</p>
+<p>触发行动的关键在于定期阅读自己的读书笔记。读书笔记写完后不单单是存档，更要查看。碎片时间，这些自己写作的读书笔记都是优先选择的读物。相对于朋友圈的小短文，零碎时间里阅读自己的读书笔记的效能更大一些。</p>
+<p>用书的另外一种形式是分享。这就是我现在在做的。</p>
+<h2 id="总结">总结</h2><p>高效的阅读需要我们打破阅读陋习，带着问题，正确地选书、读书、做笔记。更重要的是，知行结合。</p>
+<p><img src="/img/reading-title.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>本文是对指导员吴刚《如何持续高效阅读》悦读会内容的整理，夹杂了一些我自己简陋的理解。</p>
+</blockquote>
+<p>阅读界里我觉得自己是个奇葩。看到书架上那一本看了我一个童年+青春期的《童年》，我才意识到自己从小到大没有看完任何一本文学名著。去中科院后被那里高知的同学用《三国演义》和《封神榜》羞辱得体无完肤，至今记忆犹新，发誓要好好研究读书的学问，好好读书，好好做事！</p>]]>
+    
+    </summary>
+    
+      <category term="Meta" scheme="http://yoursite.com/tags/Meta/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[上下文切换时堆栈的切换]]></title>
+    <link href="http://yoursite.com/2015/07/14/context-switch/"/>
+    <id>http://yoursite.com/2015/07/14/context-switch/</id>
+    <published>2015-07-14T12:14:18.000Z</published>
+    <updated>2015-10-04T14:33:37.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="上下文切换">上下文切换</h2><p>一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用<code>INT</code>指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。</p>
+<a id="more"></a>
+<h2 id="堆栈切换">堆栈切换</h2><p>保护现场的载体是堆栈。上下文切换伴随着堆栈的切换。我的理解是上下文切换实质就是堆栈的切换，毕竟CPU自己并没有进程的概念，它只知道把相关寄存器的值都push一遍，换个堆栈，然后再pop一圈，继续执行下面的指令。</p>
+<p>容易推想出下面结论：</p>
+<ul>
+<li><p>从进程角度看：不同的进程需要有独立的堆栈存放各自退出时的现场。这样才能保证一个进程的堆栈不会被其它进程破坏，从而实现进程间独立。</p>
+</li>
+<li><p>从用户-内核角度看：用户空间栈和内核栈要分开。因为在内核看来，用户空间栈中的信息是不可信的：脆弱的或是有恶意的。考虑内核自身鲁棒性，两类栈应当分开。</p>
+</li>
+</ul>
+<p>这样，每个进程需要有两个堆栈，分别用于在运行用户/内核地址空间的代码时使用。（其实应该是不止两个栈，因为x86四个特权级每个特权级下都有自己的栈，只是很多操作系统只用了两个特权级区分用户和内核）</p>
+<p>特别需要注意的是，中断和调度器逻辑不属于任何进程(它们也不是进程，它们只是一段在某个时间内会被CPU执行的代码，一般被称作控制流或执行流）。中断响应硬件事件，与进程是并行的概念。调度器是管理进程的，概念上就比进程高一个层次。那么问题来了：这两个控制流运行时使用的是哪里的堆栈？中断借用当前进程(Linux的current或xv6的proc)的内核栈。调度器使用自己独立的内核堆栈。同时因为每个CPU都有一个自己的调度器，所以调度器的堆栈在系统中有多个，是per-CPU结构。</p>
+<h2 id="切换实例">切换实例</h2><p>x86体系下，各个系统的切换的思想如上所述，但实现上每个系统之间都有或多或少的差别。虽然基本上都是细节上的差别，但为了表述自信、方便，我在这里以小巧的xv6系统为例，分<code>用户上下文-&gt;内核上下文</code>、<code>内核上下文-&gt;用户上下文</code>两个方向，详细介绍切换的相关设计和保护现场、堆栈切换、恢复现场、恢复执行的过程。</p>
+<p>下面是一张气势磅礴而又充满美感的图：</p>
+<p><img src="/img/PCB-kernel-stack.png" alt="df"></p>
+<p>中间的空间是进程描述符。左右两边的都是内核栈，对于同一进程来说可能就是一个栈(kstack指向同一地址)。画成两个是因为两个不同时期，内核栈状态不同。</p>
+<h3 id="进程切换时期">进程切换时期</h3><p>左边描述进程切换时期。对应进程上下文切换到调度器上下文、再又调度器切换到另一个进程上下文的过程:</p>
+<ul>
+<li>把进程old的寄存器压栈</li>
+<li>切换到调度器堆栈</li>
+<li>弹出调度器寄存器现场</li>
+<li>运行调度器</li>
+<li>暂停调度器将调度器寄存器压栈</li>
+<li>切换到另一个进程next的堆栈</li>
+<li>弹出next寄存器现场</li>
+<li>运行next</li>
+<li>GOTO BEGINNING</li>
+</ul>
+<h3 id="中断时期">中断时期</h3><p>右边描述中断时期栈的变化。中断处理程序运行于内核态。中断发生时CPU可能处于内核态（如执行系统调用的过程中）也可能处于用户态（执行应用空间代码）。所以前者不涉及特权级转换，后者涉及。</p>
+<p>####不涉及特权级转换的情况 ####</p>
+<ul>
+<li>压入寄存器现场、错误代码等</li>
+<li>执行中断处理程序</li>
+<li>恢复寄存器现场</li>
+</ul>
+<p>可以看到这里并没有发生堆栈的切换——因为本来就运行在内核栈上嘛！中断处理程序借用了应用程序的内核栈。说“借用”是因为进程的内核栈是给进程执行内核空间代码使用的（通常就是系统调用），由于中断并不一定和正在运行的进程有什么关联。</p>
+<h4 id="涉及特权级转换的情况">涉及特权级转换的情况</h4><p>但是对于后者，也就是用户态中被中断，有一个<code>用户-&gt;内核-&gt;用户</code>的切换过程，伴随着相关栈的切换。具体过程：</p>
+<ul>
+<li>根据TSS找到内核栈</li>
+<li>压入寄存器现场、错误代码</li>
+<li>转入中断处理程序</li>
+<li>恢复第二步保存的现场</li>
+<li>切换换回用户栈</li>
+</ul>
+<p>因此只有在特权级转换的情况下才会发生栈的切换。用户栈和内核栈的切换分别是<code>int</code>指令和<code>iret</code>指令自动完成的。但是我们需要提前告诉机器在切换时ss、esp从哪里取得。</p>
+<p>为了区别，用户栈的特权级为ring3，那我们就命名与用户栈相关的ss、esp为ss3、esp3。自然，ring0级的内核栈相关的我们就叫ss0、esp0。那么问题就变成：ss0、esp0、ss3、esp3存储在哪里？</p>
+<p>这两组ss，esp处理方式是不同的。图中右边栈最上面我们可以看到一组ss、esp。它们就是ring3用户级的：ss3、esp3。发生特权级转换的<code>int</code>指令将会把它们最先压在栈中，<code>iret</code>会根据它们自动切换回来。看到窍门了吗？</p>
+<p>而ss0、esp0它们是存在一个与CPU约定好的固定的结构里——CPU接到中断就去这个结构里自己找ss0、esp0。这个结构就是TSS:</p>
+<p><img src="/img/context-switch-tss.jpg" alt="TSS结构"></p>
+<p>而且我们发现TSS不止存折ss0和esp0。对于ring0 ~ ring2其实都有响应的ss1、esp1、ss2、esp2。这就是为什么上文提到其实每个进程可以有四个栈。</p>
+<h3 id="中断的进程切换">中断的进程切换</h3><p>我们说了进程上下文切换，中断时上下文切换。能不能在中断上下文中进行进程上下文切换呢？</p>
+<p>那就是时间片调度：在时间中断处理上下文中进行进程的切换。听起来很刺激，但实质上就是上述两中情况的组合：</p>
+<p>old进程上下文-&gt;时间中断上下文-&gt;next进程上下文</p>
+<p>对应堆栈切换就是：</p>
+<p>保护old进程现场-&gt;切换old进程内核栈执行时间中断处理（调度器）-&gt;保护内核现场-&gt;切换next进程栈执行next进程。</p>
+<p>xv6没有使用时间片调度。进程切换发生在睡眠、yield等进程主动放弃CPU的时刻。因此它的进程切换在用户空间完成，不涉及中断处理引来的复杂的特权级转换。但是，虽然没有特权级转换，没有用户&lt;-&gt;内核栈的切换，但是有用户空间栈的切换——而且还是三个栈：</p>
+<p>old用户栈-&gt;调度器栈-&gt;next用户栈。</p>
+<p>没有采用时间片调度的xv6有一个特例，使得存在这样的情况：在中断中进行进程上下文的切换。那就是exec系统调用。系统调用实际上是一个中断上下文，但是这个中断上下文又要为进程的运行准备栈结构。中断上下文中进行进程切换也是顺其自然。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="上下文切换">上下文切换</h2><p>一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用<code>INT</code>指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[xv6系统引导过程分析]]></title>
+    <link href="http://yoursite.com/2015/07/08/xv6-bootloader/"/>
+    <id>http://yoursite.com/2015/07/08/xv6-bootloader/</id>
+    <published>2015-07-08T04:14:11.000Z</published>
+    <updated>2015-10-04T14:40:11.000Z</updated>
+    <content type="html"><![CDATA[<p>我们知道bootloader主要完成下列主要任务：</p>
+<ul>
+<li>切换进保护模式</li>
+<li>加载内核</li>
+<li>转移控制权</li>
+</ul>
+<a id="more"></a>
+<p>Bootloader往往需要处理不同的文件系统来加载内核。有时甚至需要支持网络加载。它可以变得很复杂，以至于成为一个微型操作系统。这样的Bootload很显然不能屈身与磁盘引导区512字节中，需要采用二级加载的形式：一级为loader of bootloader，二级为loader of kernel(也就是bootloader)。</p>
+<p>xv6的bootloader为一级加载，因为它特别简单，可以在510个字节内实现。比如xv6简化了内核寻找的过程：内核以ELF形式连续存放在磁盘上，没有涉及文件系统的操作。虽为一级加载，但xv6的bootloader却分为两个部分来实现：汇编(bootasm.S)和C语言(bootmain.c)。前者完成切换保护模式的任务，同时初始化C语言运行时。后者完成读取磁盘扇区寻找并加载内核的过程。</p>
+<p>xv6的引导过程相比于我的season确实优雅 =^=。season在一个汇编文件中完成了所有的切换模式、加载内核、转移控制、准备C运行时的任务。season的bootloader和xv6的唯一一致的是偷懒的思想：快速进入C语言，别在汇编上折腾了。不过season借助外部工具能够快速加载kernel，切进C语言就运行kernel。xv6进入C语言后去加载kernel，不借助外部工具，而且灵活性强，显然要比season优雅。</p>
+<p>加载内核后，bootload将控制权交给内核，具体说是跳转到内核的entry函数。在entry中xv6打开了4MB页扩展，并设置了页表——将0~4MB和KERNBASE~KERNBASE+4MB的虚拟地址全部映射成0~4MB的物理地址。这个页表只是为了让内核访问4MB存储空间暂时设定的页表。后面会用成熟的页表对其进行替换。毕竟0~4MB的虚拟地址是属于进程地址空间的用户空间。</p>
+<p>最后开启分页并进行一次跳转激活分页。跳转的目的地就是main()函数。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>我们知道bootloader主要完成下列主要任务：</p>
+<ul>
+<li>切换进保护模式</li>
+<li>加载内核</li>
+<li>转移控制权</li>
+</ul>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[xv6系统内存管理分析]]></title>
+    <link href="http://yoursite.com/2015/07/06/xv6-mm/"/>
+    <id>http://yoursite.com/2015/07/06/xv6-mm/</id>
+    <published>2015-07-06T05:49:12.000Z</published>
+    <updated>2015-10-04T14:40:18.000Z</updated>
+    <content type="html"><![CDATA[<p>xv6是MIT的教学系统，它的源代码是我最喜欢的精致小巧型工程。今天在这里分析xv6的内存管理原理。</p>
+<a id="more"></a>
+<h2 id="内存布局">内存布局</h2><p>我们首先需要了解的是xv6系统初始化后物理内存的布局情况。如下图所示，xv6内核代码段和数据段被loader加载到主存开始的1MB~4MB的空间内。主存开始0~1MB保留给BIOS存储相关信息。xv6默认主存大小为224MB。4MB~224MB这段内存可以自由分配：可以映射给内核空间或用户空间使用。图中灰色的devices区域是其它设备引入的存储空间，仅供设备自身使用，并不是主存的一部分。</p>
+<p><img src="/img/xv6-memory-layout-phy.png" alt="物理内存布局"></p>
+<p>描述完物理内存布局情况后，我们将描述更加复杂的逻辑内存，也即进程地址空间的布局。在这里，内存仅仅只是一个逻辑地址，可能并不对应这物理存储单元。对于逻辑上的“地址空间”，我们更多地使用“映射”描述其用途，而不像上面使用“存放”、“分配”这类词。</p>
+<p>进程地址空间布局如下图所示。可以看到2GB内存处是一分水岭。大于2GB的空间属于内核地址空间，小于的属于用户地址空间。</p>
+<p><img src="/img/xv6-memory-layout-logic.png" alt="进程地址空间布局"></p>
+<p>在内核地址空间里，物理内存中开始的内核镜像被映射到2.1GB处。这个地址因此被成为是内核链接(kernel link)地址。x86 32位体系决定了地址空间最大为4GB。末端32MB地址空间映射设备存储。介于设备和内核之间的地址空间为自由地址空间，可用于映射全部物理内存的任意一段。这里之所以强调“全部物理内存”是因为内核地址空间可以寻址整个内存（用户地址空间则不能）。另一个原因和高端内存有关，但高端内存超出了本文讨论范围（似乎xv6本身也没有想考虑高端内存的意愿，毕竟它默认物理内存就224MB）。</p>
+<p>在用户地址空间里映射的是用户程序的代码、数据、堆和栈。其中栈的大小只有1个页(4KB)。这是xv6的限制。</p>
+<p>那么内存到底是如何被分配的？下面我们主要从分配和映射两个步骤讨论这个问题。</p>
+<h2 id="内存分配">内存分配</h2><p>内存分配归根结底是指物理内存的分配。其分配单位是物理页框，简称页框。再说一遍，说到“页框”我们就是在说“物理内存”，和地址空间并没有太多关系。</p>
+<p>xv6如何去分配一个页框？xv6使用了资源池的概念。它将所有空闲内存（也就是物理内存布局图中的绿色部分）分割成4KB大小的页框，并用链表将它们组织起来。分配一个页框就是从空闲页框链表头摘掉一个返回的过程。作为对应，回收一个页框就是塞回空闲页框链表头的过程。</p>
+<p>下面让我们近距离观察上述过程。</p>
+<h3 id="初始化资源池">初始化资源池</h3><p>首先，资源池的初始化函数两个如下列代码。系统启动后被<code>main</code>调用。之所以有两个是因为启动时pdt中只存在4MB内存需要使用<code>kinit1</code>初始化。后面建立成熟的页表可以访问所有内存后，再调用<code>kinit2</code>初始化剩余内存。在调用<code>kinit1</code>时并不用锁，也不能锁。因为锁在4MB空间之外。一旦建立好成熟页表后，锁对于保护这个全局链表的安全就相当重要了。</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">kinit1</span><span class="params">(<span class="keyword">void</span> *vstart, <span class="keyword">void</span> *vend)</span>
+</span>{
+  initlock(&amp;kmem.lock, <span class="string">"kmem"</span>);
+  kmem.use_lock = <span class="number">0</span>;
+  freerange(vstart, vend);
+}
+
+<span class="function"><span class="keyword">void</span> <span class="title">kinit2</span><span class="params">(<span class="keyword">void</span> *vstart, <span class="keyword">void</span> *vend)</span>
+</span>{
+  freerange(vstart, vend);
+  kmem.use_lock = <span class="number">1</span>;
+}
+</code></pre><p>这两个函数调用<code>freerange()</code>来将一段内存分割成页框：</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">freerange</span>(<span class="params"><span class="keyword">void</span> *vstart, <span class="keyword">void</span> *vend</span>)
+</span>{
+  <span class="keyword">char</span> *p;
+  p = (<span class="keyword">char</span>*)PGROUNDUP((<span class="keyword">uint</span>)vstart);
+  <span class="keyword">for</span>(; p + PGSIZE &lt;= (<span class="keyword">char</span>*)vend; p += PGSIZE)
+    kfree(p);
+}
+</code></pre><p><code>freerange()</code>最终调用<code>kfree()</code>将页框加入空闲页框链表——这是<code>kfree()</code>收拾<code>kalloc()</code>烂摊子外的副业。去掉一些出错判断和锁操作后的kfree()看起来是这样的：</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">kfree</span><span class="params">(<span class="keyword">char</span> *v)</span>
+</span>{
+  <span class="keyword">struct</span> run *r;
+
+  <span class="comment">// Fill with junk to catch dangling refs.</span>
+  <span class="built_in">memset</span>(v, <span class="number">1</span>, PGSIZE);
+
+  r = (<span class="keyword">struct</span> run*)v;
+  r-&gt;next = kmem.freelist;
+  kmem.freelist = r;
+}
+</code></pre><p>其中<code>struct run</code>的定义如下，它被存放在每个页框的开始位置。</p>
+<pre><code><span class="class"><span class="keyword">struct</span> <span class="title">run</span> </span>{
+  <span class="class"><span class="keyword">struct</span> <span class="title">run</span> *next;
+};</span>
+</code></pre><h3 id="分配页框">分配页框</h3><p>与<code>kfree()</code>对应的函数<code>kalloc()</code>取出锁操作后看起来是这样的：</p>
+<pre><code><span class="function"><span class="keyword">char</span>* <span class="title">kalloc</span><span class="params">(<span class="keyword">void</span>)</span>
+</span>{
+  <span class="keyword">struct</span> run *r;
+
+  r = kmem.freelist;
+  <span class="keyword">if</span>(r)
+    kmem.freelist = r-&gt;next;
+  <span class="keyword">return</span> (<span class="keyword">char</span>*)r;
+}
+</code></pre><h3 id="小结">小结</h3><p>内核的链接位置（在逻辑地址空间的位置）固定，物理地址对应的虚拟地址很容易被计算：</p>
+<p>virt = phy + KERNBASE</p>
+<p>得益于这一点，页框的管理变得非常容易。</p>
+<h2 id="页表建立">页表建立</h2><p>virt = phy + KERNBASE，为什么能这么简单？因为内核一直映射在每个进程地址空间的相同地址，而且内核的一些组成部分在内存中较为稳定（相对于多种多样还在动态变化的应用程序），内核页表大部分使用直截了当的线性映射就好。然而有些表项，还有进程的页表，有一万个理由变得复杂无比。我们就来看看如何建立这些复杂的内核页表项和进程页表。</p>
+<h3 id="内核页表的建立">内核页表的建立</h3><p>xv6在<code>main</code>调用<code>kvmalloc()</code>建立新的成熟的内核页表替换原来临时页表。<code>kvmalloc()</code>实际上调用了<code>setkvm()</code>依照kmap表的样子，创建了一个线性映射的页表。</p>
+<pre><code><span class="keyword">static</span> <span class="keyword">struct</span> kmap {
+  <span class="keyword">void</span> *virt;
+  uint phys_start;
+  uint phys_end;
+  <span class="keyword">int</span> perm;
+} kmap[] = {
+ { (<span class="keyword">void</span>*)KERNBASE, <span class="number">0</span>,             EXTMEM,    PTE_W}, <span class="comment">// I/O space</span>
+ { (<span class="keyword">void</span>*)KERNLINK, V2P(KERNLINK), V2P(data), <span class="number">0</span>},     <span class="comment">// kern text+rodata</span>
+ { (<span class="keyword">void</span>*)data,     V2P(data),     PHYSTOP,   PTE_W}, <span class="comment">// kern data+memory</span>
+ { (<span class="keyword">void</span>*)DEVSPACE, DEVSPACE,      <span class="number">0</span>,         PTE_W}, <span class="comment">// more devices</span>
+};
+
+
+<span class="keyword">pde_t</span>* setupkvm(<span class="keyword">void</span>)
+{
+  <span class="keyword">pde_t</span> *pgdir;
+  <span class="keyword">struct</span> kmap *k;
+
+  <span class="keyword">if</span>((pgdir = (<span class="keyword">pde_t</span>*)kalloc()) == <span class="number">0</span>)
+    <span class="keyword">return</span> <span class="number">0</span>;
+  <span class="built_in">memset</span>(pgdir, <span class="number">0</span>, PGSIZE);
+  <span class="keyword">for</span>(k = kmap; k &lt; &amp;kmap[NELEM(kmap)]; k++)
+    <span class="keyword">if</span>(mappages(pgdir, k-&gt;virt, k-&gt;phys_end - k-&gt;phys_start, 
+                (uint)k-&gt;phys_start, k-&gt;perm) &lt; <span class="number">0</span>)
+      <span class="keyword">return</span> <span class="number">0</span>;
+  <span class="keyword">return</span> pgdir;
+}
+</code></pre><p><code>setupkvm()</code>首先使用上文描述的kalloc页框分配函数分配了一页内存用来存放Page Directory(PD)。PD每个表项Page Directory Entry(简称PDE)指向一张一页大小的Page Table(PT)。PT的每个表项PTE指向一页大小的内存。PDT、PDE、PT、PTE关系如图：</p>
+<p><img src="/img/xv6-pdpdeptpte.png" alt=""></p>
+<p><code>setupkvm()</code>扫描kmap数组的每个元素，调用<code>mappages()</code>构建表项：</p>
+<pre><code><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">mappages</span><span class="params">(pde_t *pgdir, <span class="keyword">void</span> *va, uint size, uint pa, <span class="keyword">int</span> perm)</span>
+</span>{
+  <span class="keyword">char</span> *a, *last;
+  <span class="keyword">pte_t</span> *pte;
+
+  a = (<span class="keyword">char</span>*)PGROUNDDOWN((uint)va);
+  last = (<span class="keyword">char</span>*)PGROUNDDOWN(((uint)va) + size - <span class="number">1</span>);
+  <span class="keyword">for</span>(;;){
+    <span class="keyword">if</span>((pte = walkpgdir(pgdir, a, <span class="number">1</span>)) == <span class="number">0</span>)
+      <span class="keyword">return</span> -<span class="number">1</span>;
+    <span class="keyword">if</span>(*pte &amp; PTE_P)
+      panic(<span class="string">"remap"</span>);
+    *pte = pa | perm | PTE_P;
+    <span class="keyword">if</span>(a == last)
+      <span class="keyword">break</span>;
+    a += PGSIZE;
+    pa += PGSIZE;
+  }
+  <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>注意kmap的每个元素是一段内存区间而非一页，这意味着： 1) kmap的元素对应一个或多个perm相同的页。2) 这些内存区域的起始点和终点并不一定会与页对齐(页是内存对齐的)。<code>mappages()</code>会利用<code>PGROUNDDOW</code>宏进行地址对齐。接着对这个kmap元素指向的内存区间内所有页表进行<code>walkpgdir()</code>:</p>
+<pre><code><span class="function"><span class="keyword">static</span> pte_t * <span class="title">walkpgdir</span><span class="params">(pde_t *pgdir, <span class="keyword">const</span> <span class="keyword">void</span> *va, <span class="keyword">int</span> alloc)</span>
+</span>{
+  <span class="keyword">pde_t</span> *pde;
+  <span class="keyword">pte_t</span> *pgtab;
+
+  pde = &amp;pgdir[PDX(va)];
+  <span class="keyword">if</span>(*pde &amp; PTE_P){
+    pgtab = (<span class="keyword">pte_t</span>*)p2v(PTE_ADDR(*pde));
+  } <span class="keyword">else</span> {
+    <span class="keyword">if</span>(!alloc || (pgtab = (<span class="keyword">pte_t</span>*)kalloc()) == <span class="number">0</span>)
+      <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="comment">// Make sure all those PTE_P bits are zero.</span>
+    <span class="built_in">memset</span>(pgtab, <span class="number">0</span>, PGSIZE);
+    <span class="comment">// The permissions here are overly generous, but they can</span>
+    <span class="comment">// be further restricted by the permissions in the page table </span>
+    <span class="comment">// entries, if necessary.</span>
+    *pde = v2p(pgtab) | PTE_P | PTE_W | PTE_U;
+  }
+  <span class="keyword">return</span> &amp;pgtab[PTX(va)];
+}
+</code></pre><p><code>walkpgdir()</code>会去查旬PD中与va相关的PDE索引。如果该PDE存在位被置位，说明对应的PT已存在，否则通过<code>kalloc()</code>分配一个PT。然后查询PT中与va相关的PTE索引，返回该PTE。</p>
+<p>再回到上一个<code>mappages()</code>函数。调用完<code>walkpgdir()</code>后检查这个返回值的存在位。如果该位被置位则说明返回的PTE已对应页框——被映射过。这在页表建立时是不应该出现的，会panic。如果没被置位，则登记物理地址和perm位。这样一条页表项便建立完毕。遍历完所有kmap元素的所有页表项，<code>setupkvm()</code>便退出，它的调用者<code>kvmalloc()</code>将会调用<code>switchkvm()</code>重新加载cr3寄存器。</p>
+<blockquote>
+<p>问题：这样，xv6就为kmap描述的静态创建的内核区域构建了页表。思考一下，如何动态申请内存并更新到页表？会不会出现这样的情况？<br>回答：会。看下一节。</p>
+</blockquote>
+<h3 id="进程页表的建立">进程页表的建立</h3><p>进程页表建立时需要先建立内核页表！这就解释了为什么每个进程地址空间都包含了相同的内核空间。</p>
+<blockquote>
+<p>问题：那为什么要在一开始单独建立内核页表？如果内核页表被修改了怎么更新到所有的进程页表？会出现这样的情况吗？</p>
+</blockquote>
+<p>进程页表的构建过程是在<code>exec()</code>函数中完成的。<code>exec()</code>会读取程序ELF信息，找到相应的section，申请内存并将section中数据写入新分配的内存中。</p>
+<p>我们并不关心文件读取和ELF格式解析，我们把注意力放在申请内存上。因为这里的申请到的内存和内核页表中映射的内存有些不同——在于它是“申请”来的。上一节提到的内存是静态分配好的，我们是建立了页表项来套它。而这次我们做法不同，我们是先动态申请内存，然后将它登记到页表中去。仔细体会是不是有些差别？</p>
+<p><code>exec()</code>调用<code>allocuvm()</code>来分配物理内存并登记，简化后的<code>allocuvm()</code>会是这个样子：</p>
+<pre><code>int allocuvm<span class="list">(<span class="keyword">pde_t</span> <span class="variable">*pgdir, uint oldsz, uint newsz)
+{
+  char *</span>mem<span class="comment">;</span>
+  uint a<span class="comment">;</span>
+
+  a = PGROUNDUP<span class="list">(<span class="keyword">oldsz</span>)</span><span class="comment">;</span>
+  for<span class="list">(<span class="comment">; a &lt; newsz; a += PGSIZE){</span>
+    mem = kalloc<span class="list">()</span><span class="comment">;</span>
+    memset<span class="list">(<span class="keyword">mem</span>, <span class="number">0</span>, PGSIZE)</span><span class="comment">;</span>
+    mappages<span class="list">(<span class="keyword">pgdir</span>, <span class="list">(<span class="keyword">char*</span>)</span>a, PGSIZE, v2p<span class="list">(<span class="keyword">mem</span>)</span>, PTE_W|PTE_U)</span><span class="comment">;</span>
+  }
+  return newsz<span class="comment">;</span>
+}</span></span>
+</code></pre><p>其中有意思的是，新分配的这一页将被映射在进程地址空间的两个地方。换句话说，执行完这段代码后新分配的这一页将会拥有两个页表项。</p>
+<p><img src="/img/xv6-allocuvm.png" alt=""></p>
+<p>第一次是进程页表的内核部分，这是一开始就在kmap中的：</p>
+<pre><code>{ (<span class="literal">void</span>*)<span class="built_in">data</span>,     V2P(<span class="built_in">data</span>),     PHYSTOP,   PTE_W}, <span class="comment">// kern dat</span>
+</code></pre><p>这一段中的一页。也就是这样，我们才可以用</p>
+<pre><code>mem = kalloc<span class="list">()</span><span class="comment">;</span>
+v2p<span class="list">(<span class="keyword">mem</span>)</span><span class="comment">;</span>
+</code></pre><p>这样的方式分配并寻址。</p>
+<p>第二次，出现在新登记的页表项中，也就是目前<code>(char*)a</code>被分页机制翻译后所指向的页框。</p>
+<h2 id="参考文献">参考文献</h2><ul>
+<li>R. Cox, F. Kaashoek, R. Morris. xv6: a simple, Unix-like teaching operating system.</li>
+<li><a href="http://pdos.csail.mit.edu/6.828/2011/xv6/xv6-rev6.pdf" target="_blank" rel="external">xv6 booklet</a></li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>xv6是MIT的教学系统，它的源代码是我最喜欢的精致小巧型工程。今天在这里分析xv6的内存管理原理。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[内核补丁的创建和发送过程]]></title>
+    <link href="http://yoursite.com/2015/07/05/making&sending_kernel_patches/"/>
+    <id>http://yoursite.com/2015/07/05/making&sending_kernel_patches/</id>
+    <published>2015-07-05T14:00:00.000Z</published>
+    <updated>2015-10-04T14:38:00.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>1 确认补丁基点</strong><br>在制作补丁前，确认基点，并提交一次补丁前的状态。</p>
+<a id="more"></a>
+<p><strong>2 创建补丁分支</strong></p>
+<p><strong>3 做出修改，并提交修改</strong></p>
+<p>提交时使用<code>-s</code>参数进行签名：</p>
+<pre><code>git <span class="operator"><span class="keyword">commit</span> -s -<span class="keyword">m</span> <span class="string">"fix something"</span></span>
+</code></pre><p><strong>4 生成补丁</strong></p>
+<pre><code>git <span class="keyword">format</span>-patch -&lt;<span class="keyword">number</span>&gt;
+</code></pre><p><strong>5 检查补丁格式</strong></p>
+<pre><code><span class="comment">perl</span> <span class="comment">checkpatch</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">tree</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">strict</span>  &lt;<span class="comment">patch</span><span class="literal">-</span><span class="comment">name</span>&gt;
+</code></pre><p><strong>6 配置git-email</strong><br>通过git config配置邮件相关信息。修改的实际上是~/.gitconfig文件。</p>
+<pre><code>git config --global user<span class="class">.name</span> <span class="string">"Freeman Zhang"</span>
+git config --global user<span class="class">.email</span> freeman.zhang1992@live<span class="class">.com</span>
+git config --global sendemail<span class="class">.smtpserver</span> smtp<span class="class">.live</span><span class="class">.com</span>
+git config --global sendemail<span class="class">.smtpuser</span> freeman.zhang1992@live<span class="class">.com</span>
+git config --global sendemail<span class="class">.smtpserverport</span> <span class="number">587</span>
+git config --global sendemail<span class="class">.smtpencryption</span> tls
+</code></pre><p>也可以跳过这一步骤，通过git send-email参数在发送时确定邮件服务器信息。</p>
+<p><strong>7 发送补丁</strong></p>
+<p>可以编辑补丁文件的Subject等信息。<br>补丁可以连续依次发送，也可以放在一个目录下，发送整个目录。<br><code>--chain-reply-to</code>参数将导致后一个补丁邮件作为前一个邮件的回复。对应<code>--no-chain-reply-to</code>会构造一个平坦的结构——这也是邮件列表要求的patch发送方式:</p>
+<pre><code><span class="comment">git</span> <span class="comment">send</span><span class="literal">-</span><span class="comment">email</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">compose</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">chain</span><span class="literal">-</span><span class="comment">reply</span><span class="literal">-</span><span class="comment">to</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">suppress</span><span class="literal">-</span><span class="comment">from</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">to</span> &lt;<span class="comment">target</span> <span class="comment">audiance</span>&gt; &lt;<span class="comment">patches</span>&gt;
+</code></pre><p>下面弹出compose界面，这里有个’in reply to:’可以用来填写一个想与之构成thread chain的之前发送过去的邮件的MessageID(如果使用的是Thunderbird客户端，可以通过ViewSource查看邮件的MessageID)。举个例子：你先发送了一份cover letter（无论用什么客户端，只要plaintext就行）叫做’XXX CoverLetter‘，然后你的后续补丁就应该使用上文提到的<code>--chain-reply-to</code>将补丁们挨个串起来。最后填写这个<code>in reply to:</code>来将补丁与cover letter串起来。这样就构成了一个如下有深度的结构。</p>
+<pre><code>XXX CoverLetter
+└─&gt; [PATCH <span class="number">1</span>/<span class="number">2</span>] XXX1
+    └─&gt; [PATCH <span class="number">2</span>/<span class="number">2</span>] XXX2
+</code></pre><p>但邮件列表建议我们使用<code>--no-chain-reply-to</code>方式，结果更加平坦便于审阅：</p>
+<pre><code>XXX CoverLetter
+    ├─&gt; [PATCH <span class="number">1</span>/<span class="number">2</span>] XXX1
+    └─&gt; [PATCH <span class="number">2</span>/<span class="number">2</span>] XXX2
+</code></pre><p><strong> 可选 </strong><br>使用esmpt传输客户端发送邮件和补丁。<br>    sudo apt-get install esmtp<br>    touch ~/.esmtprc<br>    chmod g-rwx ~/.esmtprc<br>    chmod o-rwx ~/.esmtprc</p>
+<p>为esmtprc加上：</p>
+<pre><code><span class="title">identity</span> <span class="string">"my.email<span class="variable">@gmail</span>.com"</span>
+hostname smtp.gmail.com:<span class="number">587</span>
+username <span class="string">"my.email<span class="variable">@gmail</span>.com"</span>
+password <span class="string">"ThisIsNotARealPassWord"</span>
+starttls required 
+</code></pre><p>使用命令行下的邮件客户端mutt处理PlainText邮件。</p>
+<pre><code>sudo apt-<span class="built_in">get</span> install mutt
+<span class="keyword">vi</span> ~/.muttrc
+</code></pre><p>为.muttrc加上：</p>
+<pre><code><span class="keyword">set</span> sendmail=<span class="string">"/usr/bin/esmtp"</span>
+<span class="keyword">set</span> envelope_from=yes
+<span class="keyword">set</span> <span class="keyword">from</span>=<span class="string">"Your Name &lt;my.email@gmail.com&gt;"</span>
+<span class="keyword">set</span> use_from=yes
+<span class="keyword">set</span> edit_headers=yes
+</code></pre><p>输入<code>m</code>创建新邮件，保存后<code>y</code>发送，<code>e</code>继续编辑，<code>q</code>放弃发送并退出。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>1 确认补丁基点</strong><br>在制作补丁前，确认基点，并提交一次补丁前的状态。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Linux热插拔机制的介绍和应用]]></title>
+    <link href="http://yoursite.com/2015/05/24/hotplug/"/>
+    <id>http://yoursite.com/2015/05/24/hotplug/</id>
+    <published>2015-05-24T12:47:33.000Z</published>
+    <updated>2015-10-04T14:34:49.000Z</updated>
+    <content type="html"><![CDATA[<p>热插拔即带电插拔，热插拔功能就是允许用户在不关闭系统，不切断电源的情况下取出和更换损坏的硬盘、电源或板卡等部件。Linux内核支持热插拔的部件有USB设备、PCI设备甚至CPU。Linux的热插拔支持是一个连接底层硬件、内核空间和用户空间程序的机制，且一直在变化，故立文讨论之。</p>
+<a id="more"></a>
+<h2 id="三种热插拔机制">三种热插拔机制</h2><h3 id="PCMCIA">PCMCIA</h3><p>1995年，Linux就实现了一种PCMCIA机制[1]——在硬件接入到计算机上时自动加载驱动程序。为了使用PCMCIA，我们需要准备一份配置文件，告诉内核插入什么卡时加载什么驱动。由于这种方式不够动态，David Brownell 提出交了一次patch，这就是<code>/sbin/hotplug</code>。</p>
+<h3 id="/sbin/hotplug">/sbin/hotplug</h3><h4 id="为什么hotplug能工作">为什么hotplug能工作</h4><p>/sbin/hotplug之所以能自动化，基于以下三个事实[1]：</p>
+<ul>
+<li><p>硬件本身会告诉计算机自己是做什么的（就算没有，它也会告诉内核自己的生厂商代码和独一无二的产品代码）</p>
+</li>
+<li><p>驱动程序清楚自己是驱动哪一类设备的</p>
+</li>
+<li><p>内核通过总线底层代码清楚什么时间什么样的设备被接入或移出计算机</p>
+</li>
+</ul>
+<h4 id="/sbin/hotplug工作原理">/sbin/hotplug工作原理</h4><p><code>/sbin/hotplug</code>的本质是一个脚本。脚本中解析相关参数并调用<code>modprobe</code>和<code>rmmod</code>完成加载和卸载操作。但是，<code>/sbin/hotplug</code>本身是被谁调用的呢？谁给传的参数呢？</p>
+<p>设备驱动程序一般不会和这些太底层的kobject/kset家伙打交道，因为更高层次的device,bus和driver把kobject/kset那一层的细节实现都给封装了起来。以device_add为起点，uevent事件被这样产生和传递[2]：</p>
+<pre><code>device_add
+=&gt;    kobject_uevent(&amp;dev-&gt;kobj, KOBJ_ADD)
+    =&gt;    <span class="comment">/* send netlink message */</span>
+        ... 
+        <span class="comment">/* 准备参数 */</span>
+        argv [<span class="number">0</span>] = uevent_helper;  
+        argv [<span class="number">1</span>] = (<span class="keyword">char</span> *)subsystem;
+        argv [<span class="number">2</span>] = <span class="literal">NULL</span>;
+        ...
+        <span class="comment">/* 内核空间调用用户空间的程序 */</span>
+        call_usermodehelper(argv[<span class="number">0</span>], argv,env-&gt;envp, UMH_WAIT_EXEC);
+        ...
+</code></pre><p>下面看看uevent_helper[0]来自何处：</p>
+<pre><code>char uevent_helper<span class="string">[UEVENT_HELPER_PATH_LEN]</span> = CONFIG_UEVENT_HELPER_PATH;
+</code></pre><p><code>CONFIG_UEVENT_HELPER_PATH</code>其实是空值。可以通过向sysfs接口<code>/sys/kernel/uevent_helper</code>写入应用空间程序路径。</p>
+<h3 id="udev">udev</h3><p>在udev刚开始流行的时候，有一个过渡期。在这个时期，<code>/sbin/hotplug</code>和udev同时存在。<code>/sbin/hotplug</code>接收到内核的热插拔事件后会执行一系列脚本，其中一个脚本执行了<code>/sbin/udevsend</code>，从而让udev的守护进程知悉这一事件[3]。不过现在，有些发行版中<code>/sbin/</code>目录已经不存在hotplug和udevsend了。热插拔事件通过netlink由udevd直接接收并全权负责。通过下面这条命令可以查看系统中传递给udevd的热插拔事件：</p>
+<pre><code><span class="title">udevadm</span> monitor
+</code></pre><h2 id="利用热插拔机制实现模块自动加载">利用热插拔机制实现模块自动加载</h2><h3 id="开机自动加载">开机自动加载</h3><p>将模块.ko文件复制到<code>/lib/modules/</code>uname -r<code>/kernel/modulename.ko</code> 目录并更新 <code>/etc/modules</code>文件即可实现booting阶段自动加载模块。(这是作弊，没有用到热插拔T~T)</p>
+<h3 id="udev实现自动加载">udev实现自动加载</h3><p>udev的规则文件放在<code>/lib/udev/rules.d</code>和<code>/etc/udev/rules.d</code>两个目录中，后者的优先权较高：后者目录中的规则文件会覆盖前者中同名文件。下面是一个实际例子：</p>
+<p>为udev键盘规则文件60-keyboard.rules开头增加：</p>
+<pre><code>ACTION==<span class="string">"add"</span>, <span class="built_in">RUN</span>+=<span class="string">"/lib/udev/hello.sh"</span>
+ACTION==<span class="string">"remove"</span>, <span class="built_in">RUN</span>+=<span class="string">"/lib/udev/bye.sh"</span>
+</code></pre><p>/lib/udev/hello.sh：</p>
+<pre><code><span class="shebang">#!/bin/bash</span>
+sudo -H insmod &lt;路径&gt;/hello.ko
+</code></pre><p>/lib/udev/bye.sh：</p>
+<pre><code><span class="shebang">#!/bin/bash</span>
+sudo -H rmmod hello
+</code></pre><p>这样插拔USB键盘时就能加载模块。</p>
+<h3 id="MODULE_DEVICE_TABLE实现自动加载">MODULE_DEVICE_TABLE实现自动加载</h3><p>使用udev规则需要修改和创建很多文件。能不能单纯地在模块的源代码级实现自动加载？答案是可以的。</p>
+<p>首先使用<code>MODULE_DEVICE_TABLE</code>宏注册模块。接着编译模块并将编译后产生的.ko文件拷贝至<code>/lib/modules/ ｀uname -r｀/</code>目录下。然后使用<code>sudo depmod -a</code>命令将新的模块信息加入<code>/lib/modules/ ｀uname -r｀/</code>目录下的modules.alias和modules.dep文件中。</p>
+<pre><code><span class="preprocessor">#<span class="keyword">define</span> USB_KEYBOARD_VENDOR_ID <span class="number">0x093a</span></span>
+<span class="preprocessor">#<span class="keyword">define</span> USB_KEYBOARD_PRODUCT_ID <span class="number">0x2510</span></span>
+
+<span class="keyword">static</span> <span class="keyword">struct</span> usb_device_id usb_kbd_id_table[] = {
+    { USB_DEVICE(USB_KEYBOARD_VENDOR_ID, USB_KEYBOARD_PRODUCT_ID) },
+    { }
+};
+
+MODULE_DEVICE_TABLE(usb, usb_kbd_id_table);
+</code></pre><p>上面的代码是实现一块键盘连接上计算机后自动加载模块这个功能所需在模块中添加的部分。VENDOR_ID和PRODUCT_ID每个键盘是不一样的，可以把键盘连接在计算机后，使用<code>lsusb</code>命令确定键盘的这两个值。如果你需要对每个 USB 设备都响应而不是特定的VENDOR_ID和PRODUCT_ID值, 那么需要创建一个只设置这个 driver_info 成员的入口项[4]:</p>
+<pre><code>static <span class="class"><span class="keyword">struct</span> <span class="title">usb_device_id</span> usb_ids[] = </span>{
+    {.driver_info = <span class="number">42</span>},
+    {} 
+};
+</code></pre><p>如果只想对所有的USB键盘做响应，那么是这样的：</p>
+<pre><code>static <span class="class"><span class="keyword">struct</span> <span class="title">usb_device_id</span> usb_kbd_id_table[] = </span>{
+    { USB_INTERFACE_INFO(USB_INTERFACE_CLASS_HID,
+            USB_INTERFACE_SUBCLASS_BOOT,
+            USB_INTERFACE_PROTOCOL_KEYBOARD) },
+    { }
+};
+MODULE_DEVICE_TABLE(usb, usb_kbd_id_table);
+</code></pre><p>看到诀窍了吗？</p>
+<h2 id="参考文献">参考文献</h2><p>[1] <a href="http://www.linux-mag.com/id/2617/" target="_blank" rel="external">Hot Plug</a><br>[2] <a href="http://blog.csdn.net/bingqingsuimeng/article/details/7924300" target="_blank" rel="external">linux下热插拔事件的产生是怎样通知到用户空间</a><br>[3] <a href="http://www.linuxjournal.com/node/5604/print" target="_blank" rel="external">The Linux Device Model</a><br>[4] 《Linux设备驱动程序(第三版)》第13章 USB 驱动</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>热插拔即带电插拔，热插拔功能就是允许用户在不关闭系统，不切断电源的情况下取出和更换损坏的硬盘、电源或板卡等部件。Linux内核支持热插拔的部件有USB设备、PCI设备甚至CPU。Linux的热插拔支持是一个连接底层硬件、内核空间和用户空间程序的机制，且一直在变化，故立文讨论之。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[内核调试工具SystemTap:适合懒人的printk替代品]]></title>
+    <link href="http://yoursite.com/2015/04/13/systemtap/"/>
+    <id>http://yoursite.com/2015/04/13/systemtap/</id>
+    <published>2015-04-13T09:14:23.000Z</published>
+    <updated>2015-10-04T14:39:48.000Z</updated>
+    <content type="html"><![CDATA[<p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>
+<a id="more"></a>
+<h2 id="SystemTap工作流程">SystemTap工作流程</h2><p>SystemTap使用了Kprobe技术探测内核信息，辅以Relayfs向用户传递消息。</p>
+<p>SystemTap首先将SystemTap脚本文件翻译成C源文件。这个C源文件实际上是一个内核模块，实现了脚本文件中描述的功能。接着SystemTap编译源文件获得二进制模块文件，并动态加载模块。模块被载入运行内核后，会报告脚本文件中指定的一些事件。事件会触发脚本文件中编写的处理函数，执行相关操作。一般操作内容是：收集所需信息，并通过标准输出打印给用户。SystemTap会话结束于用户发出中断信号，即<code>Ctrl + C</code>，内核模块将随之被安全卸载。</p>
+<p><img src="/img/systemtap.png" alt=""></p>
+<p>SystemTap提供了一些内置函数，帮助我们快速开发测试脚本。常用的内置函数如：</p>
+<ul>
+<li>print(str) - 打印str的值</li>
+<li>printf(fmt) - 如同C语言的printf函数</li>
+<li>probefunc() - 返回当前探测函数的函数名</li>
+<li>execname() - 返回当前进程的名字</li>
+<li>pid() - 返回当前进程ID</li>
+<li>uid() - 返回当前进程用户ID</li>
+<li>cpu() - 返回运行当前进程的CPU号</li>
+</ul>
+<p>另外一些内置功能以Tapset的形式出现。Tapset相当于SystemTap的库。它提供的功能不仅仅是函数，还包括一些预定义的探测点,如：</p>
+<ul>
+<li>timer.ms(N) - 每N毫秒探测一次（用于性能测试）</li>
+<li>begin - 探测模块加载时执行一次</li>
+</ul>
+<p>当然，用户也可以开发自己的Tapset。</p>
+<h2 id="SystemTap的使用">SystemTap的使用</h2><p>在CentOS中SystemTap可以用下面命令安装升级：</p>
+<pre><code>sudo yum install<span class="keyword"> system</span>tap<span class="keyword"> system</span>tap-runtime
+</code></pre><p>编写脚本后，使用这个命令执行：</p>
+<pre><code>stap &lt;<span class="keyword">script</span>-<span class="property">name</span>&gt;
+</code></pre><p>注意：如果探测的是模块，要确保模块被复制到<code>/lib/modules/&lt;kernel-version&gt;/</code>中，否则脚本解析时会在<code>module</code>处出错。</p>
+<h2 id="SystemTap脚本语言">SystemTap脚本语言</h2><p>SystemTap语言是一种与C语言和awk语言类似的脚本语言。限于篇幅，这里并不系统地介绍SystemTap语言，而是结合毕业设计的调试场景，使用例子说明SystemTap的语法特征和编程结构。</p>
+<pre><code><span class="shebang">#!/usr/bin/stap</span>
+probe <span class="keyword">module</span>(<span class="string">"yavis"</span>).<span class="built_in">function</span>(<span class="string">"*"</span>).call {
+        printf(<span class="string">"%s -&gt; %s\n"</span>, thread_indent(<span class="number">1</span>), probefunc())
+}
+probe <span class="keyword">module</span>(<span class="string">"yavis"</span>).<span class="built_in">function</span>(<span class="string">"*"</span>).<span class="keyword">return</span> {
+        printf(<span class="string">"%s -&gt; %s\n"</span>, thread_indent(-<span class="number">1</span>), probefunc());
+}
+</code></pre><p>上述代码的功能是输出YAVIS的代码调用关系图。第一行描述脚本采用的解释器是stap程序。第二行表示在yavis模块中所有函数中插入探针，并在这些函数调用时触发第三行的代码。第三行代码向标准输出打印一串信息，信息包括当前函数的名字，由内置的probefunc收集。第五至第七行代码与上面的类似，只是在函数返回时触发。这样，所有YAVIS模块的函数在调用时输出函数名，返回时再次输出函数名，同时由内置的thread_indent函数负责自动的缩进，最终绘制了整个YAVIS模块的函数调用关系图。</p>
+<pre><code><span class="comment">#!/usr/bin/stap</span>
+probe module(<span class="string">"yavis"</span>).function(<span class="string">"yavis_poll"</span>) {
+       <span class="keyword">if</span> (<span class="variable">$revt</span>-&gt;type == <span class="number">0</span>) {
+          <span class="keyword">printf</span>(<span class="string">"-- package received --\n"</span>)
+          <span class="keyword">printf</span>(<span class="string">"revt.msg_len = <span class="variable">%d</span>\n"</span>, <span class="variable">$revt</span>-&gt;msg_len)
+          <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="variable">$revt</span>-&gt;msg_len; i++) {
+             <span class="keyword">printf</span>(<span class="string">"<span class="variable">%x</span>"</span>, <span class="variable">$revt</span>-&gt;rbuff[i])
+          }
+          <span class="keyword">printf</span>(<span class="string">"\n"</span>)
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$sevt</span>-&gt;type == <span class="number">0</span>) {
+          <span class="keyword">printf</span>(<span class="string">"-- package sent --\n"</span>);
+       }
+}
+
+probe module(<span class="string">"yavis"</span>).function(<span class="string">"yavis_tx"</span>) {
+       <span class="keyword">printf</span>(<span class="string">"-- sending package --\n"</span>);
+       <span class="keyword">printf</span>(<span class="string">"skb-&gt;len = <span class="variable">%d</span>\n"</span>, <span class="variable">$skb</span>-&gt;len)
+       <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; <span class="variable">$skb</span>-&gt;len; j++) {
+           <span class="keyword">printf</span>(<span class="string">"<span class="variable">%x</span>"</span>, <span class="variable">$skb</span>-&gt;data[j])
+       }
+       <span class="keyword">printf</span>(<span class="string">"\n"</span>)
+}
+</code></pre><p>上面这段脚本可以让我们在发送和接收过程中查看数据。注意结构体类型的数据，无论指针与否，一律使用<code>-&gt;</code>方式访问成员变量。</p>
+<h2 id="参考">参考</h2><p>[1] SystemTap: Instrumenting the Linux Kernel for Analyzing Performance and Functional Problems. IBM, 2009.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Linux环境下通过Vmware调试内核及模块]]></title>
+    <link href="http://yoursite.com/2015/03/18/kernel-debugging/"/>
+    <id>http://yoursite.com/2015/03/18/kernel-debugging/</id>
+    <published>2015-03-18T10:57:34.000Z</published>
+    <updated>2015-10-04T14:35:49.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/NCIC.jpg" alt=""><br><em>本文结构和内容都很平坦（就是说很长，大家耐心点！）目标读者：在Linux环境下调试VMware中kernel及module的技术人员</em></p>
+<a id="more"></a>
+<p>来实习一周了，了解了一些理论准备搭建个开发内核驱动环境试试。刚改好一个网卡驱动的框架，加载进内核一会儿就崩了。我问志国师兄有没有特殊的内核调试技巧。<br>    “printk啊！”<br>师兄萌萌哒！不过，printk大法感觉要调一万年！调到电脑要爆炸！我去网上搜了一艘，发现print大法确实是一种专业的调试方法（Log调试技术），不过主要应用于开发后期性能瓶颈的排查。对于我这样的内核崩溃，系统直接冻住了，根本没有办法看Log。机智的我赶紧<code>ctrl+alt+F2</code>切进TTY：在这里，内核会在崩溃前倾尽全力把肚子里的东西吐出来(Core Dump或者单纯的dmesg)让我们去分析它的死因。不过，吐得太猛，屏幕太小了，还不能翻页＝＝</p>
+<p>OK，是时候展现真正的调试技术了——使用专业的调试器/调试补丁。LDD3中第四章一下就讲了仨：kdb，kgdb和kgdb(名称一样)。调试得有两台逻辑上机器，一台host，一台target。既然实验室没有配机器，我也只能求助虚拟机/模拟器了。虚拟机/模拟器又有那么多种：VMware, VirtualBox, Xen, KVM, Qemu（GoldFish）, Bochs。到底用哪个？手头上的最好用！</p>
+<h2 id="我的环境是这样的">我的环境是这样的</h2><p>HOST(运行GDB): 物理机器，Ubuntu14.04x86_64<br>TARGET（运行被调试的内核）: 虚拟机(in VMware 6.0)，CentOSx86_64，KernelVer=2.6.32</p>
+<p>注意架构HOST和TARGET要一致（这里都是x86_64），否则HOST的gdb无法识别TARGET的内核二进制文件的格式，强行调试的话没准得整个交叉编译工具链里的gdb。</p>
+<h2 id="构建TARGET">构建TARGET</h2><p>在VMware里安装TARGET操作系统。这个系统就是将来被各种解剖的系统。下面需要替换内核，挺麻烦的。但是替换内核的理由完全盖过了复杂性：为了开打调试开关，为了增加调试信息，为了解除内核结构体保护等等。理由很多，但是我们只需要一条：求个踏实。我们的目的是KernelHacking，连个自己的内核都没有，遇到麻烦怎么能说“一切尽在掌握中”呢？我们着手做吧！</p>
+<p>获得内核、编译内核、配置内核和安装内核的详细教程网上颇多，考验大家的”google-fu”。这里只提醒大家一些需要注意的地方。</p>
+<h3 id="这些开关要打开">这些开关要打开</h3><p>下面是配置内核阶段需要打开状态的开关，可以通过在内核源代码目录中执行<code>make menuconfig</code>或<code>vi .config</code>，再加上一些搜索命令确认一下打开情况。</p>
+<pre><code>...
+<span class="variable">CONFIG_MAGIC_SYSRQ</span>=y
+...
+<span class="variable">CONFIG_DEBUG_INFO</span>=y
+...
+<span class="variable">CONFIG_KGDB</span>=y
+<span class="variable">CONFIG_KGDB_SERIAL_CONSOLE</span>=y
+...
+</code></pre><h3 id="这些要关闭">这些要关闭</h3><p>内核中有一些磨人的小妖精，平常好端端的，但对于我们KernelHacking就不是很友好了。在调试环境搭建时，请确保R(ead)O(nly)DATA是关闭的，不然内核数据结构受保护，到时候只能眼睁睁地看着内核在跑，没法打断点，访问值。</p>
+<pre><code># CONFIG_DEBUG_RODATA <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">set</span>
+</code></pre><h3 id="编译安装">编译安装</h3><pre><code><span class="built_in">make</span> -j4 &amp;&amp; <span class="built_in">make</span> -j4 modules &amp;&amp; sudo <span class="built_in">make</span> modules_install &amp;&amp; sudo <span class="built_in">make</span> install &amp;&amp; <span class="built_in">make</span> -B vmlinux
+</code></pre><p>这一大串指令将编译内核和模块，然后安装内核和模块。最后一个vmlinux需要留心，它是我们祭祀给gdb的ELF文件，gdb就是从这里获得内核符号的。明眼的同学突然回忆起来：”我看到<code>/boot/</code>目录底下有个vmlinux-XXX文件来着…”不能用那个！<code>/boot/</code>下面的二进制镜像是精简压缩过的内核镜像，我们这里的<code>vmlinux</code>大小是前者的十来倍，包含了更多信息！</p>
+<h2 id="连接HOST和TARGET">连接HOST和TARGET</h2><p>我使用了VMware提供的虚拟串口和主机通信，完成“远程“调试。</p>
+<p>首先需要确保虚拟机处于关闭状态，再在硬件配置里为虚拟机添加<code>Serial Port</code>。</p>
+<p><img src="/img/add-serial-port.png" alt="Add Serial Port"></p>
+<p>因为调试需要交互，使用第三种｀Use Socket(named pipe)｀连接方式。文件路径和名称可以自定义。核心技术是｀from server to application｀要选对。</p>
+<p>操作完成后，启动虚拟机系统，<code>/tmp/</code>中出现了<code>dbg_pipe</code>文件。下面我们测试联通性。</p>
+<pre><code><span class="comment"># 在HOST上 #</span>
+<span class="title">socat</span> /tmp/dbg_pipe TCP4-LISTEN:<span class="number">9001</span>　<span class="comment">#将文件映射到一个端口</span>
+telnet <span class="number">127.0.0.1</span> <span class="number">9001</span>
+
+
+<span class="comment"># 在TARGET上 #</span>
+sudo chmod <span class="number">222</span> /dev/ttyS1
+echo <span class="string">'hello'</span> &gt; /dev/ttyS1
+</code></pre><p>这时在HOST的telnet回话中会显示<code>hello</code>。这里的<code>ttyS*</code>到底是几每个机器不一样。在VMware创建虚拟机的默认过程，串口打印机占用了<code>ttyS0</code>。所以在默认情况下，对于新装的虚拟机，第一个手动添加串口设备文件对应<code>ttyS1</code>。</p>
+<p>反过来，从HOST向TARGET传送数据：</p>
+<pre><code><span class="comment"># 在TARGET上 #</span>
+<span class="title">sudo</span> cat /dev/ttyS1
+</code></pre><p>此时在HOST上的telnet回话中敲入一些字符，这些字符将在TARGET的终端里显示。</p>
+<h2 id="调试!">调试!</h2><p>内核调试目的有多种，大体上分两类：一是学习内核运行流程，再者是编写驱动时debug。面对这两类情况，调试内容也得分为：调试内核本身和调试模块两种情况。</p>
+<h3 id="调试内核自身">调试内核自身</h3><p><em>注意：执行上述操作前确认<code>socat /tmp/dbg_pipe TCP4-LISTEN:9001</code>在执行。</em></p>
+<p>首先，修改内核参数<code>/boot/grub/</code>目录中的<code>grub.cfg</code>或是<code>menu.lst</code>（需要root权限）。在kernel或linux指令后追加参数：<code>kgdboc=ttyS1,115200</code>。有时候我们需要调试内核启动过程，需要内核等着调试器接管后再启动，这种情况下可以加<code>kgdbwait</code>参数。这样系统启动时，如果没有调试器接入并发送<code>c(ontinue)</code>命令，就停在那儿等。</p>
+<p>进入系统后，我们需要断下内核。</p>
+<pre><code><span class="comment"># TARGET上执行 #</span>
+sudo chmod <span class="number">222</span> /<span class="keyword">proc</span>/sysrq-trigger
+echo g &gt; /<span class="keyword">proc</span>/sysrq-trigger
+</code></pre><p>这样，内核就会暂停运行，等待调试器接管、给出指令。</p>
+<pre><code><span class="preprocessor"># HOST上执行 #</span>
+gdb ./vmlinux
+...
+(gdb) <span class="built_in">set</span> serial baud <span class="number">115200</span>
+(gdb) target remote localhost:<span class="number">9001</span>
+</code></pre><blockquote>
+<p>TIP: 合理使用<code>gdb -x &lt;script&gt;</code> 可以利用脚本省去每次debug前输入这么多gdb命令的麻烦</p>
+</blockquote>
+<p><em>再一次注意：执行上述操作前确认<code>socat /tmp/dbg_pipe TCP4-LISTEN:9001</code>在执行。</em></p>
+<p>不过存在一疑问：上面的这个<code>vmlinux</code>是个啥？这就是上面编译安装部分讲到的那个<code>vmlinux</code>，我们需要把它从TARGET中拷贝到HOST上。</p>
+<h3 id="调试模块">调试模块</h3><p>有时候我们不是真的想调内核。。。我只是个写驱动的，只想调那个insmod加载进去的驱动模块。好，现在我们就来调模块。</p>
+<p>我们知道Linux是宏内核，内核和所有模块都运行在同一地址空间，这为我们调试内核提供了便利——大家都在一起！但是，我们还是不能直接用上面的方法调试内核模块。如果你的模块中提供了一个<code>foo</code>函数，你直接<code>break foo</code>是没法在这个函数的入口处打断点的。系统会提示你找不到符号，就算去掉<code>static</code>修饰、增加<code>SYMBOL_EXPORT(foo)</code>也不行——原因不在这儿！仔细想想GDB是从vmlinux文件中获得符号，而模块的符号并不包含在vmlinux中（vmlinux建立时模块甚至可能都不存在），难怪！模块的符号都存在ko文件里。知道这些，我们导入这个文件行了。</p>
+<pre><code><span class="comment"># 在GDB中执行 #</span>
+(gdb<span class="function">)</span><span class="instruction"> add-symbol-file </span>&lt;your-module.ko&gt; &lt;address&gt;
+</code></pre><p>其中<code>&lt;your-module.ko&gt;</code>就是编译后模块文件的名称，<code>&lt;address&gt;</code>是什么呢？是模块代码段的加载地址，就是一个偏移量。GDB就是通过这个偏移量算出每个符号在运行内核中的地址。模块加载地址这样查看：</p>
+<pre><code>sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">text</span></span>
+</code></pre><h3 id="试一试">试一试</h3><p>让我们断下内核，接入GDB，敲几个命令试一试：</p>
+<pre><code><span class="comment"># HOST上输入命令 #</span>
+(gdb) <span class="keyword">break</span> sys_mount
+(gdb) <span class="keyword">continue</span>
+
+<span class="comment"># TARGET上输入命令 #</span>
+sudo mount <span class="regexp">/dev/sda1 /mnt/</span>
+</code></pre><p>输入完成后，被调试的系统被中断，接着输入’n’单步执行。</p>
+<pre><code><span class="list">(<span class="keyword">gdb</span>)</span> n
+</code></pre><p>结果没发现源代码？而是提示一个路径，说找不到源代码文件？</p>
+<p>诶！可怜的GDB不知道自己调试的是远程主机上的内核程序，还在拼命在本机上找源文件呢？不知道有没有什么命令可以告诉GDB这个坏消息。。我采取了将计就计的办法，把TARGET上的源文件拷贝到HOST上，布局成TARGET机器上的样子，让GDB去找。没想到GDB信以为真，认真地打印出一行一行的源代码。</p>
+<h2 id="降低优化程度">降低优化程度</h2><p>至此，调试环境基本搭建完成！但是由于内核编译时优化过猛，破坏了二进制代码和源代码对应关系，调试时有些忧郁。下面需要找出降低优化程度的办法。</p>
+<pre><code><span class="comment"># Makefile里头加这个 #</span>
+ife<span class="string">q (<span class="variable">$(</span>DEBUG)</span>,<span class="keyword">y</span>)
+    DEBFLAGS = -O -g -DSBULL_DEBUG
+<span class="keyword">else</span>
+    DEBFLAGS = -O2
+endif
+EXTRA_CFLAGS += <span class="variable">$(</span>DEBFLAGS)
+</code></pre><p><strong>HAPPY HACKING!!</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="/img/NCIC.jpg" alt=""><br><em>本文结构和内容都很平坦（就是说很长，大家耐心点！）目标读者：在Linux环境下调试VMware中kernel及module的技术人员</em></p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[荒野求生]]></title>
+    <link href="http://yoursite.com/2015/03/02/independent/"/>
+    <id>http://yoursite.com/2015/03/02/independent/</id>
+    <published>2015-03-02T05:20:43.000Z</published>
+    <updated>2015-10-04T14:35:27.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/man_vs_wild.jpg" alt="贝尔格列尔斯"></p>
+<p>大学最后一学期开学第一个清晨，我站在楼上目送学弟学妹们去上课，然后自己在宿舍里收拾东西，突然翻出了我的游戏鼠标。这个鼠标是我中学时代买的第一只鼠标，价格会让工薪阶层觉得是奢侈品。我还曾经爱抚着它和室友吹嘘：死在它左键下的人头数成百上千。不过，现在它已经坏掉在抽屉里发霉了。它的失灵，也意味这我沉迷游戏生涯的终结——没什么太多秘密，只是觉得用它打游戏很爽，没了它就没有手感——所谓鼠标在，游戏在。</p>
+<a id="more"></a>
+<p>“坏掉了不知道修啊！“”再买一只啊！”我有病啊！好不容易戒掉游戏成瘾，我还不趁机享受一下自由人的生活！</p>
+<p>“所以说一只游戏鼠标从游戏成瘾中拯救了你咯”好吧，是这样讲。更具体地说，我认为是我对它的依赖，将它和游戏绑定关系，最后一个环节脱链导致了这件美好事情的发生。说这事美好，这是因为绑定的是游戏。如果绑定的是工作，或者更可拍一点，是生命，那么……我会永不停息地维护，永无止境地担忧，不让类似断链的事发生！</p>
+<blockquote>
+<p>如果你周日早上去北京奥森公园，你会看到装备党们集会——他们皮肤白皙，戴着专用跑步太阳眼镜、耳挂耳机连在臂带上的手机上、手臂下面是专业测心率的手表；身着荧光绿领跑速干衣、黑色半长紧身裤下带着2个护膝，配一双极炫的跑鞋，慢慢的被一个穿大裤衩的大爷以温柔而坚定的速度超过——太阳眼镜有效的遮档了脸红。——《跑步管理学》</p>
+</blockquote>
+<p>运动有“装备党”，工作也有对应的“工具党”。他们享受着MacBook带来的体验，熟练掌握管理工具的使用，总会向你推荐每个平台下最好的XXX软件。“谢啦，不过我不是《当幸福来敲门》里的银行职员，我的工作特简单，一本小本子一只秃头笔就可以高效地Get Thing Done啦。”</p>
+<p>装备党、工具党的问题是什么？我觉得有两点：他们将行动和装备两个概念绑定，无装备，懒得动。其次，装备转移了他们的注意力：他们体会的不是运动本身，关注的不是职业目标，而是不断转换装备的新鲜感。其实最好的跑步者，都是系上鞋带就能开始跑的人，而最牛的管理者，不是每天玩PPT讲概念天花乱坠的人，都是把自己肉身锻炼得炉火纯青的人儿啊。</p>
+<p>真正的强者，是能在野外生存的人。野外生存的人，资源有限，没有枪炮和口香糖，没有现代医学药物、仪器和X-BOX。使用最多的，是自己的身体，思考最多的是自己的灵魂。在某种程度上来说，他们是独立的。枪炮卡壳，他活着。口香糖没有味道了，他活着。欠费停机停电断网了，喂，有关系吗？!</p>
+<p>Dan!DanDan~~一篇美好的鸡汤文可以结尾了！不过很显然我没资格写鸡汤，我是来卖萌的～所以我继续</p>
+<p>Duang!Duang!Duang!从丛林回到城市！昨天在收拾行李，在想要不要把搜集了一寒假的一桌子的小物件带回学校。结果，当然啦，还是咬牙切齿地忍住了。我也不是第一次做这种事：好多人说我电脑主题太丑（我用Linux系统，好多主题元素可以变动，但我一直用默认配置），”为什么不美化一下？”“性能为什么不优化一下？”“这个可以配置”“有个插件可以方便地XXX”——“滚开！我故意的,就默认配置！”</p>
+<p>“默认配置”好像与黑客精神格格不入。所谓能力之所及，必用其极。把所有身边的资源都用到极致才好呢！但是，有多少次换系统时，有多少次重装系统时，那么的依!依!不!舍!每个被自己精心优化后的系统都像自己从小照顾到大的孩子啊！相反，现在我全部默认配置，写代码也不用什么集成环境了，哪儿都有的<strong>记事本</strong>就!不!错!这样，每台电脑都可以是我的电脑，拿!来!就!用!没有特征，没有依赖，没有伤害。就像游牧的蒙古人仅带着最少的家当，我也努力带最少的东西来做自己该做的事，挥一挥衣袖，只有狐臭（只是为了押韵）！</p>
+<p>所以，我学会了小心的给予，学会了不在意。不管是对自己的工作台，对电脑，还是对身边的人。所谓累觉不爱？我只想能在野外求生。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="/img/man_vs_wild.jpg" alt="贝尔格列尔斯"></p>
+<p>大学最后一学期开学第一个清晨，我站在楼上目送学弟学妹们去上课，然后自己在宿舍里收拾东西，突然翻出了我的游戏鼠标。这个鼠标是我中学时代买的第一只鼠标，价格会让工薪阶层觉得是奢侈品。我还曾经爱抚着它和室友吹嘘：死在它左键下的人头数成百上千。不过，现在它已经坏掉在抽屉里发霉了。它的失灵，也意味这我沉迷游戏生涯的终结——没什么太多秘密，只是觉得用它打游戏很爽，没了它就没有手感——所谓鼠标在，游戏在。</p>]]>
+    
+    </summary>
+    
+      <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[从零构建内核:系统调用]]></title>
+    <link href="http://yoursite.com/2015/02/28/kernel11/"/>
+    <id>http://yoursite.com/2015/02/28/kernel11/</id>
+    <published>2015-02-28T02:08:41.000Z</published>
+    <updated>2015-10-04T14:37:29.000Z</updated>
+    <content type="html"><![CDATA[<p>内核工作在最高特权级上。由于x86保护机制的存在，低特权级的用户态进程不能使用一些特权指令，或者访问内核数据，以保证系统的稳定。但有时候，我们需要提供用户态进程访问内核资源的途径。但这个途径必须是事先安排好的指定路线——去内核这个野生动物保护区，出于游客安全和动物保护的原则，游客不应该随意行动。系统调用就是一辆辆旅游观光车，以内核的身份代替用户进程访问内核数据或者执行内核代码。</p>
+<a id="more"></a>
+<h2 id="系统调用过程">系统调用过程</h2><p>在本内核中，系统调用实现涉及到的源文件和过程如图所示：</p>
+<p><img src="/img/system_call_workflow.jpg" alt="系统调用过程"></p>
+<p>使用系统调用和使用正常函数没有任何区别，直接调用sys_call_entry.asm中的函数即可。如果带有参数，则正常传参。</p>
+<p>sys_call_entry.asm中的被调函数主要任务是参数处理、存储系统调用号到eax寄存器、执行<code>int 0x80</code>指令。因为所有的系统调用都是<code>idt[0x80]</code>对应的处理函数处理的，需要用系统调用号来指定具体的系统调用。</p>
+<p><code>idt[0x80]</code>对应的处理函数，这里是位与interupt_entry.asm中的<code>sys_call</code>。它保护现场，然后用eax寄存器中的系统调用号索引<code>sys_call_tbl</code>表。</p>
+<p>sys_call_tbl定义在sys_call.c中，它的元素类型为<code>sys_call_handler_t</code>，其实是一个<code>void *</code>，这样可以保证在任意返回值类型，任意参数个数和类型的情况下能被正确调用。</p>
+<p>图中以<code>get_ticks</code>为例，系统调用号是0，所以表中的第一项<code>sys_get_ticks</code>被执行。</p>
+<h2 id="返回值">返回值</h2><p><code>sys_get_ticks</code>运行结束后，返回值存放在eax中，而eax将会被<code>int 0x80</code>处理函数(sys_call)末尾用来恢复现场的<code>popad</code>修改，导致返回值丢失。有的系统调用是需要返回值的，所以得先把PCB保护现场堆栈中的eax的值用当前存有返回值的eax替换掉。这样系统调用就能正常返回值了，好像所有工作都是get_ticks自己做的一样。</p>
+<h2 id="添加系统调用">添加系统调用</h2><p>了解了本内核的系统调用原理和细节，本节说明如何添加一个系统调用。因为没有形成一个系统话的系统调用框架，需要手动修改多个文件：</p>
+<ul>
+<li>找一个空闲系统调用号，参考sys_call.c和sys_call_entry.c开始部分</li>
+<li>在sys_call_entry.asm中实现一个 <code>mov eax, 系统调用号; int 0x80</code>,如果有参数，可以使用寄存器传参</li>
+<li>实现一个<code>sys_</code>函数，用来处理系统调用</li>
+<li>将上述<code>sys_</code>函数指针加入<code>sys_call_tbl[系统调用号]</code>的位置</li>
+<li>调用sys_call_entry.asm中的函数以使用新建的系统调用。</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>内核工作在最高特权级上。由于x86保护机制的存在，低特权级的用户态进程不能使用一些特权指令，或者访问内核数据，以保证系统的稳定。但有时候，我们需要提供用户态进程访问内核资源的途径。但这个途径必须是事先安排好的指定路线——去内核这个野生动物保护区，出于游客安全和动物保护的原则，游客不应该随意行动。系统调用就是一辆辆旅游观光车，以内核的身份代替用户进程访问内核数据或者执行内核代码。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[从零构建内核:中断处理框架]]></title>
+    <link href="http://yoursite.com/2015/02/17/kernel10/"/>
+    <id>http://yoursite.com/2015/02/17/kernel10/</id>
+    <published>2015-02-17T13:34:51.000Z</published>
+    <updated>2015-10-04T14:37:19.000Z</updated>
+    <content type="html"><![CDATA[<p>中断处理程序，也叫Interupt Handler或中断服务例程(ISR)，是中断发生后运行的一系列代码，一般用作对中断的响应。在我的内核中，构建了一个简单的框架，方便新处理函数的加入。</p>
+<a id="more"></a>
+<h2 id="加入新ISR">加入新ISR</h2><ul>
+<li>编写一个处理程序，参数为一个整型IRQ号</li>
+<li>调用<code>add_isr()</code>，参数依次为irq号和处理函数的地址</li>
+</ul>
+<p>在内核中，<code>add_isr</code>可以在任何地方调用，但初始化内核时集中在interupt.c文件中的setup_idt()中以便于管理。</p>
+<h2 id="框架原理">框架原理</h2><h3 id="isr_tbl">isr_tbl</h3><p><code>isr_tbl[ISR_NUM]</code>是一个<code>int_handler</code>也就是函数指针类型的数组，存放着ISR，IRQ号顺序对应。内核最多支持<code>ISR_NUM</code>个中断类型。事实上<code>add_isr</code>函数就是在操作这个数组。</p>
+<h3 id="汇编头">汇编头</h3><p><code>isr_tbl</code>中的函数只是中断处理的一部分，现场保护和堆栈切换都在interupt_entry.asm文件中用汇编实现。以时间中断(0号中断)为例：</p>
+<pre><code>        <span class="keyword">sub</span>     <span class="literal">esp</span>, <span class="number">4</span>
+        <span class="keyword">pushad</span>
+        <span class="keyword">push</span>    <span class="literal">ds</span>
+        <span class="keyword">push</span>    <span class="literal">es</span>
+        <span class="keyword">push</span>    <span class="literal">fs</span>
+        <span class="keyword">push</span>    <span class="literal">gs</span>
+        <span class="keyword">mov</span>     <span class="literal">dx</span>, <span class="literal">ss</span>          <span class="comment">; ss's DPL is 0 which others want to be</span>
+        <span class="keyword">mov</span>     <span class="literal">ds</span>, <span class="literal">dx</span>
+        <span class="keyword">mov</span>     <span class="literal">es</span>, <span class="literal">dx</span>
+
+        <span class="keyword">in</span>      <span class="literal">al</span>, <span class="number">0x21</span>        <span class="comment">; block same interupt source</span>
+        <span class="keyword">or</span>      <span class="literal">al</span>, (<span class="number">1</span>&lt;&lt;**<span class="number">0</span>**)
+        <span class="keyword">out</span>     <span class="number">0x21</span>, <span class="literal">al</span>
+
+        <span class="keyword">mov</span>     <span class="literal">al</span>, <span class="number">0x20</span>        <span class="comment">; EndOfInterupt</span>
+        <span class="keyword">out</span>     <span class="number">0x20</span>, <span class="literal">al</span>
+
+        <span class="keyword">inc</span>     <span class="preprocessor">dword</span> [k_reenter]
+        <span class="keyword">cmp</span>     <span class="preprocessor">dword</span> [k_reenter], <span class="number">0</span>
+        <span class="keyword">jne</span>     <span class="string">.re</span>_<span class="keyword">enter</span>**<span class="number">0</span>**
+
+        <span class="keyword">mov</span>     <span class="literal">esp</span>, (kernel_stack + KERNEL_STACK_SIZE)
+
+        <span class="keyword">sti</span>
+        <span class="keyword">push</span>    **<span class="number">0</span>**
+        <span class="keyword">call</span>    (isr_tbl + <span class="number">4</span> * **<span class="number">0</span>**)
+        <span class="keyword">add</span>     <span class="literal">esp</span>, <span class="number">4</span>
+        <span class="keyword">cli</span>
+
+        <span class="keyword">mov</span>     <span class="literal">esp</span>, [ready_task]
+        <span class="keyword">lldt</span>    [<span class="literal">esp</span> + (<span class="number">18</span>*<span class="number">4</span>)]
+        <span class="keyword">lea</span>     <span class="literal">eax</span>, [<span class="literal">esp</span> + (<span class="number">18</span>*<span class="number">4</span>)]
+        <span class="keyword">mov</span>     <span class="preprocessor">dword</span> [itss + <span class="number">4</span>], <span class="literal">eax</span>
+<span class="string">.re</span>_<span class="keyword">enter</span>**<span class="number">0</span>**:
+        <span class="keyword">in</span>      <span class="literal">al</span>, <span class="number">0x21</span>        <span class="comment">; restore the same interupt</span>
+        <span class="keyword">and</span>     <span class="literal">al</span>, ~(<span class="number">1</span>&lt;&lt;**<span class="number">0</span>**)
+        <span class="keyword">out</span>     <span class="number">0x21</span>, <span class="literal">al</span>
+
+        <span class="keyword">dec</span>     <span class="preprocessor">dword</span> [k_reenter]
+        <span class="keyword">pop</span>     <span class="literal">gs</span>
+        <span class="keyword">pop</span>     <span class="literal">fs</span>
+        <span class="keyword">pop</span>     <span class="literal">es</span>
+        <span class="keyword">pop</span>     <span class="literal">ds</span>
+        <span class="keyword">popad</span>
+        <span class="keyword">add</span>     <span class="literal">esp</span>, <span class="number">4</span>
+        <span class="keyword">iretd</span>
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p>中断处理程序，也叫Interupt Handler或中断服务例程(ISR)，是中断发生后运行的一系列代码，一般用作对中断的响应。在我的内核中，构建了一个简单的框架，方便新处理函数的加入。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+</feed>

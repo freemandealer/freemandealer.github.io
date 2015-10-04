@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>为cubieboard linux编译内核 | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文为我为cubieboard卡片电脑编译内核的记录，目的是作为学习笔记，虽然我尽可能地让文章向教程靠近，希望能够帮助其它想要做这件事的人，但不保证照着我的步骤就一定能成功．">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为cubieboard linux编译内核">
+<meta property="og:url" content="http://yoursite.com/2014/04/24/compile-kernel-for-cubieboard/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="本文为我为cubieboard卡片电脑编译内核的记录，目的是作为学习笔记，虽然我尽可能地让文章向教程靠近，希望能够帮助其它想要做这件事的人，但不保证照着我的步骤就一定能成功．">
+<meta property="og:updated_time" content="2015-10-04T14:33:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为cubieboard linux编译内核">
+<meta name="twitter:description" content="本文为我为cubieboard卡片电脑编译内核的记录，目的是作为学习笔记，虽然我尽可能地让文章向教程靠近，希望能够帮助其它想要做这件事的人，但不保证照着我的步骤就一定能成功．">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 15px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-compile-kernel-for-cubieboard" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/04/24/compile-kernel-for-cubieboard/" class="article-date">
+  	<time datetime="2014-04-24T02:57:31.000Z" itemprop="datePublished">2014-04-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为cubieboard linux编译内核
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文为我为cubieboard卡片电脑编译内核的记录，目的是作为学习笔记，虽然我尽可能地让文章向教程靠近，希望能够帮助其它想要做这件事的人，但不保证照着我的步骤就一定能成功．</p>
+<a id="more"></a>
+<p>##获取原料##<br>    mkdir stage &amp;&amp; cd stage<br>    git clone <a href="https://github.com/matson-hall/allwinner-pack-tools.git" target="_blank" rel="external">https://github.com/matson-hall/allwinner-pack-tools.git</a> tools<br>    git clone <a href="https://github.com/matson-hall/linux-sunxi.git" target="_blank" rel="external">https://github.com/matson-hall/linux-sunxi.git</a> linux<br>    git clone <a href="https://github.com/matson-hall/allwinner-buildroot.git" target="_blank" rel="external">https://github.com/matson-hall/allwinner-buildroot.git</a> buildroot<br>    git clone <a href="https://github.com/matson-hall/uboot-allwinner.git" target="_blank" rel="external">https://github.com/matson-hall/uboot-allwinner.git</a> u-boot</p>
+<pre><code><span class="list">(<span class="keyword">cd</span> tools; git checkout -b stage-3.9 remotes/origin/stage-3.9)</span>
+<span class="list">(<span class="keyword">cd</span> linux; git checkout -b stage-3.9 remotes/origin/stage-3.9)</span>
+<span class="list">(<span class="keyword">cd</span> buildroot; git checkout -b stage-3.9 remotes/origin/stage-3.9)</span>
+<span class="list">(<span class="keyword">cd</span> u-boot; git checkout -b stage-3.9 remotes/origin/stage-3.9)</span>
+</code></pre><p>##设置交叉编译环境##<br>设置环境变量：</p>
+<pre><code>PATH=/user/local/arm-none-linux-gnueabi-i686-pc-linux-gnu/bin:<span class="variable">$PATH</span>
+</code></pre><p>检查是否配置成功:</p>
+<pre><code>arm-<span class="type">none</span>-linux-gnueabi-gcc -v
+</code></pre><p>注意:$PATH的位置不同结果可能不一样.附修改回环境变量的命令：</p>
+<pre><code>newPATH=$(<span class="built_in">echo</span> <span class="variable">$PATH</span> | sed s<span class="comment">#/usr/bin:##)</span>
+PATH=newPATH
+<span class="built_in">export</span> PATH
+</code></pre><p>##编译内核##<br>    make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi- cubieboard_defconfig uImage</p>
+<p>其中<code>CROSS_COMPILE</code>选项写配置好环境变量的交叉编译器的前缀． <code>cubieboard_defconfig</code>的意义是在<code>ARCH=arm</code>配置后，系统会自动进入<code>ARCH/arm/configs</code>里去找<code>cubieboard_defconfig</code>作为配置文件进行编译．如果不显式声明<code>ARCH</code>,默认为宿主架构.</p>
+<p>##结果##<br>    Kernel: arch/arm/boot/zImage is ready<br>    UIMAGE: arch/arm/boot/uImage<br>    “mkimage” command not found - U-Boot images will not be built<br>    make[2]: <strong><em> [arch/arm/boot/uImage] 错误 1<br>    make[1]: </em></strong> [uImage] 错误 2<br>    make: <em>*</em> [uImage] 错误2</p>
+<p>##未来工作##<br>这次为cubieboard编译内核主要目的是练习，为后面给Android手机（非虚拟机）编译安装内核做准备．内核编译完成后还需要进行安装．详细过程将在不久后的给真机编译及安装内核的笔记中描述．这里做一个预告．</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/04/27/extract-kernel-config-for-android-devices/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          提取Android手机的内核配置文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/04/20/read-something-you-dont-know-with-3-threads/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">开三线程读书，读你不会的</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="compile-kernel-for-cubieboard" data-title="为cubieboard linux编译内核" data-url="http://yoursite.com/2014/04/24/compile-kernel-for-cubieboard/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

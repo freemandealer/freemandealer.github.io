@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>为Android手机编译和安装内核(HTC G14XE/G18) | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="该文章为本人编译和安装内核过程的记录，目的是作为学习笔记供以后参考．虽然已经努力将其向教程靠拢，但精力有限，主要还是集中注意力记录过程而忽略理论讲解，并且不保证按照此文步骤去做就一定可以成功．">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为Android手机编译和安装内核(HTC G14XE/G18)">
+<meta property="og:url" content="http://yoursite.com/2014/04/28/compile-and-install-kernel-for-android-devices/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="该文章为本人编译和安装内核过程的记录，目的是作为学习笔记供以后参考．虽然已经努力将其向教程靠拢，但精力有限，主要还是集中注意力记录过程而忽略理论讲解，并且不保证按照此文步骤去做就一定可以成功．">
+<meta property="og:image" content="http://yoursite.com/img/htc_g18_kernel.jpg">
+<meta property="og:updated_time" content="2015-10-04T14:33:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为Android手机编译和安装内核(HTC G14XE/G18)">
+<meta name="twitter:description" content="该文章为本人编译和安装内核过程的记录，目的是作为学习笔记供以后参考．虽然已经努力将其向教程靠拢，但精力有限，主要还是集中注意力记录过程而忽略理论讲解，并且不保证按照此文步骤去做就一定可以成功．">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 15px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://avatars1.githubusercontent.com/u/6492193?v=3&amp;s=460" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-compile-and-install-kernel-for-android-devices" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/04/28/compile-and-install-kernel-for-android-devices/" class="article-date">
+  	<time datetime="2014-04-28T07:27:10.000Z" itemprop="datePublished">2014-04-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为Android手机编译和安装内核(HTC G14XE/G18)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>该文章为本人编译和安装内核过程的记录，目的是作为学习笔记供以后参考．虽然已经努力将其向教程靠拢，但精力有限，主要还是集中注意力记录过程而忽略理论讲解，并且不保证按照此文步骤去做就一定可以成功．</p>
+<a id="more"></a>
+<p>##思路##<br>下载CM的ROM，下载系统对应的内核源代码，编译源代码得到内核镜像，将之替换掉ROM中的内核，刷进手机．</p>
+<p>##获取原料##<br>不是所有的android手机都可以给它编译和安装内核，因为不是所有的手机都被人破解，或是开放源内核代码．尽量下载配套的Android系统(ROM或源代码)和内核源代码.</p>
+<p>在<a href="http://download.cyanogenmod.org/" target="_blank" rel="external">CM下载页</a>上找到手机支持的ROM并下载．</p>
+<p>在GitHub上找到系统对应的内核–<a href="https://github.com/CyanogenMod/android_kernel_htc_msm8660" target="_blank" rel="external">HTC_msm8660</a></p>
+<p>##编译##<br>具体做法见我前面的文章<strong>为cubieboard编译内核</strong>.只不过用上次的那个交叉编译器编译产生了错误，换成了Android4.3源代码<code>prebuilts</code>目录下的编译器就好了．然后make:</p>
+<pre><code>PATH=<span class="regexp">/home/</span>freeman<span class="regexp">/code/</span>aosp43<span class="regexp">/prebuilts/g</span>cc<span class="regexp">/linux-x86/</span>arm<span class="regexp">/arm-eabi-4.6/</span>bin:$PATH
+make ARCH=arm CROSS_COMPILE=arm-eabi- pyramid_defconfig
+make menuconfig #自定义一些配置,这里新内核wifi打不开，就胡乱打开了一些网络设备的开关
+make -j4
+</code></pre><p>得到zImage.</p>
+<p>##制作ROM##<br>ROM的制作过程可以参看官方给出的Android源代码(非内核源代码)下<code>system/core/mkboootimg/</code>下的源代码．理论上可以参考之自己写一个解包／打包器．因为官方的工具使用起来比较复杂，这里我直接使用了Windows下有人写好的<code>bootimg.exe</code>工具完成实验(利用wine)．下文中的<code>boot.img</code>是官方的ROM提取到的．</p>
+<p>###解包###</p>
+<pre><code><span class="label">wine</span> <span class="keyword">bootimg.exe </span> --unpack-<span class="keyword">bootimg </span><span class="keyword">boot.img</span>
+</code></pre><p>执行完后有如下信息需要注意，它们说明了boot.img的组织方式的一些参数，根据不同的机型，参数可能发生局部变化．重新打包时我们需要提供这些参数，具体见下面的<strong>重新打包</strong>．</p>
+<pre><code><span class="setting">base=<span class="value"><span class="number">0</span>x48000000</span></span>
+<span class="setting">page_size=<span class="value"><span class="number">2048</span></span></span>
+<span class="setting">name=<span class="value"><span class="string">""</span></span></span>
+<span class="setting">cmdline=<span class="value"><span class="string">"console=ttyHSL0 androidboot.hardware=pyramid no_console_suspend=1"</span></span></span>
+<span class="setting">padding_size=<span class="value"><span class="number">2048</span></span></span>
+</code></pre><p>执行完命令同时得到<code>kernel</code>和<code>ramdisk.gz</code>两个文件．修改上一步编译得到的内核zImage名字为kernel替换官方的kernel.</p>
+<p>###重新打包###<br>仔细体会上面参数的使用</p>
+<pre><code>wine bootimg --repack-bootimg  <span class="number">0x48000000</span> <span class="string">"console=ttyHSL0 androidboot.hardware=pyramid no_console_suspend=1"</span> <span class="number">2048</span> <span class="number">2048</span>
+</code></pre><p>这样我们得到了含有自己编译内核的boot.img．</p>
+<p>##刷ROM##<br>采用各种办法，将boot.img刷进手机．网上教程一大堆，这里就不详细描述了.有图有真相：</p>
+<p><img src="/img/htc_g18_kernel.jpg" alt="htc_g18编译安装内核测试"></p>
+<p>##鸣谢##<br>王雷(雷妈)提供了如此优秀的实验手机．</p>
+<p><a href="https://maxwellxxx.github.io" target="_blank" rel="external">徐凌云(maxwellxxx)</a>提供了雄厚的技术支持．</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/04/30/fix-wifi/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          解决编译安装内核后Wifi不能用的问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/04/27/extract-kernel-config-for-android-devices/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">提取Android手机的内核配置文件</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="compile-and-install-kernel-for-android-devices" data-title="为Android手机编译和安装内核(HTC G14XE/G18)" data-url="http://yoursite.com/2014/04/28/compile-and-install-kernel-for-android-devices/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
