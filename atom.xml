@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-10-14T05:56:08.000Z</updated>
+  <updated>2015-10-29T12:19:09.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[作业的本质]]></title>
+    <link href="http://yoursite.com/2015/10/29/the-nature-of-homework/"/>
+    <id>http://yoursite.com/2015/10/29/the-nature-of-homework/</id>
+    <published>2015-10-29T12:03:19.000Z</published>
+    <updated>2015-10-29T12:19:09.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://i13.tietuku.com/c2cd1b67bce0cff1.jpg" alt=""></p>
+<p>最近一直在订正作业。周一晚上计算机体系结构上了一堂习题课。说真的，上次听“习题课”这一叫法还是在中学。为什么要上习题课呢？一是因为课后作业错得太多，而且又没有一个100%的正确答案可以对照，所以需要老师帮着把答案确定一遍。二是由于体系结构的作业太难，同学们私下讨论不出结果，百度谷歌又搜不出像样的专业领域专业问题的解答，需要一个权威人士讲解，学习专业的思路。这里不得不说，书后习题出得真赞。以至于每次做作业，题目都看不懂。回想过去单纯的中学时光，我们学会的一项重要技能就是揣测题意，做到知己知彼（也许你没注意，但仔细想想很大可能你已经在运用了）。计算机体系结构书后习题具有独特的延伸性和启发性了，根本不知道它想问你什么。乍一看很多题目与课本前面的内容、上课的内容都没什么关系啊，别提猜出题目在考察什么知识点了。但神奇的是，经老师这么一讲解，就都和课堂上、书上的知识点结合起来了，让人时不时地恍然大悟。</p>
+<p>上习题课的第三个原因，是因为考试中会有原题。这一点乍一听很关键啊！试想这样一个让人冷汗直冒的场景：你有一题作业没搞懂，考试遇到类似题，其他人都奋笔疾书，信心十足又沾沾自喜地在你前面交上试卷。你岂不是要悔地直跺脚？这时你突然想起国科大某位老师曾经说过的一句话：“你考试分数高，我不能说你这一门课学得好；同样你学得好，考试成绩也不一定高”。你不禁陷入了对一个大问题的沉思中：考试到底算什么？作为局内人，我也说不清楚考试算什么。好消息是在国科大，在研究生阶段，课程作业、考核这些形式上的东西与知识的夹沟，我觉得已经很窄了。</p>
+<!--本科阶段的成绩那是相当重要：出国留学得看GPA，保研名额分配也大幅度地参考综合成绩排名。奖学金的申请与成绩也是息息相关。一个漂亮的成绩单在找工作时当然没有一点坏处。研究生阶段和本科阶段怎么说得有些差别吧？我身为局中人，其中差别我还真说不清。但是我知道，相对于本科生，对于研究生的考察，至少增添了科研能力这一标准。增加的标准势必会降低其它标准的权重。由于我们精力有限，我们应该相应地减少应试时间，去为提高自己研究生身份应有的能力。哪些是研究生应培养的能力，我说不准，我暂且用“实力”一词指代。-->
+<p>说作业是形式，我自己有些过意不去。对于作业的本质，我也是在学生生涯中断断续续思考良久。学习的过程不只要输入，输出也是重要环节。比如看书、听课那只是输入部分，而输出往往会被我们忽视。输出是指用知识影响周围世界。我们把刚刚学到的知识分享出去影响别人，我认为这就是“教学相长”的内涵。我们用实践去改造世界，我认为这就是“知行合一”的内涵。当然实践知识有时是一件麻烦事：我学会了电路设计，我要实践，那我得花些时间和金钱去买些电子器件吧。而作业，就是一种模拟性质的实践：把你放在一个用文字建立起来的情景中，给你一切想要的，你只要集中精力去运用学会的知识解决问题就可以了。是不是很神奇呢？我想，这才是作业的本质。学习然后实践，最简单的实践就是解题看看。解错了、解不出来那就去听讲解，再一遍仔细研究学习内容，再实践。通过迭代，让知识隐性化为常识或者本能反应。回头看我们小学时的“课前预习、课堂认真听讲、复习笔记、写作业”的学习回路，真是蕴含着大智慧呢！其实小时候有很多这样的大智慧由于太朴素而没有被我们赞美，这是另外一码事了。</p>
+<p>通过对作业的重新思考，我们还能抱怨什么或者有什么额外的期待呢？一份好的作业永远不会是负担，也不会让人怀疑它和成绩之间的暧昧关系——它一直忠贞于知识。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://i13.tietuku.com/c2cd1b67bce0cff1.jpg" alt=""></p>
+<p>最近一直在订正作业。周一晚上计算机体系结构上了一堂习题课。说真的，上次听“习题课”这一叫法还是在中学。为什么要上习题课呢？一是因为课后]]>
+    </summary>
+    
+      <category term="元知识" scheme="http://yoursite.com/tags/%E5%85%83%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[记录一次OSX软件破解]]></title>
@@ -206,7 +228,7 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
     <link href="http://yoursite.com/2015/10/01/the-wild-great-wall/"/>
     <id>http://yoursite.com/2015/10/01/the-wild-great-wall/</id>
     <published>2015-10-01T09:07:59.000Z</published>
-    <updated>2015-10-04T14:41:43.000Z</updated>
+    <updated>2015-10-29T12:16:46.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://i11.tietuku.com/2acd988527e65ae4.jpg" alt=""></p>
 <p>写一篇文章，纪录在国科大的见闻，给我的父母、姐姐和可能关心我近况的朋友们。</p>
 <a id="more"></a>
@@ -245,6 +267,9 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
 <p>计算所的同学群无疑是给我们支持最多的一个群体。小伙伴们早已不把自己当用户很多年，纷纷撸起袖子测试、watch、star、fork我们的项目，耐心细致地报告bug，甚至已经操刀为ucs增加新特性了。</p>
 <p>其实我的github账号注册几年了，也用了很久了，可是作为我亲手初始化的项目，这是第一次受到怎么多（几十次，至少对于我来说是多的）访问。Issue、fork、branch这些功能，我原以为是可有可无的，是无聊的教课书才会涉及的，或是高手卖弄才学的，而现在它们正灵活地运用在实际项目中——虽然它就像麻雀那般小。</p>
 <p>代码这些事大家一起玩真的很刺激！感谢孟轲感谢大家，并希望ucs能为大家带来些许的方便。</p>
+<p>##9 对床风雨</p>
+<p>##10 人文熏陶</p>
+<p>##11 离科学最近的地方</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p><img src="http://i11.tietuku.com/2acd988527e65ae4.jpg" alt=""></p>
@@ -1272,40 +1297,6 @@ EXTRA_CFLAGS += <span class="variable">$(</span>DEBFLAGS)
     </summary>
     
       <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[从零构建内核:系统调用]]></title>
-    <link href="http://yoursite.com/2015/02/28/kernel11/"/>
-    <id>http://yoursite.com/2015/02/28/kernel11/</id>
-    <published>2015-02-28T02:08:41.000Z</published>
-    <updated>2015-10-04T14:37:29.000Z</updated>
-    <content type="html"><![CDATA[<p>内核工作在最高特权级上。由于x86保护机制的存在，低特权级的用户态进程不能使用一些特权指令，或者访问内核数据，以保证系统的稳定。但有时候，我们需要提供用户态进程访问内核资源的途径。但这个途径必须是事先安排好的指定路线——去内核这个野生动物保护区，出于游客安全和动物保护的原则，游客不应该随意行动。系统调用就是一辆辆旅游观光车，以内核的身份代替用户进程访问内核数据或者执行内核代码。</p>
-<a id="more"></a>
-<h2 id="系统调用过程">系统调用过程</h2><p>在本内核中，系统调用实现涉及到的源文件和过程如图所示：</p>
-<p><img src="/img/system_call_workflow.jpg" alt="系统调用过程"></p>
-<p>使用系统调用和使用正常函数没有任何区别，直接调用sys_call_entry.asm中的函数即可。如果带有参数，则正常传参。</p>
-<p>sys_call_entry.asm中的被调函数主要任务是参数处理、存储系统调用号到eax寄存器、执行<code>int 0x80</code>指令。因为所有的系统调用都是<code>idt[0x80]</code>对应的处理函数处理的，需要用系统调用号来指定具体的系统调用。</p>
-<p><code>idt[0x80]</code>对应的处理函数，这里是位与interupt_entry.asm中的<code>sys_call</code>。它保护现场，然后用eax寄存器中的系统调用号索引<code>sys_call_tbl</code>表。</p>
-<p>sys_call_tbl定义在sys_call.c中，它的元素类型为<code>sys_call_handler_t</code>，其实是一个<code>void *</code>，这样可以保证在任意返回值类型，任意参数个数和类型的情况下能被正确调用。</p>
-<p>图中以<code>get_ticks</code>为例，系统调用号是0，所以表中的第一项<code>sys_get_ticks</code>被执行。</p>
-<h2 id="返回值">返回值</h2><p><code>sys_get_ticks</code>运行结束后，返回值存放在eax中，而eax将会被<code>int 0x80</code>处理函数(sys_call)末尾用来恢复现场的<code>popad</code>修改，导致返回值丢失。有的系统调用是需要返回值的，所以得先把PCB保护现场堆栈中的eax的值用当前存有返回值的eax替换掉。这样系统调用就能正常返回值了，好像所有工作都是get_ticks自己做的一样。</p>
-<h2 id="添加系统调用">添加系统调用</h2><p>了解了本内核的系统调用原理和细节，本节说明如何添加一个系统调用。因为没有形成一个系统话的系统调用框架，需要手动修改多个文件：</p>
-<ul>
-<li>找一个空闲系统调用号，参考sys_call.c和sys_call_entry.c开始部分</li>
-<li>在sys_call_entry.asm中实现一个 <code>mov eax, 系统调用号; int 0x80</code>,如果有参数，可以使用寄存器传参</li>
-<li>实现一个<code>sys_</code>函数，用来处理系统调用</li>
-<li>将上述<code>sys_</code>函数指针加入<code>sys_call_tbl[系统调用号]</code>的位置</li>
-<li>调用sys_call_entry.asm中的函数以使用新建的系统调用。</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>内核工作在最高特权级上。由于x86保护机制的存在，低特权级的用户态进程不能使用一些特权指令，或者访问内核数据，以保证系统的稳定。但有时候，我们需要提供用户态进程访问内核资源的途径。但这个途径必须是事先安排好的指定路线——去内核这个野生动物保护区，出于游客安全和动物保护的原则，游客不应该随意行动。系统调用就是一辆辆旅游观光车，以内核的身份代替用户进程访问内核数据或者执行内核代码。</p>]]>
-    
-    </summary>
-    
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
     
   </entry>
   
