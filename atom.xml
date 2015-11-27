@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-11-08T11:56:49.000Z</updated>
+  <updated>2015-11-27T10:39:19.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[科学的杜鹃蛋 —— 自然辩证法课堂演讲]]></title>
+    <link href="http://yoursite.com/2015/11/27/the-eggs-of-science/"/>
+    <id>http://yoursite.com/2015/11/27/the-eggs-of-science/</id>
+    <published>2015-11-27T10:00:10.000Z</published>
+    <updated>2015-11-27T10:39:19.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>
+<a id="more"></a>
+<p>大家好，我是张正宇。下面我将代表第23组，来自计算所的6位小伙伴，给大家展示我们对于“科技与社会”这个问题的讨论成果。</p>
+<p>同学们认识Daniel Pink吗？他是全球最具影响力的50位思想家之一。他在他的书中写过：在不远的未来，那些需要左脑工作的职业将会被聪明的计算机程序取代。这都是他观点。你们相信吗？我不信！我自己的观点是：需要右脑工作的职业也可能被取代［观众笑］——比如说绘画。</p>
+<p>今年8月底，德国一个研究所的科学家公布了一项研究结果，他们让人工智能系统学习梵高，莫奈等世界著名画家的画风绘制新的“人工智能世界名画”。我不懂艺术，但我觉得还不错，你们觉得呢？</p>
+<p><img src="/img/the-eggs-of-science-1.png" alt=""></p>
+<p>如果好奇这是怎么做到的，我这里给大家提供一个搜索关键词叫“机器学习”。当然，有了“机器学习”，我们还有“机器考试”。就在上个星期，日本一个研究所研发的人工智能已经能在日本高考中考取511分的成绩。511分是多少分呢？511分已经达到了80%的日本国内大学录取分数线。而同一套试题人类学生的平均分为416分［观众哇塞唏嘘］。</p>
+<p>你看人工智能可以学习，也可以考试，分数还这么高，找工作估计也不用太担心。三百六十行，行行都可以人工智能。造成失业，可能是人工智能对于未来社会最直接的负面影响。大家知道，工业革命把工人从工厂撵走，不过我们因此有幸腾出时间，参加更加高级的智力活动。而现在人工智能的出现，分明是要把我们从事知识工作的权利也剥夺啊。</p>
+<p>那在座各位就都只能回家生孩子去了对不对？［观众笑］当然机器也可能生小孩，现在的3D打印技术已经让机器复制成为了可能。有了机器能学习、能考试，说不定未来还能科研。这样我们也不要什么科研了，就每天早上喂完孩子去问电脑一个问题，比如怎么证明哥德巴赫猜想？让它自动去给我们找答案。这让我想到一部电影里的情节，电影叫做《银河系漫游指南》。其中有一段说科学家制造了一台人工智能，让它去求解“生命和宇宙的终极答案”。经过漫长的等待，这个人工智能回答道：生命和宇宙的终极答案是——42。科学家很难过，质问人工智能42是什么鬼。人工智能也很委屈，说答案真的是42［观众笑］，你们要理解这个答案那就必须首先找到“生命、宇宙以及一切的终极答案”对应的终极问题到底是什么。</p>
+<p>［这里观众竟然没有笑……］这个片段很有意思，你们怎么不笑呢？［观众笑，掌声］没关系没关系……不笑也无所谓，这是一种英式幽默，笑点需要仔细品味。其实我想说的是这个片段的后面一段：那个人工智能看到人类忧郁的表情，决定去帮助人类寻找终极问题。不过它太累了，它得看电视，得休息，它又制造了另外一台计算机去算问题 —— 我们看到这个人工智能就像一个正常人类一样，有了需求，而且开始维护自己的利益。这是有可能的啊。随着人工智能的发展，社会对人工智能的期待越来越高，我们发现高智商还不够，同时还要求它有情商。等到发展到它产生自我意识，机器再也不是我们熟悉的那个没日没夜不知疲倦的工具了，那么问题就来了：要不要给人工智能看电视呢，当它们抱怨自己压力大的时候？我们要不要承认这个人工大脑里面是存在意识的呢？我们是不是要将人工智能视作生命呢？这是人工智能抛给社会伦理的挑战。</p>
+<p>然而这个挑战比我们想象的深远很多，甚至可能会危及人类文明。这里我不是想说科幻电影里的那些邪恶机器杀手，即使是那些人畜无害、环境友好的人工智能，也可能充满人文关怀地杀死人类。我特别想和大家讨论人工智能灭绝人类的10000种方式。但时间原因，我只能给大家看一副图片。</p>
+<p><img src="/img/the-eggs-of-science-2.png" alt=""></p>
+<p>这幅图片是科学家预言在不久的未来，人工智能将达到人类的水平、并成几何级数迅速增长超越人类。这副图并没有直接描绘人工智能是如何灭绝人类的，但智商被碾压本身就很可怕。创造出比我们聪明的人工智能，实际上就是把我们祖先奋斗了几百万年才获得的万物灵长的地位拱手让人。研究人工智能的学者们，在惊喜于自己的科学创新之余，也会忐忑一下。昨天来我们学校报告的南洋理工人工智能学者黄广斌教授，讲座结束之际还补充了一句：不能无限制地发展人工智能。霍金、比尔盖茨也都不断提醒人们：注意人工智能！但是社会上也有反面的声音，认为应当无限制地发展人工智能。我听到最极端的是科学中心论和宇宙中心论主义者对人工智能的支持。在他们看来，人类利益微不足道，人类只是服务于科学发展的一个载体，是宇宙演化的一个齿轮。只要人工智能对科学进步和宇宙演化有好处，哪怕因此人类自己灭亡了也无所谓——至少我们可以夸赞自己是大义灭亲！</p>
+<p>话说回来，今天我们自然辩证法课的主题是科技与社会。总结一下，人工智能与社会的关系：第一，在未来，人工智能会在就业问题上直接影响社会；第二，在未来，人工智能可能会给社会伦理带来新的挑战；第三，在未来，人工智能也可能会危及人类文明。不知道大家注意到没有，这些时态都是未来的。相比于前面的同学讲述了XX现在对社会的影响，而我在YY一个未来形态的人工智能，在猜测它在未来的时间里对社会的影响。而未来是混顿的，没人可以精确预测，我这样挖穿脑洞真的好吗？我为什么刻意面相未来说科技对社会的影响？</p>
+<p>先跟大家分享一个冷知识：你们知道杜鹃鸟不会筑巢吗？［观众们知道］它们会把自己的蛋下在麻雀的巢里，可是麻雀妈妈不知道，一个劲地孵啊孵，直到小杜鹃破壳而出。小杜鹃生来就有一个本能——把身边其它鸟蛋踢下去，把麻雀搞得家破人亡。</p>
+<p>我想说的是，科学发现、技术创新就是一颗一颗的鸟蛋，在孵化出来之前，我们很少能知道它是什么，能怎么样。幸运的是目前为止，我们发展的科技，无一例外地丰富了我们的生活，或多或少。值得一提的是那个蛋，叫核弹，差点就成了这颗杜鹃蛋，现在人工智也成了嫌疑蛋，会不会是人类最后一项发明创造。当然也可能不是。如果不是我们也不用庆幸，因为你们各位研二所在的实验室里，可能就在孵化着这一颗蛋。所以，祝大家科研顺利，早日毁灭人类！谢谢！［观众笑，掌声］</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>]]>
+    
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[记录一次破冰演讲]]></title>
@@ -1154,81 +1184,6 @@ MODULE_DEVICE_TABLE(usb, usb_kbd_id_table);
 ]]></content>
     <summary type="html">
     <![CDATA[<p>热插拔即带电插拔，热插拔功能就是允许用户在不关闭系统，不切断电源的情况下取出和更换损坏的硬盘、电源或板卡等部件。Linux内核支持热插拔的部件有USB设备、PCI设备甚至CPU。Linux的热插拔支持是一个连接底层硬件、内核空间和用户空间程序的机制，且一直在变化，故立文讨论之。</p>]]>
-    
-    </summary>
-    
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[内核调试工具SystemTap:适合懒人的printk替代品]]></title>
-    <link href="http://yoursite.com/2015/04/13/systemtap/"/>
-    <id>http://yoursite.com/2015/04/13/systemtap/</id>
-    <published>2015-04-13T09:14:23.000Z</published>
-    <updated>2015-10-04T14:39:48.000Z</updated>
-    <content type="html"><![CDATA[<p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>
-<a id="more"></a>
-<h2 id="SystemTap工作流程">SystemTap工作流程</h2><p>SystemTap使用了Kprobe技术探测内核信息，辅以Relayfs向用户传递消息。</p>
-<p>SystemTap首先将SystemTap脚本文件翻译成C源文件。这个C源文件实际上是一个内核模块，实现了脚本文件中描述的功能。接着SystemTap编译源文件获得二进制模块文件，并动态加载模块。模块被载入运行内核后，会报告脚本文件中指定的一些事件。事件会触发脚本文件中编写的处理函数，执行相关操作。一般操作内容是：收集所需信息，并通过标准输出打印给用户。SystemTap会话结束于用户发出中断信号，即<code>Ctrl + C</code>，内核模块将随之被安全卸载。</p>
-<p><img src="/img/systemtap.png" alt=""></p>
-<p>SystemTap提供了一些内置函数，帮助我们快速开发测试脚本。常用的内置函数如：</p>
-<ul>
-<li>print(str) - 打印str的值</li>
-<li>printf(fmt) - 如同C语言的printf函数</li>
-<li>probefunc() - 返回当前探测函数的函数名</li>
-<li>execname() - 返回当前进程的名字</li>
-<li>pid() - 返回当前进程ID</li>
-<li>uid() - 返回当前进程用户ID</li>
-<li>cpu() - 返回运行当前进程的CPU号</li>
-</ul>
-<p>另外一些内置功能以Tapset的形式出现。Tapset相当于SystemTap的库。它提供的功能不仅仅是函数，还包括一些预定义的探测点,如：</p>
-<ul>
-<li>timer.ms(N) - 每N毫秒探测一次（用于性能测试）</li>
-<li>begin - 探测模块加载时执行一次</li>
-</ul>
-<p>当然，用户也可以开发自己的Tapset。</p>
-<h2 id="SystemTap的使用">SystemTap的使用</h2><p>在CentOS中SystemTap可以用下面命令安装升级：</p>
-<pre><code>sudo yum install<span class="keyword"> system</span>tap<span class="keyword"> system</span>tap-runtime
-</code></pre><p>编写脚本后，使用这个命令执行：</p>
-<pre><code>stap &lt;<span class="keyword">script</span>-<span class="property">name</span>&gt;
-</code></pre><p>注意：如果探测的是模块，要确保模块被复制到<code>/lib/modules/&lt;kernel-version&gt;/</code>中，否则脚本解析时会在<code>module</code>处出错。</p>
-<h2 id="SystemTap脚本语言">SystemTap脚本语言</h2><p>SystemTap语言是一种与C语言和awk语言类似的脚本语言。限于篇幅，这里并不系统地介绍SystemTap语言，而是结合毕业设计的调试场景，使用例子说明SystemTap的语法特征和编程结构。</p>
-<pre><code><span class="shebang">#!/usr/bin/stap</span>
-probe <span class="keyword">module</span>(<span class="string">"yavis"</span>).<span class="built_in">function</span>(<span class="string">"*"</span>).call {
-        printf(<span class="string">"%s -&gt; %s\n"</span>, thread_indent(<span class="number">1</span>), probefunc())
-}
-probe <span class="keyword">module</span>(<span class="string">"yavis"</span>).<span class="built_in">function</span>(<span class="string">"*"</span>).<span class="keyword">return</span> {
-        printf(<span class="string">"%s -&gt; %s\n"</span>, thread_indent(-<span class="number">1</span>), probefunc());
-}
-</code></pre><p>上述代码的功能是输出YAVIS的代码调用关系图。第一行描述脚本采用的解释器是stap程序。第二行表示在yavis模块中所有函数中插入探针，并在这些函数调用时触发第三行的代码。第三行代码向标准输出打印一串信息，信息包括当前函数的名字，由内置的probefunc收集。第五至第七行代码与上面的类似，只是在函数返回时触发。这样，所有YAVIS模块的函数在调用时输出函数名，返回时再次输出函数名，同时由内置的thread_indent函数负责自动的缩进，最终绘制了整个YAVIS模块的函数调用关系图。</p>
-<pre><code><span class="comment">#!/usr/bin/stap</span>
-probe module(<span class="string">"yavis"</span>).function(<span class="string">"yavis_poll"</span>) {
-       <span class="keyword">if</span> (<span class="variable">$revt</span>-&gt;type == <span class="number">0</span>) {
-          <span class="keyword">printf</span>(<span class="string">"-- package received --\n"</span>)
-          <span class="keyword">printf</span>(<span class="string">"revt.msg_len = <span class="variable">%d</span>\n"</span>, <span class="variable">$revt</span>-&gt;msg_len)
-          <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="variable">$revt</span>-&gt;msg_len; i++) {
-             <span class="keyword">printf</span>(<span class="string">"<span class="variable">%x</span>"</span>, <span class="variable">$revt</span>-&gt;rbuff[i])
-          }
-          <span class="keyword">printf</span>(<span class="string">"\n"</span>)
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$sevt</span>-&gt;type == <span class="number">0</span>) {
-          <span class="keyword">printf</span>(<span class="string">"-- package sent --\n"</span>);
-       }
-}
-
-probe module(<span class="string">"yavis"</span>).function(<span class="string">"yavis_tx"</span>) {
-       <span class="keyword">printf</span>(<span class="string">"-- sending package --\n"</span>);
-       <span class="keyword">printf</span>(<span class="string">"skb-&gt;len = <span class="variable">%d</span>\n"</span>, <span class="variable">$skb</span>-&gt;len)
-       <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; <span class="variable">$skb</span>-&gt;len; j++) {
-           <span class="keyword">printf</span>(<span class="string">"<span class="variable">%x</span>"</span>, <span class="variable">$skb</span>-&gt;data[j])
-       }
-       <span class="keyword">printf</span>(<span class="string">"\n"</span>)
-}
-</code></pre><p>上面这段脚本可以让我们在发送和接收过程中查看数据。注意结构体类型的数据，无论指针与否，一律使用<code>-&gt;</code>方式访问成员变量。</p>
-<h2 id="参考">参考</h2><p>[1] SystemTap: Instrumenting the Linux Kernel for Analyzing Performance and Functional Problems. IBM, 2009.</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>]]>
     
     </summary>
     

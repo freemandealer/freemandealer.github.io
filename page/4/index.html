@@ -210,6 +210,69 @@ var _hmt = _hmt || [];
 </nav>
       <div class="body-wrap">
   
+    <article id="post-kernel04" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/01/08/kernel04/" class="article-date">
+  	<time datetime="2015-01-08T03:20:35.000Z" itemprop="datePublished">2015-01-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/08/kernel04/">从零构建内核:分页</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入C语言后，程序直接运行在物理地址之上。为了学习和利用x86提供的分页机制，今天为内核设置分页。设置流程大概是：</p>
+<ul>
+<li>检测内存大小，决定页表多少</li>
+<li>初始化页目录项和页表项</li>
+<li>配置cr0和cr3寄存器</li>
+</ul>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/01/08/kernel04/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-kernel03" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -719,75 +782,6 @@ var _hmt = _hmt || [];
         <p class="article-more-link">
           <a  href="/2014/11/14/jni-in-android/#more">more >></a>
         </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-update-kernel-image-and-modules-for-cubian" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/08/25/update-kernel-image-and-modules-for-cubian/" class="article-date">
-  	<time datetime="2014-08-25T10:40:39.000Z" itemprop="datePublished">2014-08-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/25/update-kernel-image-and-modules-for-cubian/">Update kernel image and modules for Cubian</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <a id="more"></a>
-<h1 id="Update_kernel_image_and_modules_for_Cubian">Update kernel image and modules for Cubian</h1><p>You have a lot of reason to replace the kernel, if you are reading this article.</p>
-<p>First, you should setup building environment. FYI, check this if you are going to employ cross compilation.</p>
-<p>Compile the kernel and modules using:</p>
-<pre><code><span class="built_in">make</span> uImage
-<span class="built_in">make</span> modules
-<span class="built_in">make</span> install
-<span class="built_in">make</span> modules_install
-</code></pre><p>However, the later two command won’t work well on Cubian/cubieboard. We should do something ourself. That’s not very difficult.</p>
-<p>First, replace <code>/boot/uImage</code> with the new.</p>
-<p>Then copy ‘*.ko’ files into <code>/lib/moduels/&lt;kernel-verion&gt;/kernel</code>. Make the directory just like it used to be, but with new modules. I did that this way:</p>
-<pre><code>cp -R &lt;directorys' names&gt; /lib/modules/&lt;kernel-<span class="property">version</span>&gt;/kernel/
-find <span class="keyword">not</span> -<span class="property">name</span> <span class="string">"*.ko"</span> -exec rm {} \;
-</code></pre><p>Reboot. That’s it!</p>
-<p>BACK UP YOUR DATA BEFORE ACTION.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-      
-
       
       <div class="clearfix"></div>
     </div>

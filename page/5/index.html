@@ -210,6 +210,75 @@ var _hmt = _hmt || [];
 </nav>
       <div class="body-wrap">
   
+    <article id="post-update-kernel-image-and-modules-for-cubian" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/08/25/update-kernel-image-and-modules-for-cubian/" class="article-date">
+  	<time datetime="2014-08-25T10:40:39.000Z" itemprop="datePublished">2014-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/25/update-kernel-image-and-modules-for-cubian/">Update kernel image and modules for Cubian</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<h1 id="Update_kernel_image_and_modules_for_Cubian">Update kernel image and modules for Cubian</h1><p>You have a lot of reason to replace the kernel, if you are reading this article.</p>
+<p>First, you should setup building environment. FYI, check this if you are going to employ cross compilation.</p>
+<p>Compile the kernel and modules using:</p>
+<pre><code><span class="built_in">make</span> uImage
+<span class="built_in">make</span> modules
+<span class="built_in">make</span> install
+<span class="built_in">make</span> modules_install
+</code></pre><p>However, the later two command won’t work well on Cubian/cubieboard. We should do something ourself. That’s not very difficult.</p>
+<p>First, replace <code>/boot/uImage</code> with the new.</p>
+<p>Then copy ‘*.ko’ files into <code>/lib/moduels/&lt;kernel-verion&gt;/kernel</code>. Make the directory just like it used to be, but with new modules. I did that this way:</p>
+<pre><code>cp -R &lt;directorys' names&gt; /lib/modules/&lt;kernel-<span class="property">version</span>&gt;/kernel/
+find <span class="keyword">not</span> -<span class="property">name</span> <span class="string">"*.ko"</span> -exec rm {} \;
+</code></pre><p>Reboot. That’s it!</p>
+<p>BACK UP YOUR DATA BEFORE ACTION.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-road-map" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -796,64 +865,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2014/04/20/read-something-you-dont-know-with-3-threads/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-learn-from-bozhao" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/04/17/learn-from-bozhao/" class="article-date">
-  	<time datetime="2014-04-17T07:23:33.000Z" itemprop="datePublished">2014-04-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/04/17/learn-from-bozhao/">赵波的启发</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很高兴能好好说说我的这位中国合伙人，好朋友．</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/04/17/learn-from-bozhao/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
