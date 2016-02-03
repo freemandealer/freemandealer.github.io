@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-11-27T10:42:42.000Z</updated>
+  <updated>2016-02-03T14:54:39.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[内核之于我]]></title>
+    <link href="http://yoursite.com/2016/02/02/kernel-to-me/"/>
+    <id>http://yoursite.com/2016/02/02/kernel-to-me/</id>
+    <published>2016-02-02T14:29:20.000Z</published>
+    <updated>2016-02-03T14:54:39.000Z</updated>
+    <content type="html"><![CDATA[<p>今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？</p>
+<a id="more"></a>
+<p>这个突然出现的深度学习课题，一旦参与，很大可能研究生未来的日子里都是跟它一起过日子了。进行了三年的内核研究似乎不得不停止，摆弄操作系统沦为不务正业。回想大二下学期稚气的我偶遇稚气的《30天自制操作系统》，想想大三冬夜熄灯后坐在楼道里啃《一个操作系统的实现》，想想每逢寒假暑假在金陵图书馆死磕内核代码，想想那本走到哪带到哪的大部头《深入理解Linux内核》…… 有时侯室友张刚都评价我的做事方式：你都把操作系统的思想带入生活了。真是分手时才想起她的好！</p>
+<p>煽情部分到此结束，我们下面来看看内核的经历到底给予了我什么（喂～）</p>
+<p>当然首先是钱途！在刚上大学时，就和一位名校毕业的在职驱动工程师交流过。驱动也是内核编程的一种。真的不能小看前辈（好吧，其实是名校毕业生）话语的力量，我的很多选择追根溯源也许就是受这次简单交流的影响。他让我感觉内核编程是复杂的，如果我能搞定这个，其它的编程不是问题。另外就是驱动程序猿的工资会高出很多。反正搞内核就是很高端的样子，不管是想证明自己，还是为了虚荣心，我渐渐不屑曾经执着过的酷炫前端和手机应用开发。</p>
+<p>不过坑爹的是，后来他告诉我，国内的驱动开发其实也是写事务性的代码，重复度很高，工资也并不乐观。而我现在也混进名校了好嘛！除了做驱动开发，那就是真正的内核开发了。具体内核开发是什么，这正是我<strong>正在</strong>探索的。</p>
+<p>除此之外，内核还给予了我什么？满足好奇！是一个十分有重量的理由。我很好奇计算机系统（广义的系统，包含硬件和软件）的如何工作，为什么这样设计。内核是软硬件的交界面，是理解整个计算机系统的切入点。况且，内核的学习资源很丰富，有很多著名书籍讨论其理论，又有像Linux内核开放源代码。这些来之不易的资源让我们相信：只要愿意下功夫，内核毫无秘密。</p>
+<p>遗憾的是，随着我对内核的理解，这股好奇的力量逐渐减弱，这时内核之于我的其它意义凸显出来：内核赋予了我把握复杂软件系统的能力。Linux是开源的，是伟大的。Robert Love说：“请不要认为这理所应当。”而我还要加上一句：“请不要认为有了代码就没有了秘密。”沉浸在上亿行代码中，可不是一种愉悦的感受，而是分分钟溺亡的窒息感。当学会了拆分系统，学会了观察目录组织，学会了猜测函数功能，培养了寻找主干的嗅觉，培养了抽丝拨茧的侦探精神等等一系列特意功能后(好吧，其实只是耐心被逼出新境界了），再看各种大型工程，不会觉得心里烦躁了。</p>
+<p>内核编程本身就是一项实用技术。很多应用层编程完成不了的功能，放到内核层实现就能成为可能并且会很自然很优雅。计算机网络课程大作业，我也看到很多小组不约而同地使用了netfilter框架，这也是内核级的编程。从这点来看，内核编程和和IOS开发一样，都是在一定平台下，实现了一些功能。不过内核编程的平台直接是硬件，在这个混沌的世界编程更加复杂。有了内核基础的我面对这些任务当然是毫不畏惧，相反，游刃有余。</p>
+<p>Linux作为世界上最大开源项目，应该是没有之一的。作为内核开发轻度参与者，或多或少也受大胡子理念熏陶，学着用起来Git和GPL神器，和大牛们发起了邮件，感受到了“社区的力量”。</p>
+<p>研究内核训练了我解决问题的能力。还记得大三做内核相关的项目，及其艰深，学校老师没有人懂，身边也没有经验的同学，完全就是一个人在那看时光荏苒思前想后。然而结果证明这个孤立无援的环境成为了我的成长的茂盛丛林。从开始学习，尝试读不同的书，最后理清书本间的关系找到一条斜率适度的学习曲线。从项目思路到设计到编码到debug，凡事出现问题，都是一个人使出浑身解数，丧心病狂。值得一提的是最终我结识了散落在各地的小伙伴、找到了组织(找到组织本身就是一个人死磕出的结果呀！)，又开始学习通过交流和他人的经验解决问题。想想内核debug的悲惨遭遇，还有什么算问题呢？</p>
+<p>说到这里，让我们回到开头时的困惑：选择参与了实验室项目，很可能就得放弃内核。实验室课题、就业和个人兴趣这个三角很难被平衡。有人就说了：干嘛平衡？搞得像以后工作内容和你现在弄的东西相关似的。听完我虎躯一震：潇洒！</p>
+<p>上次同样的一震还是谢高岗老师的复习课上，我们满心期待划重点，结果PPT上画着一个扫地僧，伴有旁白：手中无剑心中有剑，无剑亦为有剑。如果一个人把自己学到的具体知识忘光，那么剩下的就是理解和能力。如果我以后没有和内核走在一起，忘记了她，那么剩下的，就是文章中的这些沉淀吧。</p>
+<p><img src="http://i13.tietuku.com/8acb1f0185975269.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？</p>]]>
+    
+    </summary>
+    
+      <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[科学的杜鹃蛋 —— 自然辩证法课堂演讲]]></title>
@@ -1099,91 +1129,6 @@ starttls required
 ]]></content>
     <summary type="html">
     <![CDATA[<p><strong>1 确认补丁基点</strong><br>在制作补丁前，确认基点，并提交一次补丁前的状态。</p>]]>
-    
-    </summary>
-    
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Linux热插拔机制的介绍和应用]]></title>
-    <link href="http://yoursite.com/2015/05/24/hotplug/"/>
-    <id>http://yoursite.com/2015/05/24/hotplug/</id>
-    <published>2015-05-24T12:47:33.000Z</published>
-    <updated>2015-10-04T14:34:49.000Z</updated>
-    <content type="html"><![CDATA[<p>热插拔即带电插拔，热插拔功能就是允许用户在不关闭系统，不切断电源的情况下取出和更换损坏的硬盘、电源或板卡等部件。Linux内核支持热插拔的部件有USB设备、PCI设备甚至CPU。Linux的热插拔支持是一个连接底层硬件、内核空间和用户空间程序的机制，且一直在变化，故立文讨论之。</p>
-<a id="more"></a>
-<h2 id="三种热插拔机制">三种热插拔机制</h2><h3 id="PCMCIA">PCMCIA</h3><p>1995年，Linux就实现了一种PCMCIA机制[1]——在硬件接入到计算机上时自动加载驱动程序。为了使用PCMCIA，我们需要准备一份配置文件，告诉内核插入什么卡时加载什么驱动。由于这种方式不够动态，David Brownell 提出交了一次patch，这就是<code>/sbin/hotplug</code>。</p>
-<h3 id="/sbin/hotplug">/sbin/hotplug</h3><h4 id="为什么hotplug能工作">为什么hotplug能工作</h4><p>/sbin/hotplug之所以能自动化，基于以下三个事实[1]：</p>
-<ul>
-<li><p>硬件本身会告诉计算机自己是做什么的（就算没有，它也会告诉内核自己的生厂商代码和独一无二的产品代码）</p>
-</li>
-<li><p>驱动程序清楚自己是驱动哪一类设备的</p>
-</li>
-<li><p>内核通过总线底层代码清楚什么时间什么样的设备被接入或移出计算机</p>
-</li>
-</ul>
-<h4 id="/sbin/hotplug工作原理">/sbin/hotplug工作原理</h4><p><code>/sbin/hotplug</code>的本质是一个脚本。脚本中解析相关参数并调用<code>modprobe</code>和<code>rmmod</code>完成加载和卸载操作。但是，<code>/sbin/hotplug</code>本身是被谁调用的呢？谁给传的参数呢？</p>
-<p>设备驱动程序一般不会和这些太底层的kobject/kset家伙打交道，因为更高层次的device,bus和driver把kobject/kset那一层的细节实现都给封装了起来。以device_add为起点，uevent事件被这样产生和传递[2]：</p>
-<pre><code>device_add
-=&gt;    kobject_uevent(&amp;dev-&gt;kobj, KOBJ_ADD)
-    =&gt;    <span class="comment">/* send netlink message */</span>
-        ... 
-        <span class="comment">/* 准备参数 */</span>
-        argv [<span class="number">0</span>] = uevent_helper;  
-        argv [<span class="number">1</span>] = (<span class="keyword">char</span> *)subsystem;
-        argv [<span class="number">2</span>] = <span class="literal">NULL</span>;
-        ...
-        <span class="comment">/* 内核空间调用用户空间的程序 */</span>
-        call_usermodehelper(argv[<span class="number">0</span>], argv,env-&gt;envp, UMH_WAIT_EXEC);
-        ...
-</code></pre><p>下面看看uevent_helper[0]来自何处：</p>
-<pre><code>char uevent_helper<span class="string">[UEVENT_HELPER_PATH_LEN]</span> = CONFIG_UEVENT_HELPER_PATH;
-</code></pre><p><code>CONFIG_UEVENT_HELPER_PATH</code>其实是空值。可以通过向sysfs接口<code>/sys/kernel/uevent_helper</code>写入应用空间程序路径。</p>
-<h3 id="udev">udev</h3><p>在udev刚开始流行的时候，有一个过渡期。在这个时期，<code>/sbin/hotplug</code>和udev同时存在。<code>/sbin/hotplug</code>接收到内核的热插拔事件后会执行一系列脚本，其中一个脚本执行了<code>/sbin/udevsend</code>，从而让udev的守护进程知悉这一事件[3]。不过现在，有些发行版中<code>/sbin/</code>目录已经不存在hotplug和udevsend了。热插拔事件通过netlink由udevd直接接收并全权负责。通过下面这条命令可以查看系统中传递给udevd的热插拔事件：</p>
-<pre><code><span class="title">udevadm</span> monitor
-</code></pre><h2 id="利用热插拔机制实现模块自动加载">利用热插拔机制实现模块自动加载</h2><h3 id="开机自动加载">开机自动加载</h3><p>将模块.ko文件复制到<code>/lib/modules/</code>uname -r<code>/kernel/modulename.ko</code> 目录并更新 <code>/etc/modules</code>文件即可实现booting阶段自动加载模块。(这是作弊，没有用到热插拔T~T)</p>
-<h3 id="udev实现自动加载">udev实现自动加载</h3><p>udev的规则文件放在<code>/lib/udev/rules.d</code>和<code>/etc/udev/rules.d</code>两个目录中，后者的优先权较高：后者目录中的规则文件会覆盖前者中同名文件。下面是一个实际例子：</p>
-<p>为udev键盘规则文件60-keyboard.rules开头增加：</p>
-<pre><code>ACTION==<span class="string">"add"</span>, <span class="built_in">RUN</span>+=<span class="string">"/lib/udev/hello.sh"</span>
-ACTION==<span class="string">"remove"</span>, <span class="built_in">RUN</span>+=<span class="string">"/lib/udev/bye.sh"</span>
-</code></pre><p>/lib/udev/hello.sh：</p>
-<pre><code><span class="shebang">#!/bin/bash</span>
-sudo -H insmod &lt;路径&gt;/hello.ko
-</code></pre><p>/lib/udev/bye.sh：</p>
-<pre><code><span class="shebang">#!/bin/bash</span>
-sudo -H rmmod hello
-</code></pre><p>这样插拔USB键盘时就能加载模块。</p>
-<h3 id="MODULE_DEVICE_TABLE实现自动加载">MODULE_DEVICE_TABLE实现自动加载</h3><p>使用udev规则需要修改和创建很多文件。能不能单纯地在模块的源代码级实现自动加载？答案是可以的。</p>
-<p>首先使用<code>MODULE_DEVICE_TABLE</code>宏注册模块。接着编译模块并将编译后产生的.ko文件拷贝至<code>/lib/modules/ ｀uname -r｀/</code>目录下。然后使用<code>sudo depmod -a</code>命令将新的模块信息加入<code>/lib/modules/ ｀uname -r｀/</code>目录下的modules.alias和modules.dep文件中。</p>
-<pre><code><span class="preprocessor">#<span class="keyword">define</span> USB_KEYBOARD_VENDOR_ID <span class="number">0x093a</span></span>
-<span class="preprocessor">#<span class="keyword">define</span> USB_KEYBOARD_PRODUCT_ID <span class="number">0x2510</span></span>
-
-<span class="keyword">static</span> <span class="keyword">struct</span> usb_device_id usb_kbd_id_table[] = {
-    { USB_DEVICE(USB_KEYBOARD_VENDOR_ID, USB_KEYBOARD_PRODUCT_ID) },
-    { }
-};
-
-MODULE_DEVICE_TABLE(usb, usb_kbd_id_table);
-</code></pre><p>上面的代码是实现一块键盘连接上计算机后自动加载模块这个功能所需在模块中添加的部分。VENDOR_ID和PRODUCT_ID每个键盘是不一样的，可以把键盘连接在计算机后，使用<code>lsusb</code>命令确定键盘的这两个值。如果你需要对每个 USB 设备都响应而不是特定的VENDOR_ID和PRODUCT_ID值, 那么需要创建一个只设置这个 driver_info 成员的入口项[4]:</p>
-<pre><code>static <span class="class"><span class="keyword">struct</span> <span class="title">usb_device_id</span> usb_ids[] = </span>{
-    {.driver_info = <span class="number">42</span>},
-    {} 
-};
-</code></pre><p>如果只想对所有的USB键盘做响应，那么是这样的：</p>
-<pre><code>static <span class="class"><span class="keyword">struct</span> <span class="title">usb_device_id</span> usb_kbd_id_table[] = </span>{
-    { USB_INTERFACE_INFO(USB_INTERFACE_CLASS_HID,
-            USB_INTERFACE_SUBCLASS_BOOT,
-            USB_INTERFACE_PROTOCOL_KEYBOARD) },
-    { }
-};
-MODULE_DEVICE_TABLE(usb, usb_kbd_id_table);
-</code></pre><p>看到诀窍了吗？</p>
-<h2 id="参考文献">参考文献</h2><p>[1] <a href="http://www.linux-mag.com/id/2617/" target="_blank" rel="external">Hot Plug</a><br>[2] <a href="http://blog.csdn.net/bingqingsuimeng/article/details/7924300" target="_blank" rel="external">linux下热插拔事件的产生是怎样通知到用户空间</a><br>[3] <a href="http://www.linuxjournal.com/node/5604/print" target="_blank" rel="external">The Linux Device Model</a><br>[4] 《Linux设备驱动程序(第三版)》第13章 USB 驱动</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>热插拔即带电插拔，热插拔功能就是允许用户在不关闭系统，不切断电源的情况下取出和更换损坏的硬盘、电源或板卡等部件。Linux内核支持热插拔的部件有USB设备、PCI设备甚至CPU。Linux的热插拔支持是一个连接底层硬件、内核空间和用户空间程序的机制，且一直在变化，故立文讨论之。</p>]]>
     
     </summary>
     

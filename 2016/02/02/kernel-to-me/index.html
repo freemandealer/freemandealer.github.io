@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>内核之于我 | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内核之于我">
+<meta property="og:url" content="http://yoursite.com/2016/02/02/kernel-to-me/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？">
+<meta property="og:image" content="http://i13.tietuku.com/8acb1f0185975269.jpg">
+<meta property="og:updated_time" content="2016-02-03T14:54:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内核之于我">
+<meta name="twitter:description" content="今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://i13.tietuku.com/0327825fab1d6f62.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 13.33px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://i13.tietuku.com/0327825fab1d6f62.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-kernel-to-me" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/02/02/kernel-to-me/" class="article-date">
+  	<time datetime="2016-02-02T14:29:20.000Z" itemprop="datePublished">2016-02-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      内核之于我
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/">Life</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？</p>
+<a id="more"></a>
+<p>这个突然出现的深度学习课题，一旦参与，很大可能研究生未来的日子里都是跟它一起过日子了。进行了三年的内核研究似乎不得不停止，摆弄操作系统沦为不务正业。回想大二下学期稚气的我偶遇稚气的《30天自制操作系统》，想想大三冬夜熄灯后坐在楼道里啃《一个操作系统的实现》，想想每逢寒假暑假在金陵图书馆死磕内核代码，想想那本走到哪带到哪的大部头《深入理解Linux内核》…… 有时侯室友张刚都评价我的做事方式：你都把操作系统的思想带入生活了。真是分手时才想起她的好！</p>
+<p>煽情部分到此结束，我们下面来看看内核的经历到底给予了我什么（喂～）</p>
+<p>当然首先是钱途！在刚上大学时，就和一位名校毕业的在职驱动工程师交流过。驱动也是内核编程的一种。真的不能小看前辈（好吧，其实是名校毕业生）话语的力量，我的很多选择追根溯源也许就是受这次简单交流的影响。他让我感觉内核编程是复杂的，如果我能搞定这个，其它的编程不是问题。另外就是驱动程序猿的工资会高出很多。反正搞内核就是很高端的样子，不管是想证明自己，还是为了虚荣心，我渐渐不屑曾经执着过的酷炫前端和手机应用开发。</p>
+<p>不过坑爹的是，后来他告诉我，国内的驱动开发其实也是写事务性的代码，重复度很高，工资也并不乐观。而我现在也混进名校了好嘛！除了做驱动开发，那就是真正的内核开发了。具体内核开发是什么，这正是我<strong>正在</strong>探索的。</p>
+<p>除此之外，内核还给予了我什么？满足好奇！是一个十分有重量的理由。我很好奇计算机系统（广义的系统，包含硬件和软件）的如何工作，为什么这样设计。内核是软硬件的交界面，是理解整个计算机系统的切入点。况且，内核的学习资源很丰富，有很多著名书籍讨论其理论，又有像Linux内核开放源代码。这些来之不易的资源让我们相信：只要愿意下功夫，内核毫无秘密。</p>
+<p>遗憾的是，随着我对内核的理解，这股好奇的力量逐渐减弱，这时内核之于我的其它意义凸显出来：内核赋予了我把握复杂软件系统的能力。Linux是开源的，是伟大的。Robert Love说：“请不要认为这理所应当。”而我还要加上一句：“请不要认为有了代码就没有了秘密。”沉浸在上亿行代码中，可不是一种愉悦的感受，而是分分钟溺亡的窒息感。当学会了拆分系统，学会了观察目录组织，学会了猜测函数功能，培养了寻找主干的嗅觉，培养了抽丝拨茧的侦探精神等等一系列特意功能后(好吧，其实只是耐心被逼出新境界了），再看各种大型工程，不会觉得心里烦躁了。</p>
+<p>内核编程本身就是一项实用技术。很多应用层编程完成不了的功能，放到内核层实现就能成为可能并且会很自然很优雅。计算机网络课程大作业，我也看到很多小组不约而同地使用了netfilter框架，这也是内核级的编程。从这点来看，内核编程和和IOS开发一样，都是在一定平台下，实现了一些功能。不过内核编程的平台直接是硬件，在这个混沌的世界编程更加复杂。有了内核基础的我面对这些任务当然是毫不畏惧，相反，游刃有余。</p>
+<p>Linux作为世界上最大开源项目，应该是没有之一的。作为内核开发轻度参与者，或多或少也受大胡子理念熏陶，学着用起来Git和GPL神器，和大牛们发起了邮件，感受到了“社区的力量”。</p>
+<p>研究内核训练了我解决问题的能力。还记得大三做内核相关的项目，及其艰深，学校老师没有人懂，身边也没有经验的同学，完全就是一个人在那看时光荏苒思前想后。然而结果证明这个孤立无援的环境成为了我的成长的茂盛丛林。从开始学习，尝试读不同的书，最后理清书本间的关系找到一条斜率适度的学习曲线。从项目思路到设计到编码到debug，凡事出现问题，都是一个人使出浑身解数，丧心病狂。值得一提的是最终我结识了散落在各地的小伙伴、找到了组织(找到组织本身就是一个人死磕出的结果呀！)，又开始学习通过交流和他人的经验解决问题。想想内核debug的悲惨遭遇，还有什么算问题呢？</p>
+<p>说到这里，让我们回到开头时的困惑：选择参与了实验室项目，很可能就得放弃内核。实验室课题、就业和个人兴趣这个三角很难被平衡。有人就说了：干嘛平衡？搞得像以后工作内容和你现在弄的东西相关似的。听完我虎躯一震：潇洒！</p>
+<p>上次同样的一震还是谢高岗老师的复习课上，我们满心期待划重点，结果PPT上画着一个扫地僧，伴有旁白：手中无剑心中有剑，无剑亦为有剑。如果一个人把自己学到的具体知识忘光，那么剩下的就是理解和能力。如果我以后没有和内核走在一起，忘记了她，那么剩下的，就是文章中的这些沉淀吧。</p>
+<p><img src="http://i13.tietuku.com/8acb1f0185975269.jpg" alt=""></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/11/27/the-eggs-of-science/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">科学的杜鹃蛋 —— 自然辩证法课堂演讲</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
