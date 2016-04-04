@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-04T10:45:03.000Z</updated>
+  <updated>2016-04-04T10:51:26.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,10 +19,11 @@
     <link href="http://yoursite.com/2016/04/04/remote-control/"/>
     <id>http://yoursite.com/2016/04/04/remote-control/</id>
     <published>2016-04-04T09:41:09.000Z</published>
-    <updated>2016-04-04T10:45:03.000Z</updated>
-    <content type="html"><![CDATA[<p>这是我一直的梦想，在哪里都能用上电脑！</p>
+    <updated>2016-04-04T10:51:26.000Z</updated>
+    <content type="html"><![CDATA[<p>三天假期出去浪，妈妈问我的代码是在哪里写的？</p>
+<p><img src="/img/remote-control-wild.jpg" alt=""></p>
 <a id="more"></a>
-<p>当然绝不是指购买十台八台电脑放在生活圈的各个角落，而是指随时随地访问宿舍里的电脑。</p>
+<p>这是我一直的梦想，在哪里都能用上电脑！当然绝不是指购买十台八台电脑放在生活圈的各个角落，而是指随时随地访问宿舍里的电脑。</p>
 <h2 id="解决方案">解决方案</h2><p>问题就出在宿舍里的Dell处在内网，除了在一个子网的机器，别的任何机器都没法连接上它。</p>
 <p><img src="/img/remote-control-false.jpg" alt=""></p>
 <p>解决的方法就是在互联网上找一台大家都能访问的机器做中转，把对宿舍电脑的操作命令先传递到中转机器上，然后由它发送到宿舍电脑上执行。这个中转的一种实现就是ssh的端口转发。这可不是一个新鲜的玩意儿。</p>
@@ -46,7 +47,9 @@
 <li><a href="http://www.digital-loggers.com/lpc.html" target="_blank" rel="external">http://www.digital-loggers.com/lpc.html</a></li>
 </ul>
 <p>上面这些都是远程电源控制的解决方案，涉及到各种硬件设备。作为我，为了节约成本，我会时常想起那句话：</p>
+<blockquote>
 <p>幸福来源于对已有物品的满足。</p>
+</blockquote>
 <p>我有啥？一块cubieboard（一款卡片电脑，和树莓派是一类），我已经打它主意很久了。cubieboard功耗极低，待机一个月才一度电。我想用cubieboard一直处于在线状态，通过连接它去启动功耗较大的Dell。于是整个系统就成这样子了：</p>
 <p><img src="/img/remote-control-power.jpg" alt=""></p>
 <p>那么cubieboard怎么去启动Dell呢？远程关机谁都会，问题出在把一台关着的电脑打开。想想半夜你床头的笔记本突然自己启动了……</p>
@@ -58,17 +61,15 @@
 <pre><code>wakeonlan <span class="tag">&lt;<span class="title">target-MAC</span>&gt;</span>
 </code></pre><p>好了，集齐了硬件、软件，剩下的就是把cubieboard也用第一部分介绍的方法暴露在因特网上，我们先连接它，让它唤醒Dell，接着再连接唤醒后的Dell。我打算再写一些脚本自动化一些过程，写一段<a href="http://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html" target="_blank" rel="external">SystemV服务脚本</a>开机启动……</p>
 <p>但是我得停一下！写代码之前搜一遍Github是个好喜欢。运气不错，找到一款:Remote Wake/Sleep on LAN Server。它用web界面封装了wakeonlan和ping工具，可以实现唤醒和休眠(休眠只对windows机器有用)和机器状态查询，功能简洁干净！<a href="https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server/wiki/Installation" target="_blank" rel="external">使用说明点这里</a></p>
-<p><img src="/img/remote-control-power-app1.jpg" alt=""></p>
-<p><img src="/img/remote-control-power-app2.jpg" alt=""></p>
+<p><img src="/img/remote-control-power-app1.jpg" alt="">  <img src="/img/remote-control-power-app2.jpg" alt=""></p>
 <h2 id="等一下，你这个有点折腾！">等一下，你这个有点折腾！</h2><p>简短的回答：因为我能！</p>
 <p>其实实现移动办公有很多很方便、廉价的方法，例如直接使用云主机或者使用teamviewer软件即可。我迂回一大圈的原因很简单：因为我能折腾。除此之外还有一些个人原因：</p>
 <p>公共租赁的云主机可是大大满足了我的需求，除了一点：尽管我可以按喜好配置它使用它，它的所有权不是我的。对于我这种控制欲很强的人来说，我是不会把重要资料和会常久使用的系统部署在一台听别人摆布的机器上的。</p>
 <p>Teamviewer这类软件为我们提供了因特网范围内的远程桌面服务，但图形化的远程操控是卡顿的、耗费流量的。更关键的是，很多情况下远程桌面本身就是冗余的。</p>
-<p>三天假期出去浪，妈妈问我的代码是在哪里写的？</p>
-<p><img src="/img/remote-control-wild.jpg" alt=""></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>这是我一直的梦想，在哪里都能用上电脑！</p>]]>
+    <![CDATA[<p>三天假期出去浪，妈妈问我的代码是在哪里写的？</p>
+<p><img src="/img/remote-control-wild.jpg" alt=""></p>]]>
     
     </summary>
     
