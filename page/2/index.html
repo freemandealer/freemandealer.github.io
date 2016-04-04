@@ -208,6 +208,64 @@ var _hmt = _hmt || [];
 </nav>
       <div class="body-wrap">
   
+    <article id="post-debug-kernel-with-qemu-2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/04/debug-kernel-with-qemu-2/" class="article-date">
+  	<time datetime="2015-10-04T05:37:39.000Z" itemprop="datePublished">2015-10-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/04/debug-kernel-with-qemu-2/">用QEMU来调试内核 -- 亲身体验篇</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文记录了用QEMU构建最小Linux系统并进行调试的过程。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/10/04/debug-kernel-with-qemu-2/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-the-wild-great-wall" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -731,64 +789,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2015/07/15/reading/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-context-switch" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/07/14/context-switch/" class="article-date">
-  	<time datetime="2015-07-14T12:14:18.000Z" itemprop="datePublished">2015-07-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/14/context-switch/">上下文切换时堆栈的切换</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="上下文切换">上下文切换</h2><p>一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用<code>INT</code>指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/07/14/context-switch/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
