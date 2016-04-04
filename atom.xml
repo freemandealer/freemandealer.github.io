@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-04T10:51:26.000Z</updated>
+  <updated>2016-04-04T11:01:35.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2016/04/04/remote-control/"/>
     <id>http://yoursite.com/2016/04/04/remote-control/</id>
     <published>2016-04-04T09:41:09.000Z</published>
-    <updated>2016-04-04T10:51:26.000Z</updated>
+    <updated>2016-04-04T11:01:35.000Z</updated>
     <content type="html"><![CDATA[<p>三天假期出去浪，妈妈问我的代码是在哪里写的？</p>
 <p><img src="/img/remote-control-wild.jpg" alt=""></p>
 <a id="more"></a>
@@ -59,9 +59,12 @@
 <pre><code>apt-<span class="keyword">get</span> install wakeonlan
 </code></pre><p>使用</p>
 <pre><code>wakeonlan <span class="tag">&lt;<span class="title">target-MAC</span>&gt;</span>
-</code></pre><p>好了，集齐了硬件、软件，剩下的就是把cubieboard也用第一部分介绍的方法暴露在因特网上，我们先连接它，让它唤醒Dell，接着再连接唤醒后的Dell。我打算再写一些脚本自动化一些过程，写一段<a href="http://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html" target="_blank" rel="external">SystemV服务脚本</a>开机启动……</p>
+</code></pre><p>哟嗬！电脑突然亮了，吓老子一跳！</p>
+<p>好了，集齐了硬件、软件，剩下的就是把cubieboard也用第一部分介绍的方法暴露在因特网上，我们先连接它，让它唤醒Dell，接着再连接唤醒后的Dell。我打算再写一些脚本自动化一些过程，写一段<a href="http://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html" target="_blank" rel="external">SystemV服务脚本</a>开机启动……</p>
 <p>但是我得停一下！写代码之前搜一遍Github是个好喜欢。运气不错，找到一款:Remote Wake/Sleep on LAN Server。它用web界面封装了wakeonlan和ping工具，可以实现唤醒和休眠(休眠只对windows机器有用)和机器状态查询，功能简洁干净！<a href="https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server/wiki/Installation" target="_blank" rel="external">使用说明点这里</a></p>
-<p><img src="/img/remote-control-power-app1.jpg" alt="">  <img src="/img/remote-control-power-app2.jpg" alt=""></p>
+<center><br><br><img src="/img/remote-control-power-app1.jpg" alt="">  <img src="/img/remote-control-power-app2.jpg" alt=""><br><br></center>
+
+
 <h2 id="等一下，你这个有点折腾！">等一下，你这个有点折腾！</h2><p>简短的回答：因为我能！</p>
 <p>其实实现移动办公有很多很方便、廉价的方法，例如直接使用云主机或者使用teamviewer软件即可。我迂回一大圈的原因很简单：因为我能折腾。除此之外还有一些个人原因：</p>
 <p>公共租赁的云主机可是大大满足了我的需求，除了一点：尽管我可以按喜好配置它使用它，它的所有权不是我的。对于我这种控制欲很强的人来说，我是不会把重要资料和会常久使用的系统部署在一台听别人摆布的机器上的。</p>
