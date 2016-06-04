@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-06-04T11:52:09.000Z</updated>
+  <updated>2016-06-04T11:56:46.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -18,9 +18,21 @@
     <title><![CDATA[设备驱动 in a nutshell]]></title>
     <link href="http://yoursite.com/2016/06/04/device-driver-in-a-nutshell/"/>
     <id>http://yoursite.com/2016/06/04/device-driver-in-a-nutshell/</id>
-    <published>2016-06-04T11:47:55.000Z</published>
-    <updated>2016-06-04T11:52:09.000Z</updated>
-    <content type="html"><![CDATA[<center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center><br><a id="more"></a><br><br>## “一切皆文件”<br><br>熟悉unix的人都知道有这么一种思想：一切皆文件。设备也被抽象成文件，并有个专有名称叫“设备文件”。计算机设备种类数也数不清，每个设备都需要在操作系统中定义自己的接口，这样整个系统就混乱的不成样子了：<br><br>“我是硬盘，我能接收指令，也能发送数据，给我留两个系统调用hard_disk_cmd和hard_disk_data”<br>“我是串口，我能发送和接收数据，也给我留两个serial_send和serial_recv”<br>“我是一个灯泡，我能接受亮度调整的指令，给我留个light_adjust”<br>“我是个咖啡机，我能接受命令make_coffee，你可以使用ready_coffee查询咖啡是不是做好了”<br>……<br><br>人们想到将设备的差异封装在底层，向上层提供一个统一的接口。什么接口比较好使呢？文件系统！文件系统提供的操作十分丰富，文件读和写和IO设备的输入输出刚好对应，一些非IO的控制类操作，文件系统也提供ioctl操作与之对应。特别是linux系统提供的VFS(Virtual File System,虚拟文件系统)这一抽象，使得一切皆文件的实现更加优雅。<br><br>“嘿硬盘，当用户朝你对应的设备文件写数据的时候，你就自己把这些数据写到你的介质上吧”<br>“嘿串口，你也是，当用户朝你对应的设备文件读／写数据的时候，你也自己把缓冲里的内容递给系统／发出去”<br>“灯泡，如果用户往你对应的设备文件里写了一个值，你就自己根据这个值调整亮度吧”<br>“咖啡机，如果你看见我在你对应的设备文件里写了一个make，那你就开始做咖啡吧。做好了把文件内容改成ready。”<br><br>linux的这个框架似乎非常完美！用户不用知道设备的详细信息，就可以为所欲为地操作自己的设备。因为在用户看来，所有插在计算机上的设备都是桌面上的一个文件。可以用记事本打开查看里面的值以获取设备目前的状态。也可以往文件里写点东西，就能改变设备的状态。对设备的编程也很容易，比如我们写一个定时煮咖啡的程序（假设咖啡机的设备文件为/dev/coffee_maker）：<br><br>     #!/bin/bash<br>    sleep(3600);<br>    echo “make” &gt; coffee_maker<br><br>好了，我们编写了一个三行的咖啡机程序，它会在一个小时以后自动煮咖啡。感受到设备文件使用的方便了吗？当我们往咖啡机的设备文件coffee_maker里写”make”的时候，实际是调用了系统调用sys_write，sys_write当时是蒙圈的，它不知道自己写的文件是个咖啡机。还好sys_write不负责主要的事情，它只是跑到内核里求助VFS。VFS知道coffee_maker这个文件的底细——它不是一个普通文件，而是一个设备文件。这时，VFS就执行专属于这台咖啡机的动作——煮咖啡！那么问题来了，VFS怎么知道如何煮咖啡？<br><br><br>## 驱动的本质：一系列的回调函数<br><br><center><br><img src="/img/device_driver_hierarchy.png" alt=""><br></center>
+    <published>2016-06-04T11:55:55.000Z</published>
+    <updated>2016-06-04T11:56:46.000Z</updated>
+    <content type="html"><![CDATA[<center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center>
+
+<a id="more"></a>
+<h2 id="“一切皆文件”">“一切皆文件”</h2><p>熟悉unix的人都知道有这么一种思想：一切皆文件。设备也被抽象成文件，并有个专有名称叫“设备文件”。计算机设备种类数也数不清，每个设备都需要在操作系统中定义自己的接口，这样整个系统就混乱的不成样子了：</p>
+<p>“我是硬盘，我能接收指令，也能发送数据，给我留两个系统调用hard_disk_cmd和hard_disk_data”<br>“我是串口，我能发送和接收数据，也给我留两个serial_send和serial_recv”<br>“我是一个灯泡，我能接受亮度调整的指令，给我留个light_adjust”<br>“我是个咖啡机，我能接受命令make_coffee，你可以使用ready_coffee查询咖啡是不是做好了”<br>……</p>
+<p>人们想到将设备的差异封装在底层，向上层提供一个统一的接口。什么接口比较好使呢？文件系统！文件系统提供的操作十分丰富，文件读和写和IO设备的输入输出刚好对应，一些非IO的控制类操作，文件系统也提供ioctl操作与之对应。特别是linux系统提供的VFS(Virtual File System,虚拟文件系统)这一抽象，使得一切皆文件的实现更加优雅。</p>
+<p>“嘿硬盘，当用户朝你对应的设备文件写数据的时候，你就自己把这些数据写到你的介质上吧”<br>“嘿串口，你也是，当用户朝你对应的设备文件读／写数据的时候，你也自己把缓冲里的内容递给系统／发出去”<br>“灯泡，如果用户往你对应的设备文件里写了一个值，你就自己根据这个值调整亮度吧”<br>“咖啡机，如果你看见我在你对应的设备文件里写了一个make，那你就开始做咖啡吧。做好了把文件内容改成ready。”</p>
+<p>linux的这个框架似乎非常完美！用户不用知道设备的详细信息，就可以为所欲为地操作自己的设备。因为在用户看来，所有插在计算机上的设备都是桌面上的一个文件。可以用记事本打开查看里面的值以获取设备目前的状态。也可以往文件里写点东西，就能改变设备的状态。对设备的编程也很容易，比如我们写一个定时煮咖啡的程序（假设咖啡机的设备文件为/dev/coffee_maker）：</p>
+<pre><code> #!/bin/bash
+<span class="keyword">sleep</span>(<span class="number">3600</span>);
+<span class="keyword">echo</span> “<span class="keyword">make</span>” &gt; coffee_maker
+</code></pre><p>好了，我们编写了一个三行的咖啡机程序，它会在一个小时以后自动煮咖啡。感受到设备文件使用的方便了吗？当我们往咖啡机的设备文件coffee_maker里写”make”的时候，实际是调用了系统调用sys_write，sys_write当时是蒙圈的，它不知道自己写的文件是个咖啡机。还好sys_write不负责主要的事情，它只是跑到内核里求助VFS。VFS知道coffee_maker这个文件的底细——它不是一个普通文件，而是一个设备文件。这时，VFS就执行专属于这台咖啡机的动作——煮咖啡！那么问题来了，VFS怎么知道如何煮咖啡？</p>
+<h2 id="驱动的本质：一系列的回调函数">驱动的本质：一系列的回调函数</h2><center><br><img src="/img/device_driver_hierarchy.png" alt=""><br></center>
 
 <p>谁教会VFS煮咖啡的？答案是：驱动程序！我们都有经历，插上一个设备，但计算机似乎不知道怎么使用它。有人提醒我们：“你装驱动了吗？”</p>
 <p>联系上面我们说的驱动程序，我们不难发现驱动的本质：驱动程序就是一系列的回调函数，插在操作系统上，等着VFS不知道拿设备怎么办时调用。</p>
@@ -35,7 +47,7 @@
 </blockquote>
 ]]></content>
     <summary type="html">
-    <![CDATA[<center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center><br>]]>
+    <![CDATA[<center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center>]]>
     
     </summary>
     
