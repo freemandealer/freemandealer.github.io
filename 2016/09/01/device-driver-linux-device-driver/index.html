@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Freeman</title>
+  <title>设备驱动 - Linux Device Driver | Freeman</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Freeman">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="写在前面理解设备device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设备驱动 - Linux Device Driver">
+<meta property="og:url" content="http://yoursite.com/2016/09/01/device-driver-linux-device-driver/index.html">
 <meta property="og:site_name" content="Freeman">
-<meta property="og:description">
+<meta property="og:description" content="写在前面理解设备device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请">
+<meta property="og:image" content="http://yoursite.com/img/device_model_tree_1.png">
+<meta property="og:image" content="http://yoursite.com/img/device_model_tree_2.png">
+<meta property="og:updated_time" content="2016-09-01T05:16:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Freeman">
-<meta name="twitter:description">
+<meta name="twitter:title" content="设备驱动 - Linux Device Driver">
+<meta name="twitter:description" content="写在前面理解设备device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请">
   
     <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
   
@@ -206,9 +209,7 @@ var _hmt = _hmt || [];
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-device-driver-linux-device-driver" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-device-driver-linux-device-driver" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/09/01/device-driver-linux-device-driver/" class="article-date">
@@ -224,12 +225,19 @@ var _hmt = _hmt || [];
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/device-driver-linux-device-driver/">设备驱动 - Linux Device Driver</a>
+    <h1 class="article-title" itemprop="name">
+      设备驱动 - Linux Device Driver
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -315,553 +323,42 @@ platform_driver_register(xxx_drv)
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/06/04/device-driver-in-a-nutshell/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设备驱动 - in a nutshell</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
 
-
-
-
-
-
-  
-    <article id="post-device-driver-in-a-nutshell" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/06/04/device-driver-in-a-nutshell/" class="article-date">
-  	<time datetime="2016-06-04T11:55:55.000Z" itemprop="datePublished">2016-06-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/04/device-driver-in-a-nutshell/">设备驱动 - in a nutshell</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/">Notes</a></li></ul>
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-      
 
-      
-        <p class="article-more-link">
-          <a  href="/2016/06/04/device-driver-in-a-nutshell/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
 
 
 
-
-
-
-
-  
-    <article id="post-open-source-and-enterprise" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/06/03/open-source-and-enterprise/" class="article-date">
-  	<time datetime="2016-06-03T06:46:48.000Z" itemprop="datePublished">2016-06-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/03/open-source-and-enterprise/">开源中的企业</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前接触开源纯粹是没项目做时找乐子以及被免费开放的源代码吸引，出于个人角度。通过近期与开源软件行业较为深入的合作，以及阅读的一些科普小文章，在这里谈谈我对开源和企业的理解。<br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/">Notes</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/06/03/open-source-and-enterprise/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-remote-control" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/04/04/remote-control/" class="article-date">
-  	<time datetime="2016-04-04T09:41:09.000Z" itemprop="datePublished">2016-04-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/04/remote-control/">在任何地方控制宿舍的电脑</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>三天假期出去浪，妈妈问我的代码是在哪里写的？</p>
-<p><img src="/img/remote-control-wild.jpg" alt=""></p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/04/04/remote-control/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-tcp-ip-internal" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/08/tcp-ip-internal/" class="article-date">
-  	<time datetime="2016-03-08T01:45:15.000Z" itemprop="datePublished">2016-03-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/08/tcp-ip-internal/">从socket应用到网卡驱动：Linux网络子系统分析概述</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>socket是互联网的基础，我们所熟知的互联网应用大部分是基于socket及其变种，如：浏览器、即时通信软件等。socket这个术语最早出现在TCP规范RFC793中。后来它也作为伯克利编程接口。它的定义为如下二元组：</p>
-<center><em>socket:=(IP:port)</em></center>
-
-<p>由此，TCP连接可以定义为：</p>
-<center><em>TCP Connection := {socket1, socket2}</em></center>
-
-<p>本文将从socket应用出发，分层深入Linux网络模块内部，去分析内部运行原理。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/">Notes</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/08/tcp-ip-internal/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-reading-comprehension" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/19/reading-comprehension/" class="article-date">
-  	<time datetime="2016-02-19T14:18:10.000Z" itemprop="datePublished">2016-02-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/19/reading-comprehension/">阅读理解：理解不理解当是自己说的算</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>事情是这样的，最近有很多书要读，所以想在寒假里训练一下阅读速度。我认为买一本专门的训练材料还是必要的，那种可以算出我的每分钟阅读字数和理解程度的材料——没错，最后我使用了一本英语考试阅读理解、快速阅读那种形式的书。看到这里有人可能已经觉得我脑残了，可是当时我并不自知。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/02/19/reading-comprehension/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-procrastination" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/04/procrastination/" class="article-date">
-  	<time datetime="2016-02-04T09:30:31.000Z" itemprop="datePublished">2016-02-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/04/procrastination/">拖延症</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><center><br><img src="http://www.hyyxw.net/upload/image/20151110134245t1jo.jpg" alt=""><br></center><br>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/02/04/procrastination/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-kernel-to-me" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/02/kernel-to-me/" class="article-date">
-  	<time datetime="2016-02-02T14:29:20.000Z" itemprop="datePublished">2016-02-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/02/kernel-to-me/">内核之于我</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/">Notes</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/02/02/kernel-to-me/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-the-eggs-of-science" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/11/27/the-eggs-of-science/" class="article-date">
-  	<time datetime="2015-11-27T10:00:10.000Z" itemprop="datePublished">2015-11-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/27/the-eggs-of-science/">科学的杜鹃蛋 —— 自然辩证法课堂演讲</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/11/27/the-eggs-of-science/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-english-speech" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/11/07/english-speech/" class="article-date">
-  	<time datetime="2015-11-07T14:47:32.000Z" itemprop="datePublished">2015-11-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/07/english-speech/">记录一次破冰演讲</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/img/english-speech.jpg" alt=""></p>
-<p>今天英语沙龙，给大家演讲的主题是《Program Your Life》，主要是想让英语角非计算机专业的小伙伴转变“编程很苦逼”的看法——程序员还是可以很性感很萌的。同时告诉他们一些实用的编程技巧对解放生产力、自动化生活体验很有帮助。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/">Life</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/11/07/english-speech/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -885,8 +382,8 @@ platform_driver_register(xxx_drv)
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

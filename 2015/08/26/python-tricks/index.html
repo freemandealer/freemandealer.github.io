@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/08/26/python-tricks/index.html">
 <meta property="og:site_name" content="Freeman">
 <meta property="og:description" content="开一篇博客作为Python备忘录">
-<meta property="og:updated_time" content="2015-10-04T14:38:42.000Z">
+<meta property="og:updated_time" content="2016-07-17T08:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Tricks">
 <meta name="twitter:description" content="开一篇博客作为Python备忘录">
@@ -280,6 +280,30 @@ sudo pip <span class="keyword">install</span> pytesserac</span>
 from PIL import Image
 image = Image.<span class="function"><span class="title">open</span><span class="params">(<span class="string">'vcode.jpg'</span>)</span></span>
 vcode = pytesseract.<span class="function"><span class="title">image_to_string</span><span class="params">(image)</span></span>
+</code></pre><p>预处理去噪：</p>
+<pre><code># import Image
+# import ImageFilter
+img = Image.open(<span class="string">'vdcode_img.png'</span>)
+img = img.convert(<span class="string">'RGB'</span>).<span class="keyword">filter</span>(ImageFilter.GaussianBlur)
+pixdata = img.load()
+
+<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
+     <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
+          <span class="keyword">if</span> pixdata[x,y][<span class="number">0</span>] &gt; <span class="number">220</span>:
+               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
+
+
+<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
+      <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
+          <span class="keyword">if</span> pixdata[x,y][<span class="number">1</span>] &gt; <span class="number">180</span>:
+               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
+
+<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
+     <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
+          <span class="keyword">if</span> pixdata[x,y][<span class="number">2</span>] &gt; <span class="number">220</span>:
+               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
+
+img.show()
 </code></pre>
       
     </div>

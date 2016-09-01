@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>设备驱动 in a nutshell | Freeman</title>
+  <title>设备驱动 - in a nutshell | Freeman</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设备驱动 in a nutshell">
+<meta property="og:title" content="设备驱动 - in a nutshell">
 <meta property="og:url" content="http://yoursite.com/2016/06/04/device-driver-in-a-nutshell/index.html">
 <meta property="og:site_name" content="Freeman">
 <meta property="og:description">
 <meta property="og:image" content="http://yoursite.com/img/device_driver_monkey.jpg">
 <meta property="og:image" content="http://yoursite.com/img/device_driver_hierarchy.png">
-<meta property="og:updated_time" content="2016-06-04T11:56:46.000Z">
+<meta property="og:updated_time" content="2016-09-01T03:30:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设备驱动 in a nutshell">
+<meta name="twitter:title" content="设备驱动 - in a nutshell">
 <meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
@@ -226,7 +226,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      设备驱动 in a nutshell
+      设备驱动 - in a nutshell
     </h1>
   
 
@@ -267,8 +267,8 @@ var _hmt = _hmt || [];
 <p>再说驱动这一边：驱动在安装进系统的时候，会向系统提交一张表，报告自己的工作范围：它能管理哪些硬件。表的内容是啥呢？聪明的你已经想到了，就是驱动能够管理的硬件的生厂商号和设备号。系统把这些表汇总起来，一旦有新硬件插进来，就去查查看看哪个驱动愿意管这个设备。一旦找到了并测试通过，驱动程序就开始初始化。初始化工作最重要的一步，就是创建上文中我们大谈特谈的设备文件。至此，设备文件、驱动、设备至上而下的通道已经贯通了，用户可以为所欲为了！</p>
 <blockquote>
 <h2 id="一点补充">一点补充</h2><h3 id="用户态驱动">用户态驱动</h3><p>硬件资源一般是由操作系统保护起来的，只有在内核态（高特权级状态）下才能被访问，用户态的程序是没有办法直接访问的。驱动程序作为直接控制设备的软件，可想而知是工作在内核态。可是有些同学可能听说过一种叫做“用户态驱动”的东西，这是个啥呢？</p>
-<p>我也没有认真调查过，在这里记下自己的理解：为什么要使用用户态驱动？首先用户态态编程容易呀：编程环境我们都熟悉，又有丰富的库，还可以使用自己喜欢的语言进行编写。另外，据说用户态驱动因为没有用户态－内核态切换的开销，有时候效率会比内核态驱动高一些。</p>
-<p>用户态驱动是怎么实现的呢？对硬件的直接访问一般是不能再用户态进行的（在Intel x86体系下，我曾经听说过有个叫IOPL的标志位，可以控制IO端口是不是可以被用户态程序直接访问）。所以，应该是有一段功能简单的驱动把基本的操作通过设备文件暴露给用户态，然后再在用户态进行编程，扩展它的功能并提供更高层次的功能抽象。用户态驱动最终表现形式是一个软件库，供其它程序调用。而内核态的驱动，往往作为内核的一个模块。</p>
+<p>为什么要使用用户态驱动？首先用户态态编程容易呀：编程环境我们都熟悉，又有丰富的库，还可以使用自己喜欢的语言进行编写。另外，据说用户态驱动因为没有用户态－内核态切换的开销，有时候效率会比内核态驱动高一些。</p>
+<p>用户态驱动是怎么实现的呢？对硬件的直接访问一般是不能再用户态进行的（在Intel x86体系下，我曾经听说过有个叫IOPL的标志位，可以控制IO端口是不是可以被用户态程序直接访问）。所以，应该是有一段功能简单的驱动把基本的操作通过设备文件暴露给用户态，然后再在用户态进行编程，扩展它的功能并提供更高层次的功能抽象。用户态驱动最终表现形式是一个软件库，供其它程序调用，或者是以服务器的形式，与应用程序进行交互，如X server。而内核态的驱动，往往作为内核的一个模块。</p>
 <h3 id="动态加载">动态加载</h3><p>之前的文章<a href="http://freemandealer.github.io/2015/05/24/hotplug/" target="_blank" rel="external">《Linux热插拔机制的介绍和应用》</a></p>
 </blockquote>
 
@@ -279,6 +279,15 @@ var _hmt = _hmt || [];
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/09/01/device-driver-linux-device-driver/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          设备驱动 - Linux Device Driver
+        
+      </div>
+    </a>
   
   
     <a href="/2016/06/03/open-source-and-enterprise/" id="article-nav-older" class="article-nav-link-wrap">
