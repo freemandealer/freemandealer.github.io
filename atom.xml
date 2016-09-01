@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-01T05:16:47.000Z</updated>
+  <updated>2016-09-01T05:18:51.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,8 +19,9 @@
     <link href="http://yoursite.com/2016/09/01/device-driver-linux-device-driver/"/>
     <id>http://yoursite.com/2016/09/01/device-driver-linux-device-driver/</id>
     <published>2016-09-01T03:28:54.000Z</published>
-    <updated>2016-09-01T05:16:47.000Z</updated>
+    <updated>2016-09-01T05:18:51.000Z</updated>
     <content type="html"><![CDATA[<h2 id="写在前面">写在前面</h2><p>理解设备device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请把它当成一个名字而已，不要试图猜测其语义，也最好不要翻译成中文（所以请原谅文中的中英文混杂）。当我们理解了以后再看这些术语，我们就会恍然大悟它们为什么叫这个名字了。</p>
+<a id="more"></a>
 <h2 id="Device_Driver_Model的组成部分">Device Driver Model的组成部分</h2><p>这一节我们介绍Device Driver Model的组件：device、driver、bus和class。为什么要使用这些组件（本质上是数据结构）乃至为什么要使用Device Driver Model？网上有人总结得很精辟：统一了编写设备驱动的格式，使驱动开发从论述题变为填空体，从而简化了设备驱动的开发[1]。</p>
 <h3 id="kobject——骨架">kobject——骨架</h3><p>我阅读的关于Device Driver Model的资料一般都会在一开始介绍kobject，然而并没有告诉我们为什么要了解kobject。对熟悉面向对象编程概念的读者来说，一言以蔽之：kobject是device driver model中所有组件的基类，是模型的骨架，因此非常重要。如果对面向对象的概念不熟悉也不要紧，下面具体介绍为何我们需要kobject。</p>
 <p>Device Driver Model是一种”类树状”的模型——本质上它是一张网，但大体上是树的形态。它把所有组件对象组织成树，然后又用符号链接在树上构建一些新的关系。一个简单的示意图如下：</p>
@@ -99,7 +100,8 @@ platform_driver_register(xxx_drv)
 <p>[2] 在驱动模块初始化函数中实现设备节点的自动创建. <a href="http://blog.csdn.net/zhenwenxian/article/details/5424434" target="_blank" rel="external">http://blog.csdn.net/zhenwenxian/article/details/5424434</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h2 id="写在前面">写在前面</h2><p>理解设备device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么]]>
+    <![CDATA[<h2 id="写在前面">写在前面</h2><p>理解设备device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请把它当成一个名字而已，不要试图猜测其语义，也最好不要翻译成中文（所以请原谅文中的中英文混杂）。当我们理解了以后再看这些术语，我们就会恍然大悟它们为什么叫这个名字了。</p>]]>
+    
     </summary>
     
   </entry>
