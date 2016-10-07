@@ -14,7 +14,7 @@
 <meta property="og:image" content="http://yoursite.com/img/io_memory_mapping.png">
 <meta property="og:image" content="http://yoursite.com/img/save_iomem.png">
 <meta property="og:image" content="http://yoursite.com/img/address_space.png">
-<meta property="og:updated_time" content="2016-10-07T11:05:52.000Z">
+<meta property="og:updated_time" content="2016-10-07T11:12:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux如何操作设备中的存储器？">
 <meta name="twitter:description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
@@ -306,8 +306,8 @@ zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<
 <pre><code><span class="comment">设备局部内存地址空间</span> <span class="literal">-</span><span class="comment">—kernel/BIOS</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">物理地址空间</span> <span class="comment">—</span><span class="literal">-</span><span class="comment">mmap</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">进程虚拟地址空间</span>
 </code></pre><h2 id="参考">参考</h2><p>J. Corbet, A. Rubini, Greg K.H.. Linux Device Driver, 3rd Edition. O’Reilly Media, Inc., 2005. 其中的三章：</p>
 <p>[1] <a href="http://www.oreilly.com/openbook/linuxdrive3/book/ch09.pdf" target="_blank" rel="external">http://www.oreilly.com/openbook/linuxdrive3/book/ch09.pdf</a></p>
-<p>[2] <a href="http://static.lwn.net/images/pdf/LDD3/ch12.pdf" target="_blank" rel="external">http://static.lwn.net/images/pdf/LDD3/ch12.pdf</a></p>
-<p>[3] <a href="http://static.lwn.net/images/pdf/LDD3/ch15.pdf" target="_blank" rel="external">http://static.lwn.net/images/pdf/LDD3/ch15.pdf</a></p>
+<p>[2] <a href="http://www.oreilly.com/openbook/linuxdrive3/book/ch12.pdf" target="_blank" rel="external">http://www.oreilly.com/openbook/linuxdrive3/book/ch12.pdf</a></p>
+<p>[3] <a href="http://www.oreilly.com/openbook/linuxdrive3/book/ch15.pdf" target="_blank" rel="external">http://www.oreilly.com/openbook/linuxdrive3/book/ch15.pdf</a></p>
 <blockquote>
 <p>致谢：感谢刘洪亮、郝天舒两位同学在国庆期间将工位借我让我舒舒服服地写完此文。</p>
 </blockquote>
