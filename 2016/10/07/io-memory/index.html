@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux如何操作设备中的存储器？ | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux如何操作设备中的存储器？">
+<meta property="og:url" content="http://yoursite.com/2016/10/07/io-memory/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
+<meta property="og:image" content="http://yoursite.com/img/io_memory_mapping.png">
+<meta property="og:image" content="http://yoursite.com/img/save_iomem.png">
+<meta property="og:image" content="http://yoursite.com/img/address_space.png">
+<meta property="og:updated_time" content="2016-10-07T11:05:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux如何操作设备中的存储器？">
+<meta name="twitter:description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/Meta/" style="font-size: 17.5px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 12.5px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-io-memory" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/07/io-memory/" class="article-date">
+  	<time datetime="2016-10-07T10:52:35.000Z" itemprop="datePublished">2016-10-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux如何操作设备中的存储器？
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Notes/">Notes</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memory操作方式下，设备中的memory或register被称作I/O memory[1]。那么Linux是如何操作I/O memory的呢？</p>
+<a id="more"></a>
+<p><img src="/img/io_memory_mapping.png" alt=""></p>
+<p>如图所示，这个映射分为两部分。I/O memory首先要从设备视角下的局部内存地址空间映射到物理内存地址空间，主要由硬件完成。因为Linux工作在保护模式下，该模式下的CPU识别的是虚拟地址，物理内存地址并不能被直接使用，因此需要进一步地将物理地址空间映射到虚拟地址空间中去。</p>
+<h2 id="地址空间的概念">地址空间的概念</h2><p>有必要解释“地址空间(address space)”这一概念：地址空间就是能看到的存储器范围。地址空间的大小不由具体存储器的容量决定，而是指CPU或其它控制器能访问到的存储器单元的范围，由电路的“位“来决定。例如32位的CPU的地址空间（不论虚拟的地址空间或是物理的地址空间）通常情况下就是0~4G(2^32)，即使内存只有1G。如果为32位CPU配上8G的内存条，超出了地址空间的4G存储单元就无法被CPU直接访问。</p>
+<p>通过读取/proc/iomem可以查看物理地址空间的映射情况。</p>
+<pre><code><span class="number">00000000</span>-<span class="number">00000f</span>ff : reserved
+<span class="number">00001000</span>-<span class="number">0009</span>d7ff : System RAM
+<span class="number">0009</span>d800-<span class="number">0009f</span>fff : reserved
+<span class="number">000</span>a0000-<span class="number">000</span>bffff : PCI Bus <span class="number">0000</span>:<span class="number">00</span>  &lt;- PCI设备内存
+<span class="number">000</span>c0000-<span class="number">000</span>cefff : Video ROM          &lt;- 显存
+<span class="number">000e0000</span>-<span class="number">000f</span>ffff : reserved
+  <span class="number">000f</span>0000-<span class="number">000f</span>ffff : System ROM       &lt;- BIOS
+<span class="number">00100000</span>-bac8efff : System RAM
+  <span class="number">01000000</span>-<span class="number">0173</span>ebc8 : Kernel code
+  <span class="number">0173</span>ebc9-<span class="number">01</span>d1e9ff : Kernel data
+  <span class="number">01e77000</span>-<span class="number">01f</span>e0fff : Kernel bss
+bac8f000-bacacfff : reserved
+bacad000-bacb8fff : ACPI Non-<span class="keyword">volatile</span> Storage
+......
+</code></pre><p>这个列表把物理地址空间的分布暴露得一丝不挂，以至于让Linus失去了安全感。但是鉴于部分应用(如kdump组件)依赖这些信息，所以这些信息目前依旧保留着。炫耀一下我是如何从Linus手中拯救出kernel code/data/bass段信息的 :P</p>
+<p><img src="/img/save_iomem.png" alt=""></p>
+<h2 id="从设备局部内存地址空间到物理地址空间的映射">从设备局部内存地址空间到物理地址空间的映射</h2><p>再次观察上面/proc/iomem文件的内容，我们发现物理地址空间对应的真实存储器不仅仅内存条上的存储单元，还有很多其它设备上的存储器（例如BIOS、显存等）。这些设备存储器是怎么“拼接”上去的呢？这就是从设备局部内存地址空间到物理地址空间的映射。</p>
+<p><img src="/img/address_space.png" alt=""></p>
+<p>这个映射主要是硬件完成的：在计算机早期时代，连接到计算机上后就只能映射到某一位置。这个位置是硬件设计时固定下来的。由于地址空间有限，而设备种类繁多，要使设备占用的地址空间不发生冲突就得为每种设备分配固定位置。这种做法显然不合适。后来，人们为了解决这个问题，把一些类型的设备映射到物理地址空间的位置设计成可以配置的，如PCI设备。为了做到可配置，PCI设备引入了配置空间。配置空间实际上是一系列的寄存器硬件。想要查看设备配置空间的状态，可以使用下面的命令查看导出到用户空间的映像[2]：</p>
+<pre><code>zhangzy@huawei17:~$ lspci | grep VGA
+<span class="number">07</span>:<span class="number">00.0</span> VGA compatible controller: Device <span class="number">19e5</span>:<span class="number">1711</span> (rev <span class="number">01</span>)
+zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<span class="number">07</span>\:<span class="number">00.0</span>/config
+<span class="number">0000000</span>: e519 <span class="number">1117</span> <span class="number">0700</span> <span class="number">1000</span> <span class="number">0100</span> <span class="number">0003</span> <span class="number">0000</span> <span class="number">0000</span>  ................
+<span class="number">0000010</span>: <span class="number">0800</span> <span class="number">0094</span> <span class="number">0000</span> <span class="number">6096</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span>  ......`.........
+<span class="number">0000020</span>: <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span>  ................
+<span class="number">0000030</span>: <span class="number">0000</span> <span class="number">0000</span> <span class="number">4000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0701</span> <span class="number">0000</span>  ....@...........
+</code></pre><p>下面我们验证config文件里的这些内容就是配置空间的映像。我们知道/proc/iomem里面存放了内存布局（物理地址空间布局），而配置空间的第0x10个字节往后都是基地址，也即映射到物理地址空间后的首地址。以第一个基址0x94000000为例，我们可以在iomem里找到对应的条目——它正是0000:07:00.0VGA设备！</p>
+<pre><code>zhangzy@huawei17:~$ cat /proc/iomem | grep <span class="number">9400</span>
+  <span class="number">94000000</span>-<span class="number">95f</span>fffff : PCI Bus <span class="number">0000</span>:<span class="number">07</span>
+    <span class="number">94000000</span>-<span class="number">95f</span>fffff : <span class="number">0000</span>:<span class="number">07</span>:<span class="number">00.0</span>
+      <span class="number">94000000</span>-<span class="number">9412f</span>fff : vesafb
+</code></pre><p>配置空间本质上是一组寄存器，可以在CPU发送的命令（x86的IO指令）控制下进行读写。相反，真正的 I/O memory一开始并不能被访问——直到配置完成。完成整个配置动作的是BIOS，准确说是BIOS中的固件中的代码。BIOS固件代码基本是不开源的；不过好消息是，由于不是所有架构平台都有BIOS，所以跨平台的Linux也支持亲力亲为的配置方式（本质上没差别，因为配置指令由CPU发出，而CPU并不关心这条指令来自固件还是内存中的内核代码）。所以好奇的读者可以阅读Linux内核相关源代码学习配置的具体过程，这部分内容Linux称之为resource(地址空间也是有限的资源！它的大小受总线位数限制)的管理。</p>
+<h2 id="物理内存到虚拟地址空间的映射">物理内存到虚拟地址空间的映射</h2><p>因为Linux工作在保护模式下，该模式下的CPU识别的是虚拟地址，因此物理内存地址并不能被直接使用。将物理地址映射到虚拟地址的机制就是大名鼎鼎的页表机制。我们需要在页表中建立新的表项，让MMU把某些个虚拟地址和物理地址的某些个单元挂上钩完成第二级映射。修改个页表机制并没有那么简单，好在内核提供了一个高层次的API函数可以帮助我们建立映射：</p>
+<pre><code><span class="keyword">void</span> __<span class="function">iomem * <span class="title">ioremap</span> <span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> offset, <span class="keyword">unsigned</span> <span class="keyword">long</span> size)</span></span>
+</code></pre><p>参数offset是需要映射的物理地址，size是这段物理地址的大小。返回值是映射到的虚拟地址。这样，整个映射过程全部完成，内核可以使用ioremap返回的地址对I/O memory进行读写了。</p>
+<pre><code>(<span class="keyword">char</span> *) addr = <span class="number">0x00</span>;
+</code></pre><p>注意上面的访存方式可以在x86平台上使用。但考虑到跨平台，linux内核建议使用：</p>
+<pre><code>writeb(<span class="number">0x00</span>, addr);
+</code></pre><p>是不是封装得很好呢？用起来是不是很爽快呢？不过，上述代码只能在内核中使用，如果在用户空间使用上述代码访存，你得到的可能就是错误哦！</p>
+<h2 id="用户空间直接读写I/O_memory">用户空间直接读写I/O memory</h2><p>ioremap是将物理地址映射到了虚拟地址空间，但虚拟地址空间又分为进程虚拟地址空间和内核虚拟地址空间…… 因为特权级保护的原因，用户进程是不能读写后者哒。不幸的是，ioremap映射到的正是内核虚拟地址空间。</p>
+<p>我们知道操作系统内核是计算机软硬件资源的管理者。我们自己写的一些用户空间程序一般需要借助内核提供的接口(系统调用 or IOCTL)去访问设备，而不是自作主张去直接操作硬件。但有时候，为了提高性能，我们可能需要绕过操作系统这个管家亲自操作硬件。</p>
+<p>那么我们要怎么做才对呢？答案：mmap[3]。我们需要在驱动程序中提供mmap方法，并在方法的实现中调用下面的函数帮助应用程序完成第二级映射——把I/O memory映射到的物理内存映射到自己的进程虚拟地址空间：</p>
+<pre><code><span class="function"><span class="keyword">int</span> <span class="title">remap_pfn_range</span><span class="params">(<span class="keyword">struct</span> vm_area_struct *vma, \
+                            <span class="keyword">unsigned</span> <span class="keyword">long</span> addr, <span class="keyword">unsigned</span> <span class="keyword">long</span> pfn, \
+                            <span class="keyword">unsigned</span> <span class="keyword">long</span> size, pgprot_t prot)</span></span>
+</code></pre><p>其中vma参数表示进程虚拟地址空间的一个段，是映射的目的地。addr参数是这个段的首地址（虚拟地址）。参数pfn是page frame number，用来索引待映射的物理内存的页。在本文所描述的情况下，这段物理页其实就是上面把I/O memory从设备局部内存地址空间映射出来得到的物理页。size表示映射区域的大小，prot是一些内存保护标志。</p>
+<p>这样，用户空间程序mmap完与设备相关的设备文件，就可以在I/O memory上为所欲为了。</p>
+<h2 id="小结">小结</h2><p>为了访存设备memory或register，即I/O memory，我们需要建立两级映射：</p>
+<pre><code><span class="comment">设备局部内存地址空间</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">kernel/BIOS</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">物理地址空间</span> <span class="comment">—</span><span class="literal">-</span><span class="comment">ioremap</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">内核虚拟地址空间</span>
+</code></pre><p>如果想要用户空间程序直接具备访存I/O memory的能力，我们需要完成如下映射：</p>
+<pre><code><span class="comment">设备局部内存地址空间</span> <span class="literal">-</span><span class="comment">—kernel/BIOS</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">物理地址空间</span> <span class="comment">—</span><span class="literal">-</span><span class="comment">mmap</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">进程虚拟地址空间</span>
+</code></pre><h2 id="参考">参考</h2><p>J. Corbet, A. Rubini, Greg K.H.. Linux Device Driver, 3rd Edition. O’Reilly Media, Inc., 2005. 其中的三章：</p>
+<p>[1] <a href="http://www.oreilly.com/openbook/linuxdrive3/book/ch09.pdf" target="_blank" rel="external">http://www.oreilly.com/openbook/linuxdrive3/book/ch09.pdf</a></p>
+<p>[2] <a href="http://static.lwn.net/images/pdf/LDD3/ch12.pdf" target="_blank" rel="external">http://static.lwn.net/images/pdf/LDD3/ch12.pdf</a></p>
+<p>[3] <a href="http://static.lwn.net/images/pdf/LDD3/ch15.pdf" target="_blank" rel="external">http://static.lwn.net/images/pdf/LDD3/ch15.pdf</a></p>
+<blockquote>
+<p>致谢：感谢刘洪亮、郝天舒两位同学在国庆期间将工位借我让我舒舒服服地写完此文。</p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/01/device-driver-linux-device-driver/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设备驱动 - Linux Device Driver Model</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

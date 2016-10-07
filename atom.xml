@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-01T05:27:43.000Z</updated>
+  <updated>2016-10-07T11:05:52.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Linux如何操作设备中的存储器？]]></title>
+    <link href="http://yoursite.com/2016/10/07/io-memory/"/>
+    <id>http://yoursite.com/2016/10/07/io-memory/</id>
+    <published>2016-10-07T10:52:35.000Z</published>
+    <updated>2016-10-07T11:05:52.000Z</updated>
+    <content type="html"><![CDATA[<p>对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memory操作方式下，设备中的memory或register被称作I/O memory[1]。那么Linux是如何操作I/O memory的呢？</p>
+<a id="more"></a>
+<p><img src="/img/io_memory_mapping.png" alt=""></p>
+<p>如图所示，这个映射分为两部分。I/O memory首先要从设备视角下的局部内存地址空间映射到物理内存地址空间，主要由硬件完成。因为Linux工作在保护模式下，该模式下的CPU识别的是虚拟地址，物理内存地址并不能被直接使用，因此需要进一步地将物理地址空间映射到虚拟地址空间中去。</p>
+<h2 id="地址空间的概念">地址空间的概念</h2><p>有必要解释“地址空间(address space)”这一概念：地址空间就是能看到的存储器范围。地址空间的大小不由具体存储器的容量决定，而是指CPU或其它控制器能访问到的存储器单元的范围，由电路的“位“来决定。例如32位的CPU的地址空间（不论虚拟的地址空间或是物理的地址空间）通常情况下就是0~4G(2^32)，即使内存只有1G。如果为32位CPU配上8G的内存条，超出了地址空间的4G存储单元就无法被CPU直接访问。</p>
+<p>通过读取/proc/iomem可以查看物理地址空间的映射情况。</p>
+<pre><code><span class="number">00000000</span>-<span class="number">00000f</span>ff : reserved
+<span class="number">00001000</span>-<span class="number">0009</span>d7ff : System RAM
+<span class="number">0009</span>d800-<span class="number">0009f</span>fff : reserved
+<span class="number">000</span>a0000-<span class="number">000</span>bffff : PCI Bus <span class="number">0000</span>:<span class="number">00</span>  &lt;- PCI设备内存
+<span class="number">000</span>c0000-<span class="number">000</span>cefff : Video ROM          &lt;- 显存
+<span class="number">000e0000</span>-<span class="number">000f</span>ffff : reserved
+  <span class="number">000f</span>0000-<span class="number">000f</span>ffff : System ROM       &lt;- BIOS
+<span class="number">00100000</span>-bac8efff : System RAM
+  <span class="number">01000000</span>-<span class="number">0173</span>ebc8 : Kernel code
+  <span class="number">0173</span>ebc9-<span class="number">01</span>d1e9ff : Kernel data
+  <span class="number">01e77000</span>-<span class="number">01f</span>e0fff : Kernel bss
+bac8f000-bacacfff : reserved
+bacad000-bacb8fff : ACPI Non-<span class="keyword">volatile</span> Storage
+......
+</code></pre><p>这个列表把物理地址空间的分布暴露得一丝不挂，以至于让Linus失去了安全感。但是鉴于部分应用(如kdump组件)依赖这些信息，所以这些信息目前依旧保留着。炫耀一下我是如何从Linus手中拯救出kernel code/data/bass段信息的 :P</p>
+<p><img src="/img/save_iomem.png" alt=""></p>
+<h2 id="从设备局部内存地址空间到物理地址空间的映射">从设备局部内存地址空间到物理地址空间的映射</h2><p>再次观察上面/proc/iomem文件的内容，我们发现物理地址空间对应的真实存储器不仅仅内存条上的存储单元，还有很多其它设备上的存储器（例如BIOS、显存等）。这些设备存储器是怎么“拼接”上去的呢？这就是从设备局部内存地址空间到物理地址空间的映射。</p>
+<p><img src="/img/address_space.png" alt=""></p>
+<p>这个映射主要是硬件完成的：在计算机早期时代，连接到计算机上后就只能映射到某一位置。这个位置是硬件设计时固定下来的。由于地址空间有限，而设备种类繁多，要使设备占用的地址空间不发生冲突就得为每种设备分配固定位置。这种做法显然不合适。后来，人们为了解决这个问题，把一些类型的设备映射到物理地址空间的位置设计成可以配置的，如PCI设备。为了做到可配置，PCI设备引入了配置空间。配置空间实际上是一系列的寄存器硬件。想要查看设备配置空间的状态，可以使用下面的命令查看导出到用户空间的映像[2]：</p>
+<pre><code>zhangzy@huawei17:~$ lspci | grep VGA
+<span class="number">07</span>:<span class="number">00.0</span> VGA compatible controller: Device <span class="number">19e5</span>:<span class="number">1711</span> (rev <span class="number">01</span>)
+zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<span class="number">07</span>\:<span class="number">00.0</span>/config
+<span class="number">0000000</span>: e519 <span class="number">1117</span> <span class="number">0700</span> <span class="number">1000</span> <span class="number">0100</span> <span class="number">0003</span> <span class="number">0000</span> <span class="number">0000</span>  ................
+<span class="number">0000010</span>: <span class="number">0800</span> <span class="number">0094</span> <span class="number">0000</span> <span class="number">6096</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span>  ......`.........
+<span class="number">0000020</span>: <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span>  ................
+<span class="number">0000030</span>: <span class="number">0000</span> <span class="number">0000</span> <span class="number">4000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0701</span> <span class="number">0000</span>  ....@...........
+</code></pre><p>下面我们验证config文件里的这些内容就是配置空间的映像。我们知道/proc/iomem里面存放了内存布局（物理地址空间布局），而配置空间的第0x10个字节往后都是基地址，也即映射到物理地址空间后的首地址。以第一个基址0x94000000为例，我们可以在iomem里找到对应的条目——它正是0000:07:00.0VGA设备！</p>
+<pre><code>zhangzy@huawei17:~$ cat /proc/iomem | grep <span class="number">9400</span>
+  <span class="number">94000000</span>-<span class="number">95f</span>fffff : PCI Bus <span class="number">0000</span>:<span class="number">07</span>
+    <span class="number">94000000</span>-<span class="number">95f</span>fffff : <span class="number">0000</span>:<span class="number">07</span>:<span class="number">00.0</span>
+      <span class="number">94000000</span>-<span class="number">9412f</span>fff : vesafb
+</code></pre><p>配置空间本质上是一组寄存器，可以在CPU发送的命令（x86的IO指令）控制下进行读写。相反，真正的 I/O memory一开始并不能被访问——直到配置完成。完成整个配置动作的是BIOS，准确说是BIOS中的固件中的代码。BIOS固件代码基本是不开源的；不过好消息是，由于不是所有架构平台都有BIOS，所以跨平台的Linux也支持亲力亲为的配置方式（本质上没差别，因为配置指令由CPU发出，而CPU并不关心这条指令来自固件还是内存中的内核代码）。所以好奇的读者可以阅读Linux内核相关源代码学习配置的具体过程，这部分内容Linux称之为resource(地址空间也是有限的资源！它的大小受总线位数限制)的管理。</p>
+<h2 id="物理内存到虚拟地址空间的映射">物理内存到虚拟地址空间的映射</h2><p>因为Linux工作在保护模式下，该模式下的CPU识别的是虚拟地址，因此物理内存地址并不能被直接使用。将物理地址映射到虚拟地址的机制就是大名鼎鼎的页表机制。我们需要在页表中建立新的表项，让MMU把某些个虚拟地址和物理地址的某些个单元挂上钩完成第二级映射。修改个页表机制并没有那么简单，好在内核提供了一个高层次的API函数可以帮助我们建立映射：</p>
+<pre><code><span class="keyword">void</span> __<span class="function">iomem * <span class="title">ioremap</span> <span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> offset, <span class="keyword">unsigned</span> <span class="keyword">long</span> size)</span></span>
+</code></pre><p>参数offset是需要映射的物理地址，size是这段物理地址的大小。返回值是映射到的虚拟地址。这样，整个映射过程全部完成，内核可以使用ioremap返回的地址对I/O memory进行读写了。</p>
+<pre><code>(<span class="keyword">char</span> *) addr = <span class="number">0x00</span>;
+</code></pre><p>注意上面的访存方式可以在x86平台上使用。但考虑到跨平台，linux内核建议使用：</p>
+<pre><code>writeb(<span class="number">0x00</span>, addr);
+</code></pre><p>是不是封装得很好呢？用起来是不是很爽快呢？不过，上述代码只能在内核中使用，如果在用户空间使用上述代码访存，你得到的可能就是错误哦！</p>
+<h2 id="用户空间直接读写I/O_memory">用户空间直接读写I/O memory</h2><p>ioremap是将物理地址映射到了虚拟地址空间，但虚拟地址空间又分为进程虚拟地址空间和内核虚拟地址空间…… 因为特权级保护的原因，用户进程是不能读写后者哒。不幸的是，ioremap映射到的正是内核虚拟地址空间。</p>
+<p>我们知道操作系统内核是计算机软硬件资源的管理者。我们自己写的一些用户空间程序一般需要借助内核提供的接口(系统调用 or IOCTL)去访问设备，而不是自作主张去直接操作硬件。但有时候，为了提高性能，我们可能需要绕过操作系统这个管家亲自操作硬件。</p>
+<p>那么我们要怎么做才对呢？答案：mmap[3]。我们需要在驱动程序中提供mmap方法，并在方法的实现中调用下面的函数帮助应用程序完成第二级映射——把I/O memory映射到的物理内存映射到自己的进程虚拟地址空间：</p>
+<pre><code><span class="function"><span class="keyword">int</span> <span class="title">remap_pfn_range</span><span class="params">(<span class="keyword">struct</span> vm_area_struct *vma, \
+                            <span class="keyword">unsigned</span> <span class="keyword">long</span> addr, <span class="keyword">unsigned</span> <span class="keyword">long</span> pfn, \
+                            <span class="keyword">unsigned</span> <span class="keyword">long</span> size, pgprot_t prot)</span></span>
+</code></pre><p>其中vma参数表示进程虚拟地址空间的一个段，是映射的目的地。addr参数是这个段的首地址（虚拟地址）。参数pfn是page frame number，用来索引待映射的物理内存的页。在本文所描述的情况下，这段物理页其实就是上面把I/O memory从设备局部内存地址空间映射出来得到的物理页。size表示映射区域的大小，prot是一些内存保护标志。</p>
+<p>这样，用户空间程序mmap完与设备相关的设备文件，就可以在I/O memory上为所欲为了。</p>
+<h2 id="小结">小结</h2><p>为了访存设备memory或register，即I/O memory，我们需要建立两级映射：</p>
+<pre><code><span class="comment">设备局部内存地址空间</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">kernel/BIOS</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">物理地址空间</span> <span class="comment">—</span><span class="literal">-</span><span class="comment">ioremap</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">内核虚拟地址空间</span>
+</code></pre><p>如果想要用户空间程序直接具备访存I/O memory的能力，我们需要完成如下映射：</p>
+<pre><code><span class="comment">设备局部内存地址空间</span> <span class="literal">-</span><span class="comment">—kernel/BIOS</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">物理地址空间</span> <span class="comment">—</span><span class="literal">-</span><span class="comment">mmap</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">进程虚拟地址空间</span>
+</code></pre><h2 id="参考">参考</h2><p>J. Corbet, A. Rubini, Greg K.H.. Linux Device Driver, 3rd Edition. O’Reilly Media, Inc., 2005. 其中的三章：</p>
+<p>[1] <a href="http://www.oreilly.com/openbook/linuxdrive3/book/ch09.pdf" target="_blank" rel="external">http://www.oreilly.com/openbook/linuxdrive3/book/ch09.pdf</a></p>
+<p>[2] <a href="http://static.lwn.net/images/pdf/LDD3/ch12.pdf" target="_blank" rel="external">http://static.lwn.net/images/pdf/LDD3/ch12.pdf</a></p>
+<p>[3] <a href="http://static.lwn.net/images/pdf/LDD3/ch15.pdf" target="_blank" rel="external">http://static.lwn.net/images/pdf/LDD3/ch15.pdf</a></p>
+<blockquote>
+<p>致谢：感谢刘洪亮、郝天舒两位同学在国庆期间将工位借我让我舒舒服服地写完此文。</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memory操作方式下，设备中的memory或register被称作I/O memory[1]。那么Linux是如何操作I/O memory的呢？</p>]]>
+    
+    </summary>
+    
+      <category term="Notes" scheme="http://yoursite.com/categories/Notes/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[设备驱动 - Linux Device Driver Model]]></title>
@@ -995,23 +1075,6 @@ img.show()
     </summary>
     
       <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[个人管理参考]]></title>
-    <link href="http://yoursite.com/2015/08/09/personal-management-reference/"/>
-    <id>http://yoursite.com/2015/08/09/personal-management-reference/</id>
-    <published>2015-08-09T02:30:56.000Z</published>
-    <updated>2015-10-04T14:38:35.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>
-<a id="more"></a>]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>]]>
-    
-    </summary>
-    
-      <category term="Meta" scheme="http://yoursite.com/tags/Meta/"/>
     
   </entry>
   
