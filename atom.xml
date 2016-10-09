@@ -700,11 +700,10 @@ platform_driver_register(xxx_drv)
     <link href="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/"/>
     <id>http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/</id>
     <published>2015-10-04T05:37:39.000Z</published>
-    <updated>2015-10-05T01:14:53.000Z</updated>
+    <updated>2016-10-09T02:55:48.000Z</updated>
     <content type="html"><![CDATA[<p>本文记录了用QEMU构建最小Linux系统并进行调试的过程。</p>
 <a id="more"></a>
-<p>##愿景</p>
-<p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
+<h2 id="愿景">愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
 <ul>
 <li>QEMU调试果然爽快</li>
 <li>调试环境搭建过程中有很多细节需要注意</li>
@@ -725,8 +724,7 @@ platform_driver_register(xxx_drv)
 </ul>
 <p>再也不用像使用VMware那样等一万年去<code>make modules&amp;&amp;make install &amp;&amp;make modules_install</code>以及费尽心思去调教grub了。节省了大量时间，同时资源占用也少太多。一切都是整整齐齐的模样。</p>
 <p>本文采取倒叙的描述方式，上面就是我们的目标啦。怎么才能实现呢？参考LFS，我们进行下面的步骤。</p>
-<p>##为什么要构建自己的运行系统</p>
-<p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="external">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p>
+<h2 id="为什么要构建自己的运行系统">为什么要构建自己的运行系统</h2><p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="external">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p>
 <h2 id="环境搭建">环境搭建</h2><p>开始的内核编译我已经不想再说了。使用默认配置文件即可：</p>
 <pre><code><span class="built_in">make</span> x86_64_defconfig
 </code></pre><p>看最上面运行QEMU的那条命令，其实我们缺的就是initramfs-busybox-x86.cpio.gz文件——一个Initial RamDisk——开机时需要挂载的rootfs和一些二进制工具以及最重要的init。</p>
@@ -763,8 +761,7 @@ echo '<span class="type">Enjoy</span> your new system!'
 </code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p>
 <p>同时这里给出生成initramfs的逆操作－－拆分initramfs:</p>
 <pre><code>cpio -<span class="tag">i</span> -d -H newc -F initramfs_data<span class="class">.cpio</span> --no-absolute-filenames
-</code></pre><p>###方法二：编译后生成</p>
-<p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
+</code></pre><h3 id="方法二：编译后生成">方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
 <pre><code>dir /dev <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
 nod /dev/console <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> c <span class="number">5</span> <span class="number">1</span>
 nod /dev/loop0 <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> b <span class="number">7</span> <span class="number">0</span>
@@ -775,12 +772,12 @@ dir /proc <span class="number">755</span> <span class="number">0</span> <span cl
 dir /sys <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
 dir /mnt <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
 file /init initramfs/init.sh <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-</code></pre><p>##背后的原理</p>
-<h2 id="参考">参考</h2><p>如果你想弄清楚内核的初始化过程，这里有一份阅读列表：</p>
+</code></pre><h2 id="参考">参考</h2><p>如果你想弄清楚内核的初始化过程，这里有一份阅读列表：</p>
 <p><a href="http://mgalgs.github.io/2012/03/23/how-to-build-a-custom-linux-kernel-for-qemu.html" target="_blank" rel="external">How to Build a Custom Linux Kernel for Qemu</a></p>
 <p><a href="http://www.linuxfromscratch.org/lfs/view/stable/" target="_blank" rel="external">Linux From Scratch</a></p>
 <p><a href="https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt" target="_blank" rel="external">Kernel Doc：Ramfs, Rootfs and Initramfs</a></p>
 <p><a href="https://www.kernel.org/doc/Documentation/early-userspace/README" target="_blank" rel="external">Kernel Doc: Early Userspace Support</a></p>
+<p><a href="http://free-electrons.com/docs/elfs/" target="_blank" rel="external">Embedded Linux From Scratch… in 40 minutes</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>本文记录了用QEMU构建最小Linux系统并进行调试的过程。</p>]]>
