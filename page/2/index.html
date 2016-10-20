@@ -208,6 +208,60 @@ var _hmt = _hmt || [];
 </nav>
       <div class="body-wrap">
   
+    <article id="post-the-eggs-of-science" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/27/the-eggs-of-science/" class="article-date">
+  	<time datetime="2015-11-27T10:00:10.000Z" itemprop="datePublished">2015-11-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/27/the-eggs-of-science/">科学的杜鹃蛋 —— 自然辩证法课堂演讲</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/11/27/the-eggs-of-science/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-english-speech" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -716,64 +770,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2015/08/26/python-tricks/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-allcating-pages" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/12/allcating-pages/" class="article-date">
-  	<time datetime="2015-08-12T12:15:29.000Z" itemprop="datePublished">2015-08-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/12/allcating-pages/">Linux如何分配页</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/12/allcating-pages/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

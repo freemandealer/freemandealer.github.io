@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-07T11:12:39.000Z</updated>
+  <updated>2016-10-20T10:47:55.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,52 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[理解mmap]]></title>
+    <link href="http://yoursite.com/2016/10/20/understanding-mmap/"/>
+    <id>http://yoursite.com/2016/10/20/understanding-mmap/</id>
+    <published>2016-10-20T10:38:30.000Z</published>
+    <updated>2016-10-20T10:47:55.000Z</updated>
+    <content type="html"><![CDATA[<p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>
+<a id="more"></a>
+<p>后来，当我看到设备文件也能被mmap到内存中，我开始尝试理解mmap这个称谓的由来—— 原来 memory map，就是把一段memory映射到其它memory空间的过程！设备驱动的作者通过书写自己的mmap回调函数，就可以引导操作系统把设备上的存储空间映射到进程虚拟地址空间上。对于用户来说，操作这片内存，就是在操作设备（上的存储器）。</p>
+<p>回想mmap把磁盘上的文件加载到内存的过程，和mmap设备文件的过程竟是完美统一的—— 感谢“一切皆设备”的unix理念！其实不仅设备文件本身也是文件，而且存储文件的磁盘也是设备。这样一来，mmap普通文件，是不是就是在mmap磁盘上某个文件占用的设备memory呢？当设备是可直接访存(如NVDIMM盘)的情况下也许想法是正确，但多数情况下不是这样的。为什么呢？</p>
+<p>因为mmap的目的就是想把对设备memory的操作抽象成对内存的操作。如果CPU没有办法直接寻址设备的memory，那么mmap本身是没有意义的。</p>
+<p>不幸的是，我们常见的机械硬盘、SSD啥的都没有把存储单元暴露给CPU，所以文件就得先读到内存中，再对内存进行操作，最后同步回设备。相比于直接操作SSD上的存储颗粒，这种做法是不是有一种“带缓冲”的意思呢？</p>
+<p>一切皆设备的unix设计的大一统理念虽然完美，不过可能会造成一点混乱…… 除了上面说的：错误地认为mmap普通文件就是mmap磁盘上某个文件占用的设备memory，下面谈谈另一个疑虑——mmap一个磁盘块设备自己（块设备文件）会出现什么情况，跟我mmap这个磁盘块设备上的普通文件，有什么不同？</p>
+<p>我们可以尝试写一个简单的例子看看mmap块设备文件会发生啥情况：</p>
+<pre><code>filp = fopen(“/dev/sda”, “r")<span class="comment">;</span>
+fd = fileno(filp)<span class="comment">;</span>
+buf = mmap(NULL, SIZE, PROT_READ, MAP_PRIVATE, fd, 0)<span class="comment">;</span>
+for (i=0<span class="comment">; i&lt;SIZE; i++)</span>
+     printf(“%x”, buf[i])<span class="comment">;</span>
+munmap(buf, SIZE)<span class="comment">;</span>
+fclose(filp)<span class="comment">;</span>
+</code></pre><p>输出结果（部分）：</p>
+<pre><code><span class="number">63</span>eb1090ffffd08ebcffffb8b00ffffd88effffc08effffbefb7c00bfffffb906200ffffa4f321ea6ffffbe00
+<span class="number">7</span>be438b75ffffc683ffff8110fffffefe7507ffffebf3ffffb416ffffb002ffffbb017c00ffff80b2748affff
+...
+</code></pre><p>再看看磁盘头一个扇区的数据（部分）：</p>
+<pre><code>eb63 <span class="number">9010</span> <span class="number">8</span>ed0 bc00 b0b8 <span class="number">0000</span> <span class="number">8</span>ed8 <span class="number">8</span>ec0
+fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <span class="number">0002</span> f3a4 ea21 <span class="number">0600</span>
+...
+</code></pre><p>忽略读数据时大小端的影响，是不是同一个东西？实验说明，mmap一个块设备文件，就相当于把整块磁盘给mmap了（而不是胡思乱想的什么mmap磁盘控制器页面啦、什么设备上的缓冲区啦等等高级的东西！）。这个mmap跟磁盘上的具体文件系统无关（所谓绕过文件系统），而是把磁盘作为一个超级大的、数据块都是连续的文件给mmap进虚拟内存了。相反看mmap磁盘块设备上的一个普通文件，是跟磁盘上的文件系统息息相关的——这个mmap操作本身就是在这个文件系统提供的。mmap普通文件的数据块在磁盘上不一定是连续的，需要文件系统给出了索引数据块的方法。</p>
+<p>扩展阅读：</p>
+<p><a href="http://hemming.blog.hexun.com/15094457_d.html" target="_blank" rel="external">malloc背后的故事</a>mmap在进程内存分配中扮演的角色及其它一些与文件相关的系统调用。</p>
+<p><a href="http://alanwu.blog.51cto.com/3652632/1288838" target="_blank" rel="external">一个IO的传奇一生</a> 介绍了mmap块设备文件和普通文件的区别。不止于此，这个系列对文件系统和块设备IO有总结性的讲解。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>]]>
+    
+    </summary>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Linux如何操作设备中的存储器？]]></title>
     <link href="http://yoursite.com/2016/10/07/io-memory/"/>
     <id>http://yoursite.com/2016/10/07/io-memory/</id>
     <published>2016-10-07T10:52:35.000Z</published>
-    <updated>2016-10-07T11:12:39.000Z</updated>
+    <updated>2016-10-11T02:00:04.000Z</updated>
     <content type="html"><![CDATA[<p>对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memory操作方式下，设备中的memory或register被称作I/O memory[1]。那么Linux是如何操作I/O memory的呢？</p>
 <a id="more"></a>
 <p><img src="/img/io_memory_mapping.png" alt=""></p>
@@ -57,8 +98,9 @@ zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<
   <span class="number">94000000</span>-<span class="number">95f</span>fffff : PCI Bus <span class="number">0000</span>:<span class="number">07</span>
     <span class="number">94000000</span>-<span class="number">95f</span>fffff : <span class="number">0000</span>:<span class="number">07</span>:<span class="number">00.0</span>
       <span class="number">94000000</span>-<span class="number">9412f</span>fff : vesafb
-</code></pre><p>配置空间本质上是一组寄存器，可以在CPU发送的命令（x86的IO指令）控制下进行读写。相反，真正的 I/O memory一开始并不能被访问——直到配置完成。完成整个配置动作的是BIOS，准确说是BIOS中的固件中的代码。BIOS固件代码基本是不开源的；不过好消息是，由于不是所有架构平台都有BIOS，所以跨平台的Linux也支持亲力亲为的配置方式（本质上没差别，因为配置指令由CPU发出，而CPU并不关心这条指令来自固件还是内存中的内核代码）。所以好奇的读者可以阅读Linux内核相关源代码学习配置的具体过程，这部分内容Linux称之为resource(地址空间也是有限的资源！它的大小受总线位数限制)的管理。</p>
-<h2 id="物理内存到虚拟地址空间的映射">物理内存到虚拟地址空间的映射</h2><p>因为Linux工作在保护模式下，该模式下的CPU识别的是虚拟地址，因此物理内存地址并不能被直接使用。将物理地址映射到虚拟地址的机制就是大名鼎鼎的页表机制。我们需要在页表中建立新的表项，让MMU把某些个虚拟地址和物理地址的某些个单元挂上钩完成第二级映射。修改个页表机制并没有那么简单，好在内核提供了一个高层次的API函数可以帮助我们建立映射：</p>
+</code></pre><p>配置空间本质上是一组寄存器，可以在CPU发送的命令（x86的IO指令）控制下进行读写。相反，真正的 I/O memory一开始并不能被访问——直到配置完成。完成整个配置动作的是BIOS，准确说是BIOS中的固件中的代码。BIOS固件代码基本是不开源的；不过好消息是，由于不是所有架构平台都有BIOS，所以跨平台的Linux也支持亲力亲为的配置方式（本质上没差别，因为配置指令由CPU发出，而CPU并不关心这条指令来自固件还是内存中的内核代码）。所以好奇的读者可以阅读Linux内核相关源代码学习配置的具体过程，这部分内容Linux称之为resource(地址空间也是有限的资源！它的大小受总线位数限制)的管理。现在我们恍然大悟，原来/proc/iomem里的内容的来源就是这些resource呀！</p>
+<h2 id="物理内存到虚拟地址空间的映射">物理内存到虚拟地址空间的映射</h2><p>因为Linux工作在保护模式下，该模式下的CPU识别的是虚拟地址，因此物理内存地址并不能被直接使用。将物理地址映射到虚拟地址的机制就是大名鼎鼎的页表机制。我们需要在页表中建立新的表项，让MMU把某些个虚拟地址和物理地址的某些个单元挂上钩完成第二级映射。我们刚刚了解到，到物理地址空间的映射由BIOS或内核完成，而这里利用页表完成的映射是由谁完成呢？当然是驱动啦，因为只有它对硬件的详细信息一清二楚，也只有它需要知道这个映射得到的虚拟地址。</p>
+<p>修改个页表机制并没有那么简单，好在内核提供了一个高层次的API函数可以帮助我们建立映射：</p>
 <pre><code><span class="keyword">void</span> __<span class="function">iomem * <span class="title">ioremap</span> <span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> offset, <span class="keyword">unsigned</span> <span class="keyword">long</span> size)</span></span>
 </code></pre><p>参数offset是需要映射的物理地址，size是这段物理地址的大小。返回值是映射到的虚拟地址。这样，整个映射过程全部完成，内核可以使用ioremap返回的地址对I/O memory进行读写了。</p>
 <pre><code>(<span class="keyword">char</span> *) addr = <span class="number">0x00</span>;
@@ -1035,39 +1077,6 @@ img.show()
     <![CDATA[<blockquote>
 <p>开一篇博客作为Python备忘录</p>
 </blockquote>]]>
-    
-    </summary>
-    
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Linux如何分配页]]></title>
-    <link href="http://yoursite.com/2015/08/12/allcating-pages/"/>
-    <id>http://yoursite.com/2015/08/12/allcating-pages/</id>
-    <published>2015-08-12T12:15:29.000Z</published>
-    <updated>2016-09-27T07:19:00.000Z</updated>
-    <content type="html"><![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
-<a id="more"></a>
-<p>简单说，上述过程可以描述为：</p>
-<ul>
-<li>获得物理页返回页描述符地址(alloc_pages)</li>
-<li>修改页表增加映射(set_pte)</li>
-<li>返回页的线性地址(kmap)</li>
-</ul>
-<p>我撒谎了，第一段描述中可没有体现出第二步。且听我慢慢给大家解释：物理内存被分为三类区域：DMA专用的区域、高端内存使用的区域和剩下的普通区域。所有的物理内存在系统初始化时，被切成片片，每一片描述为一个<code>struct page</code>，用一个叫<code>mem_map</code>的数组把所有的<code>struct page</code>装起来。初始化时建立的页表映射了前896MB内存，也就是前229376个页框。这个映射非常规范:</p>
-<pre><code><span class="attribute">线性地址 </span>=<span class="string"> 页框物理地址 + PAGE_SHIFT</span>
-</code></pre><p>这个公式对前229376个页框都成立。所以，<code>__v()</code>和<code>__p()</code>能通过简单的加减<code>PAGE_SHIFT</code>就完成物理地址和线性地址的互相转换，而不用查页表。</p>
-<p>大家发现，这229376个页框是在系统初始化时就已经被映射好的。回到问题，这就是为什么有的页分配过程中不用修改页表增加额外的映射：所有内核需要做的就是增加页框描述符的计数以表明这个页框已经被分配出去了。<code>get_page()</code>就是用来干这件事的。</p>
-<p>但对于另外一些页分配的过程，增加映射的过程是必不可少的——这就是高端内存的分配。在高端内存中进行页分配有两种方式：永久映射和临时映射。它们的区别简言之就是：永久映射每次都要在896~1024的线性空间找一个空闲的4K空间，然后在找一片排名229376开外的物理页框（排名229376前的已经被映射了），然后建立两者的映射。而临时映射采用固定预留的高端线性空间，多条内存控制路径分时复用这些线性地址空间——执行不同的路径需要修改页表项。临时映射没有有寻找空闲线性空间的过程，就减少了“找不到空闲线性空间”阻塞的风险。然而固定预留空间有限，所以不能同时大量建立临时映射。</p>
-<p>为了完成永久映射的寻址，Linux引进了pkmap_page_table页表，每个页表项都可以用来映射4K高端物理内存区域。这满足了硬件分页电路寻址的需要，但是内核自己也想要寻址，需要像<code>__p()</code>以及<code>__v()</code>这样的简单方式，于是Linux又加了一个哈希表<code>address_htable</code>专门存放物理页框和线性地址的映射关系。</p>
-<p>这里记录一个通用寻址函数<code>page_address()</code>。它可以通过一个页描述符，计算返回线性地址。之所以说它通用，是因为这个函数是<code>__v</code>和<code>address_htable</code>的组合，可以自动分辨页框属于正常区域、还是高端内存区域。</p>
-<p>映射是建立物理地址和线性地址联系的过程。在文章开头，我们使用<code>kmap()</code>对一个普通区域的页框进行了映射。这个映射其实什么也没干，就是调用<code>page_address()</code>（实际上就是<code>__v()</code>）返回了线性地址。而对于高端内存，如果<code>page_address()</code>返回<code>NULL</code>，那就得为它修改或增加映射。</p>
-<p>所以说，Linux中页的分配就是这样的一个过程：利用伙伴系统从<code>mem_map</code>描述的这一串内存区域中取得一个空闲物理页框（实际上还用了缓存来提高效率）。然后找一片线性空间并为线性空间和页框建立映射，返回这段空间的线性地址。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>]]>
     
     </summary>
     

@@ -208,6 +208,60 @@ var _hmt = _hmt || [];
 </nav>
       <div class="body-wrap">
   
+    <article id="post-understanding-mmap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/20/understanding-mmap/" class="article-date">
+  	<time datetime="2016-10-20T10:38:30.000Z" itemprop="datePublished">2016-10-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/20/understanding-mmap/">理解mmap</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/10/20/understanding-mmap/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-io-memory" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -713,60 +767,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2016/02/02/kernel-to-me/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-the-eggs-of-science" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/11/27/the-eggs-of-science/" class="article-date">
-  	<time datetime="2015-11-27T10:00:10.000Z" itemprop="datePublished">2015-11-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/27/the-eggs-of-science/">科学的杜鹃蛋 —— 自然辩证法课堂演讲</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/11/27/the-eggs-of-science/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
