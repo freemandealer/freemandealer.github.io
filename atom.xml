@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-30T06:11:49.000Z</updated>
+  <updated>2016-10-30T06:18:11.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,12 +19,12 @@
     <link href="http://yoursite.com/2016/10/30/you-are-it-guy-so-can-you-fix-this/"/>
     <id>http://yoursite.com/2016/10/30/you-are-it-guy-so-can-you-fix-this/</id>
     <published>2016-10-30T05:53:32.000Z</published>
-    <updated>2016-10-30T06:11:49.000Z</updated>
+    <updated>2016-10-30T06:18:11.000Z</updated>
     <content type="html"><![CDATA[<p><img src="/img/xiaoguotu.jpg" alt=""></p>
 <a id="more"></a>
 <p>今天早上来到实验室，坐下看了半小时书。大表姐突然发来微信，问我会不会做室内效果图。奇怪，我的微信不是退出后台了吗？</p>
 <p>“好搞笑啊，我会计算机就能上天啊！”</p>
-<p>我知道我不能这样说，因为别人会反问：那你计算机都是学得啥东西，怎么这也不会那也不会！这时我就要跟他们解释什么是面向E级高性能计算机的新型互联网络和计算机编程，解释计算机学科的目标和使命，解释为什么PHP是世界上最好的语言。</p>
+<p>我知道我不能这样说，因为别人会反问：那你计算机都是学得啥东西，怎么这也不会那也不会！这时我就要跟他们解释什么是<del>面向E级高性能计算机的新型互联网络和</del>计算机编程，解释计算机学科的目标和使命，解释为什么PHP是世界上最好的语言。</p>
 <p>所以我当机立断地回答表姐：让我学习着做一下！</p>
 <p>之前看到网上很多自称程序员的人在嘲笑“听说你搞计算机的，你会修电脑吗”这个问题:搞计算机和修电脑有关系吗。其实我觉得这个问题真是问对人了——搞计算机的人应该都会修电脑吧。你在debug的过程中俨然成为了训练有素的问题解决专家：解决问题的基本思路、读文档的耐性、查log的敏锐、驾驭搜索引擎的能力等等已经融在了血液里。</p>
 <blockquote>
