@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-20T10:59:01.000Z</updated>
+  <updated>2016-10-30T06:11:49.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[听说你是搞计算机的，你会修电脑吗]]></title>
+    <link href="http://yoursite.com/2016/10/30/you-are-it-guy-so-can-you-fix-this/"/>
+    <id>http://yoursite.com/2016/10/30/you-are-it-guy-so-can-you-fix-this/</id>
+    <published>2016-10-30T05:53:32.000Z</published>
+    <updated>2016-10-30T06:11:49.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/xiaoguotu.jpg" alt=""></p>
+<a id="more"></a>
+<p>今天早上来到实验室，坐下看了半小时书。大表姐突然发来微信，问我会不会做室内效果图。奇怪，我的微信不是退出后台了吗？</p>
+<p>“好搞笑啊，我会计算机就能上天啊！”</p>
+<p>我知道我不能这样说，因为别人会反问：那你计算机都是学得啥东西，怎么这也不会那也不会！这时我就要跟他们解释什么是面向E级高性能计算机的新型互联网络和计算机编程，解释计算机学科的目标和使命，解释为什么PHP是世界上最好的语言。</p>
+<p>所以我当机立断地回答表姐：让我学习着做一下！</p>
+<p>之前看到网上很多自称程序员的人在嘲笑“听说你搞计算机的，你会修电脑吗”这个问题:搞计算机和修电脑有关系吗。其实我觉得这个问题真是问对人了——搞计算机的人应该都会修电脑吧。你在debug的过程中俨然成为了训练有素的问题解决专家：解决问题的基本思路、读文档的耐性、查log的敏锐、驾驭搜索引擎的能力等等已经融在了血液里。</p>
+<blockquote>
+<p>“所以我不会修电脑还能不能当程序员了？”</p>
+</blockquote>
+<p>就算修硬件你无能为力，就算PS、Pr、3Ds Max跟你在做的项目和研究半毛钱关系都没有，但你可能也是他们身边距离这些技术最近、最有“背景”的人了，是他们唯一可以依靠的人（还是又是我想太多:p）。你做一件这样的事可能需要耗费半个小时，对于他们可能就得花一个星期。</p>
+<p>害怕没有成为大神就先学会了高冷，希望能凭借自己的能力给身边人些许安全感，不过也请大家像我尊重我的时间那样尊重我的时间。</p>
+<p>意外发现，做效果图还是蛮好玩的！很开心又增加新业务！</p>
+<center><img src="/img/xiaoguotu_end.jpg" alt=""></center>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="/img/xiaoguotu.jpg" alt=""></p>]]>
+    
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[理解mmap]]></title>
@@ -742,7 +770,7 @@ platform_driver_register(xxx_drv)
     <link href="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/"/>
     <id>http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/</id>
     <published>2015-10-04T05:37:39.000Z</published>
-    <updated>2016-10-09T02:55:48.000Z</updated>
+    <updated>2016-10-23T03:57:20.000Z</updated>
     <content type="html"><![CDATA[<p>本文记录了用QEMU构建最小Linux系统并进行调试的过程。</p>
 <a id="more"></a>
 <h2 id="愿景">愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
@@ -752,8 +780,14 @@ platform_driver_register(xxx_drv)
 </ul>
 <p>先来看看有了QEMU内核调试环境后，我调试内核的大致步骤。</p>
 <ul>
-<li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。执行</p>
-<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage -initrd initramfs-busybox-x86<span class="class">.cpio</span><span class="class">.gz</span>
+<li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。如果工作在图形模式下，执行</p>
+<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \
+-initrd initramfs-busybox-x86<span class="class">.cpio</span><span class="class">.gz</span>
+</code></pre></li>
+<li><p>如果工作在字符界面下，执行</p>
+<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \
+-<span class="ruby">initrd initramfs-busybox-x86.cpio.gz \
+</span>-<span class="ruby">append <span class="string">"console=ttyS0"</span></span>
 </code></pre></li>
 <li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">上篇文章的末尾</a>)。</p>
 <pre><code>gdb vmlinux
@@ -790,7 +824,7 @@ platform_driver_register(xxx_drv)
 <pre><code>mkdir -p initramfs/x86-busybox
 cd initramfs/x86-busybox
 mkdir -pv {bin,sbin,etc,<span class="keyword">proc</span>,sys,usr/{bin,sbin}}
-cp -av obj/busybox-x86/_install/* 
+cp -av obj/busybox-x86/_install/* ./
 </code></pre><p>initramfs目录中没有init脚本，这可不行，我们的内核起来以后运行什么程序呢？我们手动创建一个：</p>
 <pre><code><span class="comment">#!/bin/sh</span>
 
@@ -803,7 +837,17 @@ echo '<span class="type">Enjoy</span> your new system!'
 </code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p>
 <p>同时这里给出生成initramfs的逆操作－－拆分initramfs:</p>
 <pre><code>cpio -<span class="tag">i</span> -d -H newc -F initramfs_data<span class="class">.cpio</span> --no-absolute-filenames
-</code></pre><h3 id="方法二：编译后生成">方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
+</code></pre><blockquote>
+<p>如果想直接使用硬盘而不是initramfs，这里提供一个思路：</p>
+<pre><code><span class="tag">dd</span> <span class="keyword">if</span>=/dev/zero of=rootfs<span class="class">.img</span> bs=<span class="number">1</span>k count=<span class="number">400</span>
+mkfs<span class="class">.ext2</span> ­<span class="tag">i</span> <span class="number">1024</span> ­F rootfs<span class="class">.img</span>
+mount ­o loop rootfs<span class="class">.img</span> /mnt/rootfs
+qemu-system-x86_64 -hda ~/kernel-lab/rootfs<span class="class">.img</span> \
+-kernel ~/staging/arch/x86_64/boot/bzImage \
+-append <span class="string">"root=/dev/hda console=ttyS0"</span>
+-nographic
+</code></pre></blockquote>
+<h3 id="方法二：编译后生成">方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
 <pre><code>dir /dev <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
 nod /dev/console <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> c <span class="number">5</span> <span class="number">1</span>
 nod /dev/loop0 <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> b <span class="number">7</span> <span class="number">0</span>
@@ -999,84 +1043,6 @@ sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span clas
 <li>能调试诸多硬件平台(ARM/MIPS等等)</li>
 </ul>
 <p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>]]>
-    
-    </summary>
-    
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Python Tricks]]></title>
-    <link href="http://yoursite.com/2015/08/26/python-tricks/"/>
-    <id>http://yoursite.com/2015/08/26/python-tricks/</id>
-    <published>2015-08-26T05:08:37.000Z</published>
-    <updated>2016-07-17T08:31:13.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>开一篇博客作为Python备忘录</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="Python模拟浏览器登陆网站">Python模拟浏览器登陆网站</h2><p>方式一，使用httplib2模块:<a href="http://blog.csdn.net/five3/article/details/7079140" target="_blank" rel="external">参考资料</a></p>
-<pre><code>http = httplib2.<span class="type">Http</span>()
-myuri = <span class="symbol">'http</span>:<span class="comment">//www.2-vpn3.org/lr.action'</span>
-mybody = {<span class="symbol">'user</span>.nick': <span class="symbol">'NAM</span>E', <span class="symbol">'user</span>.password': <span class="symbol">'PASSWOR</span>D',<span class="symbol">'validationCod</span>e': <span class="symbol">'VCOD</span>E'} 
-myheaders = {<span class="symbol">'Content</span>-<span class="class"><span class="keyword">type</span>':</span> <span class="symbol">'application</span>/x-www-form-urlencoded'}
-response, content = http.request(myuri, <span class="symbol">'POS</span>T', headers=myheaders,     body=urlencode(mybody))
-myheaders = {<span class="symbol">'Cooki</span>e': response[<span class="symbol">'set</span>-cookie']}
-myuri = <span class="symbol">'http</span>:<span class="comment">//www.2-vpn3.org/home!sl.action'</span>
-response, content = http.request(uri=myuri, method=<span class="symbol">'GE</span>T', headers=myheaders)
-</code></pre><p>方式二，使用urllib2模块:</p>
-<pre><code><span class="keyword">import</span> urllib2
-headers = {<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255'</span>}
-req = urllib2.Request(url = <span class="string">'http://dict.youdao.com/search?q=manipulate&amp;keyfrom=dict.index'</span>, headers = headers)
-res = urllib2.urlopen(req)
-html = res.<span class="keyword">read</span>()
-</code></pre><blockquote>
-<p>Tip: 可以使用Chrome的开发者模式下Network工具来分析数据包。</p>
-</blockquote>
-<h2 id="Python正则表达式">Python正则表达式</h2><pre><code>ips = re.findall(<span class="string">r'\d+\.\d+\.\d+\.\d+'</span>, content) <span class="comment">#寻找ip地址，返回列表</span>
-
-<span class="comment"># 判断record中是否包含日期 #</span>
-<span class="keyword">if</span> re.search(<span class="string">'\[[0-9].[0-3]*[0-9]\]'</span>, record):
-    do_something()
-</code></pre><h2 id="Python验证码识别">Python验证码识别</h2><p>安装依赖库:</p>
-<pre><code>sudo apt-get <span class="operator"><span class="keyword">install</span> python-pil
-sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> tesseract-ocr
-sudo pip <span class="keyword">install</span> pytesserac</span>
-</code></pre><p>使用:</p>
-<pre><code>import pytesseract
-from PIL import Image
-image = Image.<span class="function"><span class="title">open</span><span class="params">(<span class="string">'vcode.jpg'</span>)</span></span>
-vcode = pytesseract.<span class="function"><span class="title">image_to_string</span><span class="params">(image)</span></span>
-</code></pre><p>预处理去噪：</p>
-<pre><code># import Image
-# import ImageFilter
-img = Image.open(<span class="string">'vdcode_img.png'</span>)
-img = img.convert(<span class="string">'RGB'</span>).<span class="keyword">filter</span>(ImageFilter.GaussianBlur)
-pixdata = img.load()
-
-<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
-     <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
-          <span class="keyword">if</span> pixdata[x,y][<span class="number">0</span>] &gt; <span class="number">220</span>:
-               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
-
-
-<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
-      <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
-          <span class="keyword">if</span> pixdata[x,y][<span class="number">1</span>] &gt; <span class="number">180</span>:
-               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
-
-<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
-     <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
-          <span class="keyword">if</span> pixdata[x,y][<span class="number">2</span>] &gt; <span class="number">220</span>:
-               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
-
-img.show()
-</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[<blockquote>
-<p>开一篇博客作为Python备忘录</p>
-</blockquote>]]>
     
     </summary>
     

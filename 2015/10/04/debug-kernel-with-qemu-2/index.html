@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/index.html">
 <meta property="og:site_name" content="Freeman">
 <meta property="og:description" content="本文记录了用QEMU构建最小Linux系统并进行调试的过程。">
-<meta property="og:updated_time" content="2016-10-09T02:55:48.000Z">
+<meta property="og:updated_time" content="2016-10-23T03:57:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用QEMU来调试内核 -- 亲身体验篇">
 <meta name="twitter:description" content="本文记录了用QEMU构建最小Linux系统并进行调试的过程。">
@@ -253,8 +253,14 @@ var _hmt = _hmt || [];
 </ul>
 <p>先来看看有了QEMU内核调试环境后，我调试内核的大致步骤。</p>
 <ul>
-<li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。执行</p>
-<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage -initrd initramfs-busybox-x86<span class="class">.cpio</span><span class="class">.gz</span>
+<li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。如果工作在图形模式下，执行</p>
+<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \
+-initrd initramfs-busybox-x86<span class="class">.cpio</span><span class="class">.gz</span>
+</code></pre></li>
+<li><p>如果工作在字符界面下，执行</p>
+<pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \
+-<span class="ruby">initrd initramfs-busybox-x86.cpio.gz \
+</span>-<span class="ruby">append <span class="string">"console=ttyS0"</span></span>
 </code></pre></li>
 <li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">上篇文章的末尾</a>)。</p>
 <pre><code>gdb vmlinux
@@ -291,7 +297,7 @@ var _hmt = _hmt || [];
 <pre><code>mkdir -p initramfs/x86-busybox
 cd initramfs/x86-busybox
 mkdir -pv {bin,sbin,etc,<span class="keyword">proc</span>,sys,usr/{bin,sbin}}
-cp -av obj/busybox-x86/_install/* 
+cp -av obj/busybox-x86/_install/* ./
 </code></pre><p>initramfs目录中没有init脚本，这可不行，我们的内核起来以后运行什么程序呢？我们手动创建一个：</p>
 <pre><code><span class="comment">#!/bin/sh</span>
 
@@ -304,7 +310,17 @@ echo '<span class="type">Enjoy</span> your new system!'
 </code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p>
 <p>同时这里给出生成initramfs的逆操作－－拆分initramfs:</p>
 <pre><code>cpio -<span class="tag">i</span> -d -H newc -F initramfs_data<span class="class">.cpio</span> --no-absolute-filenames
-</code></pre><h3 id="方法二：编译后生成">方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
+</code></pre><blockquote>
+<p>如果想直接使用硬盘而不是initramfs，这里提供一个思路：</p>
+<pre><code><span class="tag">dd</span> <span class="keyword">if</span>=/dev/zero of=rootfs<span class="class">.img</span> bs=<span class="number">1</span>k count=<span class="number">400</span>
+mkfs<span class="class">.ext2</span> ­<span class="tag">i</span> <span class="number">1024</span> ­F rootfs<span class="class">.img</span>
+mount ­o loop rootfs<span class="class">.img</span> /mnt/rootfs
+qemu-system-x86_64 -hda ~/kernel-lab/rootfs<span class="class">.img</span> \
+-kernel ~/staging/arch/x86_64/boot/bzImage \
+-append <span class="string">"root=/dev/hda console=ttyS0"</span>
+-nographic
+</code></pre></blockquote>
+<h3 id="方法二：编译后生成">方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
 <pre><code>dir /dev <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
 nod /dev/console <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> c <span class="number">5</span> <span class="number">1</span>
 nod /dev/loop0 <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> b <span class="number">7</span> <span class="number">0</span>
