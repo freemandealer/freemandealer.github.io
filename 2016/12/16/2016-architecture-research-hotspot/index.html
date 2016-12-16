@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>2016年计算机体系结构领域研究热点调研报告 | Freeman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2016年计算机体系结构领域研究热点调研报告">
+<meta property="og:url" content="http://yoursite.com/2016/12/16/2016-architecture-research-hotspot/index.html">
+<meta property="og:site_name" content="Freeman">
+<meta property="og:description" content="2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。">
+<meta property="og:image" content="http://yoursite.com/img/new_tech_old_problem.png">
+<meta property="og:image" content="http://yoursite.com/img/new_tech_old_problem_count.png">
+<meta property="og:image" content="http://yoursite.com/img/surface.png">
+<meta property="og:updated_time" content="2016-12-16T01:21:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2016年计算机体系结构领域研究热点调研报告">
+<meta name="twitter:description" content="2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。">
+  
+    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/Note">笔记</a></li>
+				        
+							<li><a href="/tags/Life">生活</a></li>
+				        
+							<li><a href="/tags/Meta">元知识</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 15px;">Life</a> <a href="/tags/Meta/" style="font-size: 17.5px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 12.5px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Freeman</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/Note">笔记</a></li>
+		        
+					<li><a href="/tags/Life">生活</a></li>
+		        
+					<li><a href="/tags/Meta">元知识</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2016-architecture-research-hotspot" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/2016-architecture-research-hotspot/" class="article-date">
+  	<time datetime="2016-12-16T01:08:23.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      2016年计算机体系结构领域研究热点调研报告
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="1-_研究方法和原始数据">1. 研究方法和原始数据</h3><p>调研遍历了2016年CCF(中国计算机学会)推荐国际学术会议列表(以下简称列表)124篇计算机体系结构领域的论文，通过分析论文标题、关键词、摘要、引言等内容，提取研究主题。这些论文，来自列表A类会议中的前三个：ASPLOS (Architectural Support for Programming Languages and Operating Systems)、FAST (Conference on File and Storage Technologies)和 HPCA(High-Performance Computer Architecture)。</p>
+<p>按照这个方法，我们获得一张包含134个项目的表格，作为研究分析的原始数据。在分析论文研究主题的过程中，我发现部分论文的描述自己的研究主题采取一定格式：首先介绍大领域，接着介绍具体的问题，最后提出自己的解决方法。例如，一篇文章的研究内容可能是NVM (大领域)的功耗 (具体问题)，然后以”in this paper”引出自己的解决方案。在满足这个特征的论文中我还发现两个特性：大领域往往是一些热门技术，如NVM、事务内存等。而那些大领域下的具体问题，往往是一些共性的、经典的问题，如：功耗、可靠性等。基于这些特征，我把原始数据根据论文研究主题整理出一个表格，称之为“新领域－老问题矩阵”。矩阵剔除了部分与体系结构关系不密切的文章。</p>
+<center><br><img src="/img/new_tech_old_problem.png" alt=""><br></center>
+
+<p>下面具体描述新领域－老问题矩阵的构成。矩阵深灰色区域每一格代表一个“新领域”，浅灰色每一格代表一个“老问题”，浅色区域每个格子中的每个数值为一篇论文在本研究中的序号，多篇论文用逗号分开。格子的行列表示这篇论文研究的主题是行代表的“新领域”和列代表的“老问题”相结合。需要注意的是，不是所有的论文都满足上文中提到的三项特征，它们被列举在other一栏。”新领域“的other（行）表示主题为未列出的其它领域技术但是具有对应”老问题“的文章，问题的other（列）表示主题为未列出的其它问题可被归为对应”新领域“的文章。而落入“other领域-other问题”中的文章，是讨论其它技术领域的其它问题的文章，或者是完全不符合上述特征的、极具想象力的文章。</p>
+<h3 id="2-_结论">2. 结论</h3><p><strong>结论一：热门领域有这些</strong></p>
+<p>上面给出的“新领域－老问题矩阵”中，深色和浅灰色部分分别给出了热门研究领域和热门研究问题。其中热门领域包括：flash、GPU/GPGPU、NVM、并行／分布式／云计算、多核／众核、事务内存、CPU和微体系结构、数据中心、文件系统／存储系统、异构计算、新的存储技术、加速器、互连网络／片上网络、模糊计算、可重构硬件、虚拟化、移动计算、物联网。热门研究问题包括：安全性、可靠性、功耗、缓存、并发一致性、QoS／资源分配、性能、内存管理、I/O、反冗余、冷却。当然，“other领域-other问题”一格中还有一些讨论其它主题的论文，由于在本调研中这些论文研究的主题出现仅一次，暂时认为其不具备“热门”特征的。</p>
+<p>如果把“新领域－老问题矩阵”中每一格内容由原来的论文编号替换成格子中包含的论文数量，那么可以得到“新技术－老问题计数矩阵”。</p>
+<center><br><img src="/img/new_tech_old_problem_count.png" alt=""><br></center>
+
+<p>计数矩阵的最右列是以该“新领域”为研究主题论文数量的总计。同样，最后一行是以每个“老问题”为讨论主题论文数量的总计。我们很容易发现，讨论激烈的新领域集中在Flash、GPU/GPGPU、NVM、并行／分布式／云计算、事务内存、CPU／微体系结构。研究问题集中在安全／可靠性、功耗方面。</p>
+<p><strong>结论二：以“新技术－老问题”为主题的研究较普遍</strong></p>
+<p>根据新技术－老问题计数矩阵，我绘制了下图：</p>
+<center><br><img src="/img/surface.png" alt=""><br></center>
+
+<p>图中，横轴、纵轴与矩阵的行、列对应，分别表示新技术／热门领域和共性问题。锥形的高度表示相应“新领域－老问题”论文的数量。从图中可以看出，靠近坐标轴的other部分相对突出（对应矩阵的深色和浅灰色部分），但中间部分也占据相当分量（对应矩阵白色部分）。这表明“新技术－老问题”为主题的研究较普遍。研究者会在新兴的技术被提出后，联系之前自己的研究经历，使用一些经典评价指标和通用分析方法去评价新技术，如果存在问题，那么着手研究解决方案。我们看到研究相对集中的几个热门领域，如：Flash、GPU/GPGPU、NVM、并行／分布式／云计算、事务内存、CPU／微体系结构，与相对集中的几个热门研究问题，如：安全／可靠性、功耗，两者交织情况十分显著。</p>
+<h3 id="3-_启发">3. 启发</h3><p><strong>启发一：围绕矩阵发掘研究主题</strong></p>
+<p>研究过程得到的新领域－老问题矩阵，不仅仅定位了2016年体系结构领域的的研究前沿热点，还提供了一些启发：这个矩阵作为一种文献主题归类方式和分析方法，可以被用来分类、理解其它论文的研究内容。更重要的是，它可以被用来挖掘潜在的研究主题。</p>
+<p><strong>启发二：基准 -&gt; 新设计， 特征 -&gt; 新设计</strong></p>
+<p>在分析文章的过程中，我发现部分文章的工作集中在提出了一种新的基准 (benchmark)，并利用自己的基准去评价现有系统，发现系统不足，接着提出改进方案或是新的设计。这意味着，提出一种新的基准，可以作为研究的一个可能的起点。另一个起点可能是特征分析。调研过程中浏览的一些文章开始于系统、应用场景特征的分析。得到特征分析结果后，再针对性地提出改进或新的设计。</p>
+<p><strong>启发三：合作</strong></p>
+<p>被分析的论文中，有大量工作是由多个研究机构共同完成的，体现出科研领域合作的重要性。值得一提的是，大量的合作来自大学和工业界共同建立。如Google和德州大学奥斯汀分校、耶鲁大学和多伦多大学有良好的合作。在它们合作的文章中，Google不仅积极参与研究，同时提供了真实应用环境。这样的结合，提升了学术成果实用价值，加速了技术到市场的转换效率。国内，华为公司跟一些学术机构也保持同样的合作关系。</p>
+<h3 id="4-_未来工作">4. 未来工作</h3><p>由于时间有限，本工作调研的文章数量极为有限，通过增加会议数量会使得热门领域的判断更加准确且完备。如果能扩展调研论文的发表年份，会为结论增加时间维度，得到热门领域的变迁关系。</p>
+<p>本文是按照CCF推荐列表展开调研的，而从实验室角度展开调查或许是另一个增强结论、发现新结论的方法。具体说，可以从国际上影响力较大实验室的项目和发表论文中获取一些信息，分析研究主题，有可能得到一些有意思的结论。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/10/30/you-are-it-guy-so-can-you-fix-this/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">听说你是搞计算机的，你会修电脑吗</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Freeman
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-30T06:18:11.000Z</updated>
+  <updated>2016-12-16T01:21:02.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[2016年计算机体系结构领域研究热点调研报告]]></title>
+    <link href="http://yoursite.com/2016/12/16/2016-architecture-research-hotspot/"/>
+    <id>http://yoursite.com/2016/12/16/2016-architecture-research-hotspot/</id>
+    <published>2016-12-16T01:08:23.000Z</published>
+    <updated>2016-12-16T01:21:02.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="1-_研究方法和原始数据">1. 研究方法和原始数据</h3><p>调研遍历了2016年CCF(中国计算机学会)推荐国际学术会议列表(以下简称列表)124篇计算机体系结构领域的论文，通过分析论文标题、关键词、摘要、引言等内容，提取研究主题。这些论文，来自列表A类会议中的前三个：ASPLOS (Architectural Support for Programming Languages and Operating Systems)、FAST (Conference on File and Storage Technologies)和 HPCA(High-Performance Computer Architecture)。</p>
+<p>按照这个方法，我们获得一张包含134个项目的表格，作为研究分析的原始数据。在分析论文研究主题的过程中，我发现部分论文的描述自己的研究主题采取一定格式：首先介绍大领域，接着介绍具体的问题，最后提出自己的解决方法。例如，一篇文章的研究内容可能是NVM (大领域)的功耗 (具体问题)，然后以”in this paper”引出自己的解决方案。在满足这个特征的论文中我还发现两个特性：大领域往往是一些热门技术，如NVM、事务内存等。而那些大领域下的具体问题，往往是一些共性的、经典的问题，如：功耗、可靠性等。基于这些特征，我把原始数据根据论文研究主题整理出一个表格，称之为“新领域－老问题矩阵”。矩阵剔除了部分与体系结构关系不密切的文章。</p>
+<center><br><img src="/img/new_tech_old_problem.png" alt=""><br></center>
+
+<p>下面具体描述新领域－老问题矩阵的构成。矩阵深灰色区域每一格代表一个“新领域”，浅灰色每一格代表一个“老问题”，浅色区域每个格子中的每个数值为一篇论文在本研究中的序号，多篇论文用逗号分开。格子的行列表示这篇论文研究的主题是行代表的“新领域”和列代表的“老问题”相结合。需要注意的是，不是所有的论文都满足上文中提到的三项特征，它们被列举在other一栏。”新领域“的other（行）表示主题为未列出的其它领域技术但是具有对应”老问题“的文章，问题的other（列）表示主题为未列出的其它问题可被归为对应”新领域“的文章。而落入“other领域-other问题”中的文章，是讨论其它技术领域的其它问题的文章，或者是完全不符合上述特征的、极具想象力的文章。</p>
+<h3 id="2-_结论">2. 结论</h3><p><strong>结论一：热门领域有这些</strong></p>
+<p>上面给出的“新领域－老问题矩阵”中，深色和浅灰色部分分别给出了热门研究领域和热门研究问题。其中热门领域包括：flash、GPU/GPGPU、NVM、并行／分布式／云计算、多核／众核、事务内存、CPU和微体系结构、数据中心、文件系统／存储系统、异构计算、新的存储技术、加速器、互连网络／片上网络、模糊计算、可重构硬件、虚拟化、移动计算、物联网。热门研究问题包括：安全性、可靠性、功耗、缓存、并发一致性、QoS／资源分配、性能、内存管理、I/O、反冗余、冷却。当然，“other领域-other问题”一格中还有一些讨论其它主题的论文，由于在本调研中这些论文研究的主题出现仅一次，暂时认为其不具备“热门”特征的。</p>
+<p>如果把“新领域－老问题矩阵”中每一格内容由原来的论文编号替换成格子中包含的论文数量，那么可以得到“新技术－老问题计数矩阵”。</p>
+<center><br><img src="/img/new_tech_old_problem_count.png" alt=""><br></center>
+
+<p>计数矩阵的最右列是以该“新领域”为研究主题论文数量的总计。同样，最后一行是以每个“老问题”为讨论主题论文数量的总计。我们很容易发现，讨论激烈的新领域集中在Flash、GPU/GPGPU、NVM、并行／分布式／云计算、事务内存、CPU／微体系结构。研究问题集中在安全／可靠性、功耗方面。</p>
+<p><strong>结论二：以“新技术－老问题”为主题的研究较普遍</strong></p>
+<p>根据新技术－老问题计数矩阵，我绘制了下图：</p>
+<center><br><img src="/img/surface.png" alt=""><br></center>
+
+<p>图中，横轴、纵轴与矩阵的行、列对应，分别表示新技术／热门领域和共性问题。锥形的高度表示相应“新领域－老问题”论文的数量。从图中可以看出，靠近坐标轴的other部分相对突出（对应矩阵的深色和浅灰色部分），但中间部分也占据相当分量（对应矩阵白色部分）。这表明“新技术－老问题”为主题的研究较普遍。研究者会在新兴的技术被提出后，联系之前自己的研究经历，使用一些经典评价指标和通用分析方法去评价新技术，如果存在问题，那么着手研究解决方案。我们看到研究相对集中的几个热门领域，如：Flash、GPU/GPGPU、NVM、并行／分布式／云计算、事务内存、CPU／微体系结构，与相对集中的几个热门研究问题，如：安全／可靠性、功耗，两者交织情况十分显著。</p>
+<h3 id="3-_启发">3. 启发</h3><p><strong>启发一：围绕矩阵发掘研究主题</strong></p>
+<p>研究过程得到的新领域－老问题矩阵，不仅仅定位了2016年体系结构领域的的研究前沿热点，还提供了一些启发：这个矩阵作为一种文献主题归类方式和分析方法，可以被用来分类、理解其它论文的研究内容。更重要的是，它可以被用来挖掘潜在的研究主题。</p>
+<p><strong>启发二：基准 -&gt; 新设计， 特征 -&gt; 新设计</strong></p>
+<p>在分析文章的过程中，我发现部分文章的工作集中在提出了一种新的基准 (benchmark)，并利用自己的基准去评价现有系统，发现系统不足，接着提出改进方案或是新的设计。这意味着，提出一种新的基准，可以作为研究的一个可能的起点。另一个起点可能是特征分析。调研过程中浏览的一些文章开始于系统、应用场景特征的分析。得到特征分析结果后，再针对性地提出改进或新的设计。</p>
+<p><strong>启发三：合作</strong></p>
+<p>被分析的论文中，有大量工作是由多个研究机构共同完成的，体现出科研领域合作的重要性。值得一提的是，大量的合作来自大学和工业界共同建立。如Google和德州大学奥斯汀分校、耶鲁大学和多伦多大学有良好的合作。在它们合作的文章中，Google不仅积极参与研究，同时提供了真实应用环境。这样的结合，提升了学术成果实用价值，加速了技术到市场的转换效率。国内，华为公司跟一些学术机构也保持同样的合作关系。</p>
+<h3 id="4-_未来工作">4. 未来工作</h3><p>由于时间有限，本工作调研的文章数量极为有限，通过增加会议数量会使得热门领域的判断更加准确且完备。如果能扩展调研论文的发表年份，会为结论增加时间维度，得到热门领域的变迁关系。</p>
+<p>本文是按照CCF推荐列表展开调研的，而从实验室角度展开调查或许是另一个增强结论、发现新结论的方法。具体说，可以从国际上影响力较大实验室的项目和发表论文中获取一些信息，分析研究主题，有可能得到一些有意思的结论。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。</p>
+</blockquote>]]>
+    
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[听说你是搞计算机的，你会修电脑吗]]></title>
@@ -959,94 +1003,6 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
     </summary>
     
       <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[用QEMU来调试内核 -- 道听途说篇]]></title>
-    <link href="http://yoursite.com/2015/08/27/debug-kernel-with-qemu/"/>
-    <id>http://yoursite.com/2015/08/27/debug-kernel-with-qemu/</id>
-    <published>2015-08-27T01:28:12.000Z</published>
-    <updated>2015-10-04T14:34:09.000Z</updated>
-    <content type="html"><![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/" target="_blank" rel="external">之前文章</a>):</p>
-<ul>
-<li>简单、轻便，通过命令参数指定内核</li>
-<li>编译出内核即能调试，不需要应用层</li>
-<li>能调试诸多硬件平台(ARM/MIPS等等)</li>
-</ul>
-<p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>
-<a id="more"></a>
-<h2 id="调试内核">调试内核</h2><h3 id="编译带调试信息的内核镜像">编译带调试信息的内核镜像</h3><p>首先我们得有一个被调试的内核二进制镜像。这个内核镜像必须是打开调试模式编译出来的，即内核配置中：</p>
-<pre><code><span class="attribute">CONFIG_DEBUG_INFO</span>=<span class="string">y</span>
-</code></pre><h3 id="运行内核">运行内核</h3><p>根据邮件原文，接着运行:</p>
-<pre><code>qemu -s -S  -kernel <span class="keyword">arch</span>/x86/<span class="keyword">boot</span>/bzImage -<span class="keyword">append</span> <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
-</code></pre><p>或者</p>
-<pre><code>qemu -s -S -smp <span class="number">1</span>,cores=<span class="number">1</span>  -hda /dev/zero -kernel arch/x86/boot/bzImage
-</code></pre><p>就可以启动内核。但我在操作时，单独一个<code>qemu</code>并不是一个程序，而是：</p>
-<pre><code>qemu-aarch64              qemu-mipsn32              qemu-system-i386        
-qemu-aarch64-<span class="keyword">static</span>       qemu-mipsn32el            qemu-system-lm32        
-qemu-<span class="built_in">alpha</span>                qemu-mipsn32el-<span class="keyword">static</span>     qemu-system-m68k        
-qemu-<span class="built_in">alpha</span>-<span class="keyword">static</span>         qemu-mipsn32-<span class="keyword">static</span>       qemu-system-microblaze  
-qemu-arm                  qemu-mips-<span class="keyword">static</span>          qemu-system-microblazeel
-qemu-armeb                qemu-nbd                  qemu-system-mips        
-qemu-armeb-<span class="keyword">static</span>         qemu-or32                 qemu-system-mips64      
-qemu-arm-<span class="keyword">static</span>           qemu-or32-<span class="keyword">static</span>          qemu-system-mips64el    
-qemu-cris                 qemu-ppc                  qemu-system-mipsel      
-qemu-cris-<span class="keyword">static</span>          qemu-ppc64                qemu-system-moxie       
-qemu-debootstrap          qemu-ppc64abi32           qemu-system-or32        
-qemu-i386                 qemu-ppc64abi32-<span class="keyword">static</span>    qemu-system-ppc         
-qemu-i386-<span class="keyword">static</span>          qemu-ppc64-<span class="keyword">static</span>         qemu-system-ppc64       
-qemu-img                  qemu-ppc-<span class="keyword">static</span>           qemu-system-ppcemb      
-qemu-io                   qemu-s390x                qemu-system-s390x       
-qemu-m68k                 qemu-s390x-<span class="keyword">static</span>         qemu-system-sh4         
-qemu-m68k-<span class="keyword">static</span>          qemu-sh4                  qemu-system-sh4eb       
-qemu-make-debian-root     qemu-sh4eb                qemu-system-sparc       
-qemu-microblaze           qemu-sh4eb-<span class="keyword">static</span>         qemu-system-sparc64     
-qemu-microblazeel         qemu-sh4-<span class="keyword">static</span>           qemu-system-unicore32   
-qemu-microblazeel-<span class="keyword">static</span>  qemu-sparc                qemu-system-x86_64      
-qemu-microblaze-<span class="keyword">static</span>    qemu-sparc32plus          qemu-system-xtensa      
-qemu-mips                 qemu-sparc32plus-<span class="keyword">static</span>   qemu-system-xtensaeb    
-qemu-mips64               qemu-sparc64              qemu-unicore32          
-qemu-mips64el             qemu-sparc64-<span class="keyword">static</span>       qemu-unicore32-<span class="keyword">static</span>   
-qemu-mips64el-<span class="keyword">static</span>      qemu-sparc-<span class="keyword">static</span>         qemu-x86_64             
-qemu-mips64-<span class="keyword">static</span>        qemu-system-<span class="built_in">alpha</span>         qemu-x86_64-<span class="keyword">static</span>      
-qemu-mipsel               qemu-system-arm                                   
-qemu-mipsel-<span class="keyword">static</span>        qemu-system-cris                                 
-</code></pre><p>这么多<code>qemu-xxx</code>… 其中<code>qemu-system-xxx</code>是运行<code>xxx</code>硬件平台下整个操作系统的模拟器，比如我有一个x86_64平台的内核，那就使用下面命令运行之：</p>
-<pre><code>qemu-system-x86_64 -s -S -kernel /boot/vmlinuz-<span class="number">3.13</span><span class="number">.0</span>-<span class="number">58</span>-generic -append <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
-</code></pre><h3 id="调试！">调试！</h3><p>接着就可以打开GDB进行连接、调试:</p>
-<pre><code><span class="variable">$gdb</span> vmlinux
-(gdb) target remote localhost:<span class="number">1234</span>
-(gdb) b start_kernel
-(gdb) c
-</code></pre><h2 id="调试模块">调试模块</h2><p>qemu运行参数需要加上<code>-initrd　&lt;Your Init-RamDisk&gt;</code>选项，确保模块被安装。如果没有现成的initrd，那就做一个：</p>
-<pre><code>sudo make modules_install
-mkinitrdramfs -o initrd<span class="class">.img</span> -v &lt;your-version&gt;
-</code></pre><p>接着使用下列命令载入模块符号：</p>
-<pre><code>(gdb<span class="function">)</span><span class="instruction"> add-symbol-file </span>/home/aruna/kmod/misc.ko 0xffffffffa057e000 -s .data　0xffffffffa0580000 -s .bss 0xffffffffa05802c8
-</code></pre><p>后面的那些地址可以通过如下命令查看:</p>
-<pre><code>sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">text</span></span>
-sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">data</span></span>
-</code></pre><h2 id="其它平台">其它平台</h2><p>qemu不是虚拟机，而是一款模拟器。这意味着它可以模拟很多硬件平台。对于多种硬件平台的内核，只需选择对应的<code>qemu-system-xxx</code>即可。我恰巧有一块cubieboard的板子，电脑里有它的内核，那么我就这样运行这个内核:</p>
-<pre><code>qemu-system-arm -machine cubieboard -s -S -kernel <span class="keyword">project</span><span class="regexp">/cubieboard/</span>linux-<span class="keyword">source</span>-<span class="number">3.4</span>.<span class="number">79</span>-sun7i<span class="regexp">/arch/</span>arm<span class="regexp">/boot/</span>zImage -<span class="keyword">append</span> <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
-</code></pre><p>可以看到多使用了<code>-machine</code>参数，来指定机器类型(是因为SoC的原因？)。</p>
-<h2 id="出错处理">出错处理</h2><p>GDB报错：”Remote ‘g’ packet reply is too long”<br>处理办法<a href="http://lists.gnu.org/archive/html/qemu-discuss/2014-10/msg00069.html" target="_blank" rel="external">(参考这个)</a>：<br>下载GDB代码，修改remote.c文件注释下面两行:</p>
-<pre><code><span class="number">6157</span>  <span class="comment">//if (buf_len &gt; 2 * rsa-&gt;sizeof_g_packet)</span>
-<span class="number">6158</span>  <span class="comment">//  error (_("Remote 'g' packet reply is too long: %s"), rs-&gt;buf);</span>
-</code></pre><p>然后重新编译安装GDB。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/">之前文章</a>):</p>
-<ul>
-<li>简单、轻便，通过命令参数指定内核</li>
-<li>编译出内核即能调试，不需要应用层</li>
-<li>能调试诸多硬件平台(ARM/MIPS等等)</li>
-</ul>
-<p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>]]>
-    
-    </summary>
-    
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
     
   </entry>
   
