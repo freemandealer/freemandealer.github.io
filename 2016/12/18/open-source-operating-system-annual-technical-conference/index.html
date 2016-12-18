@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | Freeman</title>
+  <title>开源操作系统技术年会会后杂谈 | Freeman</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Freeman">
-<meta property="og:url" content="http://yoursite.com/archives/page/7/index.html">
+  <meta name="description" content="虽然是技术年会，我却跑去听了教育专题研讨论分会场。意外的是，这个分会给了我很多启发。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开源操作系统技术年会会后杂谈">
+<meta property="og:url" content="http://yoursite.com/2016/12/18/open-source-operating-system-annual-technical-conference/index.html">
 <meta property="og:site_name" content="Freeman">
-<meta property="og:description">
+<meta property="og:description" content="虽然是技术年会，我却跑去听了教育专题研讨论分会场。意外的是，这个分会给了我很多启发。">
+<meta property="og:image" content="http://yoursite.com/img/open-source-operating-system-annual-technical-conference.jpg">
+<meta property="og:updated_time" content="2016-12-18T01:58:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Freeman">
-<meta name="twitter:description">
+<meta name="twitter:title" content="开源操作系统技术年会会后杂谈">
+<meta name="twitter:description" content="虽然是技术年会，我却跑去听了教育专题研讨论分会场。意外的是，这个分会给了我很多启发。">
   
     <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
   
@@ -206,181 +208,84 @@ var _hmt = _hmt || [];
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-open-source-operating-system-annual-technical-conference" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2016/12/18/open-source-operating-system-annual-technical-conference/" class="article-date">
+  	<time datetime="2016-12-18T01:48:08.000Z" itemprop="datePublished">2016-12-18</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      开源操作系统技术年会会后杂谈
+    </h1>
+  
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/27/extract-kernel-config-for-android-devices/" class="archive-article-date">
-  	<time datetime="2014-04-27T12:48:05.000Z" itemprop="datePublished">Apr 27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/27/extract-kernel-config-for-android-devices/">提取Android手机的内核配置文件</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虽然是技术年会，我却跑去听了教育专题研讨论分会场。意外的是，这个分会给了我很多启发。</p>
+<a id="more"></a>
+<p>首先超级感动：国内高校有这么多有责任心的老师，认认真真思考教育、了解学生，热情洋溢地交流教学方法。他们是上海交大软院院长臧斌宇（2002年就开始的系统化教学改革）、北京大学陈向群（主持人）、北航王雷（利用数据分析学生实验行为）、复旦的张亮／高建（AIM教学内核,github: davidgao）。</p>
+<p>听完报告，我果然很遗憾自己的操作系统课程水水就过去了。悲哉！难得自己对操作系统那么感兴趣，去没有最大程度地被引导利用。好想回本科系统地学习、实验一遍。另外一个听会感受是：写内核对本科生的要求算很高，就算是北大、上交这类层次的学校，每年也只有二三十人的“拔尖班”学生有能力进行内核开发（开发自己的玩具内核或修改教学内核），然而工业界对系统知识人才目前有求贤若渴之感。那缺失的这部分人才在哪里呢？好在研究生和几年工作经验的人稍稍补上了这类缺口。</p>
+<p>我从大一下学期开始，就对计算机底层运行机制非常感兴趣。没记错的话，把注意力真正转移到内核设计实现是在大二上邂逅了日本人的那本《30天》，大二下选修了操作系统概念这门课。然而课如其名，真的只是教“概念”，颇有学习文科课程之感。当时这门课的小实验是unix/linux环境系统编程，就是使用一些API进行多进程、多线程编程。一开始我觉得莫名其妙、浅尝辄止（我想知道fork怎么实现，而不是学习如何利用fork！），不过今天听了上交臧斌宇老师的观点，他认为通过这些系统调用，了解操作系统内核暴露给用户的接口，是学习操作系统一个比较好的切入点。除了小实验，这门课的课程设计是漫无目的地自个儿琢磨uCOS，老师除了布置这个实验外其它一句话没说。听说南信大另外一个教授操作系统的王进老师的实验是在用户态模拟一些内核行为，如内存分配——虽然和上交拔尖班直接真实内核环境编程还差很远，但是上交臧斌宇老师自己也说了，内核编程不能强迫每个同学去做。大学里水完了操作系统这门课，有幸从恩师王金伟那得到一个课题，注意力转移到了Linux内核编程。课题为期一年，这个过程让我深刻体会到操作系统概念教程这门课和实际内核开发之间的鸿沟。在磕磕绊绊完成课题后，也就是大四上学期的尾巴到寒假这两个多月，我参照《Orange’s》设计自己的内核，实现了bootloader、系统调用框架、多进程轮转切换。和复旦高建同学（新偶像！）自己编写的特性丰富的AIM教学内核比起来，我的非常原始。</p>
+<p>悔恨的我一度想捧起教科书重新学习操作系统，一度想掏出两年前自己写的内核好好完善完善。可是错过了就是错过了，从另外一个角度看，也没有必要。现在反思操作系统这门课，我觉得课程的目的是理解操作系统，再通过操作系统在系统结构整个领域中至关重要的位置，发散着去理解整个计算机结构，让学生成为一个对“系统知识”有“知识系统”的人，从而能在这个基础上做出自己的工作。而不是，把重新造轮子当作工作，抑或是为了理解操作系统而去理解操作系统，那顶多是解解好奇之渴，作为一个研究生我不能满足于此。操作系统考了多高的分数，实验做得多么精妙绝伦，本身都不是目的，对系统结构整体观念的把握能力是我们该好好培养的。</p>
+<center><br><img src="/img/open-source-operating-system-annual-technical-conference.jpg" alt=""><br></center>
+      
+    </div>
+    
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/24/compile-kernel-for-cubieboard/" class="archive-article-date">
-  	<time datetime="2014-04-24T02:57:31.000Z" itemprop="datePublished">Apr 24</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/24/compile-kernel-for-cubieboard/">为cubieboard linux编译内核</a>
-    </h1>
   
+    <a href="/2016/12/16/2016-architecture-research-hotspot/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2016年计算机体系结构领域研究热点调研报告</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/20/read-something-you-dont-know-with-3-threads/" class="archive-article-date">
-  	<time datetime="2014-04-20T10:51:57.000Z" itemprop="datePublished">Apr 20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/20/read-something-you-dont-know-with-3-threads/">开三线程读书，读你不会的</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/17/learn-from-bozhao/" class="archive-article-date">
-  	<time datetime="2014-04-17T07:23:33.000Z" itemprop="datePublished">Apr 17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/17/learn-from-bozhao/">赵波的启发</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/16/learn-from-computer/" class="archive-article-date">
-  	<time datetime="2014-04-16T15:06:17.000Z" itemprop="datePublished">Apr 16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/16/learn-from-computer/">向计算机学习如何做事</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span>
-    </nav>
-  
 
 </div>
       <footer id="footer">
@@ -406,8 +311,8 @@ var _hmt = _hmt || [];
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false
