@@ -594,92 +594,6 @@ platform_driver_register(xxx_drv)
   </entry>
   
   <entry>
-    <title><![CDATA[内核之于我]]></title>
-    <link href="http://yoursite.com/2016/02/02/kernel-to-me/"/>
-    <id>http://yoursite.com/2016/02/02/kernel-to-me/</id>
-    <published>2016-02-02T14:29:20.000Z</published>
-    <updated>2016-02-19T14:27:31.000Z</updated>
-    <content type="html"><![CDATA[<p>今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？</p>
-<a id="more"></a>
-<p>这个突然出现的深度学习课题，一旦参与，很大可能研究生未来的日子里都是跟它一起过日子了。进行了三年的内核研究似乎不得不停止，摆弄操作系统沦为不务正业。回想大二下学期稚气的我偶遇稚气的《30天自制操作系统》，想想大三冬夜熄灯后坐在楼道里啃《一个操作系统的实现》，想想每逢寒假暑假在金陵图书馆死磕内核代码，想想那本走到哪带到哪的大部头《深入理解Linux内核》…… 有时侯室友张刚都评价我的做事方式：你都把操作系统的思想带入生活了。真是分手时才想起她的好！</p>
-<p>煽情部分到此结束，我们下面来看看内核的经历到底给予了我什么（喂～）</p>
-<p>当然首先是钱途！在刚上大学时，就和一位名校毕业的在职驱动工程师交流过。驱动也是内核编程的一种。真的不能小看前辈（好吧，其实是名校毕业生）话语的力量，我的很多选择追根溯源也许就是受这次简单交流的影响。他让我感觉内核编程是复杂的，如果我能搞定这个，其它的编程不是问题。另外就是驱动程序猿的工资会高出很多。反正搞内核就是很高端的样子，不管是想证明自己，还是为了虚荣心，我渐渐不屑曾经执着过的酷炫前端和手机应用开发。</p>
-<p>不过坑爹的是，后来他告诉我，国内的驱动开发其实也是写事务性的代码，重复度很高，工资也并不乐观。而我现在也混进名校了好嘛！除了做驱动开发，那就是真正的内核开发了。具体内核开发是什么，这正是我<strong>正在</strong>探索的。</p>
-<p>除此之外，内核还给予了我什么？满足好奇！是一个十分有重量的理由。我很好奇计算机系统（广义的系统，包含硬件和软件）的如何工作，为什么这样设计。内核是软硬件的交界面，是理解整个计算机系统的切入点。况且，内核的学习资源很丰富，有很多著名书籍讨论其理论，又有像Linux内核开放源代码。这些来之不易的资源让我们相信：只要愿意下功夫，内核毫无秘密。</p>
-<p>遗憾的是，随着我对内核的理解，这股好奇的力量逐渐减弱，这时内核之于我的其它意义凸显出来：内核赋予了我把握复杂软件系统的能力。Linux是开源的，是伟大的。Robert Love说：“请不要认为这理所应当。”而我还要加上一句：“请不要认为有了代码就没有了秘密。”沉浸在上亿行代码中，可不是一种愉悦的感受，而是分分钟溺亡的窒息感。当学会了拆分系统，学会了观察目录组织，学会了猜测函数功能，培养了寻找主干的嗅觉，培养了抽丝拨茧的侦探精神等等一系列特意功能后(好吧，其实只是耐心被逼出新境界了），再看各种大型工程，不会觉得心里烦躁了。</p>
-<p>内核编程本身就是一项实用技术。很多应用层编程完成不了的功能，放到内核层实现就能成为可能并且会很自然很优雅。计算机网络课程大作业，我也看到很多小组不约而同地使用了netfilter框架，这也是内核级的编程。从这点来看，内核编程和和IOS开发一样，都是在一定平台下，实现了一些功能。不过内核编程的平台直接是硬件，在这个混沌的世界编程更加复杂。有了内核基础的我面对这些任务当然是毫不畏惧，相反，游刃有余。</p>
-<p>Linux作为世界上最大开源项目，应该是没有之一的。作为内核开发轻度参与者，或多或少也受大胡子理念熏陶，学着用起来Git和GPL神器，和大牛们发起了邮件，感受到了“社区的力量”。</p>
-<p>研究内核训练了我解决问题的能力。还记得大三做内核相关的项目，及其艰深，学校老师没有人懂，身边也没有经验的同学，完全就是一个人在那看时光荏苒思前想后。然而结果证明这个孤立无援的环境成为了我的成长的茂盛丛林。从开始学习，尝试读不同的书，最后理清书本间的关系找到一条斜率适度的学习曲线。从项目思路到设计到编码到debug，凡事出现问题，都是一个人使出浑身解数，丧心病狂。值得一提的是最终我结识了散落在各地的小伙伴、找到了组织(找到组织本身就是一个人死磕出的结果呀！)，又开始学习通过交流和他人的经验解决问题。想想内核debug的悲惨遭遇，还有什么算问题呢？</p>
-<p>说到这里，让我们回到开头时的困惑：选择参与了实验室项目，很可能就得放弃内核。实验室课题、就业和个人兴趣这个三角很难被平衡。有人就说了：干嘛平衡？搞得像以后工作内容和你现在弄的东西相关似的。听完我虎躯一震：潇洒！</p>
-<p>上次同样的一震还是谢高岗老师的复习课上，我们满心期待划重点，结果PPT上画着一个扫地僧，伴有旁白：手中无剑心中有剑，无剑亦为有剑。如果一个人把自己学到的具体知识忘光，那么剩下的就是理解和能力。如果我以后没有和内核走在一起，忘记了她，那么剩下的，就是文章中的这些沉淀吧。</p>
-<p><img src="http://i13.tietuku.com/8acb1f0185975269.jpg" alt=""></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>今天导师发来邮件说让我去做无人汽车的人工智能，涉及深度学习、人工神经网络等一系列时髦词汇。很多人都觉得着实刺激，称赞是一个不错的课题。但我心里咯噔了一下——我亲爱的内核怎么办？</p>]]>
-    
-    </summary>
-    
-      <category term="Notes" scheme="http://yoursite.com/tags/Notes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[科学的杜鹃蛋 —— 自然辩证法课堂演讲]]></title>
-    <link href="http://yoursite.com/2015/11/27/the-eggs-of-science/"/>
-    <id>http://yoursite.com/2015/11/27/the-eggs-of-science/</id>
-    <published>2015-11-27T10:00:10.000Z</published>
-    <updated>2015-11-27T10:42:42.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>
-<a id="more"></a>
-<p>大家好，我是张正宇。下面我将代表第23组，来自计算所的6位小伙伴，给大家展示我们对于“科技与社会”这个问题的讨论成果。</p>
-<p>同学们认识Daniel Pink吗？他是全球最具影响力的50位思想家之一。他在他的书中写过：在不远的未来，那些需要左脑工作的职业将会被聪明的计算机程序取代。这都是他观点。你们相信吗？我不信！我自己的观点是：需要右脑工作的职业也可能被取代［观众笑］——比如说绘画。</p>
-<p>今年8月底，德国一个研究所的科学家公布了一项研究结果，他们让人工智能系统学习梵高，莫奈等世界著名画家的画风绘制新的“人工智能世界名画”。我不懂艺术，但我觉得还不错，你们觉得呢？</p>
-<p><img src="/img/the-eggs-of-science-1.png" alt=""></p>
-<p>如果好奇这是怎么做到的，我这里给大家提供一个搜索关键词叫“机器学习”。当然，有了“机器学习”，我们还有“机器考试”。就在上个星期，日本一个研究所研发的人工智能已经能在日本高考中考取511分的成绩。511分是多少分呢？511分已经达到了80%的日本国内大学录取分数线。而同一套试题人类学生的平均分为416分［观众哇塞唏嘘］。</p>
-<p>你看人工智能可以学习，也可以考试，分数还这么高，找工作估计也不用太担心。三百六十行，行行都可以人工智能。造成失业，可能是人工智能对于未来社会最直接的负面影响。大家知道，工业革命把工人从工厂撵走，不过我们因此有幸腾出时间，参加更加高级的智力活动。而现在人工智能的出现，分明是要把我们从事知识工作的权利也剥夺啊。</p>
-<p>那在座各位就都只能回家生孩子去了对不对？［观众笑］当然机器也可能生小孩，现在的3D打印技术已经让机器复制成为了可能。有了机器能学习、能考试，说不定未来还能科研。这样我们也不要什么科研了，就每天早上喂完孩子去问电脑一个问题，比如怎么证明哥德巴赫猜想？让它自动去给我们找答案。这让我想到一部电影里的情节，电影叫做《银河系漫游指南》。其中有一段说科学家制造了一台人工智能，让它去求解“生命和宇宙的终极答案”。经过漫长的等待，这个人工智能回答道：生命和宇宙的终极答案是——42。科学家很难过，质问人工智能42是什么鬼。人工智能也很委屈，说答案真的是42［观众笑］，你们要理解这个答案那就必须首先找到“生命、宇宙以及一切的终极答案”对应的终极问题到底是什么。</p>
-<p>［这里观众竟然没有笑……］这个片段很有意思，你们怎么不笑呢？［观众笑，掌声］没关系没关系……不笑也无所谓，这是一种英式幽默，笑点需要仔细品味。其实我想说的是这个片段的后面一段：那个人工智能看到人类忧郁的表情，决定去帮助人类寻找终极问题。不过它太累了，它得看电视，得休息，它又制造了另外一台计算机去算问题 —— 我们看到这个人工智能就像一个正常人类一样，有了需求，而且开始维护自己的利益。这是有可能的啊。随着人工智能的发展，社会对人工智能的期待越来越高，我们发现高智商还不够，同时还要求它有情商。等到发展到它产生自我意识，机器再也不是我们熟悉的那个没日没夜不知疲倦的工具了，那么问题就来了：要不要给人工智能看电视呢，当它们抱怨自己压力大的时候？我们要不要承认这个人工大脑里面是存在意识的呢？我们是不是要将人工智能视作生命呢？这是人工智能抛给社会伦理的挑战。</p>
-<p>然而这个挑战比我们想象的深远很多，甚至可能会危及人类文明。这里我不是想说科幻电影里的那些邪恶机器杀手，即使是那些人畜无害、环境友好的人工智能，也可能充满人文关怀地杀死人类。我特别想和大家讨论人工智能灭绝人类的10000种方式。但时间原因，我只能给大家看一副图片。</p>
-<p><img src="/img/the-eggs-of-science-2.png" alt=""></p>
-<p>这幅图片是科学家预言在不久的未来，人工智能将达到人类的水平、并成几何级数迅速增长超越人类。这副图并没有直接描绘人工智能是如何灭绝人类的，但智商被碾压本身就很可怕。创造出比我们聪明的人工智能，实际上就是把我们祖先奋斗了几百万年才获得的万物灵长的地位拱手让人。研究人工智能的学者们，在惊喜于自己的科学创新之余，也会忐忑一下。昨天来我们学校报告的南洋理工人工智能学者黄广斌教授，讲座结束之际还补充了一句：不能无限制地发展人工智能。霍金、比尔盖茨也都不断提醒人们：注意人工智能！但是社会上也有反面的声音，认为应当无限制地发展人工智能。我听到最极端的是科学中心论和宇宙中心论主义者对人工智能的支持。在他们看来，人类利益微不足道，人类只是服务于科学发展的一个载体，是宇宙演化的一个齿轮。只要人工智能对科学进步和宇宙演化有好处，哪怕因此人类自己灭亡了也无所谓——至少我们可以夸赞自己是大义灭亲！</p>
-<p>话说回来，今天我们自然辩证法课的主题是科技与社会。总结一下，人工智能与社会的关系：第一，在未来，人工智能会在就业问题上直接影响社会；第二，在未来，人工智能可能会给社会伦理带来新的挑战；第三，在未来，人工智能也可能会危及人类文明。不知道大家注意到没有，这些时态都是未来的。到目前为止，我是在YY一个未来形态的人工智能，在猜测它在未来的时间里对社会的影响。而未来是混顿的，没人可以精确预测，我这样挖穿脑洞真的好吗？我为什么刻意面相未来说科技对社会的影响？</p>
-<p>先跟大家分享一个冷知识：你们知道杜鹃鸟不会筑巢吗？［观众们知道］它们会把自己的蛋下在麻雀的巢里，可是麻雀妈妈不知道，一个劲地孵啊孵，直到小杜鹃破壳而出。小杜鹃生来就有一个本能——把身边其它鸟蛋踢下去，把麻雀搞得家破人亡。</p>
-<p>我想说的是，科学发现、技术创新就是一颗一颗的鸟蛋，在孵化出来之前，我们很少能知道它是什么，能怎么样。幸运的是目前为止，我们发展的科技，无一例外地丰富了我们的生活，或多或少。值得一提的是那个蛋，叫核弹，差点就成了这颗杜鹃蛋，现在人工智也成了嫌疑蛋，会不会是人类最后一项发明创造。当然也可能不是。如果不是我们也不用庆幸，因为你们各位研二所在的实验室里，可能就在孵化着这一颗蛋。所以，祝大家科研顺利，早日毁灭人类！谢谢！［观众笑，掌声］</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="/img/the-eggs-of-science-cover.png" alt=""></p>]]>
-    
-    </summary>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[记录一次破冰演讲]]></title>
-    <link href="http://yoursite.com/2015/11/07/english-speech/"/>
-    <id>http://yoursite.com/2015/11/07/english-speech/</id>
-    <published>2015-11-07T14:47:32.000Z</published>
-    <updated>2015-11-08T11:56:49.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="/img/english-speech.jpg" alt=""></p>
-<p>今天英语沙龙，给大家演讲的主题是《Program Your Life》，主要是想让英语角非计算机专业的小伙伴转变“编程很苦逼”的看法——程序员还是可以很性感很萌的。同时告诉他们一些实用的编程技巧对解放生产力、自动化生活体验很有帮助。</p>
-<a id="more"></a>
-<p>这个主题对于我来说非常适合。我一直是一个愉快编程的布道师，从点点滴滴中讲述编程在生活中的运用。而且我也是一个实践者，开发过一些简单（几百来行）但意义重大的小工具。同时在网上、社区、会议上也见识过一些人，听闻过一些事。所以演讲内容信手拈来——我花了2个小时时间做好了PPT，花了2个小时，准备script，练习了三四次，就开讲了。</p>
-<p>这次我准备了稿件但并没有背诵稿件。通过雅思的训练和Mina相处的日子，我相信自己即兴组织言语的能力。我觉得唯一需要注意，就是如何清晰地传达故事和理念。所以我还是写了一份script，当作一次对自己的录音，敲定了一些表达，理顺了一些长难句。</p>
-<p>如何清晰的表达？除了写好script并进行分析，还需要在讲演时把持住节奏。平常我总是火急火燎地把出现在自己脑子里的意念全部倾倒给听众。一来笨拙的嘴巴跟不上，二来意念在大脑里几乎是并行的，或者疾快更新的，所以说出来时会常常中途易辙。不管怎么样，让听众听起来很难受。这次上台时，我想了一个办法，首先告诉台下：“我的演讲将持续10分钟，我会说得特别慢。”这样给听众一个心理准备，同时也是对自己的暗示。当然演讲时也要时刻注意节奏，具体说就是控制气息和断句，这样抑扬顿挫自然而然就产生了。自己说得气很顺很轻松，相信观众的思路也能跟着我的节奏规律地前行。所以整体感受是，演讲过程轻松活跃，进度比计划的快很多，没有赶时间的感觉（可能是script长度适当）。</p>
-<p>慢一些，有节奏一些，观众们能跟上我的思路了，加上这次主题比较有趣，演讲过程中同学们反应很好——预设的笑点，他们都会心笑了——这让我放得更加开，语气、身体移动更加自然。这个过程一直持续到演讲结束，最后同学们开始向我发问，我能很放松地思考和对话。从他们问题看来——并非是任务性或者刁难性的问题——他们对我的演讲内容非常感兴趣。最后裴杰甚至让我当场演示一个小工具，引得大家纷纷起身关注。我觉得这次是我目前为止最满意的一次公开讲演。</p>
-<p>区别之前扑朔迷离的经历，可以发现最大的障碍和技巧都在于：内容和节奏。内容必须要有吸引力，这永远是第一条。同时组织表述内容时一定要简单。不要满脑子想复杂句式，不要念念不忘那些酷炫的词汇，准确达意才是最重要的。节奏一定要慢，给自己思考的时间，给听众理解的时间。同时不能光慢而没有节奏，这样会失去听众的耳朵。</p>
-<p>路漫漫，其修远兮，我决心好好讲段子。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="/img/english-speech.jpg" alt=""></p>
-<p>今天英语沙龙，给大家演讲的主题是《Program Your Life》，主要是想让英语角非计算机专业的小伙伴转变“编程很苦逼”的看法——程序员还是可以很性感很萌的。同时告诉他们一些实用的编程技巧对解放生产力、自动化生活体验很有帮助。</p>]]>
-    
-    </summary>
-    
-      <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[网络模型的演化——《链接》读书笔记]]></title>
     <link href="http://yoursite.com/2015/10/30/linked/"/>
     <id>http://yoursite.com/2015/10/30/linked/</id>
@@ -1014,6 +928,205 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
     </summary>
     
       <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[用QEMU来调试内核 -- 道听途说篇]]></title>
+    <link href="http://yoursite.com/2015/08/27/debug-kernel-with-qemu/"/>
+    <id>http://yoursite.com/2015/08/27/debug-kernel-with-qemu/</id>
+    <published>2015-08-27T01:28:12.000Z</published>
+    <updated>2015-10-04T14:34:09.000Z</updated>
+    <content type="html"><![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/" target="_blank" rel="external">之前文章</a>):</p>
+<ul>
+<li>简单、轻便，通过命令参数指定内核</li>
+<li>编译出内核即能调试，不需要应用层</li>
+<li>能调试诸多硬件平台(ARM/MIPS等等)</li>
+</ul>
+<p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>
+<a id="more"></a>
+<h2 id="调试内核">调试内核</h2><h3 id="编译带调试信息的内核镜像">编译带调试信息的内核镜像</h3><p>首先我们得有一个被调试的内核二进制镜像。这个内核镜像必须是打开调试模式编译出来的，即内核配置中：</p>
+<pre><code><span class="attribute">CONFIG_DEBUG_INFO</span>=<span class="string">y</span>
+</code></pre><h3 id="运行内核">运行内核</h3><p>根据邮件原文，接着运行:</p>
+<pre><code>qemu -s -S  -kernel <span class="keyword">arch</span>/x86/<span class="keyword">boot</span>/bzImage -<span class="keyword">append</span> <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
+</code></pre><p>或者</p>
+<pre><code>qemu -s -S -smp <span class="number">1</span>,cores=<span class="number">1</span>  -hda /dev/zero -kernel arch/x86/boot/bzImage
+</code></pre><p>就可以启动内核。但我在操作时，单独一个<code>qemu</code>并不是一个程序，而是：</p>
+<pre><code>qemu-aarch64              qemu-mipsn32              qemu-system-i386        
+qemu-aarch64-<span class="keyword">static</span>       qemu-mipsn32el            qemu-system-lm32        
+qemu-<span class="built_in">alpha</span>                qemu-mipsn32el-<span class="keyword">static</span>     qemu-system-m68k        
+qemu-<span class="built_in">alpha</span>-<span class="keyword">static</span>         qemu-mipsn32-<span class="keyword">static</span>       qemu-system-microblaze  
+qemu-arm                  qemu-mips-<span class="keyword">static</span>          qemu-system-microblazeel
+qemu-armeb                qemu-nbd                  qemu-system-mips        
+qemu-armeb-<span class="keyword">static</span>         qemu-or32                 qemu-system-mips64      
+qemu-arm-<span class="keyword">static</span>           qemu-or32-<span class="keyword">static</span>          qemu-system-mips64el    
+qemu-cris                 qemu-ppc                  qemu-system-mipsel      
+qemu-cris-<span class="keyword">static</span>          qemu-ppc64                qemu-system-moxie       
+qemu-debootstrap          qemu-ppc64abi32           qemu-system-or32        
+qemu-i386                 qemu-ppc64abi32-<span class="keyword">static</span>    qemu-system-ppc         
+qemu-i386-<span class="keyword">static</span>          qemu-ppc64-<span class="keyword">static</span>         qemu-system-ppc64       
+qemu-img                  qemu-ppc-<span class="keyword">static</span>           qemu-system-ppcemb      
+qemu-io                   qemu-s390x                qemu-system-s390x       
+qemu-m68k                 qemu-s390x-<span class="keyword">static</span>         qemu-system-sh4         
+qemu-m68k-<span class="keyword">static</span>          qemu-sh4                  qemu-system-sh4eb       
+qemu-make-debian-root     qemu-sh4eb                qemu-system-sparc       
+qemu-microblaze           qemu-sh4eb-<span class="keyword">static</span>         qemu-system-sparc64     
+qemu-microblazeel         qemu-sh4-<span class="keyword">static</span>           qemu-system-unicore32   
+qemu-microblazeel-<span class="keyword">static</span>  qemu-sparc                qemu-system-x86_64      
+qemu-microblaze-<span class="keyword">static</span>    qemu-sparc32plus          qemu-system-xtensa      
+qemu-mips                 qemu-sparc32plus-<span class="keyword">static</span>   qemu-system-xtensaeb    
+qemu-mips64               qemu-sparc64              qemu-unicore32          
+qemu-mips64el             qemu-sparc64-<span class="keyword">static</span>       qemu-unicore32-<span class="keyword">static</span>   
+qemu-mips64el-<span class="keyword">static</span>      qemu-sparc-<span class="keyword">static</span>         qemu-x86_64             
+qemu-mips64-<span class="keyword">static</span>        qemu-system-<span class="built_in">alpha</span>         qemu-x86_64-<span class="keyword">static</span>      
+qemu-mipsel               qemu-system-arm                                   
+qemu-mipsel-<span class="keyword">static</span>        qemu-system-cris                                 
+</code></pre><p>这么多<code>qemu-xxx</code>… 其中<code>qemu-system-xxx</code>是运行<code>xxx</code>硬件平台下整个操作系统的模拟器，比如我有一个x86_64平台的内核，那就使用下面命令运行之：</p>
+<pre><code>qemu-system-x86_64 -s -S -kernel /boot/vmlinuz-<span class="number">3.13</span><span class="number">.0</span>-<span class="number">58</span>-generic -append <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
+</code></pre><h3 id="调试！">调试！</h3><p>接着就可以打开GDB进行连接、调试:</p>
+<pre><code><span class="variable">$gdb</span> vmlinux
+(gdb) target remote localhost:<span class="number">1234</span>
+(gdb) b start_kernel
+(gdb) c
+</code></pre><h2 id="调试模块">调试模块</h2><p>qemu运行参数需要加上<code>-initrd　&lt;Your Init-RamDisk&gt;</code>选项，确保模块被安装。如果没有现成的initrd，那就做一个：</p>
+<pre><code>sudo make modules_install
+mkinitrdramfs -o initrd<span class="class">.img</span> -v &lt;your-version&gt;
+</code></pre><p>接着使用下列命令载入模块符号：</p>
+<pre><code>(gdb<span class="function">)</span><span class="instruction"> add-symbol-file </span>/home/aruna/kmod/misc.ko 0xffffffffa057e000 -s .data　0xffffffffa0580000 -s .bss 0xffffffffa05802c8
+</code></pre><p>后面的那些地址可以通过如下命令查看:</p>
+<pre><code>sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">text</span></span>
+sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span class="inheritance">&lt;<span class="parent">your</span></span>-<span class="title">module</span>&gt;/<span class="title">sections</span>/.<span class="title">data</span></span>
+</code></pre><h2 id="其它平台">其它平台</h2><p>qemu不是虚拟机，而是一款模拟器。这意味着它可以模拟很多硬件平台。对于多种硬件平台的内核，只需选择对应的<code>qemu-system-xxx</code>即可。我恰巧有一块cubieboard的板子，电脑里有它的内核，那么我就这样运行这个内核:</p>
+<pre><code>qemu-system-arm -machine cubieboard -s -S -kernel <span class="keyword">project</span><span class="regexp">/cubieboard/</span>linux-<span class="keyword">source</span>-<span class="number">3.4</span>.<span class="number">79</span>-sun7i<span class="regexp">/arch/</span>arm<span class="regexp">/boot/</span>zImage -<span class="keyword">append</span> <span class="string">"console=ttyS0"</span> -serial mon:stdio -nographic
+</code></pre><p>可以看到多使用了<code>-machine</code>参数，来指定机器类型(是因为SoC的原因？)。</p>
+<h2 id="出错处理">出错处理</h2><p>GDB报错：”Remote ‘g’ packet reply is too long”<br>处理办法<a href="http://lists.gnu.org/archive/html/qemu-discuss/2014-10/msg00069.html" target="_blank" rel="external">(参考这个)</a>：<br>下载GDB代码，修改remote.c文件注释下面两行:</p>
+<pre><code><span class="number">6157</span>  <span class="comment">//if (buf_len &gt; 2 * rsa-&gt;sizeof_g_packet)</span>
+<span class="number">6158</span>  <span class="comment">//  error (_("Remote 'g' packet reply is too long: %s"), rs-&gt;buf);</span>
+</code></pre><p>然后重新编译安装GDB。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/">之前文章</a>):</p>
+<ul>
+<li>简单、轻便，通过命令参数指定内核</li>
+<li>编译出内核即能调试，不需要应用层</li>
+<li>能调试诸多硬件平台(ARM/MIPS等等)</li>
+</ul>
+<p>下面是我从邮件中整理出的具体步骤，部分亲测。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python Tricks]]></title>
+    <link href="http://yoursite.com/2015/08/26/python-tricks/"/>
+    <id>http://yoursite.com/2015/08/26/python-tricks/</id>
+    <published>2015-08-26T05:08:37.000Z</published>
+    <updated>2016-07-17T08:31:13.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>开一篇博客作为Python备忘录</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Python模拟浏览器登陆网站">Python模拟浏览器登陆网站</h2><p>方式一，使用httplib2模块:<a href="http://blog.csdn.net/five3/article/details/7079140" target="_blank" rel="external">参考资料</a></p>
+<pre><code>http = httplib2.<span class="type">Http</span>()
+myuri = <span class="symbol">'http</span>:<span class="comment">//www.2-vpn3.org/lr.action'</span>
+mybody = {<span class="symbol">'user</span>.nick': <span class="symbol">'NAM</span>E', <span class="symbol">'user</span>.password': <span class="symbol">'PASSWOR</span>D',<span class="symbol">'validationCod</span>e': <span class="symbol">'VCOD</span>E'} 
+myheaders = {<span class="symbol">'Content</span>-<span class="class"><span class="keyword">type</span>':</span> <span class="symbol">'application</span>/x-www-form-urlencoded'}
+response, content = http.request(myuri, <span class="symbol">'POS</span>T', headers=myheaders,     body=urlencode(mybody))
+myheaders = {<span class="symbol">'Cooki</span>e': response[<span class="symbol">'set</span>-cookie']}
+myuri = <span class="symbol">'http</span>:<span class="comment">//www.2-vpn3.org/home!sl.action'</span>
+response, content = http.request(uri=myuri, method=<span class="symbol">'GE</span>T', headers=myheaders)
+</code></pre><p>方式二，使用urllib2模块:</p>
+<pre><code><span class="keyword">import</span> urllib2
+headers = {<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255'</span>}
+req = urllib2.Request(url = <span class="string">'http://dict.youdao.com/search?q=manipulate&amp;keyfrom=dict.index'</span>, headers = headers)
+res = urllib2.urlopen(req)
+html = res.<span class="keyword">read</span>()
+</code></pre><blockquote>
+<p>Tip: 可以使用Chrome的开发者模式下Network工具来分析数据包。</p>
+</blockquote>
+<h2 id="Python正则表达式">Python正则表达式</h2><pre><code>ips = re.findall(<span class="string">r'\d+\.\d+\.\d+\.\d+'</span>, content) <span class="comment">#寻找ip地址，返回列表</span>
+
+<span class="comment"># 判断record中是否包含日期 #</span>
+<span class="keyword">if</span> re.search(<span class="string">'\[[0-9].[0-3]*[0-9]\]'</span>, record):
+    do_something()
+</code></pre><h2 id="Python验证码识别">Python验证码识别</h2><p>安装依赖库:</p>
+<pre><code>sudo apt-get <span class="operator"><span class="keyword">install</span> python-pil
+sudo apt-<span class="keyword">get</span> <span class="keyword">install</span> tesseract-ocr
+sudo pip <span class="keyword">install</span> pytesserac</span>
+</code></pre><p>使用:</p>
+<pre><code>import pytesseract
+from PIL import Image
+image = Image.<span class="function"><span class="title">open</span><span class="params">(<span class="string">'vcode.jpg'</span>)</span></span>
+vcode = pytesseract.<span class="function"><span class="title">image_to_string</span><span class="params">(image)</span></span>
+</code></pre><p>预处理去噪：</p>
+<pre><code># import Image
+# import ImageFilter
+img = Image.open(<span class="string">'vdcode_img.png'</span>)
+img = img.convert(<span class="string">'RGB'</span>).<span class="keyword">filter</span>(ImageFilter.GaussianBlur)
+pixdata = img.load()
+
+<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
+     <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
+          <span class="keyword">if</span> pixdata[x,y][<span class="number">0</span>] &gt; <span class="number">220</span>:
+               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
+
+
+<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
+      <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
+          <span class="keyword">if</span> pixdata[x,y][<span class="number">1</span>] &gt; <span class="number">180</span>:
+               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
+
+<span class="keyword">for</span> y <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">1</span>]):
+     <span class="keyword">for</span> x <span class="keyword">in</span> xrange(img.<span class="keyword">size</span>[<span class="number">0</span>]):
+          <span class="keyword">if</span> pixdata[x,y][<span class="number">2</span>] &gt; <span class="number">220</span>:
+               pixdata[x,y] = (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)
+
+img.show()
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote>
+<p>开一篇博客作为Python备忘录</p>
+</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Linux如何分配页]]></title>
+    <link href="http://yoursite.com/2015/08/12/allcating-pages/"/>
+    <id>http://yoursite.com/2015/08/12/allcating-pages/</id>
+    <published>2015-08-12T12:15:29.000Z</published>
+    <updated>2016-09-27T07:19:00.000Z</updated>
+    <content type="html"><![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
+<a id="more"></a>
+<p>简单说，上述过程可以描述为：</p>
+<ul>
+<li>获得物理页返回页描述符地址(alloc_pages)</li>
+<li>修改页表增加映射(set_pte)</li>
+<li>返回页的线性地址(kmap)</li>
+</ul>
+<p>我撒谎了，第一段描述中可没有体现出第二步。且听我慢慢给大家解释：物理内存被分为三类区域：DMA专用的区域、高端内存使用的区域和剩下的普通区域。所有的物理内存在系统初始化时，被切成片片，每一片描述为一个<code>struct page</code>，用一个叫<code>mem_map</code>的数组把所有的<code>struct page</code>装起来。初始化时建立的页表映射了前896MB内存，也就是前229376个页框。这个映射非常规范:</p>
+<pre><code><span class="attribute">线性地址 </span>=<span class="string"> 页框物理地址 + PAGE_SHIFT</span>
+</code></pre><p>这个公式对前229376个页框都成立。所以，<code>__v()</code>和<code>__p()</code>能通过简单的加减<code>PAGE_SHIFT</code>就完成物理地址和线性地址的互相转换，而不用查页表。</p>
+<p>大家发现，这229376个页框是在系统初始化时就已经被映射好的。回到问题，这就是为什么有的页分配过程中不用修改页表增加额外的映射：所有内核需要做的就是增加页框描述符的计数以表明这个页框已经被分配出去了。<code>get_page()</code>就是用来干这件事的。</p>
+<p>但对于另外一些页分配的过程，增加映射的过程是必不可少的——这就是高端内存的分配。在高端内存中进行页分配有两种方式：永久映射和临时映射。它们的区别简言之就是：永久映射每次都要在896~1024的线性空间找一个空闲的4K空间，然后在找一片排名229376开外的物理页框（排名229376前的已经被映射了），然后建立两者的映射。而临时映射采用固定预留的高端线性空间，多条内存控制路径分时复用这些线性地址空间——执行不同的路径需要修改页表项。临时映射没有有寻找空闲线性空间的过程，就减少了“找不到空闲线性空间”阻塞的风险。然而固定预留空间有限，所以不能同时大量建立临时映射。</p>
+<p>为了完成永久映射的寻址，Linux引进了pkmap_page_table页表，每个页表项都可以用来映射4K高端物理内存区域。这满足了硬件分页电路寻址的需要，但是内核自己也想要寻址，需要像<code>__p()</code>以及<code>__v()</code>这样的简单方式，于是Linux又加了一个哈希表<code>address_htable</code>专门存放物理页框和线性地址的映射关系。</p>
+<p>这里记录一个通用寻址函数<code>page_address()</code>。它可以通过一个页描述符，计算返回线性地址。之所以说它通用，是因为这个函数是<code>__v</code>和<code>address_htable</code>的组合，可以自动分辨页框属于正常区域、还是高端内存区域。</p>
+<p>映射是建立物理地址和线性地址联系的过程。在文章开头，我们使用<code>kmap()</code>对一个普通区域的页框进行了映射。这个映射其实什么也没干，就是调用<code>page_address()</code>（实际上就是<code>__v()</code>）返回了线性地址。而对于高端内存，如果<code>page_address()</code>返回<code>NULL</code>，那就得为它修改或增加映射。</p>
+<p>所以说，Linux中页的分配就是这样的一个过程：利用伙伴系统从<code>mem_map</code>描述的这一串内存区域中取得一个空闲物理页框（实际上还用了缓存来提高效率）。然后找一片线性空间并为线性空间和页框建立映射，返回这段空间的线性地址。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>]]>
+    
+    </summary>
+    
+      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
     
   </entry>
   
