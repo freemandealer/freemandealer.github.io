@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Freeman">
 <meta property="og:description" content="SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在不修改内核代码、不重复编译内核、不重启机器的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YA">
 <meta property="og:image" content="http://yoursite.com/img/systemtap.png">
-<meta property="og:updated_time" content="2015-10-04T14:39:48.000Z">
+<meta property="og:updated_time" content="2017-09-14T04:56:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内核调试工具SystemTap:适合懒人的printk替代品">
 <meta name="twitter:description" content="SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在不修改内核代码、不重复编译内核、不重启机器的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YA">
@@ -299,6 +299,7 @@ probe module(<span class="string">"yavis"</span>).function(<span class="string">
        <span class="keyword">printf</span>(<span class="string">"\n"</span>)
 }
 </code></pre><p>上面这段脚本可以让我们在发送和接收过程中查看数据。注意结构体类型的数据，无论指针与否，一律使用<code>-&gt;</code>方式访问成员变量。</p>
+<h2 id="附注">附注</h2><p>systemtap可由包管理器直接安装。但是想探测较新版本的内核，建议手动编译git仓库中的最新版本systemtap。当然由于systemtap开发相对内核开发有些许置后，所以最新的systemtap一般没法探测最新版本的内核。具体能不能，留意<code>stap --version</code>命令的输出。</p>
 <h2 id="参考">参考</h2><p>[1] SystemTap: Instrumenting the Linux Kernel for Analyzing Performance and Functional Problems. IBM, 2009.</p>
 
       
