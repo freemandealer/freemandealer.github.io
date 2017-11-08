@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>设备驱动 - Linux Device Driver Model | Freeman</title>
+  <title>设备驱动 - Linux Device Driver Model | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="写在前面理解device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请把它">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设备驱动 - Linux Device Driver Model">
-<meta property="og:url" content="http://yoursite.com/2016/09/01/device-driver-linux-device-driver/index.html">
-<meta property="og:site_name" content="Freeman">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2016/09/01/device-driver-linux-device-driver/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="写在前面理解device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请把它">
-<meta property="og:image" content="http://yoursite.com/img/device_model_tree_1.png">
-<meta property="og:image" content="http://yoursite.com/img/device_model_tree_2.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/device_model_tree_1.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/device_model_tree_2.png">
 <meta property="og:updated_time" content="2016-09-01T05:27:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设备驱动 - Linux Device Driver Model">
 <meta name="twitter:description" content="写在前面理解device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请把它">
   
-    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -51,7 +51,7 @@ var _hmt = _hmt || [];
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
 		</hgroup>
 
 		
@@ -99,11 +99,11 @@ var _hmt = _hmt || [];
 					<nav class="header-menu">
 						<ul>
 						
-							<li><a href="/">主页</a></li>
+							<li><a href="/gallery">主页</a></li>
 				        
 							<li><a href="/archives">所有文章</a></li>
 				        
-							<li><a href="/gallery">笔记</a></li>
+							<li><a href="/gallery">Gallery</a></li>
 				        
 							<li><a href="/chat/index.html">聊聊天</a></li>
 				        
@@ -158,7 +158,7 @@ var _hmt = _hmt || [];
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -166,7 +166,7 @@ var _hmt = _hmt || [];
 				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author">Freeman</h1>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
 			</hgroup>
 			
 			<p class="header-subtitle">This world is a playground.</p>
@@ -174,11 +174,11 @@ var _hmt = _hmt || [];
 			<nav class="header-menu">
 				<ul>
 				
-					<li><a href="/">主页</a></li>
+					<li><a href="/gallery">主页</a></li>
 		        
 					<li><a href="/archives">所有文章</a></li>
 		        
-					<li><a href="/gallery">笔记</a></li>
+					<li><a href="/gallery">Gallery</a></li>
 		        
 					<li><a href="/chat/index.html">聊聊天</a></li>
 		        
@@ -254,7 +254,7 @@ var _hmt = _hmt || [];
 <h3 id="driver——描述驱动的数据结构">driver——描述驱动的数据结构</h3><p>注意的是driver本身不是驱动，它只是描述驱动的结构。下面我们用英文driver代表描述驱动的数据结构，中文“驱动”或“设备驱动”代表真正控制设备的驱动程序逻辑。后续的“device－设备”、”bus－总线“等也基本满足这个规则。</p>
 <p>另外需要了解，驱动程序逻辑并不一定要有driver这一套东西。驱动逻辑本质上就是内核空间的一系列的回调函数（熟悉内核的读者已经知道这些回调函数具体是文件系统的fops函数指针），实现方法不一而足。但还记得吗？我们的device driver model就是为了统一驱动开发设计的，所以要使自己开发的驱动符合规范，就尽可能使用device driver model，所以还是为自己的驱动加上driver这一套吧！</p>
 <h3 id="device——描述设备的数据结构">device——描述设备的数据结构</h3><h3 id="bus——描述总线的数据结构">bus——描述总线的数据结构</h3><p>仔细观察这些数据结构我们会发现，driver和device都有一个域指向bus，bus中也有两个链表保存所有与之相关的driver和device。所以它们三者关系是这样的: 每个device都隶属于一个bus，表示连接在这个bus上的设备。每个driver也隶属于一个bus，表示它是可以驱动这个bus上某一设备的驱动。bus保存着这些device和driver，这样就可以在插入新driver模块时匹配那些没有被驱动的device，也可以在加入新device时匹配相应的driver。这里的匹配就是遍历这两个链表。具体过程见下文。</p>
-<h3 id="class——描述应用层视图的数据结构">class——描述应用层视图的数据结构</h3><h2 id="设备文件">设备文件</h2><p>让我们离开水深火热的内核来到应用层：我们作为用户在使用设备时并没有考虑到上文中描述的种种，而是通过“设备文件”这一简单接口轻松使用各类设备。在linux设计理念中，“一切皆文件”。设备也往往被抽象成一种特殊文件——“设备文件”。关于这个理念的理解，请参考拙作<a href="http://freemandealer.github.io/2016/06/04/device-driver-in-a-nutshell/" target="_blank" rel="external">设备驱动 in a nutshell</a>。</p>
+<h3 id="class——描述应用层视图的数据结构">class——描述应用层视图的数据结构</h3><h2 id="设备文件">设备文件</h2><p>让我们离开水深火热的内核来到应用层：我们作为用户在使用设备时并没有考虑到上文中描述的种种，而是通过“设备文件”这一简单接口轻松使用各类设备。在linux设计理念中，“一切皆文件”。设备也往往被抽象成一种特殊文件——“设备文件”。关于这个理念的理解，请参考拙作<a href="http://freemandealer.github.io/2016/06/04/device-driver-in-a-nutshell/">设备驱动 in a nutshell</a>。</p>
 <p>在这里，我们解释设备文件是如何关联上对应设备的。首先介绍系统调用mknod：</p>
 <pre><code>mknod -- <span class="keyword">make</span> device special <span class="keyword">file</span>
 </code></pre><p>mknod应用程序的mannul中如是说。它的功能就是用来创建设备文件——再详细一些，就是在目标文件系统树中创建一个表示设备文件的节点。一般我们将设备文件保存在/dev/目录下，但在其它目录中创建设备文件也是允许的。作为应用程序，或是系统调用，mknod的主要参数有两个：主设备号和次设备号。例如我们可以在当前目录创建设备文件freeman:</p>
@@ -274,7 +274,7 @@ var _hmt = _hmt || [];
 </span>新device加入到系统后，<span class="keyword">bus开始为之匹配driver </span>(<span class="keyword">bus的match操作)
 </span><span class="label">driver</span>开始probe device，probe被认为是驱动程序的入口，会完成初始化设备的任务
 </code></pre><p>我们看到，不管driver还是device加入系统，都会引起相关bus的match操作。这样可以保证不论driver先加入系统还是device先加入系统，device driver model都能很好地工作。如果device先加入系统，那就像买了一台超级复杂的机器(device)，翻箱倒柜找不到配套的说明书(driver)，需要等对方把说明书邮过来。如果XXX的说明书先到，那就把家里的机器都翻出来对一遍，发现没有名叫XXX的机器，那么就等着京东把XXX机器发过来。</p>
-<p>新driver加入到系统，一般是在用户手动加载驱动模块时（也可以由udev自动加载，请看下文），在模块初始化代码中完成的。新device什么时候加入呢？一种情况是开机初始化系统时bus枚举设备时发生的。除此之外，系统运行过程中也可以加入device：热插拔。不是所有bus都无条件地支持热插拔。常用的支持热插拔 bus有著名的USB。USB总线可以侦测新插入的设备，并由USB子系统核心向系统注册对应新的device。如果没有合适的driver去匹配这个新device，系统会借助uevent机制结合应用空间的udev组件，去加载驱动模块(有兴趣可以翻阅一下拙作：<a href="http://freemandealer.github.io/2015/05/24/hotplug/" target="_blank" rel="external">《Linux热插拔机制的介绍和应用》</a>，该文介绍了udev的应用)。小结一下：udev在device driver model中至少做两件事——自动创建设备文件节点和自动按需加载驱动模块。</p>
+<p>新driver加入到系统，一般是在用户手动加载驱动模块时（也可以由udev自动加载，请看下文），在模块初始化代码中完成的。新device什么时候加入呢？一种情况是开机初始化系统时bus枚举设备时发生的。除此之外，系统运行过程中也可以加入device：热插拔。不是所有bus都无条件地支持热插拔。常用的支持热插拔 bus有著名的USB。USB总线可以侦测新插入的设备，并由USB子系统核心向系统注册对应新的device。如果没有合适的driver去匹配这个新device，系统会借助uevent机制结合应用空间的udev组件，去加载驱动模块(有兴趣可以翻阅一下拙作：<a href="http://freemandealer.github.io/2015/05/24/hotplug/">《Linux热插拔机制的介绍和应用》</a>，该文介绍了udev的应用)。小结一下：udev在device driver model中至少做两件事——自动创建设备文件节点和自动按需加载驱动模块。</p>
 <p>不是说“虚拟设备”就不能体现device driver model，下面是github上的一个例子sparrow——“麻雀虽小，五脏具全”。它的device注册过程硬编码在一个模块初始化代码中，手动加载模块就可以注册device（可以认为是模拟热插拔）。</p>
 <p><a href="https://github.com/wowotech/sparrow" target="_blank" rel="external">https://github.com/wowotech/sparrow</a></p>
 <p>这一节的剩余部分解释一个新的问题：上述的这些动作（“注册”、“匹配”等）是谁来完成的？一个简单的回答是：总线。因为设备被连接在总线上，所以总线来完成这个任务逻辑上理所应当。</p>
@@ -370,7 +370,7 @@ platform_driver_register(xxx_drv)
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Freeman
+    		&copy; 2017 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

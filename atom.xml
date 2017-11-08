@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Freeman]]></title>
+  <title><![CDATA[Zhengyu Zhang]]></title>
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
+  <link href="https://freemandealer.github.io/gallery/"/>
   <updated>2016-12-18T01:58:31.000Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://freemandealer.github.io/gallery/</id>
   
   <author>
-    <name><![CDATA[Freeman]]></name>
+    <name><![CDATA[Zhengyu Zhang]]></name>
     
   </author>
   
@@ -16,8 +16,8 @@
   
   <entry>
     <title><![CDATA[开源操作系统技术年会会后杂谈]]></title>
-    <link href="http://yoursite.com/2016/12/18/open-source-operating-system-annual-technical-conference/"/>
-    <id>http://yoursite.com/2016/12/18/open-source-operating-system-annual-technical-conference/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/12/18/open-source-operating-system-annual-technical-conference/"/>
+    <id>https://freemandealer.github.io/gallery/2016/12/18/open-source-operating-system-annual-technical-conference/</id>
     <published>2016-12-18T01:48:08.000Z</published>
     <updated>2016-12-18T01:58:31.000Z</updated>
     <content type="html"><![CDATA[<p>虽然是技术年会，我却跑去听了教育专题研讨论分会场。意外的是，这个分会给了我很多启发。</p>
@@ -36,8 +36,8 @@
   
   <entry>
     <title><![CDATA[2016年计算机体系结构领域研究热点调研报告]]></title>
-    <link href="http://yoursite.com/2016/12/16/2016-architecture-research-hotspot/"/>
-    <id>http://yoursite.com/2016/12/16/2016-architecture-research-hotspot/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/12/16/2016-architecture-research-hotspot/"/>
+    <id>https://freemandealer.github.io/gallery/2016/12/16/2016-architecture-research-hotspot/</id>
     <published>2016-12-16T01:08:23.000Z</published>
     <updated>2016-12-16T01:21:02.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
@@ -79,37 +79,9 @@
   </entry>
   
   <entry>
-    <title><![CDATA[听说你是搞计算机的，你会修电脑吗]]></title>
-    <link href="http://yoursite.com/2016/10/30/you-are-it-guy-so-can-you-fix-this/"/>
-    <id>http://yoursite.com/2016/10/30/you-are-it-guy-so-can-you-fix-this/</id>
-    <published>2016-10-30T05:53:32.000Z</published>
-    <updated>2016-10-30T06:18:11.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="/img/xiaoguotu.jpg" alt=""></p>
-<a id="more"></a>
-<p>今天早上来到实验室，坐下看了半小时书。大表姐突然发来微信，问我会不会做室内效果图。奇怪，我的微信不是退出后台了吗？</p>
-<p>“好搞笑啊，我会计算机就能上天啊！”</p>
-<p>我知道我不能这样说，因为别人会反问：那你计算机都是学得啥东西，怎么这也不会那也不会！这时我就要跟他们解释什么是<del>面向E级高性能计算机的新型互联网络和</del>计算机编程，解释计算机学科的目标和使命，解释为什么PHP是世界上最好的语言。</p>
-<p>所以我当机立断地回答表姐：让我学习着做一下！</p>
-<p>之前看到网上很多自称程序员的人在嘲笑“听说你搞计算机的，你会修电脑吗”这个问题:搞计算机和修电脑有关系吗。其实我觉得这个问题真是问对人了——搞计算机的人应该都会修电脑吧。你在debug的过程中俨然成为了训练有素的问题解决专家：解决问题的基本思路、读文档的耐性、查log的敏锐、驾驭搜索引擎的能力等等已经融在了血液里。</p>
-<blockquote>
-<p>“所以我不会修电脑还能不能当程序员了？”</p>
-</blockquote>
-<p>就算修硬件你无能为力，就算PS、Pr、3Ds Max跟你在做的项目和研究半毛钱关系都没有，但你可能也是他们身边距离这些技术最近、最有“背景”的人了，是他们唯一可以依靠的人（还是又是我想太多:p）。你做一件这样的事可能需要耗费半个小时，对于他们可能就得花一个星期。</p>
-<p>害怕没有成为大神就先学会了高冷，希望能凭借自己的能力给身边人些许安全感，不过也请大家像我尊重我的时间那样尊重我的时间。</p>
-<p>意外发现，做效果图还是蛮好玩的！很开心又增加新业务！</p>
-<center><img src="/img/xiaoguotu_end.jpg" alt=""></center>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="/img/xiaoguotu.jpg" alt=""></p>]]>
-    
-    </summary>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[理解mmap]]></title>
-    <link href="http://yoursite.com/2016/10/20/understanding-mmap/"/>
-    <id>http://yoursite.com/2016/10/20/understanding-mmap/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/10/20/understanding-mmap/"/>
+    <id>https://freemandealer.github.io/gallery/2016/10/20/understanding-mmap/</id>
     <published>2016-10-20T10:38:30.000Z</published>
     <updated>2016-10-20T10:59:01.000Z</updated>
     <content type="html"><![CDATA[<h2 id="mmap普通文件">mmap普通文件</h2><p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>
@@ -149,8 +121,8 @@ fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <spa
   
   <entry>
     <title><![CDATA[Linux如何操作设备中的存储器？]]></title>
-    <link href="http://yoursite.com/2016/10/07/io-memory/"/>
-    <id>http://yoursite.com/2016/10/07/io-memory/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/10/07/io-memory/"/>
+    <id>https://freemandealer.github.io/gallery/2016/10/07/io-memory/</id>
     <published>2016-10-07T10:52:35.000Z</published>
     <updated>2016-10-11T02:00:04.000Z</updated>
     <content type="html"><![CDATA[<p>对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memory操作方式下，设备中的memory或register被称作I/O memory[1]。那么Linux是如何操作I/O memory的呢？</p>
@@ -224,14 +196,14 @@ zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<
     
     </summary>
     
-      <category term="Notes" scheme="http://yoursite.com/categories/Notes/"/>
+      <category term="Notes" scheme="https://freemandealer.github.io/gallery/categories/Notes/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[设备驱动 - Linux Device Driver Model]]></title>
-    <link href="http://yoursite.com/2016/09/01/device-driver-linux-device-driver/"/>
-    <id>http://yoursite.com/2016/09/01/device-driver-linux-device-driver/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/09/01/device-driver-linux-device-driver/"/>
+    <id>https://freemandealer.github.io/gallery/2016/09/01/device-driver-linux-device-driver/</id>
     <published>2016-09-01T03:28:54.000Z</published>
     <updated>2016-09-01T05:27:43.000Z</updated>
     <content type="html"><![CDATA[<h2 id="写在前面">写在前面</h2><p>理解device driver model，我觉得最难的就是“忘掉自己曾经知道的”。学习内核很多情况下都需要这项技能：忘掉自己知道的，我们才不至于望文生义想当然，才能去接纳新知识，才能够耐着性子去阅读思考，才会更关注“为什么要这样呢”。所以如果刚接触Linux内核的你对设备驱动存在些许认识或者幻想，现在都请忘了吧。文中出现的术语如device、driver等，为了避免想当然，一开始都请把它当成一个名字而已，不要试图猜测其语义，也最好不要翻译成中文（所以请原谅文中的中英文混杂）。当我们理解了以后再看这些术语，我们就会恍然大悟它们为什么叫这个名字了。</p>
@@ -250,7 +222,7 @@ zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<
 <h3 id="driver——描述驱动的数据结构">driver——描述驱动的数据结构</h3><p>注意的是driver本身不是驱动，它只是描述驱动的结构。下面我们用英文driver代表描述驱动的数据结构，中文“驱动”或“设备驱动”代表真正控制设备的驱动程序逻辑。后续的“device－设备”、”bus－总线“等也基本满足这个规则。</p>
 <p>另外需要了解，驱动程序逻辑并不一定要有driver这一套东西。驱动逻辑本质上就是内核空间的一系列的回调函数（熟悉内核的读者已经知道这些回调函数具体是文件系统的fops函数指针），实现方法不一而足。但还记得吗？我们的device driver model就是为了统一驱动开发设计的，所以要使自己开发的驱动符合规范，就尽可能使用device driver model，所以还是为自己的驱动加上driver这一套吧！</p>
 <h3 id="device——描述设备的数据结构">device——描述设备的数据结构</h3><h3 id="bus——描述总线的数据结构">bus——描述总线的数据结构</h3><p>仔细观察这些数据结构我们会发现，driver和device都有一个域指向bus，bus中也有两个链表保存所有与之相关的driver和device。所以它们三者关系是这样的: 每个device都隶属于一个bus，表示连接在这个bus上的设备。每个driver也隶属于一个bus，表示它是可以驱动这个bus上某一设备的驱动。bus保存着这些device和driver，这样就可以在插入新driver模块时匹配那些没有被驱动的device，也可以在加入新device时匹配相应的driver。这里的匹配就是遍历这两个链表。具体过程见下文。</p>
-<h3 id="class——描述应用层视图的数据结构">class——描述应用层视图的数据结构</h3><h2 id="设备文件">设备文件</h2><p>让我们离开水深火热的内核来到应用层：我们作为用户在使用设备时并没有考虑到上文中描述的种种，而是通过“设备文件”这一简单接口轻松使用各类设备。在linux设计理念中，“一切皆文件”。设备也往往被抽象成一种特殊文件——“设备文件”。关于这个理念的理解，请参考拙作<a href="http://freemandealer.github.io/2016/06/04/device-driver-in-a-nutshell/" target="_blank" rel="external">设备驱动 in a nutshell</a>。</p>
+<h3 id="class——描述应用层视图的数据结构">class——描述应用层视图的数据结构</h3><h2 id="设备文件">设备文件</h2><p>让我们离开水深火热的内核来到应用层：我们作为用户在使用设备时并没有考虑到上文中描述的种种，而是通过“设备文件”这一简单接口轻松使用各类设备。在linux设计理念中，“一切皆文件”。设备也往往被抽象成一种特殊文件——“设备文件”。关于这个理念的理解，请参考拙作<a href="http://freemandealer.github.io/2016/06/04/device-driver-in-a-nutshell/">设备驱动 in a nutshell</a>。</p>
 <p>在这里，我们解释设备文件是如何关联上对应设备的。首先介绍系统调用mknod：</p>
 <pre><code>mknod -- <span class="keyword">make</span> device special <span class="keyword">file</span>
 </code></pre><p>mknod应用程序的mannul中如是说。它的功能就是用来创建设备文件——再详细一些，就是在目标文件系统树中创建一个表示设备文件的节点。一般我们将设备文件保存在/dev/目录下，但在其它目录中创建设备文件也是允许的。作为应用程序，或是系统调用，mknod的主要参数有两个：主设备号和次设备号。例如我们可以在当前目录创建设备文件freeman:</p>
@@ -270,7 +242,7 @@ zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<
 </span>新device加入到系统后，<span class="keyword">bus开始为之匹配driver </span>(<span class="keyword">bus的match操作)
 </span><span class="label">driver</span>开始probe device，probe被认为是驱动程序的入口，会完成初始化设备的任务
 </code></pre><p>我们看到，不管driver还是device加入系统，都会引起相关bus的match操作。这样可以保证不论driver先加入系统还是device先加入系统，device driver model都能很好地工作。如果device先加入系统，那就像买了一台超级复杂的机器(device)，翻箱倒柜找不到配套的说明书(driver)，需要等对方把说明书邮过来。如果XXX的说明书先到，那就把家里的机器都翻出来对一遍，发现没有名叫XXX的机器，那么就等着京东把XXX机器发过来。</p>
-<p>新driver加入到系统，一般是在用户手动加载驱动模块时（也可以由udev自动加载，请看下文），在模块初始化代码中完成的。新device什么时候加入呢？一种情况是开机初始化系统时bus枚举设备时发生的。除此之外，系统运行过程中也可以加入device：热插拔。不是所有bus都无条件地支持热插拔。常用的支持热插拔 bus有著名的USB。USB总线可以侦测新插入的设备，并由USB子系统核心向系统注册对应新的device。如果没有合适的driver去匹配这个新device，系统会借助uevent机制结合应用空间的udev组件，去加载驱动模块(有兴趣可以翻阅一下拙作：<a href="http://freemandealer.github.io/2015/05/24/hotplug/" target="_blank" rel="external">《Linux热插拔机制的介绍和应用》</a>，该文介绍了udev的应用)。小结一下：udev在device driver model中至少做两件事——自动创建设备文件节点和自动按需加载驱动模块。</p>
+<p>新driver加入到系统，一般是在用户手动加载驱动模块时（也可以由udev自动加载，请看下文），在模块初始化代码中完成的。新device什么时候加入呢？一种情况是开机初始化系统时bus枚举设备时发生的。除此之外，系统运行过程中也可以加入device：热插拔。不是所有bus都无条件地支持热插拔。常用的支持热插拔 bus有著名的USB。USB总线可以侦测新插入的设备，并由USB子系统核心向系统注册对应新的device。如果没有合适的driver去匹配这个新device，系统会借助uevent机制结合应用空间的udev组件，去加载驱动模块(有兴趣可以翻阅一下拙作：<a href="http://freemandealer.github.io/2015/05/24/hotplug/">《Linux热插拔机制的介绍和应用》</a>，该文介绍了udev的应用)。小结一下：udev在device driver model中至少做两件事——自动创建设备文件节点和自动按需加载驱动模块。</p>
 <p>不是说“虚拟设备”就不能体现device driver model，下面是github上的一个例子sparrow——“麻雀虽小，五脏具全”。它的device注册过程硬编码在一个模块初始化代码中，手动加载模块就可以注册device（可以认为是模拟热插拔）。</p>
 <p><a href="https://github.com/wowotech/sparrow" target="_blank" rel="external">https://github.com/wowotech/sparrow</a></p>
 <p>这一节的剩余部分解释一个新的问题：上述的这些动作（“注册”、“匹配”等）是谁来完成的？一个简单的回答是：总线。因为设备被连接在总线上，所以总线来完成这个任务逻辑上理所应当。</p>
@@ -322,8 +294,8 @@ platform_driver_register(xxx_drv)
   
   <entry>
     <title><![CDATA[设备驱动 - in a nutshell]]></title>
-    <link href="http://yoursite.com/2016/06/04/device-driver-in-a-nutshell/"/>
-    <id>http://yoursite.com/2016/06/04/device-driver-in-a-nutshell/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/06/04/device-driver-in-a-nutshell/"/>
+    <id>https://freemandealer.github.io/gallery/2016/06/04/device-driver-in-a-nutshell/</id>
     <published>2016-06-04T11:55:55.000Z</published>
     <updated>2016-09-01T03:30:03.000Z</updated>
     <content type="html"><![CDATA[<center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center>
@@ -349,7 +321,7 @@ platform_driver_register(xxx_drv)
 <h2 id="一点补充">一点补充</h2><h3 id="用户态驱动">用户态驱动</h3><p>硬件资源一般是由操作系统保护起来的，只有在内核态（高特权级状态）下才能被访问，用户态的程序是没有办法直接访问的。驱动程序作为直接控制设备的软件，可想而知是工作在内核态。可是有些同学可能听说过一种叫做“用户态驱动”的东西，这是个啥呢？</p>
 <p>为什么要使用用户态驱动？首先用户态态编程容易呀：编程环境我们都熟悉，又有丰富的库，还可以使用自己喜欢的语言进行编写。另外，据说用户态驱动因为没有用户态－内核态切换的开销，有时候效率会比内核态驱动高一些。</p>
 <p>用户态驱动是怎么实现的呢？对硬件的直接访问一般是不能再用户态进行的（在Intel x86体系下，我曾经听说过有个叫IOPL的标志位，可以控制IO端口是不是可以被用户态程序直接访问）。所以，应该是有一段功能简单的驱动把基本的操作通过设备文件暴露给用户态，然后再在用户态进行编程，扩展它的功能并提供更高层次的功能抽象。用户态驱动最终表现形式是一个软件库，供其它程序调用，或者是以服务器的形式，与应用程序进行交互，如X server。而内核态的驱动，往往作为内核的一个模块。</p>
-<h3 id="动态加载">动态加载</h3><p>之前的文章<a href="http://freemandealer.github.io/2015/05/24/hotplug/" target="_blank" rel="external">《Linux热插拔机制的介绍和应用》</a></p>
+<h3 id="动态加载">动态加载</h3><p>之前的文章<a href="http://freemandealer.github.io/2015/05/24/hotplug/">《Linux热插拔机制的介绍和应用》</a></p>
 </blockquote>
 ]]></content>
     <summary type="html">
@@ -357,14 +329,14 @@ platform_driver_register(xxx_drv)
     
     </summary>
     
-      <category term="Notes" scheme="http://yoursite.com/tags/Notes/"/>
+      <category term="Notes" scheme="https://freemandealer.github.io/gallery/tags/Notes/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[开源中的企业]]></title>
-    <link href="http://yoursite.com/2016/06/03/open-source-and-enterprise/"/>
-    <id>http://yoursite.com/2016/06/03/open-source-and-enterprise/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/06/03/open-source-and-enterprise/"/>
+    <id>https://freemandealer.github.io/gallery/2016/06/03/open-source-and-enterprise/</id>
     <published>2016-06-03T06:46:48.000Z</published>
     <updated>2016-08-17T01:08:23.000Z</updated>
     <content type="html"><![CDATA[<p>之前接触开源纯粹是没项目做时找乐子以及被免费开放的源代码吸引，出于个人角度。通过近期与开源软件行业较为深入的合作，以及阅读的一些科普小文章，在这里谈谈我对开源和企业的理解。<br><a id="more"></a></p>
@@ -392,14 +364,14 @@ platform_driver_register(xxx_drv)
     
     </summary>
     
-      <category term="Notes" scheme="http://yoursite.com/tags/Notes/"/>
+      <category term="Notes" scheme="https://freemandealer.github.io/gallery/tags/Notes/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[在任何地方控制宿舍的电脑]]></title>
-    <link href="http://yoursite.com/2016/04/04/remote-control/"/>
-    <id>http://yoursite.com/2016/04/04/remote-control/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/04/04/remote-control/"/>
+    <id>https://freemandealer.github.io/gallery/2016/04/04/remote-control/</id>
     <published>2016-04-04T09:41:09.000Z</published>
     <updated>2016-04-04T11:01:35.000Z</updated>
     <content type="html"><![CDATA[<p>三天假期出去浪，妈妈问我的代码是在哪里写的？</p>
@@ -462,8 +434,8 @@ platform_driver_register(xxx_drv)
   
   <entry>
     <title><![CDATA[从socket应用到网卡驱动：Linux网络子系统分析概述]]></title>
-    <link href="http://yoursite.com/2016/03/08/tcp-ip-internal/"/>
-    <id>http://yoursite.com/2016/03/08/tcp-ip-internal/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/03/08/tcp-ip-internal/"/>
+    <id>https://freemandealer.github.io/gallery/2016/03/08/tcp-ip-internal/</id>
     <published>2016-03-08T01:45:15.000Z</published>
     <updated>2016-03-08T07:33:52.000Z</updated>
     <content type="html"><![CDATA[<p>socket是互联网的基础，我们所熟知的互联网应用大部分是基于socket及其变种，如：浏览器、即时通信软件等。socket这个术语最早出现在TCP规范RFC793中。后来它也作为伯克利编程接口。它的定义为如下二元组：</p>
@@ -524,14 +496,14 @@ platform_driver_register(xxx_drv)
     
     </summary>
     
-      <category term="Notes" scheme="http://yoursite.com/tags/Notes/"/>
+      <category term="Notes" scheme="https://freemandealer.github.io/gallery/tags/Notes/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[阅读理解：理解不理解当是自己说的算]]></title>
-    <link href="http://yoursite.com/2016/02/19/reading-comprehension/"/>
-    <id>http://yoursite.com/2016/02/19/reading-comprehension/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/02/19/reading-comprehension/"/>
+    <id>https://freemandealer.github.io/gallery/2016/02/19/reading-comprehension/</id>
     <published>2016-02-19T14:18:10.000Z</published>
     <updated>2016-02-19T14:28:15.000Z</updated>
     <content type="html"><![CDATA[<p>事情是这样的，最近有很多书要读，所以想在寒假里训练一下阅读速度。我认为买一本专门的训练材料还是必要的，那种可以算出我的每分钟阅读字数和理解程度的材料——没错，最后我使用了一本英语考试阅读理解、快速阅读那种形式的书。看到这里有人可能已经觉得我脑残了，可是当时我并不自知。</p>
@@ -549,14 +521,14 @@ platform_driver_register(xxx_drv)
     
     </summary>
     
-      <category term="Meta" scheme="http://yoursite.com/tags/Meta/"/>
+      <category term="Meta" scheme="https://freemandealer.github.io/gallery/tags/Meta/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[拖延症]]></title>
-    <link href="http://yoursite.com/2016/02/04/procrastination/"/>
-    <id>http://yoursite.com/2016/02/04/procrastination/</id>
+    <link href="https://freemandealer.github.io/gallery/2016/02/04/procrastination/"/>
+    <id>https://freemandealer.github.io/gallery/2016/02/04/procrastination/</id>
     <published>2016-02-04T09:30:31.000Z</published>
     <updated>2016-02-19T14:22:46.000Z</updated>
     <content type="html"><![CDATA[<p><center><br><img src="http://www.hyyxw.net/upload/image/20151110134245t1jo.jpg" alt=""><br></center><br><a id="more"></a></p>
@@ -589,14 +561,14 @@ platform_driver_register(xxx_drv)
     
     </summary>
     
-      <category term="Meta" scheme="http://yoursite.com/tags/Meta/"/>
+      <category term="Meta" scheme="https://freemandealer.github.io/gallery/tags/Meta/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[网络模型的演化——《链接》读书笔记]]></title>
-    <link href="http://yoursite.com/2015/10/30/linked/"/>
-    <id>http://yoursite.com/2015/10/30/linked/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/10/30/linked/"/>
+    <id>https://freemandealer.github.io/gallery/2015/10/30/linked/</id>
     <published>2015-10-30T05:56:38.000Z</published>
     <updated>2015-11-01T04:38:02.000Z</updated>
     <content type="html"><![CDATA[<p>从咱们程序员口中听到“网络”一词，大家会不会立即联想到路由器、交换机这些东西呢？今天我想和大家说的网络，可不局限于计算机网络。事实上，我们周围存在着的网络远比想象中的多：好莱坞影星合作网络，化学反应中物质转化的网络，引用文献网络，经济网络等等。哦，当然还有蜘蛛网——一提到网络就会印入大脑的图像。可网络很复杂，不是一张蜘蛛网就能描述的。如何去描述网络一直是科学家们纠结的问题。现在让我们来看看人们是如何建立模型，一步步逼近真实网络，去描述世界。</p>
@@ -631,8 +603,8 @@ platform_driver_register(xxx_drv)
   
   <entry>
     <title><![CDATA[作业的本质]]></title>
-    <link href="http://yoursite.com/2015/10/29/the-nature-of-homework/"/>
-    <id>http://yoursite.com/2015/10/29/the-nature-of-homework/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/10/29/the-nature-of-homework/"/>
+    <id>https://freemandealer.github.io/gallery/2015/10/29/the-nature-of-homework/</id>
     <published>2015-10-29T12:03:19.000Z</published>
     <updated>2015-11-01T04:32:25.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://i13.tietuku.com/c2cd1b67bce0cff1.jpg" alt=""></p>
@@ -648,14 +620,14 @@ platform_driver_register(xxx_drv)
     
     </summary>
     
-      <category term="元知识" scheme="http://yoursite.com/tags/%E5%85%83%E7%9F%A5%E8%AF%86/"/>
+      <category term="元知识" scheme="https://freemandealer.github.io/gallery/tags/%E5%85%83%E7%9F%A5%E8%AF%86/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[记录一次OSX软件破解]]></title>
-    <link href="http://yoursite.com/2015/10/10/hacking-osx-app/"/>
-    <id>http://yoursite.com/2015/10/10/hacking-osx-app/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/10/10/hacking-osx-app/"/>
+    <id>https://freemandealer.github.io/gallery/2015/10/10/hacking-osx-app/</id>
     <published>2015-10-10T05:02:54.000Z</published>
     <updated>2015-10-14T05:56:08.000Z</updated>
     <content type="html"><![CDATA[<p>这不是一篇教你破解苹果软件的简明教程，而是一篇斗智斗勇的曲折故事。请支持正版！</p>
@@ -745,8 +717,8 @@ platform_driver_register(xxx_drv)
   
   <entry>
     <title><![CDATA[用QEMU来调试内核 -- 亲身体验篇]]></title>
-    <link href="http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/"/>
-    <id>http://yoursite.com/2015/10/04/debug-kernel-with-qemu-2/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/10/04/debug-kernel-with-qemu-2/"/>
+    <id>https://freemandealer.github.io/gallery/2015/10/04/debug-kernel-with-qemu-2/</id>
     <published>2015-10-04T05:37:39.000Z</published>
     <updated>2017-01-07T03:38:39.000Z</updated>
     <content type="html"><![CDATA[<p>本文记录了用QEMU构建最小Linux系统并进行调试的过程。</p>
@@ -754,7 +726,7 @@ platform_driver_register(xxx_drv)
 <blockquote>
 <p>修改：<br>v1 2015-10-04 原稿<br>v2 2016-02-07 将initrd启动替换成硬盘启动</p>
 </blockquote>
-<h2 id="愿景">愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
+<h2 id="愿景">愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
 <ul>
 <li>QEMU调试果然爽快</li>
 <li>调试环境搭建过程中有很多细节需要注意</li>
@@ -766,7 +738,7 @@ platform_driver_register(xxx_drv)
 -<span class="ruby">hda rootfs.img \        <span class="comment"># 指定硬盘</span>
 </span>-<span class="ruby">append <span class="string">"root=/dev/sda"</span>      <span class="comment"># 告诉内核硬盘上有根文件系统</span></span>
 </code></pre></li>
-<li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/" target="_blank" rel="external">上篇文章的末尾</a>)。</p>
+<li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">上篇文章的末尾</a>)。</p>
 <pre><code>gdb vmlinux
 &gt; <span class="keyword">target</span> remote localhost:1234
 </code></pre></li>
@@ -866,14 +838,14 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
     
     </summary>
     
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+      <category term="Note" scheme="https://freemandealer.github.io/gallery/tags/Note/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[野长城]]></title>
-    <link href="http://yoursite.com/2015/10/01/the-wild-great-wall/"/>
-    <id>http://yoursite.com/2015/10/01/the-wild-great-wall/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/10/01/the-wild-great-wall/"/>
+    <id>https://freemandealer.github.io/gallery/2015/10/01/the-wild-great-wall/</id>
     <published>2015-10-01T09:07:59.000Z</published>
     <updated>2015-11-04T10:49:40.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://i11.tietuku.com/2acd988527e65ae4.jpg" alt=""></p>
@@ -927,17 +899,17 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
     
     </summary>
     
-      <category term="Life" scheme="http://yoursite.com/tags/Life/"/>
+      <category term="Life" scheme="https://freemandealer.github.io/gallery/tags/Life/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[用QEMU来调试内核 -- 道听途说篇]]></title>
-    <link href="http://yoursite.com/2015/08/27/debug-kernel-with-qemu/"/>
-    <id>http://yoursite.com/2015/08/27/debug-kernel-with-qemu/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/08/27/debug-kernel-with-qemu/"/>
+    <id>https://freemandealer.github.io/gallery/2015/08/27/debug-kernel-with-qemu/</id>
     <published>2015-08-27T01:28:12.000Z</published>
     <updated>2015-10-04T14:34:09.000Z</updated>
-    <content type="html"><![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/" target="_blank" rel="external">之前文章</a>):</p>
+    <content type="html"><![CDATA[<p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/">之前文章</a>):</p>
 <ul>
 <li>简单、轻便，通过命令参数指定内核</li>
 <li>编译出内核即能调试，不需要应用层</li>
@@ -1015,14 +987,14 @@ sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span clas
     
     </summary>
     
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+      <category term="Note" scheme="https://freemandealer.github.io/gallery/tags/Note/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Python Tricks]]></title>
-    <link href="http://yoursite.com/2015/08/26/python-tricks/"/>
-    <id>http://yoursite.com/2015/08/26/python-tricks/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/08/26/python-tricks/"/>
+    <id>https://freemandealer.github.io/gallery/2015/08/26/python-tricks/</id>
     <published>2015-08-26T05:08:37.000Z</published>
     <updated>2016-07-17T08:31:13.000Z</updated>
     <content type="html"><![CDATA[<blockquote>
@@ -1093,14 +1065,14 @@ img.show()
     
     </summary>
     
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+      <category term="Note" scheme="https://freemandealer.github.io/gallery/tags/Note/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Linux如何分配页]]></title>
-    <link href="http://yoursite.com/2015/08/12/allcating-pages/"/>
-    <id>http://yoursite.com/2015/08/12/allcating-pages/</id>
+    <link href="https://freemandealer.github.io/gallery/2015/08/12/allcating-pages/"/>
+    <id>https://freemandealer.github.io/gallery/2015/08/12/allcating-pages/</id>
     <published>2015-08-12T12:15:29.000Z</published>
     <updated>2016-09-27T07:19:00.000Z</updated>
     <content type="html"><![CDATA[<p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
@@ -1126,7 +1098,24 @@ img.show()
     
     </summary>
     
-      <category term="Note" scheme="http://yoursite.com/tags/Note/"/>
+      <category term="Note" scheme="https://freemandealer.github.io/gallery/tags/Note/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[个人管理参考]]></title>
+    <link href="https://freemandealer.github.io/gallery/2015/08/09/personal-management-reference/"/>
+    <id>https://freemandealer.github.io/gallery/2015/08/09/personal-management-reference/</id>
+    <published>2015-08-09T02:30:56.000Z</published>
+    <updated>2015-10-04T14:38:35.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>
+<a id="more"></a>]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>]]>
+    
+    </summary>
+    
+      <category term="Meta" scheme="https://freemandealer.github.io/gallery/tags/Meta/"/>
     
   </entry>
   

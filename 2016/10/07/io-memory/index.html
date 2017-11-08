@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Linux如何操作设备中的存储器？ | Freeman</title>
+  <title>Linux如何操作设备中的存储器？ | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux如何操作设备中的存储器？">
-<meta property="og:url" content="http://yoursite.com/2016/10/07/io-memory/index.html">
-<meta property="og:site_name" content="Freeman">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2016/10/07/io-memory/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
-<meta property="og:image" content="http://yoursite.com/img/io_memory_mapping.png">
-<meta property="og:image" content="http://yoursite.com/img/save_iomem.png">
-<meta property="og:image" content="http://yoursite.com/img/address_space.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/io_memory_mapping.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/save_iomem.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/address_space.png">
 <meta property="og:updated_time" content="2016-10-11T02:00:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux如何操作设备中的存储器？">
 <meta name="twitter:description" content="对设备的操作实际上是通过读写设备中的memory或者register来完成的。操作方式有两种：I/O ports操作方式和I/O memory操作方式。前者存在于部分体系结构中，通过专门的IO指令(in/out)来实现。后者不需要特殊指令，允许我们像操作内存那样操作设备memory或者register，并可以封装前者，更为简单也更流行。这里我们讨论I/O memory的操作方式。在I/O memo">
   
-    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -52,7 +52,7 @@ var _hmt = _hmt || [];
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
 		</hgroup>
 
 		
@@ -100,11 +100,11 @@ var _hmt = _hmt || [];
 					<nav class="header-menu">
 						<ul>
 						
-							<li><a href="/">主页</a></li>
+							<li><a href="/gallery">主页</a></li>
 				        
 							<li><a href="/archives">所有文章</a></li>
 				        
-							<li><a href="/gallery">笔记</a></li>
+							<li><a href="/gallery">Gallery</a></li>
 				        
 							<li><a href="/chat/index.html">聊聊天</a></li>
 				        
@@ -159,7 +159,7 @@ var _hmt = _hmt || [];
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -167,7 +167,7 @@ var _hmt = _hmt || [];
 				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author">Freeman</h1>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
 			</hgroup>
 			
 			<p class="header-subtitle">This world is a playground.</p>
@@ -175,11 +175,11 @@ var _hmt = _hmt || [];
 			<nav class="header-menu">
 				<ul>
 				
-					<li><a href="/">主页</a></li>
+					<li><a href="/gallery">主页</a></li>
 		        
 					<li><a href="/archives">所有文章</a></li>
 		        
-					<li><a href="/gallery">笔记</a></li>
+					<li><a href="/gallery">Gallery</a></li>
 		        
 					<li><a href="/chat/index.html">聊聊天</a></li>
 		        
@@ -362,7 +362,7 @@ zhangzy@huawei17:~$ xxd /sys/bus/pci/devices/<span class="number">0000</span>\:<
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Freeman
+    		&copy; 2017 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

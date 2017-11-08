@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>上下文切换时堆栈的切换 | Freeman</title>
+  <title>上下文切换时堆栈的切换 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="上下文切换一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用INT指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="上下文切换时堆栈的切换">
-<meta property="og:url" content="http://yoursite.com/2015/07/14/context-switch/index.html">
-<meta property="og:site_name" content="Freeman">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/07/14/context-switch/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="上下文切换一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用INT指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。">
-<meta property="og:image" content="http://yoursite.com/img/PCB-kernel-stack.png">
-<meta property="og:image" content="http://yoursite.com/img/context-switch-tss.jpg">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/PCB-kernel-stack.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/context-switch-tss.jpg">
 <meta property="og:updated_time" content="2015-10-04T14:33:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="上下文切换时堆栈的切换">
 <meta name="twitter:description" content="上下文切换一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用INT指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。">
   
-    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -51,7 +51,7 @@ var _hmt = _hmt || [];
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
 		</hgroup>
 
 		
@@ -99,11 +99,11 @@ var _hmt = _hmt || [];
 					<nav class="header-menu">
 						<ul>
 						
-							<li><a href="/">主页</a></li>
+							<li><a href="/gallery">主页</a></li>
 				        
 							<li><a href="/archives">所有文章</a></li>
 				        
-							<li><a href="/gallery">笔记</a></li>
+							<li><a href="/gallery">Gallery</a></li>
 				        
 							<li><a href="/chat/index.html">聊聊天</a></li>
 				        
@@ -158,7 +158,7 @@ var _hmt = _hmt || [];
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -166,7 +166,7 @@ var _hmt = _hmt || [];
 				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author">Freeman</h1>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
 			</hgroup>
 			
 			<p class="header-subtitle">This world is a playground.</p>
@@ -174,11 +174,11 @@ var _hmt = _hmt || [];
 			<nav class="header-menu">
 				<ul>
 				
-					<li><a href="/">主页</a></li>
+					<li><a href="/gallery">主页</a></li>
 		        
 					<li><a href="/archives">所有文章</a></li>
 		        
-					<li><a href="/gallery">笔记</a></li>
+					<li><a href="/gallery">Gallery</a></li>
 		        
 					<li><a href="/chat/index.html">聊聊天</a></li>
 		        
@@ -354,7 +354,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Freeman
+    		&copy; 2017 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

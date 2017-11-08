@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>用QEMU来调试内核 -- 道听途说篇 | Freeman</title>
+  <title>用QEMU来调试内核 -- 道听途说篇 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看之前文章):
 
@@ -14,8 +14,8 @@
 下面是我从邮件中整理出的具体步骤，部">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用QEMU来调试内核 -- 道听途说篇">
-<meta property="og:url" content="http://yoursite.com/2015/08/27/debug-kernel-with-qemu/index.html">
-<meta property="og:site_name" content="Freeman">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/08/27/debug-kernel-with-qemu/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看之前文章):
 
 简单、轻便，通过命令参数指定内核
@@ -34,7 +34,7 @@
 
 下面是我从邮件中整理出的具体步骤，部">
   
-    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
 		</hgroup>
 
 		
@@ -115,11 +115,11 @@ var _hmt = _hmt || [];
 					<nav class="header-menu">
 						<ul>
 						
-							<li><a href="/">主页</a></li>
+							<li><a href="/gallery">主页</a></li>
 				        
 							<li><a href="/archives">所有文章</a></li>
 				        
-							<li><a href="/gallery">笔记</a></li>
+							<li><a href="/gallery">Gallery</a></li>
 				        
 							<li><a href="/chat/index.html">聊聊天</a></li>
 				        
@@ -174,7 +174,7 @@ var _hmt = _hmt || [];
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -182,7 +182,7 @@ var _hmt = _hmt || [];
 				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author">Freeman</h1>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
 			</hgroup>
 			
 			<p class="header-subtitle">This world is a playground.</p>
@@ -190,11 +190,11 @@ var _hmt = _hmt || [];
 			<nav class="header-menu">
 				<ul>
 				
-					<li><a href="/">主页</a></li>
+					<li><a href="/gallery">主页</a></li>
 		        
 					<li><a href="/archives">所有文章</a></li>
 		        
-					<li><a href="/gallery">笔记</a></li>
+					<li><a href="/gallery">Gallery</a></li>
 		        
 					<li><a href="/chat/index.html">聊聊天</a></li>
 		        
@@ -258,7 +258,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/" target="_blank" rel="external">之前文章</a>):</p>
+        <p>在KernelNewbies列表上呆了两年了，问过几个问题，回答过几个问题，更多地是看高手对话，偷偷学艺。这几天人们在列表上谈论了如何QEMU调试内核的话题，我自己试了试，发现比用VMware调试强大很多(使用VMware调试内核请看<a href="http://freemandealer.github.io/2015/03/18/kernel-debugging/">之前文章</a>):</p>
 <ul>
 <li>简单、轻便，通过命令参数指定内核</li>
 <li>编译出内核即能调试，不需要应用层</li>
@@ -378,7 +378,7 @@ sudo cat /sys/<span class="class"><span class="keyword">module</span>/<span clas
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Freeman
+    		&copy; 2017 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

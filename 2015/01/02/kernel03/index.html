@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>从零构建内核:进入C语言 | Freeman</title>
+  <title>从零构建内核:进入C语言 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="总体思路结合自身状况，C语言可以令我更流畅地编写操作系统，所以我匆匆准备了C语言的运行环境(C run time)，尽可能早地投入C语言的怀抱。loader本应该负责的工作是：进入保护模式，设定分页，设定段描述符，设定中断，加载内核，最后跳转到内核并执行。而我在这里只完成了保护模式的加载，设定了必要的段和栈。反正能用C语言就行，后面可以用C优雅地增加设定或者重新设定。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零构建内核:进入C语言">
-<meta property="og:url" content="http://yoursite.com/2015/01/02/kernel03/index.html">
-<meta property="og:site_name" content="Freeman">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/01/02/kernel03/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="总体思路结合自身状况，C语言可以令我更流畅地编写操作系统，所以我匆匆准备了C语言的运行环境(C run time)，尽可能早地投入C语言的怀抱。loader本应该负责的工作是：进入保护模式，设定分页，设定段描述符，设定中断，加载内核，最后跳转到内核并执行。而我在这里只完成了保护模式的加载，设定了必要的段和栈。反正能用C语言就行，后面可以用C优雅地增加设定或者重新设定。">
-<meta property="og:image" content="http://yoursite.com/img/elf-format.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/elf-format.png">
 <meta property="og:updated_time" content="2015-10-04T14:36:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零构建内核:进入C语言">
 <meta name="twitter:description" content="总体思路结合自身状况，C语言可以令我更流畅地编写操作系统，所以我匆匆准备了C语言的运行环境(C run time)，尽可能早地投入C语言的怀抱。loader本应该负责的工作是：进入保护模式，设定分页，设定段描述符，设定中断，加载内核，最后跳转到内核并执行。而我在这里只完成了保护模式的加载，设定了必要的段和栈。反正能用C语言就行，后面可以用C优雅地增加设定或者重新设定。">
   
-    <link rel="alternative" href="/atom.xml" title="Freeman" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -50,7 +50,7 @@ var _hmt = _hmt || [];
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Freeman</a></h1>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
 		</hgroup>
 
 		
@@ -98,11 +98,11 @@ var _hmt = _hmt || [];
 					<nav class="header-menu">
 						<ul>
 						
-							<li><a href="/">主页</a></li>
+							<li><a href="/gallery">主页</a></li>
 				        
 							<li><a href="/archives">所有文章</a></li>
 				        
-							<li><a href="/gallery">笔记</a></li>
+							<li><a href="/gallery">Gallery</a></li>
 				        
 							<li><a href="/chat/index.html">聊聊天</a></li>
 				        
@@ -157,7 +157,7 @@ var _hmt = _hmt || [];
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Freeman</h1>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -165,7 +165,7 @@ var _hmt = _hmt || [];
 				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author">Freeman</h1>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
 			</hgroup>
 			
 			<p class="header-subtitle">This world is a playground.</p>
@@ -173,11 +173,11 @@ var _hmt = _hmt || [];
 			<nav class="header-menu">
 				<ul>
 				
-					<li><a href="/">主页</a></li>
+					<li><a href="/gallery">主页</a></li>
 		        
 					<li><a href="/archives">所有文章</a></li>
 		        
-					<li><a href="/gallery">笔记</a></li>
+					<li><a href="/gallery">Gallery</a></li>
 		        
 					<li><a href="/chat/index.html">聊聊天</a></li>
 		        
@@ -359,7 +359,7 @@ bochs
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Freeman
+    		&copy; 2017 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
