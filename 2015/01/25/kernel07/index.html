@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从零构建内核:科学地使用C语言头文件组织工程 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在这篇文章我将要分析C语言中头文件的作用，以及哪些东西应该包含在头文件中。其中包括几个工程实例的研究，并给出相关结论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零构建内核:科学地使用C语言头文件组织工程">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/01/25/kernel07/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="在这篇文章我将要分析C语言中头文件的作用，以及哪些东西应该包含在头文件中。其中包括几个工程实例的研究，并给出相关结论。">
+<meta property="og:updated_time" content="2015-10-04T14:36:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零构建内核:科学地使用C语言头文件组织工程">
+<meta name="twitter:description" content="在这篇文章我将要分析C语言中头文件的作用，以及哪些东西应该包含在头文件中。其中包括几个工程实例的研究，并给出相关结论。">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-kernel07" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/01/25/kernel07/" class="article-date">
+  	<time datetime="2015-01-25T02:26:59.000Z" itemprop="datePublished">2015-01-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从零构建内核:科学地使用C语言头文件组织工程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在这篇文章我将要分析C语言中头文件的作用，以及哪些东西应该包含在头文件中。其中包括几个工程实例的研究，并给出相关结论。</p>
+<a id="more"></a>
+<h2 id="头文件">头文件</h2><p>头文件是C工程中以”.h”结尾的文件，与”.c”结尾的源文件对应。我们要知道关于头文件的两点事实：</p>
+<ul>
+<li>头文件由”#include”编译指令在预处理过程中被完整复制进源文件</li>
+<li>头文件本身不能被编译</li>
+</ul>
+<p>为什么要引入一个头文件，而不是把这些东西全部放在源文件里呢？就我之前编写C工程的些许经验而言，头文件的好处主要是减少重复的内容：我们可以把一些共享的内容写在一个头文件里，让多个源文件去包含。把重复写的任务交给预编译程序去做，减少工作量，降低出错率。</p>
+<p>通常在编译多文件工程时，一个源文件编译生成一个目标文件。多个目标文件再通过链接，和库拼在一起并加入启动代码生成可执行文件。如果一个源文件被修改，其它源文件不变，那么我们紧紧需要编译这个被改动的源文件然后重新链接即可。这个过程便是模块编译。模块编译大大节约了编译时间。</p>
+<p>对于某以模块A，可能引用了其他模块B中提供的函数B_fun。在编译模块A的过程中，编译器是不知道B_fun的定义在哪里的－－编译器只知道在A的自身源文件里找，找不到就报错。如果我们加上一句B_fun的声明（最好前面在加个extern表明是其它模块符号），那么编译器虽然还是不知道B_fun的定义在哪里，但是它清楚自己将来会找到的。它就轻松愉快地把B_fun记录在自己的符号表中，等着时间来给它答案。</p>
+<p>可是这样一来，所有需要用到B_fun的模块都要在自己的源文件里添加B_fun的声明－－这多麻烦，还不好修改！与其让调用者每人加一个声明，不如自己准备好这个声明，方便他人。而且这个B_fun正是我们说的“重复的内容”或者说是要被共享的内容，适合放在头文件里。这样所有的调用者只要<code>#include</code>一下B模块的头函数一切就结束了。</p>
+<p>函数声明是头文件里的重要内容。但头文件里还能包含很多其它内容。头文件的存在让工程结构更加清晰，但不当的使用将会带来完全相反的作用。下面我们将深入讨论头文件的使用。</p>
+<h2 id="头文件的使用">头文件的使用</h2><p>要清楚头文件里怎么用，我们先列一下C语言常用的组成部分：</p>
+<ul>
+<li>函数声明</li>
+<li>函数定义</li>
+<li>结构体定义</li>
+<li>全局变量</li>
+<li>extern外部（全局）变量和外部（全局）函数</li>
+<li>static局部变量和局部函数</li>
+<li>inline函数</li>
+<li>#include </li>
+<li>#define的常量</li>
+</ul>
+<p>在学习C++过程中，我们一般把类的定义放在头文件中，把类成员函数的实现写在源文件中。这个思路对我写C语言有了一些不良影响，让我习惯源文件中只有函数实现，而其它东西怎么处理呢？那统统放在头文件中里头！头文件成了垃圾场，导致比较复杂的多文件工程中常常出现问题。头文件里到底放些什么呢？我们先看看人家怎么科学地使用头文件。</p>
+<h2 id="几个例子">几个例子</h2><p>这一节我分析了几个比较有名的开源工程，包括:github上的红人<a href="https://github.com/git/git" target="_blank" rel="external">git</a>、<a href="https://github.com/antirez/redis" target="_blank" rel="external">redis</a>，还有Linux上的<a href="http://ecryptfs.org/" target="_blank" rel="external">eCryptfs</a>文件系统，以及嵌入式大师Jean J.Labrosse编写的<a href="http://micrium.com/" target="_blank" rel="external">uC/OS-II</a>操作系统。</p>
+<h3 id="Git的做法">Git的做法</h3><p>Git作为Linus Torvalds的项目，代码风格规范，可从头文件<a href="https://github.com/git/git/blob/master/http.h" target="_blank" rel="external">http.h</a>和对应源文件<a href="https://github.com/git/git/blob/master/http.c" target="_blank" rel="external">http.c</a>中可见一斑。</p>
+<p>在http.h中，我发现了所有的inline函数和结构体定义。在http.c中，我发现了所有的<code>static</code>修饰的局部变量和局部函数。http.c中的全局变量和需要导出的函数，在http.h中均被<code>extern</code>关键字导出。源文件和头文件中均有#define的常量，不过源文件中的出现的数量较少，并且<code>grep</code>结果表明源文件中的#define的常量只在源文件自身被使用，而头文件中的被其他模块所使用。源文件和头文件中均出现了<code>#include</code>导入了其它头文件。</p>
+<h3 id="Redis的做法">Redis的做法</h3><p>Redis与git做法类似。不过导出的函数并没有使用<code>extern</code>修饰。</p>
+<p>为什么导出全局变量需要<code>extern</code>而导出函数不一定需要？因为函数声明和定义可以区分，而变量的声明就是定义。可以理解成<code>extern</code>在帮助编译器去分变量的声明。</p>
+<p>不过用<code>extern</code>修饰导出函数显然看起更规范。</p>
+<h3 id="eCryptfs的做法">eCryptfs的做法</h3><p>ecryptfs全工程共同使用一个头文件。改头文件包含了所有#define常量和inline函数和extern全局变量和函数。全局变量／函数以及static修饰的局部函数本身定义在各自的源文件中。源文件和头文件中均出现了<code>#include</code>导入了其它头文件。</p>
+<h3 id="uC/OS-II的风格">uC/OS-II的风格</h3><p>uC/OS-II的做法比较奇特，看它的总控源文件：</p>
+<pre><code>/<span class="keyword">*</span>
+<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>
+<span class="keyword">*</span>                                                uC/OS-II
+<span class="keyword">*</span>                                          The Real-Time Kernel
+<span class="keyword">*</span>
+<span class="keyword">*</span>                          (c) Copyright 1992-2002, Jean J. Labrosse, Weston, FL
+<span class="keyword">*</span>                                           All Rights Reserved
+<span class="keyword">*</span>
+<span class="keyword">*</span> File : uCOS_II.C
+<span class="keyword">*</span> By   : Jean J. Labrosse
+<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>
+<span class="keyword">*</span>/
+
+<span class="comment">#define  OS_GLOBALS                           /* Declare GLOBAL variables                              */</span>
+<span class="comment">#include "includes.h"</span>
+
+
+<span class="comment">#define  OS_MASTER_FILE                       /* Prevent the following files from including includes.h */</span>
+<span class="comment">#include "\software\ucos-ii\source\os_core.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_flag.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_mbox.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_mem.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_mutex.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_q.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_sem.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_task.c"</span>
+<span class="comment">#include "\software\ucos-ii\source\os_time.c"</span>
+</code></pre><p>因为<code>#include</code> 指令的作用是把文件完全照搬进本文件，Jean通过这种方式来在预编译时组装成一个大的源文件然后进行编译，同时又能在平时保持工程的划分。而且可以预料，它的Makefile应该很简单，因为真正编译的只有 uCOS_II.C这一个总控源文件。不过，有利有弊。我认为这种方式用与uC/OS-II这样的只有几千行代码的项目是可以的，但不能用于大型工程项目(e.g. Linux内核)。原因在于它在编译时其实是编译了一个巨型的总控文件，没有发挥C语言支持模块化编译的优势。每修改一处代码，将会全部重新编译。</p>
+<h2 id="结论">结论</h2><p>通过分析，我发现之前自己对于头文件是垃圾堆的观念是错误的。头文件的地位是在模块化编译时作为模块和其他模块的接口。头文件和对应源文件里分别放置什么？原则应该是是：会被别的模块用到的放头文件，仅自己使用的放源文件。具体说：</p>
+<ul>
+<li>函数声明(.h)</li>
+<li>函数定义(.h)</li>
+<li>结构体定义(导出：.h，自己用：.c)</li>
+<li>全局变量(.h)</li>
+<li>extern外部（全局）变量和外部（全局）函数(.h)</li>
+<li>static局部变量和局部函数(.c)</li>
+<li>inline函数(.h)</li>
+<li>#include (导出：.h，自己用：.c)</li>
+<li>#define的常量(导出：.h，自己用：.c)</li>
+</ul>
+<p>我的DIY内核将会按照以上方式组织。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/01/28/kernel08/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          从零构建内核:第一个进程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/14/kernel06/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从零构建内核:中断</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

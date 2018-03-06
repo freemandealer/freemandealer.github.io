@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网络模型的演化——《链接》读书笔记 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从咱们程序员口中听到“网络”一词，大家会不会立即联想到路由器、交换机这些东西呢？今天我想和大家说的网络，可不局限于计算机网络。事实上，我们周围存在着的网络远比想象中的多：好莱坞影星合作网络，化学反应中物质转化的网络，引用文献网络，经济网络等等。哦，当然还有蜘蛛网——一提到网络就会印入大脑的图像。可网络很复杂，不是一张蜘蛛网就能描述的。如何去描述网络一直是科学家们纠结的问题。现在让我们来看看人们是如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络模型的演化——《链接》读书笔记">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/10/30/linked/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="从咱们程序员口中听到“网络”一词，大家会不会立即联想到路由器、交换机这些东西呢？今天我想和大家说的网络，可不局限于计算机网络。事实上，我们周围存在着的网络远比想象中的多：好莱坞影星合作网络，化学反应中物质转化的网络，引用文献网络，经济网络等等。哦，当然还有蜘蛛网——一提到网络就会印入大脑的图像。可网络很复杂，不是一张蜘蛛网就能描述的。如何去描述网络一直是科学家们纠结的问题。现在让我们来看看人们是如">
+<meta property="og:updated_time" content="2015-11-01T04:38:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络模型的演化——《链接》读书笔记">
+<meta name="twitter:description" content="从咱们程序员口中听到“网络”一词，大家会不会立即联想到路由器、交换机这些东西呢？今天我想和大家说的网络，可不局限于计算机网络。事实上，我们周围存在着的网络远比想象中的多：好莱坞影星合作网络，化学反应中物质转化的网络，引用文献网络，经济网络等等。哦，当然还有蜘蛛网——一提到网络就会印入大脑的图像。可网络很复杂，不是一张蜘蛛网就能描述的。如何去描述网络一直是科学家们纠结的问题。现在让我们来看看人们是如">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-linked" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/30/linked/" class="article-date">
+  	<time datetime="2015-10-30T05:56:38.000Z" itemprop="datePublished">2015-10-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网络模型的演化——《链接》读书笔记
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从咱们程序员口中听到“网络”一词，大家会不会立即联想到路由器、交换机这些东西呢？今天我想和大家说的网络，可不局限于计算机网络。事实上，我们周围存在着的网络远比想象中的多：好莱坞影星合作网络，化学反应中物质转化的网络，引用文献网络，经济网络等等。哦，当然还有蜘蛛网——一提到网络就会印入大脑的图像。可网络很复杂，不是一张蜘蛛网就能描述的。如何去描述网络一直是科学家们纠结的问题。现在让我们来看看人们是如何建立模型，一步步逼近真实网络，去描述世界。</p>
+<a id="more"></a>
+<p>七桥问题，即欧拉图的研究，开创了“图论”这门新的数学分支。欧拉图的贡献在于，它从实际问题中抽象出了模型，使得人们不再去研究路径寻找，而将注意力转移到对图的性质的研究。后来，一些著名的数学家，比如柯西、汉密尔顿等，为图论的发展贡献了很多力量。最后，蓬勃发展的图论渐渐分化出一个分支专门研究一种特殊的图——网络。这就是网络学的起源。</p>
+<p>早期大家研究的网络都是确定的甚至是规则的。什么是规则的网络？请大家回忆中学时周一站在操场上开晨会，每个同学都只能与周围前后左右四个同学小声交流。每个同学就是网络的节点。如果两个同学之间能直接交流，他们之间就有一条链接。想象站在东南角的同学把信息传递给西北角的同学，那么信息最短要经过对角线上的几百个同学。</p>
+<p>晨会的队形不是自然的队形，它是被政教处的指令所约束的。规则的网络也不是真实的网络，它充满着数学家为简化问题引入的约束。真实网络是复杂的，真实网络中的很多现象是利用规则网络这个简陋的模型没有办法解释的，比如“小世界”的现象。</p>
+<p>有一个大学同学，由于某单位欺骗性招生，现在研究生阶段痛苦不堪。长痛不如短痛，她酝酿了一个大胆的计划：想着偷偷逃离原单位，申请去国外深造。但是她很快放弃了。因为她发现，国外大学的教授很可能认识原单位的导师，或者经过很少的几个人的介绍就能相互联系到，很快就能“抓住”她。学术圈相比于科学家分布的地理环境要小得多，这是一种典型的小世界模型。</p>
+<p>在六度分离的“小世界”网络里，所有人之间隔着的至多六个人的链接。我想递一个消息给任意指定的地球居民，这个消息最多传递六次。同样还有网页间“十九度分离”，表明每两个网页之间的链接数不会超过十九个。你从白宫主页开始点链接，打开一个网页再点链接，这样重复不到十九次就能点进我的博客主页。网络奇迹般的变小了！？</p>
+<p>为了解释“小世界”现象，科学家尝试在网络中引入随机性：用掷骰子的方式决定要不要在任意两个节点之间画上一道链接。再看我们的晨会队列，如果现在链接随机了，那么可能我没法和站在我周围的人有链接，却和隔着十几个人的同学之间进行飞鸽传书—。一个极端的例子是东南角的同学可以直接和西北角的同学之间拥有链接。因为引入了随机，这些都是概率事件，是可能发生的。由于这些可能性，随机的链接把节点之间的平均间隔变小了。</p>
+<p>不过，如果世界仅仅是随机的，你和你小区的邻居应该与美国底特律八里街上的居民一样亲密。这明显是不符合我们体验的。同时一定有某种特殊的力量，同样爱好的小伙伴的交往会比不同爱好的同学之间的交往密切高很多。这股力量就是网络的聚团性。俗话说：物以类聚，人以群分。看看我们的晨会队列，现在大家都三五成群地和附近的人抱团聊天。团体间聊得热火朝天，却很少向外界透露消息。</p>
+<p>团聚性模型破坏了六度分离的性质。因为大量的链接被用于增加团体内部结合的紧密度，势必会减少团体间的连通程度，这样会不会成为一个“大世界”呢？实验证明，只要团体间的随机链接没有完全消失，随机模型和团聚性模型是可以共存的，成为一个更加贴近真实网络的模型。</p>
+<p>我们的网络模型越来越完美，然而，有一些特殊的网络现象困扰着我们。真实网络中，常常有一些节点，它的链接要比周围其它节点要多得多得多。比如说首都北京在交通网络中的地位，它是交通枢纽，几乎所有的高铁都会经过北京，而一些二线三线城市可能都没有高铁站。怎么去解释这些“枢纽节点”呢？</p>
+<p>枢纽节点在网络中是怎样产生的呢？原因之一就是，网络是会生长的。之前讨论的网络模型都是静态的，一个网络被提出来，它的节点和链接就不会再变化。真实网络显然不是这样：互联网中一些过时的信息页面会被删除，一些人的逝世会导致社交网络中某些节点消失，与之相关的链接都会跟着消失。同时大量的节点和链接又会产生。网络在进行新陈代谢，是在生长的。</p>
+<p>同时想象生长的过程是有偏好的。每个新节点产生后都想依附一个强有力的老节点。即使不是新节点，也都设法通过链接和强有力的节点扯上关系。偏好就是枢纽节点产生的第二个原因。虽然强有力的节点和偏好链接是鸡生蛋蛋生鸡的问题，但通过迭代，枢纽节点的产生几乎是必然的。</p>
+<p>可是问题由来了：按照这个规则，那岂不是资历越老的节点越来越富有，而新节点几乎不可能超越老节点成为枢纽？看看真实世界，作为老牌枢纽节点的雅虎不是最终被新兴的谷歌抢去了江山。怎么去解释这种“新星效应”呢？网络科学家提出了节点的“适应度”。适应度通过主导枢纽节点的形成来主导一切。</p>
+<p>这让我想到有人对于国产操作系统的相关评论。有些人不看好国产系统，一部分人觉得我们技术水平差，这类人我就不说什么了。第二类人认为国产系统没有前途是因为操作系统拼的是市场，拼生态圈。现在微软、苹果、Unix/Linux、Android一超多强，国产操作系统早已无地落足。这点我确实比较赞同。不过教我们操作系统的杨力祥老师不这么觉得，他认为只要技术够牛够创新，分一杯羹不是没有可能性，甚至还会火起来。如果将技术突破视作新生节点的适应度的话，从网络的观点看，还是有很大希望的。So，Good Luck!</p>
+<p>从图论到随机网络，接着引入团聚性和生长性、偏好链接、适应度等一些列元素——这就是《链接》这本书中关于网络的起源、演化和本质的讨论。这本书让我陷入思考的地方有很多。</p>
+<p>弱关系</p>
+<p>对于网络中枢纽节点的研究，我知道了一个不常见的规律：幂律。先说我们常见的一个规律吧：钟型曲线。学术的说法叫做高斯分布，或者正态分布。这条曲线揭示了自然界的倾向：极端的情况出现较少，中间的情况占大多数。比如说中国成年男性的身高，80%分布在160~175之间，过矮或过高的人相对来说非常少。大自然似乎“满足大多数人的利益”，向往“中庸之道”，大部分人都很开心！</p>
+<p>可是网络中的节点呢？我们观察它们的之间的链接分布，发现20%的节点掌握着80%的链接，甚至呈现比帕累托80/20更夸张的比率。事实上，节点的分布规律是呈幂律关系的。幂律分布的曲线不是均匀对称的钟型，而是从无穷大迅速下降并拖着长长尾巴的一条曲线。我们可以想象比尔盖茨站在靠近无穷大的头段，而我们普通人则是尾端。尾端所有人的财产之和，可能也没有办法和比尔盖茨一个人的财产相比。贫富差距之所以常常被描述为“鸿沟”，大概就是因为社会财产的分布接近幂律分布吧。</p>
+<p>首先我觉得用网络的观点去看世界，我就觉得很新奇也很受用。</p>
+<p>毕竟我们被还原论</p>
+<p>在临界点附近，我们不能再把各个原子分开研究。相反，这些原子应当被视为行动一致的群体。原子被原子形成的盒子取代，每个盒子中的原子行为一致。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/02/04/procrastination/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          拖延症
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/10/29/the-nature-of-homework/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">作业的本质</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

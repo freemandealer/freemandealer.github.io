@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>提取Android手机的内核配置文件 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文介绍几种从网络上搜集来的提取Android手机内核配置文件的方法．这是为真机编译内核的一个重要基础．">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提取Android手机的内核配置文件">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2014/04/27/extract-kernel-config-for-android-devices/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="本文介绍几种从网络上搜集来的提取Android手机内核配置文件的方法．这是为真机编译内核的一个重要基础．">
+<meta property="og:updated_time" content="2015-10-04T14:34:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="提取Android手机的内核配置文件">
+<meta name="twitter:description" content="本文介绍几种从网络上搜集来的提取Android手机内核配置文件的方法．这是为真机编译内核的一个重要基础．">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-extract-kernel-config-for-android-devices" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/04/27/extract-kernel-config-for-android-devices/" class="article-date">
+  	<time datetime="2014-04-27T12:48:05.000Z" itemprop="datePublished">2014-04-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      提取Android手机的内核配置文件
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文介绍几种从网络上搜集来的提取Android手机内核配置文件的方法．这是为真机编译内核的一个重要基础．</p>
+<a id="more"></a>
+<p>##方法一 从当前运行内核中提取配置文件##<br>使用adb shell连接手机,从手机运行的系统中提取<code>/proc/config.gz</code>．</p>
+<p>使用adb shell时不太顺利，显示错误：</p>
+<pre><code>freeman<span class="variable">@freemanlaptop</span><span class="symbol">:~</span><span class="variable">$ </span>adb shell
+<span class="symbol">error:</span> insufficient permissions <span class="keyword">for</span> device
+freeman<span class="variable">@freemanlaptop</span><span class="symbol">:~</span><span class="variable">$ </span>adb devices
+<span class="constant">List</span> <span class="keyword">of</span> devices attached 
+????????????    no permissions
+</code></pre><p>采用下面办法解决：</p>
+<p>使用root权限执行以下命令</p>
+<pre><code>adb <span class="operator"><span class="keyword">kill</span>-<span class="keyword">server</span>
+adb <span class="keyword">start</span>-<span class="keyword">server</span>
+<span class="keyword">exit</span></span>
+</code></pre><p>可惜实验用机中并没有找到config.gz :-(</p>
+<p>##方法二 从现有内核镜像中提取配置文件##<br>可以通过这个脚本获取已经编译好内核的config文件<code>/usr/src/linux/scripts/extract-ikconfig</code>.</p>
+<pre><code><span class="regexp">/usr/</span>src<span class="regexp">/linux/</span>scripts<span class="regexp">/extract-ikconfig image &gt; my_config</span>
+</code></pre><p>局限性是被提取的内核本身编译时开启<code>CONFIG_IKCONFIG</code>选项．另外，如果内核被压缩过也会出现错误．</p>
+<p>##方法三 手动配置或默认配置##<br><code>make menuconfig</code>手动配置，需要经验，难度较大:S</p>
+<p>顺便打开OTG功能吧:在<code>Device Drivers-&gt;USB support</code>里打开OTG相关选项．</p>
+<p>或者采用默认配置:</p>
+<pre><code><span class="built_in">make</span> config_file_name 
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/04/28/compile-and-install-kernel-for-android-devices/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          为Android手机编译和安装内核(HTC G14XE/G18)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/04/24/compile-kernel-for-cubieboard/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为cubieboard linux编译内核</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

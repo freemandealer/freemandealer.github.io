@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从零构建内核:第一个进程 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零构建内核:第一个进程">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/01/28/kernel08/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/kernel_selector.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/singer.jpg">
+<meta property="og:updated_time" content="2015-10-04T14:37:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零构建内核:第一个进程">
+<meta name="twitter:description" content="“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-kernel08" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/01/28/kernel08/" class="article-date">
+  	<time datetime="2015-01-28T09:55:31.000Z" itemprop="datePublished">2015-01-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从零构建内核:第一个进程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。</p>
+<a id="more"></a>
+<h2 id="进程控制块(PCB)">进程控制块(PCB)</h2><p>扯淡一分钟：本科保研资格面试，抽到这个题目：PCB是什么？包含什么内容？当时我就意识到这个题目最大的难点就在于，在关于PCB我知道的比在座所有考官加起来还要多的情况下如何保持谦虚和礼貌 :P</p>
+<p>扯淡完毕。出于拿来主义,我现在的PCB(TCB)长这样:</p>
+<pre><code>struct regs {
+        u32 gs<span class="comment">;</span>
+        u32 fs<span class="comment">;</span>
+        u32 es<span class="comment">;</span>
+        u32 ds<span class="comment">;</span>
+        u32 edi<span class="comment">;</span>
+        u32 esi<span class="comment">;</span>
+        u32 ebp<span class="comment">;</span>
+        u32 kernel_esp<span class="comment">;</span>
+        u32 ebx<span class="comment">;</span>
+        u32 edx<span class="comment">;</span>
+        u32 ecx<span class="comment">;</span>
+        u32 eax<span class="comment">;</span>
+        u32 retaddr<span class="comment">;</span>
+        u32 eip<span class="comment">;</span>
+        u32 cs<span class="comment">;</span>
+        u32 eflags<span class="comment">;</span>
+        u32 esp<span class="comment">;</span>
+        u32 ss<span class="comment">;</span>
+}<span class="comment">;</span>
+
+struct tcb {
+        struct regs regs<span class="comment">;</span>
+        selector_t ldt_sel<span class="comment">;</span>
+        struct descriptor ldt[LDT_SIZE]<span class="comment">;</span>
+        u32 pid<span class="comment">;</span>
+        char p_name[16]<span class="comment">;</span>
+        u16 stack[TASK_STACK_SIZE]<span class="comment">;</span>
+}<span class="comment">;</span>
+</code></pre><p>其中<code>struct regs</code>用来保护现场。</p>
+<h2 id="LDT">LDT</h2><p>新的进程需要自己的地址空间。之前的GDT中的描述的都是DPL0的段。我需要构建新的DPL1的段。不需要大动干戈地再搞一个GDT，一个局部LDT因地制宜。而且可以放进TCB被进程带着走。逻辑上和方便成度上都是合理的。</p>
+<p>之前GDT是这样的（汇编）：</p>
+<pre><code>LABEL_GDT:        boot_descriptor    <span class="number">0</span>,    <span class="number">0</span>,    <span class="number">0</span>
+LABEL_DESC_FLAT_C:    boot_descriptor    <span class="number">0</span>,    <span class="number">0f</span>ffffh,DA_32|DA_CR|DA_LIMIT_4K
+LABEL_DESC_FLAT_RW:    boot_descriptor    <span class="number">0</span>,    <span class="number">0f</span>ffffh,DA_32|DA_DRW|DA_LIMIT_4K
+LABEL_DESC_VIDEO:    boot_descriptor    <span class="number">0</span>B8000h,<span class="number">0f</span>fffh,    DA_DRW|DA_DPL3
+LABEL_DESC_LDT:        boot_descriptor <span class="number">0</span>,    <span class="number">0</span>,    <span class="number">0</span>
+LABEL_DESC_TSS:        boot_descriptor <span class="number">0</span>,    <span class="number">0</span>,    <span class="number">0</span>
+</code></pre><p>其中GDT[0]是留白。GDT[3]是视频段，DPL为３，够低了。GDT[4]和GDT[5]是LDT和TSS的描述符，属于系统段/门描述符(S位置零)。GDT[1]和GDT[2]是代码段和数据段，是新进程需要的。<br>我只改代码段和数据段的DPL,应该是这样的(C语言)：</p>
+<pre><code>init_descriptor(&amp;(idle_task-&gt;ldt[<span class="number">0</span>]), <span class="number">0</span>, <span class="number">0</span>x0fffff, D<span class="built_in">A_32</span> | D<span class="built_in">A_LIMIT</span>_4K | D<span class="built_in">A_C</span> | D<span class="built_in">A_DPL1</span>)<span class="comment">;</span>
+init_descriptor(&amp;(idle_task-&gt;ldt[<span class="number">1</span>]), <span class="number">0</span>, <span class="number">0</span>x0fffff, D<span class="built_in">A_32</span> | D<span class="built_in">A_LIMIT</span>_4K | D<span class="built_in">A_DRW</span>| D<span class="built_in">A_DPL1</span>)<span class="comment">;</span>
+</code></pre><p>最后，修改GDT<a href="LABEL_DESC_LDT">4</a>，登记LDT：</p>
+<pre><code>init_descriptor<span class="list">(<span class="keyword">&amp;gdt</span>[<span class="number">4</span>], <span class="list">(<span class="keyword">u32</span>)</span><span class="list">(<span class="keyword">idle_task-&gt;ldt</span>)</span>, sizeof<span class="list">(<span class="keyword">struct</span> descriptor)</span> <span class="variable">* LDT_SIZE - 1, DA_LDT);</span></span>
+</code></pre><h2 id="选择子">选择子</h2><p>这里的选择子有：</p>
+<p>TCB里的ldt_sel：在GDT中选择LDT描述符。</p>
+<p>赋值给tcp中regs中段寄存器的选择子：在LDT中选择代码段或数据段。</p>
+<pre><code>    cs_sel = (<span class="number">0</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+ds_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+es_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+fs_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+ss_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+</code></pre><p>这类选择子TI位置位，RPL1。告诉系统是LDT中的段，RPL为任务级。</p>
+<p>视频选择子：在GDT中选择视频段，但RPL=1。</p>
+<pre><code>gs_sel = (<span class="number">24</span> &amp; S<span class="built_in">A_RPL</span>_MASK) | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+</code></pre><p>TSS选择子：在GDT中选择TSS段。</p>
+<p>另外关于选择子，前16-3位是GDT项相对于GDT头的偏移量，因为GDT项大小是8Byte，所以它是8Byte对齐，选择子后三位始终是零。充分利用空间，INTEL大叔在后三位中保存IT（是不是LDT段）和RPL。</p>
+<p><img src="/img/kernel_selector.png" alt="选择子"></p>
+<h2 id="TSS和堆栈切换">TSS和堆栈切换</h2><p>因为之前的代码都是运行在高特权级(0级)下，而进程需要运行在较低的特权级（实验用了1级）。所以要进行跳转。跳转的技巧就是retf指令——假装一次中断的完成，调“回”Ring1（原来我们从一开始都只是一个中断，这一定是个大阴谋。。）</p>
+<p>跳转牵扯到堆栈的变化。目前我们是从内层到外层（ring0-&gt;ring1），ss和esp应该准备好在堆栈中，retf以后自动送寄存器。</p>
+<pre><code><span class="attribute">...</span>
+    idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>ss = ss_sel;
+idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>gs = gs_sel;
+idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>eip = (u32)idle_task_main;
+idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>esp = (u32) idle_task<span class="subst">-&gt;</span><span class="built_in">stack</span> + TASK_STACK_SIZE;
+<span class="attribute">...</span>
+</code></pre><p>我们看到eip也是被准备好了。然后：</p>
+<pre><code><span class="comment">; void start_idle()</span>
+<span class="built_in">global</span> start_idle
+<span class="label">start_idle:</span>
+        <span class="keyword">mov</span>    <span class="literal">esp</span>, [idle_task]
+        <span class="keyword">lldt</span>    [<span class="literal">esp</span> + (<span class="number">18</span>*<span class="number">4</span>)]    <span class="comment">; ldt_sel offset in struct tcb</span>
+        <span class="keyword">lea</span>    <span class="literal">eax</span>, [<span class="literal">esp</span> + (<span class="number">18</span>*<span class="number">4</span>)]    <span class="comment">; stack offset in struct tcb</span>
+        <span class="keyword">mov</span>    <span class="preprocessor">dword</span> [itss + <span class="number">4</span>], <span class="literal">eax</span>    <span class="comment">; esp0 offset in tss, set it to be</span>
+                        <span class="comment">; the bottom of regs in struct tcp</span>
+                        <span class="comment">; prepare for next 'real' interupt</span>
+        <span class="keyword">pop</span>    <span class="literal">gs</span>
+        <span class="keyword">pop</span>    <span class="literal">fs</span>
+        <span class="keyword">pop</span>    <span class="literal">es</span>
+        <span class="keyword">pop</span>    <span class="literal">ds</span>
+        <span class="keyword">popad</span>
+
+        <span class="keyword">add</span>    <span class="literal">esp</span>, <span class="number">4</span> <span class="comment">;skip retaddr</span>
+        <span class="keyword">iretd</span>
+</code></pre><p>其中有意思的是，我不仅完成了内层到外层相关的堆栈转换，还为下一次真正的中断时外层到内层的转换埋下伏笔：将<code>TSS</code>中的<code>esp0</code>初始化为<code>TCB</code>中用来保存现场的结构<code>struct regs</code>。这样，下次的中断过程中，堆栈就是这样变换了: 进程栈－&gt;TCB保存现场的结构(regs)-&gt;内核栈。</p>
+<h2 id="Debug感悟">Debug感悟</h2><p>这个实验思路还算清晰，但设计内容比往常多。自己也是一口气写了下来，结过debug了一整天。有些诡异的错误不知怎么地就好了。</p>
+<p>其中发现，因为异常和中断已经初始化，程序出错不会再“跑飞”了——一切尽在掌握。异常处理时可以在handler中通过tmp_dbg获得异常向量和异常代码，结合Intel开发手册，帮助排错。</p>
+<p>在debug过程中，把之前保护模式中一些模棱两可的概念和操作搞细致了，也算收获颇多，不然也没这么多写成这篇文章。</p>
+<p>现在“内核”真的是内核了！一开心，画了幅画,Happy coding~</p>
+<p><img src="/img/singer.jpg" alt="歌剧厨妈"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/02/02/kernel09/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          从零构建内核:多任务
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/25/kernel07/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从零构建内核:科学地使用C语言头文件组织工程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

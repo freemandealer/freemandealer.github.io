@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Windows环境下Hexo博客的搭建 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这篇文章很长，因为它很简单^_^。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows环境下Hexo博客的搭建">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2014/11/27/hexo-in-windows/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="这篇文章很长，因为它很简单^_^。">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/msysgit.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/hexo-setup.png">
+<meta property="og:updated_time" content="2015-10-04T14:42:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows环境下Hexo博客的搭建">
+<meta name="twitter:description" content="这篇文章很长，因为它很简单^_^。">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-hexo-in-windows" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/27/hexo-in-windows/" class="article-date">
+  	<time datetime="2014-11-27T13:49:47.000Z" itemprop="datePublished">2014-11-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows环境下Hexo博客的搭建
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>这篇文章很长，因为它很简单^_^。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="安装环境">安装环境</h2><p>为了使用Hexo，我们需要安装下面的软件：</p>
+<ul>
+<li>msysgit:git工具，这里用来上传和下载文件</li>
+<li>node.js:运行环境</li>
+<li>npm：node.js用来安装其他包的工具</li>
+</ul>
+<p>为了方便大家，我将上述安装文件打包上传至百度盘，<a href="http://pan.baidu.com/s/1bnu8Xwr" target="_blank" rel="external">点击下载</a>。</p>
+<p>保证后面的工作能顺利进行，在安装msysgit出现下面画面是请选择中间那项：</p>
+<p>保证后面的工作能顺利进行，在安装msysgit出现下面画面是请选择中间那项：</p>
+<p><img src="/img/msysgit.png" alt="msysgit安装"></p>
+<p>最后，按住<code>ctrl+x</code>(或采用其它方式)，用管理员身份运行命令提示符。运行命令安装hexo:</p>
+<pre><code>npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> hexo</span>
+</code></pre><p><img src="/img/hexo-setup.png" alt="hexo安装"></p>
+<p>如果出现错误，很可能是因为命令提示符没有运行在管理员状态。</p>
+<h2 id="尝试Hexo">尝试Hexo</h2><p>安装好环境后，我们先来运行博客感受一下。</p>
+<p>首先在适当的位置建立一个文件夹存放博客的内容。如E:\blog\。</p>
+<p>使用命令行进入博客目录，如：</p>
+<pre><code><span class="string">C:</span>\Users\Ryan&gt;<span class="string">E:</span>
+<span class="string">E:</span>\&gt;cd blog
+<span class="string">E:</span>\blog&gt;
+</code></pre><p>运行下面的命令初始化博客</p>
+<pre><code><span class="title">hexo</span> init
+</code></pre><p>上述命令得到提示：</p>
+<pre><code>[info] You are almost done! Don't forget <span class="keyword">to</span> <span class="command">run</span> `npm install` <span class="keyword">before</span> you start blogging <span class="keyword">with</span> Hexo!
+</code></pre><p>根据提示我们运行：</p>
+<pre><code>npm <span class="keyword">install</span>
+</code></pre><p>接着执行：</p>
+<pre><code><span class="title">hexo</span> s
+</code></pre><p>提示：</p>
+<pre><code>[info] Hexo <span class="keyword">is</span> running at http:<span class="comment">//localhost:4000/. Press Ctrl+C to stop.</span>
+</code></pre><p>打开浏览器，输入网址<code>http://localhost:4000/</code>便可浏览hexo默认的博客。可能由于Google字体的原因，页面加载会卡住，这时候需要停止加载页面才能看到网页。</p>
+<h2 id="配置博客">配置博客</h2><p>看到了默认博客，说明之前我们的工作做得很出色，已经成功了一大半。现在我们正式开始自定义博客，并让它发布到互联网上。</p>
+<h3 id="GitHub">GitHub</h3><p>我们用<a href="www.github.com">GitHub</a>作为我们发布博客的容器。进入GitHub并注册一个账户。</p>
+<p>接着在网页上进行一些操作，创建一个新的repository。注意这个repository的名字必须是: <code>你的github用户名.github.io</code>。</p>
+<h3 id="配置Hexo">配置Hexo</h3><p>在博客的目录里有个名为_config.yml的文件，就是Hexo的配置文件。这是一个文本文件，但是建议大家不要用记事本或写字板打开，因为格式或字符编码会带来大的问题。推荐使用Notepad++：</p>
+<pre><code>...
+
+<span class="preprocessor"># Site</span>
+<span class="title">title</span>: <span class="type">Season's</span> <span class="type">Blog</span>    &lt;--修改这里可以改变标题栏
+<span class="title">subtitle</span>:                 
+<span class="title">description</span>:
+<span class="title">author</span>: <span class="type">Season</span> <span class="type">Lee</span>        &lt;--修改这里可以改变网页页脚的作者名字
+<span class="title">email</span>:
+<span class="title">language</span>:
+...
+
+<span class="preprocessor"># Deployment</span>
+<span class="preprocessor">## Docs: http://hexo.io/docs/deployment.html</span>
+<span class="title">deploy</span>:
+    <span class="typedef"><span class="keyword">type</span>: github        &lt;<span class="comment">--输入github,然后增加下面两行</span></span>
+    repository: https://github.com/你的github用户名/你的github用户名.github.io.git
+    branch: master
+</code></pre><p>根据提示修改值。变量名都是自解释的。</p>
+<h2 id="平常使用">平常使用</h2><p>配置好博客，我们就可以使用了。</p>
+<p>hexo 常用命令如下：</p>
+<ul>
+<li>hexo g: 生成——每次修改或增加内容时运行一遍</li>
+<li>hexo s: 本地预览</li>
+<li>hexo d: 发布到网上</li>
+</ul>
+<p>如果不想使用命令行，可以下载我写好的小工具包，解压到博客所在目录。工具的名字是自解释的。 <a href="http://pan.baidu.com/s/1qWt26fU" target="_blank" rel="external">点击这里</a>下载小工具。</p>
+<p>第一次发布，可能提示:</p>
+<pre><code>Initialized empty Git repository <span class="keyword">in</span> <span class="keyword">E</span>:/blog/.deploy/.git/
+<span class="comment">*** Please tell me who you are.</span>
+<span class="keyword">Run</span>
+ git config --<span class="keyword">global</span> user.email <span class="string">"you@example.com"</span>
+ git config --<span class="keyword">global</span> user.name <span class="string">"Your Name"</span>
+</code></pre><p>则请按照说明，执行：</p>
+<pre><code>git config --global user<span class="class">.email</span> <span class="string">"you@example.com"</span>
+ git config --global user<span class="class">.name</span> <span class="string">"Your Name"</span>
+</code></pre><p>发布时需要提供 github 的用户名和密码。密码在输入过程中是不会显示的，觉得自己输对了回车就可以了。</p>
+<p>在浏览器中输入<code>你的github用户名.github.io</code>便可以访问博客。快把链接发给你的朋友们吧~</p>
+<p>第一次发布，需要等一段时间才能看到自己的页面（20分钟内你只能看到404找不到页面）。除了第一次，以后的发布会立马显示结果。</p>
+<h2 id="还能做什么">还能做什么</h2><p>Hexo很灵活，通过插件和其它配置选项，我们可以实现丰富多彩的功能。如果你愿意付少量的费用，还可以购买个性域名。在这里，我简单介绍主题的变更，并为朋友们评论自己的博文增加一个留言模块。</p>
+<h3 id="更换主题">更换主题</h3><p>推荐一个地址，大家可以在这里集中寻找自己喜欢的主题。 <a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="external">点击这里</a></p>
+<p>点击某个主题，基本上每个主题都有一个Demo可以预览。同时会看到关于这个主题的安装方式。主题安装方法大致相似，并且非常简单：</p>
+<ul>
+<li><p>使用命令行进入博客目录，如：</p>
+<p>  C:\Users\Ryan&gt;E:<br>  E:>cd blog<br>  E:\blog&gt;</p>
+</li>
+<li><p>执行下面的命令,具体参看每个主题的安装指南(Install):</p>
+<p>  git clone git://github.com/XXX/YYY.git themes/ZZZ </p>
+</li>
+<li><p>修改_config.yml</p>
+<pre><code><span class="preprocessor"># Extensions</span>
+<span class="preprocessor">## Plugins: https://github.com/hexojs/hexo/wiki/Plugins</span>
+<span class="preprocessor">## Themes: https://github.com/hexojs/hexo/wiki/Themes</span>
+theme: landscape   &lt;-- 改成主题名字ZZZ
+exclude_generator:
+</code></pre></li>
+<li><p>预览并发布</p>
+</li>
+</ul>
+<h3 id="增加留言功能">增加留言功能</h3><p>使用’多说’插件，增加留言功能。</p>
+<p>首先，需要注册多说的账号。<a href="http://duoshuo.com/" target="_blank" rel="external">点击这里</a>。注册完会得到一串通用代码。</p>
+<p>接着在博客目录下的<code>theme/你现在在用的主题/layout/_partial/</code>里/附近（每款主题不一样）找到<code>comment.ejs</code>文件，用注册得到的通用代码替换原有内容。</p>
+<p>修改<code>theme/你现在在用的主题/</code>下的配置文件_config.yml(是主题的配置文件而不是博客的配置文件)。修改一下内容：</p>
+<pre><code><span class="comment"># Duoshuo comment</span>
+duoshuo:
+  enable: <span class="constant">true</span>        &lt;<span class="comment">-- 如果没有enbale就增加一行</span>
+  short_name: Season    &lt;<span class="comment">-- 这里填写"多说"的用户名</span>
+</code></pre><p>预览一下吧。</p>
+<h2 id="Q&amp;A">Q&amp;A</h2><p>博客搭建过程中出现了很多错误，记录在这里希望能帮到别人。</p>
+<p>使用方法：Markdown，有中文语法解释。<a href="http://wowubuntu.com/markdown/index.html" target="_blank" rel="external">Markdown中文语法解释</a></p>
+<p>安装出现问题： 你是用管理员身份使用命令提示符的吗？</p>
+<p>发布以后等了好久，一直是404错误提示找不到页面：你的github账号通过邮箱验证了吗？</p>
+<p>预览时网页上显示了很多代码： hexo init 后是不是忘了 npm install？</p>
+<p>生成时说配置文件有错误： 配置文件冒号后面漏空格了吗？ 另外，deploy那一段是有缩进的。</p>
+<p>写文章怎么引用图片？在source文件夹下新建img文件夹放所有文章的图片，在文章中使用<code>![图片标题](/img/图片名.图片格式)</code>引用之。</p>
+<h2 id="写在后面">写在后面</h2><p>像一名黑客那样写博客。于是博客似乎成为了黑客和Linux高手的专属玩具。很多人并不是计算机方面的精英，但是这仍然不能阻碍他们成为自己领域的黑客高手。随着工具的发展，搭建博客的技术门槛越来越低。这篇文章，写给Windows平台上的普通用户，只要你热爱分享，热爱生活。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/28/change-thunderbird-reply-header/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          修改Thunderbird的回复头语言和样式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/14/jni-in-android/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在Android中使用JNI笔记</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

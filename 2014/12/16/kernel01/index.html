@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从零构建内核:环境搭建 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装 build-essential">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零构建内核:环境搭建">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2014/12/16/kernel01/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="安装 build-essential">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/kernel1-freedos-in-bochs.png">
+<meta property="og:updated_time" content="2015-10-04T14:35:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零构建内核:环境搭建">
+<meta name="twitter:description" content="安装 build-essential">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-kernel01" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/16/kernel01/" class="article-date">
+  	<time datetime="2014-12-16T04:45:15.000Z" itemprop="datePublished">2014-12-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从零构建内核:环境搭建
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装_build-essential">安装 <code>build-essential</code></h2><a id="more"></a>
+<h2 id="安装_nasm_汇编器">安装 <code>nasm</code> 汇编器</h2><h2 id="安装_bochs_仿真器">安装 <code>bochs</code> 仿真器</h2><p>使用源代码编译的方法。</p>
+<p>bochs官网：<a href="http://bochs.sourceforge.net/" target="_blank" rel="external">http://bochs.sourceforge.net/</a></p>
+<p>最新源代码下载：<a href="http://sourceforge.net/projects/bochs/files/bochs/2.6.7/bochs-2.6.7.tar.gz/download" target="_blank" rel="external">http://sourceforge.net/projects/bochs/files/bochs/2.6.7/bochs-2.6.7.tar.gz/download</a></p>
+<p>用户手册(编译安装指南):<a href="http://bochs.sourceforge.net/cgi-bin/topper.pl?name=New+Bochs+Documentation&amp;url=http://bochs.sourceforge.net/doc/docbook/user/index.html" target="_blank" rel="external">http://bochs.sourceforge.net/cgi-bin/topper.pl?name=New+Bochs+Documentation&amp;url=http://bochs.sourceforge.net/doc/docbook/user/index.html</a></p>
+<p>编译之前，安装相关库：</p>
+<pre><code>xorg-<span class="built_in">dev</span>
+gtk-<span class="number">2.0</span>-<span class="built_in">dev</span>
+</code></pre><p>未安装前者会报错：</p>
+<pre><code><span class="label">ERROR</span>: X windows gui was <span class="keyword">selected, </span><span class="keyword">but </span>X windows
+</code></pre><p>未安装后者会报错：</p>
+<pre><code>gtk/gtk.h: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> directory
+</code></pre><p>解压源代码：</p>
+<pre><code><span class="tag">tar</span> <span class="tag">-xf</span> <span class="tag">bochs-2</span><span class="class">.6</span><span class="class">.7</span><span class="class">.tar</span><span class="class">.gz</span>
+</code></pre><p>配置：    </p>
+<pre><code><span class="string">.</span><span class="comment">/configure</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">enable</span><span class="literal">-</span><span class="comment">debugger</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">enable</span><span class="literal">-</span><span class="comment">disasm</span>
+</code></pre><p>可选配置：</p>
+<pre><code>--<span class="keyword">with</span>-nogui
+</code></pre><p>不使用GUI，即能在终端中运行bochs但是无法显示视频输出。其他配置内容参考上面的用户手册链接。</p>
+<p>修改Makefile的86、87行,在后面加上<code>-pthread</code>参数，即：</p>
+<pre><code><span class="setting">CC = <span class="value">gcc -pthread</span></span>
+<span class="setting">CXX = <span class="value">g++ -pthread</span></span>
+</code></pre><p>否则编译报错：</p>
+<pre><code>    <span class="keyword">g</span>++ -o bochs -<span class="keyword">g</span> -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DBX_SHARE_PATH=\<span class="string">"/usr/local/share/bochs\"</span> logio.o main.o config.o load32bitOShack.o pc_system.o osdep.o <span class="keyword">plugin</span>.o <span class="keyword">crc</span>.o -Wl,--export-dynamic  iodev/libiodev.a iodev/<span class="keyword">display</span>/libdisplay.a iodev/hdimage/libhdimage.a bx_debug/libdebug.a cpu/libcpu.a cpu/cpudb/libcpudb.a <span class="keyword">memory</span>/libmemory.a gui/libgui.a disasm/libdisasm.a cpu/fpu/libfpu.a -lX11 -lXpm -lXrandr -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 /usr/lib/x86_64-linux-gnu/libcairo.<span class="keyword">so</span> -lpango-1.0 -lfontconfig -lgobject-2.0 -lglib-2.0 /usr/lib/x86_64-linux-gnu/libfreetype.<span class="keyword">so</span> -Wl,--rpath -Wl,/usr/lib/x86_64-linux-gnu -Wl,--rpath -Wl,/usr/lib/x86_64-linux-gnu
+/usr/bin/ld: gui/libgui.a(gtk_enh_dbg_osdep.o): undefined reference to symbol 'pthread_create@@GLIBC_2.2.5'
+<span class="comment">//lib/x86_64-linux-gnu/libpthread.so.0: error adding symbols: DSO missing from command line</span>
+collect2: <span class="keyword">error</span>: ld returned 1 <span class="keyword">exit</span> status
+make: *** [bochs] <span class="keyword">Error</span> 1
+</code></pre><p>安装：</p>
+<pre><code>sudo make <span class="keyword">install</span>
+</code></pre><p>这样：</p>
+<pre><code><span class="regexp">/usr/</span>local/bin                  存放 binary executables (bochs, bximage)
+<span class="regexp">/usr/</span>local<span class="regexp">/lib/</span>bochs/plugins    存放 plugins (<span class="keyword">if</span> present)
+<span class="regexp">/usr/</span>local<span class="regexp">/man/</span>man1             存放 manpages <span class="keyword">for</span> installed binaries
+<span class="regexp">/usr/</span>local<span class="regexp">/man/</span>man5             存放 manpage <span class="keyword">for</span> the config file (bochsrc)
+<span class="regexp">/usr/</span>local<span class="regexp">/share/</span>bochs          存放 BIOS images, VGABIOS images, keymaps
+<span class="regexp">/usr/</span>local<span class="regexp">/share/</span>doc/bochs      存放 HTML docs, license, readme, changes, bochsrc sample
+</code></pre><h2 id="安装vgabios">安装vgabios</h2><h2 id="配置并试用bochs仿真器">配置并试用<code>bochs</code>仿真器</h2><p>使用<code>/usr/local/share/doc/bochs/bochsrc-sample</code>或者自己手写配置文件：</p>
+<pre><code> <span class="number">1</span> <span class="preprocessor">###############################################################</span>
+ <span class="number">2</span> <span class="preprocessor"># Configuration file for Bochs</span>
+ <span class="number">3</span> <span class="preprocessor">###############################################################</span>
+ <span class="number">4</span> 
+ <span class="number">5</span> <span class="preprocessor"># how much memory the emulated machine will have</span>
+ <span class="number">6</span> megs: <span class="number">32</span>
+ <span class="number">7</span> 
+ <span class="number">8</span> <span class="preprocessor"># filename of ROM images</span>
+ <span class="number">9</span> romimage: file=/usr/local/share/bochs/BIOS-bochs-latest
+<span class="number">10</span> vgaromimage: file=/usr/share/vgabios/vgabios.bin
+<span class="number">11</span> 
+<span class="number">12</span> <span class="preprocessor"># what disk images will be used </span>
+<span class="number">13</span> floppya: image=<span class="string">"freedos.img"</span>, status=inserted
+<span class="number">14</span> 
+<span class="number">15</span> <span class="preprocessor"># choose the boot disk.</span>
+<span class="number">16</span> boot: a
+<span class="number">17</span> 
+<span class="number">18</span> <span class="preprocessor"># where do we send log messages?</span>
+<span class="number">19</span> <span class="built_in">log</span>: bochsout.txt
+<span class="number">20</span> 
+<span class="number">21</span> <span class="preprocessor"># disable the mouse</span>
+<span class="number">22</span> mouse: enabled=<span class="number">0</span>
+</code></pre><p>在有配置文件的目录中执行<code>bochs -q</code>或者在任意目录下执行<code>bochs -f 配置文件路径</code>便可运行图形界面下的bochs并跑freedos。注意上面配置文件中的<code>freedos.img</code>需要在bochs官网上下载。</p>
+<p>因为启用了调试模式，需要键入<code>c</code>以继续运行系统。</p>
+<p><img src="/img/kernel1-freedos-in-bochs.png" alt="FreeDos in Box"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/01/02/kernel02/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          从零构建内核:BootLoader
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/29/build-modules-for-a-precompiled-kernel/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Build Modules For A Precompiled Kernel(Copyright © 2001 Peter Jay Salzman)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

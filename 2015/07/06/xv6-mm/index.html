@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>xv6系统内存管理分析 | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="xv6是MIT的教学系统，它的源代码是我最喜欢的精致小巧型工程。今天在这里分析xv6的内存管理原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xv6系统内存管理分析">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2015/07/06/xv6-mm/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="xv6是MIT的教学系统，它的源代码是我最喜欢的精致小巧型工程。今天在这里分析xv6的内存管理原理。">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/xv6-memory-layout-phy.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/xv6-memory-layout-logic.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/xv6-pdpdeptpte.png">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/xv6-allocuvm.png">
+<meta property="og:updated_time" content="2015-10-04T14:40:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="xv6系统内存管理分析">
+<meta name="twitter:description" content="xv6是MIT的教学系统，它的源代码是我最喜欢的精致小巧型工程。今天在这里分析xv6的内存管理原理。">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-xv6-mm" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/07/06/xv6-mm/" class="article-date">
+  	<time datetime="2015-07-06T05:49:12.000Z" itemprop="datePublished">2015-07-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      xv6系统内存管理分析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>xv6是MIT的教学系统，它的源代码是我最喜欢的精致小巧型工程。今天在这里分析xv6的内存管理原理。</p>
+<a id="more"></a>
+<h2 id="内存布局">内存布局</h2><p>我们首先需要了解的是xv6系统初始化后物理内存的布局情况。如下图所示，xv6内核代码段和数据段被loader加载到主存开始的1MB~4MB的空间内。主存开始0~1MB保留给BIOS存储相关信息。xv6默认主存大小为224MB。4MB~224MB这段内存可以自由分配：可以映射给内核空间或用户空间使用。图中灰色的devices区域是其它设备引入的存储空间，仅供设备自身使用，并不是主存的一部分。</p>
+<p><img src="/img/xv6-memory-layout-phy.png" alt="物理内存布局"></p>
+<p>描述完物理内存布局情况后，我们将描述更加复杂的逻辑内存，也即进程地址空间的布局。在这里，内存仅仅只是一个逻辑地址，可能并不对应这物理存储单元。对于逻辑上的“地址空间”，我们更多地使用“映射”描述其用途，而不像上面使用“存放”、“分配”这类词。</p>
+<p>进程地址空间布局如下图所示。可以看到2GB内存处是一分水岭。大于2GB的空间属于内核地址空间，小于的属于用户地址空间。</p>
+<p><img src="/img/xv6-memory-layout-logic.png" alt="进程地址空间布局"></p>
+<p>在内核地址空间里，物理内存中开始的内核镜像被映射到2.1GB处。这个地址因此被成为是内核链接(kernel link)地址。x86 32位体系决定了地址空间最大为4GB。末端32MB地址空间映射设备存储。介于设备和内核之间的地址空间为自由地址空间，可用于映射全部物理内存的任意一段。这里之所以强调“全部物理内存”是因为内核地址空间可以寻址整个内存（用户地址空间则不能）。另一个原因和高端内存有关，但高端内存超出了本文讨论范围（似乎xv6本身也没有想考虑高端内存的意愿，毕竟它默认物理内存就224MB）。</p>
+<p>在用户地址空间里映射的是用户程序的代码、数据、堆和栈。其中栈的大小只有1个页(4KB)。这是xv6的限制。</p>
+<p>那么内存到底是如何被分配的？下面我们主要从分配和映射两个步骤讨论这个问题。</p>
+<h2 id="内存分配">内存分配</h2><p>内存分配归根结底是指物理内存的分配。其分配单位是物理页框，简称页框。再说一遍，说到“页框”我们就是在说“物理内存”，和地址空间并没有太多关系。</p>
+<p>xv6如何去分配一个页框？xv6使用了资源池的概念。它将所有空闲内存（也就是物理内存布局图中的绿色部分）分割成4KB大小的页框，并用链表将它们组织起来。分配一个页框就是从空闲页框链表头摘掉一个返回的过程。作为对应，回收一个页框就是塞回空闲页框链表头的过程。</p>
+<p>下面让我们近距离观察上述过程。</p>
+<h3 id="初始化资源池">初始化资源池</h3><p>首先，资源池的初始化函数两个如下列代码。系统启动后被<code>main</code>调用。之所以有两个是因为启动时pdt中只存在4MB内存需要使用<code>kinit1</code>初始化。后面建立成熟的页表可以访问所有内存后，再调用<code>kinit2</code>初始化剩余内存。在调用<code>kinit1</code>时并不用锁，也不能锁。因为锁在4MB空间之外。一旦建立好成熟页表后，锁对于保护这个全局链表的安全就相当重要了。</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">kinit1</span><span class="params">(<span class="keyword">void</span> *vstart, <span class="keyword">void</span> *vend)</span>
+</span>{
+  initlock(&amp;kmem.lock, <span class="string">"kmem"</span>);
+  kmem.use_lock = <span class="number">0</span>;
+  freerange(vstart, vend);
+}
+
+<span class="function"><span class="keyword">void</span> <span class="title">kinit2</span><span class="params">(<span class="keyword">void</span> *vstart, <span class="keyword">void</span> *vend)</span>
+</span>{
+  freerange(vstart, vend);
+  kmem.use_lock = <span class="number">1</span>;
+}
+</code></pre><p>这两个函数调用<code>freerange()</code>来将一段内存分割成页框：</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">freerange</span>(<span class="params"><span class="keyword">void</span> *vstart, <span class="keyword">void</span> *vend</span>)
+</span>{
+  <span class="keyword">char</span> *p;
+  p = (<span class="keyword">char</span>*)PGROUNDUP((<span class="keyword">uint</span>)vstart);
+  <span class="keyword">for</span>(; p + PGSIZE &lt;= (<span class="keyword">char</span>*)vend; p += PGSIZE)
+    kfree(p);
+}
+</code></pre><p><code>freerange()</code>最终调用<code>kfree()</code>将页框加入空闲页框链表——这是<code>kfree()</code>收拾<code>kalloc()</code>烂摊子外的副业。去掉一些出错判断和锁操作后的kfree()看起来是这样的：</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">kfree</span><span class="params">(<span class="keyword">char</span> *v)</span>
+</span>{
+  <span class="keyword">struct</span> run *r;
+
+  <span class="comment">// Fill with junk to catch dangling refs.</span>
+  <span class="built_in">memset</span>(v, <span class="number">1</span>, PGSIZE);
+
+  r = (<span class="keyword">struct</span> run*)v;
+  r-&gt;next = kmem.freelist;
+  kmem.freelist = r;
+}
+</code></pre><p>其中<code>struct run</code>的定义如下，它被存放在每个页框的开始位置。</p>
+<pre><code><span class="class"><span class="keyword">struct</span> <span class="title">run</span> </span>{
+  <span class="class"><span class="keyword">struct</span> <span class="title">run</span> *next;
+};</span>
+</code></pre><h3 id="分配页框">分配页框</h3><p>与<code>kfree()</code>对应的函数<code>kalloc()</code>取出锁操作后看起来是这样的：</p>
+<pre><code><span class="function"><span class="keyword">char</span>* <span class="title">kalloc</span><span class="params">(<span class="keyword">void</span>)</span>
+</span>{
+  <span class="keyword">struct</span> run *r;
+
+  r = kmem.freelist;
+  <span class="keyword">if</span>(r)
+    kmem.freelist = r-&gt;next;
+  <span class="keyword">return</span> (<span class="keyword">char</span>*)r;
+}
+</code></pre><h3 id="小结">小结</h3><p>内核的链接位置（在逻辑地址空间的位置）固定，物理地址对应的虚拟地址很容易被计算：</p>
+<p>virt = phy + KERNBASE</p>
+<p>得益于这一点，页框的管理变得非常容易。</p>
+<h2 id="页表建立">页表建立</h2><p>virt = phy + KERNBASE，为什么能这么简单？因为内核一直映射在每个进程地址空间的相同地址，而且内核的一些组成部分在内存中较为稳定（相对于多种多样还在动态变化的应用程序），内核页表大部分使用直截了当的线性映射就好。然而有些表项，还有进程的页表，有一万个理由变得复杂无比。我们就来看看如何建立这些复杂的内核页表项和进程页表。</p>
+<h3 id="内核页表的建立">内核页表的建立</h3><p>xv6在<code>main</code>调用<code>kvmalloc()</code>建立新的成熟的内核页表替换原来临时页表。<code>kvmalloc()</code>实际上调用了<code>setkvm()</code>依照kmap表的样子，创建了一个线性映射的页表。</p>
+<pre><code><span class="keyword">static</span> <span class="keyword">struct</span> kmap {
+  <span class="keyword">void</span> *virt;
+  uint phys_start;
+  uint phys_end;
+  <span class="keyword">int</span> perm;
+} kmap[] = {
+ { (<span class="keyword">void</span>*)KERNBASE, <span class="number">0</span>,             EXTMEM,    PTE_W}, <span class="comment">// I/O space</span>
+ { (<span class="keyword">void</span>*)KERNLINK, V2P(KERNLINK), V2P(data), <span class="number">0</span>},     <span class="comment">// kern text+rodata</span>
+ { (<span class="keyword">void</span>*)data,     V2P(data),     PHYSTOP,   PTE_W}, <span class="comment">// kern data+memory</span>
+ { (<span class="keyword">void</span>*)DEVSPACE, DEVSPACE,      <span class="number">0</span>,         PTE_W}, <span class="comment">// more devices</span>
+};
+
+
+<span class="keyword">pde_t</span>* setupkvm(<span class="keyword">void</span>)
+{
+  <span class="keyword">pde_t</span> *pgdir;
+  <span class="keyword">struct</span> kmap *k;
+
+  <span class="keyword">if</span>((pgdir = (<span class="keyword">pde_t</span>*)kalloc()) == <span class="number">0</span>)
+    <span class="keyword">return</span> <span class="number">0</span>;
+  <span class="built_in">memset</span>(pgdir, <span class="number">0</span>, PGSIZE);
+  <span class="keyword">for</span>(k = kmap; k &lt; &amp;kmap[NELEM(kmap)]; k++)
+    <span class="keyword">if</span>(mappages(pgdir, k-&gt;virt, k-&gt;phys_end - k-&gt;phys_start, 
+                (uint)k-&gt;phys_start, k-&gt;perm) &lt; <span class="number">0</span>)
+      <span class="keyword">return</span> <span class="number">0</span>;
+  <span class="keyword">return</span> pgdir;
+}
+</code></pre><p><code>setupkvm()</code>首先使用上文描述的kalloc页框分配函数分配了一页内存用来存放Page Directory(PD)。PD每个表项Page Directory Entry(简称PDE)指向一张一页大小的Page Table(PT)。PT的每个表项PTE指向一页大小的内存。PDT、PDE、PT、PTE关系如图：</p>
+<p><img src="/img/xv6-pdpdeptpte.png" alt=""></p>
+<p><code>setupkvm()</code>扫描kmap数组的每个元素，调用<code>mappages()</code>构建表项：</p>
+<pre><code><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">mappages</span><span class="params">(pde_t *pgdir, <span class="keyword">void</span> *va, uint size, uint pa, <span class="keyword">int</span> perm)</span>
+</span>{
+  <span class="keyword">char</span> *a, *last;
+  <span class="keyword">pte_t</span> *pte;
+
+  a = (<span class="keyword">char</span>*)PGROUNDDOWN((uint)va);
+  last = (<span class="keyword">char</span>*)PGROUNDDOWN(((uint)va) + size - <span class="number">1</span>);
+  <span class="keyword">for</span>(;;){
+    <span class="keyword">if</span>((pte = walkpgdir(pgdir, a, <span class="number">1</span>)) == <span class="number">0</span>)
+      <span class="keyword">return</span> -<span class="number">1</span>;
+    <span class="keyword">if</span>(*pte &amp; PTE_P)
+      panic(<span class="string">"remap"</span>);
+    *pte = pa | perm | PTE_P;
+    <span class="keyword">if</span>(a == last)
+      <span class="keyword">break</span>;
+    a += PGSIZE;
+    pa += PGSIZE;
+  }
+  <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>注意kmap的每个元素是一段内存区间而非一页，这意味着： 1) kmap的元素对应一个或多个perm相同的页。2) 这些内存区域的起始点和终点并不一定会与页对齐(页是内存对齐的)。<code>mappages()</code>会利用<code>PGROUNDDOW</code>宏进行地址对齐。接着对这个kmap元素指向的内存区间内所有页表进行<code>walkpgdir()</code>:</p>
+<pre><code><span class="function"><span class="keyword">static</span> pte_t * <span class="title">walkpgdir</span><span class="params">(pde_t *pgdir, <span class="keyword">const</span> <span class="keyword">void</span> *va, <span class="keyword">int</span> alloc)</span>
+</span>{
+  <span class="keyword">pde_t</span> *pde;
+  <span class="keyword">pte_t</span> *pgtab;
+
+  pde = &amp;pgdir[PDX(va)];
+  <span class="keyword">if</span>(*pde &amp; PTE_P){
+    pgtab = (<span class="keyword">pte_t</span>*)p2v(PTE_ADDR(*pde));
+  } <span class="keyword">else</span> {
+    <span class="keyword">if</span>(!alloc || (pgtab = (<span class="keyword">pte_t</span>*)kalloc()) == <span class="number">0</span>)
+      <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="comment">// Make sure all those PTE_P bits are zero.</span>
+    <span class="built_in">memset</span>(pgtab, <span class="number">0</span>, PGSIZE);
+    <span class="comment">// The permissions here are overly generous, but they can</span>
+    <span class="comment">// be further restricted by the permissions in the page table </span>
+    <span class="comment">// entries, if necessary.</span>
+    *pde = v2p(pgtab) | PTE_P | PTE_W | PTE_U;
+  }
+  <span class="keyword">return</span> &amp;pgtab[PTX(va)];
+}
+</code></pre><p><code>walkpgdir()</code>会去查旬PD中与va相关的PDE索引。如果该PDE存在位被置位，说明对应的PT已存在，否则通过<code>kalloc()</code>分配一个PT。然后查询PT中与va相关的PTE索引，返回该PTE。</p>
+<p>再回到上一个<code>mappages()</code>函数。调用完<code>walkpgdir()</code>后检查这个返回值的存在位。如果该位被置位则说明返回的PTE已对应页框——被映射过。这在页表建立时是不应该出现的，会panic。如果没被置位，则登记物理地址和perm位。这样一条页表项便建立完毕。遍历完所有kmap元素的所有页表项，<code>setupkvm()</code>便退出，它的调用者<code>kvmalloc()</code>将会调用<code>switchkvm()</code>重新加载cr3寄存器。</p>
+<blockquote>
+<p>问题：这样，xv6就为kmap描述的静态创建的内核区域构建了页表。思考一下，如何动态申请内存并更新到页表？会不会出现这样的情况？<br>回答：会。看下一节。</p>
+</blockquote>
+<h3 id="进程页表的建立">进程页表的建立</h3><p>进程页表建立时需要先建立内核页表！这就解释了为什么每个进程地址空间都包含了相同的内核空间。</p>
+<blockquote>
+<p>问题：那为什么要在一开始单独建立内核页表？如果内核页表被修改了怎么更新到所有的进程页表？会出现这样的情况吗？</p>
+</blockquote>
+<p>进程页表的构建过程是在<code>exec()</code>函数中完成的。<code>exec()</code>会读取程序ELF信息，找到相应的section，申请内存并将section中数据写入新分配的内存中。</p>
+<p>我们并不关心文件读取和ELF格式解析，我们把注意力放在申请内存上。因为这里的申请到的内存和内核页表中映射的内存有些不同——在于它是“申请”来的。上一节提到的内存是静态分配好的，我们是建立了页表项来套它。而这次我们做法不同，我们是先动态申请内存，然后将它登记到页表中去。仔细体会是不是有些差别？</p>
+<p><code>exec()</code>调用<code>allocuvm()</code>来分配物理内存并登记，简化后的<code>allocuvm()</code>会是这个样子：</p>
+<pre><code>int allocuvm<span class="list">(<span class="keyword">pde_t</span> <span class="variable">*pgdir, uint oldsz, uint newsz)
+{
+  char *</span>mem<span class="comment">;</span>
+  uint a<span class="comment">;</span>
+
+  a = PGROUNDUP<span class="list">(<span class="keyword">oldsz</span>)</span><span class="comment">;</span>
+  for<span class="list">(<span class="comment">; a &lt; newsz; a += PGSIZE){</span>
+    mem = kalloc<span class="list">()</span><span class="comment">;</span>
+    memset<span class="list">(<span class="keyword">mem</span>, <span class="number">0</span>, PGSIZE)</span><span class="comment">;</span>
+    mappages<span class="list">(<span class="keyword">pgdir</span>, <span class="list">(<span class="keyword">char*</span>)</span>a, PGSIZE, v2p<span class="list">(<span class="keyword">mem</span>)</span>, PTE_W|PTE_U)</span><span class="comment">;</span>
+  }
+  return newsz<span class="comment">;</span>
+}</span></span>
+</code></pre><p>其中有意思的是，新分配的这一页将被映射在进程地址空间的两个地方。换句话说，执行完这段代码后新分配的这一页将会拥有两个页表项。</p>
+<p><img src="/img/xv6-allocuvm.png" alt=""></p>
+<p>第一次是进程页表的内核部分，这是一开始就在kmap中的：</p>
+<pre><code>{ (<span class="literal">void</span>*)<span class="built_in">data</span>,     V2P(<span class="built_in">data</span>),     PHYSTOP,   PTE_W}, <span class="comment">// kern dat</span>
+</code></pre><p>这一段中的一页。也就是这样，我们才可以用</p>
+<pre><code>mem = kalloc<span class="list">()</span><span class="comment">;</span>
+v2p<span class="list">(<span class="keyword">mem</span>)</span><span class="comment">;</span>
+</code></pre><p>这样的方式分配并寻址。</p>
+<p>第二次，出现在新登记的页表项中，也就是目前<code>(char*)a</code>被分页机制翻译后所指向的页框。</p>
+<h2 id="参考文献">参考文献</h2><ul>
+<li>R. Cox, F. Kaashoek, R. Morris. xv6: a simple, Unix-like teaching operating system.</li>
+<li><a href="http://pdos.csail.mit.edu/6.828/2011/xv6/xv6-rev6.pdf" target="_blank" rel="external">xv6 booklet</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/07/08/xv6-bootloader/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          xv6系统引导过程分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/07/05/making&sending_kernel_patches/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">内核补丁的创建和发送过程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

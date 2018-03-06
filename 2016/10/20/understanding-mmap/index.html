@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>理解mmap | Zhengyu Zhang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="mmap普通文件小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解mmap">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2016/10/20/understanding-mmap/index.html">
+<meta property="og:site_name" content="Zhengyu Zhang">
+<meta property="og:description" content="mmap普通文件小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取">
+<meta property="og:updated_time" content="2016-10-20T10:59:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解mmap">
+<meta name="twitter:description" content="mmap普通文件小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取">
+  
+    <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5571210c2d0c5192f3d72e18d559d836";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Zhengyu Zhang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">This world is a playground.</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/gallery">Gallery</a></li>
+				        
+							<li><a href="/chat/index.html">聊聊天</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+					        
+								<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Life/" style="font-size: 10px;">Life</a> <a href="/tags/Meta/" style="font-size: 16.67px;">Meta</a> <a href="/tags/Note/" style="font-size: 20px;">Note</a> <a href="/tags/Notes/" style="font-size: 13.33px;">Notes</a> <a href="/tags/元知识/" style="font-size: 10px;">元知识</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.septicmk.com">SepticMK</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.maxwellxxx.com">Maxwellxly</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Zhengyu Zhang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://freemandealer.github.io/img/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Zhengyu Zhang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">This world is a playground.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/gallery">Gallery</a></li>
+		        
+					<li><a href="/chat/index.html">聊聊天</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/freemandealer/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/1040041447" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="douban" target="_blank" href="http://www.douban.com/people/83287869/" title="douban">douban</a>
+			        
+						<a class="mail" target="_blank" href="/freeman.zhang1992@gmail.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://plus.google.com/u/0/113872517921961499881/posts" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-understanding-mmap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/20/understanding-mmap/" class="article-date">
+  	<time datetime="2016-10-20T10:38:30.000Z" itemprop="datePublished">2016-10-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      理解mmap
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mmap普通文件">mmap普通文件</h2><p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>
+<a id="more"></a>
+<h2 id="mmap设备文件">mmap设备文件</h2><p>后来，当我看到设备文件也能被mmap到内存中，我开始尝试理解mmap这个称谓的由来—— 原来 memory map，就是把一段memory映射到其它memory空间的过程！设备驱动的作者通过书写自己的mmap回调函数，就可以引导操作系统把设备上的存储空间映射到进程虚拟地址空间上。对于用户来说，操作这片内存，就是在操作设备（上的存储器）。</p>
+<h2 id="“统一”的混乱">“统一”的混乱</h2><h3 id="回头再看mmap普通文件错误但深刻的理解">回头再看mmap普通文件错误但深刻的理解</h3><p>回想mmap把磁盘上的文件加载到内存的过程，和mmap设备文件的过程竟是完美统一的—— 感谢“一切皆设备”的unix理念！其实不仅设备文件本身也是文件，而且存储文件的磁盘也是设备。这样一来，mmap普通文件，是不是就是在mmap磁盘上某个文件占用的设备memory呢？当设备是可直接访存(如NVDIMM盘)的情况下也许想法是正确，但多数情况下不是这样的。为什么呢？</p>
+<p>因为mmap的目的就是想把对设备memory的操作抽象成对内存的操作。如果CPU没有办法直接寻址设备的memory，那么mmap本身是没有意义的。</p>
+<p>不幸的是，我们常见的机械硬盘、SSD啥的都没有把存储单元暴露给CPU，所以文件就得先读到内存中，再对内存进行操作，最后同步回设备。相比于直接操作SSD上的存储颗粒，这种做法是不是有一种“缓冲”的意思呢？</p>
+<h3 id="mmap块设备自身">mmap块设备自身</h3><p>一切皆设备的unix设计的大一统理念虽然完美，不过可能会造成一点混乱…… 除了上面说的：错误地认为mmap普通文件就是mmap磁盘上某个文件占用的设备memory，下面谈谈另一个疑虑——mmap一个磁盘块设备自己（块设备文件）会出现什么情况，跟我mmap这个磁盘块设备上的普通文件，有什么不同？</p>
+<p>我们可以尝试写一个简单的例子看看mmap块设备文件会发生啥情况：</p>
+<pre><code>filp = fopen(“/dev/sda”, “r")<span class="comment">;</span>
+fd = fileno(filp)<span class="comment">;</span>
+buf = mmap(NULL, SIZE, PROT_READ, MAP_PRIVATE, fd, 0)<span class="comment">;</span>
+for (i=0<span class="comment">; i&lt;SIZE; i++)</span>
+     printf(“%x”, buf[i])<span class="comment">;</span>
+munmap(buf, SIZE)<span class="comment">;</span>
+fclose(filp)<span class="comment">;</span>
+</code></pre><p>输出结果（部分）：</p>
+<pre><code><span class="number">63</span>eb1090ffffd08ebcffffb8b00ffffd88effffc08effffbefb7c00bfffffb906200ffffa4f321ea6ffffbe00
+<span class="number">7</span>be438b75ffffc683ffff8110fffffefe7507ffffebf3ffffb416ffffb002ffffbb017c00ffff80b2748affff
+...
+</code></pre><p>再看看磁盘头一个扇区的数据（部分）：</p>
+<pre><code>eb63 <span class="number">9010</span> <span class="number">8</span>ed0 bc00 b0b8 <span class="number">0000</span> <span class="number">8</span>ed8 <span class="number">8</span>ec0
+fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <span class="number">0002</span> f3a4 ea21 <span class="number">0600</span>
+...
+</code></pre><p>忽略读数据时大小端的影响，是不是同一个东西？实验说明，mmap一个块设备文件，就相当于把整块磁盘给mmap了（而不是胡思乱想的什么mmap磁盘控制器页面啦、什么设备上的缓冲区啦等等高级的东西！）。这个mmap跟磁盘上的具体文件系统无关（所谓绕过文件系统），而是把磁盘作为一个超级大的、数据块都是连续的文件给mmap进虚拟内存了。相反看mmap磁盘块设备上的一个普通文件，是跟磁盘上的文件系统息息相关的——这个mmap操作本身就是在这个文件系统提供的。mmap普通文件的数据块在磁盘上不一定是连续的，需要文件系统给出了索引数据块的方法。</p>
+<p>扩展阅读：</p>
+<p><a href="http://hemming.blog.hexun.com/15094457_d.html" target="_blank" rel="external">malloc背后的故事</a>mmap在进程内存分配中扮演的角色及其它一些与文件相关的系统调用。</p>
+<p><a href="http://alanwu.blog.51cto.com/3652632/1288838" target="_blank" rel="external">一个IO的传奇一生</a> 介绍了mmap块设备文件和普通文件的区别。不止于此，这个系列对文件系统和块设备IO有总结性的讲解。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/16/2016-architecture-research-hotspot/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          2016年计算机体系结构领域研究热点调研报告
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/07/io-memory/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux如何操作设备中的存储器？</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 Zhengyu Zhang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
