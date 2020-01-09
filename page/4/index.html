@@ -35,6 +35,7 @@ var _hmt = _hmt || [];
 
 </head>
 
+<script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
     <div class="left-col">
@@ -203,6 +204,64 @@ var _hmt = _hmt || [];
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-systemtap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/13/systemtap/" class="article-date">
+  	<time datetime="2015-04-13T09:14:23.000Z" itemprop="datePublished">2015-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/13/systemtap/">内核调试工具SystemTap:适合懒人的printk替代品</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/04/13/systemtap/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-kernel-debugging" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -715,64 +774,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2015/01/08/kernel04/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-kernel03" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/01/02/kernel03/" class="article-date">
-  	<time datetime="2015-01-02T12:36:32.000Z" itemprop="datePublished">2015-01-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/02/kernel03/">从零构建内核:进入C语言</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="总体思路">总体思路</h2><p>结合自身状况，C语言可以令我更流畅地编写操作系统，所以我匆匆准备了C语言的运行环境(C run time)，尽可能早地投入C语言的怀抱。loader本应该负责的工作是：进入保护模式，设定分页，设定段描述符，设定中断，加载内核，最后跳转到内核并执行。而我在这里只完成了保护模式的加载，设定了必要的段和栈。反正能用C语言就行，后面可以用C优雅地增加设定或者重新设定。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/01/02/kernel03/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

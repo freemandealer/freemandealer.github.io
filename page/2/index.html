@@ -35,6 +35,7 @@ var _hmt = _hmt || [];
 
 </head>
 
+<script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
     <div class="left-col">
@@ -203,6 +204,70 @@ var _hmt = _hmt || [];
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-tcp-ip-internal" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/08/tcp-ip-internal/" class="article-date">
+  	<time datetime="2016-03-08T01:45:15.000Z" itemprop="datePublished">2016-03-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/08/tcp-ip-internal/">从socket应用到网卡驱动：Linux网络子系统分析概述</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>socket是互联网的基础，我们所熟知的互联网应用大部分是基于socket及其变种，如：浏览器、即时通信软件等。socket这个术语最早出现在TCP规范RFC793中。后来它也作为伯克利编程接口。它的定义为如下二元组：</p>
+<center><em>socket:=(IP:port)</em></center>
+
+<p>由此，TCP连接可以定义为：</p>
+<center><em>TCP Connection := {socket1, socket2}</em></center>
+
+<p>本文将从socket应用出发，分层深入Linux网络模块内部，去分析内部运行原理。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/">Notes</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/08/tcp-ip-internal/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-reading-comprehension" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -711,64 +776,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2015/08/26/python-tricks/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-allcating-pages" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/12/allcating-pages/" class="article-date">
-  	<time datetime="2015-08-12T12:15:29.000Z" itemprop="datePublished">2015-08-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/12/allcating-pages/">Linux如何分配页</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/12/allcating-pages/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

@@ -35,6 +35,7 @@ var _hmt = _hmt || [];
 
 </head>
 
+<script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
     <div class="left-col">
@@ -203,6 +204,64 @@ var _hmt = _hmt || [];
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-allcating-pages" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/12/allcating-pages/" class="article-date">
+  	<time datetime="2015-08-12T12:15:29.000Z" itemprop="datePublished">2015-08-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/12/allcating-pages/">Linux如何分配页</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>是的，在这里记录<code>alloc_pages</code>相关的内容！先来看看我们怎么使用它的。<code>alloc_pages</code>函数族为我们分配2^n个页（准确讲是页框，即4K大小的物理内存），然后返回页描述符（描述页框状态的数据结构，<code>struct page</code>）。可是我们申请内存，是为了使用内存。使用内存时，寻址用的是线性地址。<code>alloc_pages</code>返回的描述页框数据结构实例的地址，并没有什么直接用途。我们要把页描述符描述的物理页框的物理地址转换成线性地址，才能被内核使用。为了完成这个“映射”任务，我们调用<code>kmap</code>函数族，最终获得了4K线性内存空间的首地址。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/08/12/allcating-pages/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-personal-management-reference" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -723,64 +782,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a  href="/2015/05/24/hotplug/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-systemtap" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/04/13/systemtap/" class="article-date">
-  	<time datetime="2015-04-13T09:14:23.000Z" itemprop="datePublished">2015-04-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/13/systemtap/">内核调试工具SystemTap:适合懒人的printk替代品</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SystemTap是一个Linux调试和性能分析工具，可用于应用层和内核层的分析，但主要侧重内核层。SystemTab可以在<strong>不修改内核代码</strong>、<strong>不重复编译内核</strong>、<strong>不重启机器</strong>的情况下，收集运行内核的信息并使信息可视化。调试人员可以利用它绘制函数调用关系图，打印寄存器信息和调用栈，输出内核中指定变量（可以是局部变量）。它如同一个更加方便prink，方便调试人员观察内核行为，诊断错误异常，分析系统性能。在YAVIS开发过程中，我们使用SystemTap分析包发送和接收情况，并分析通信性能瓶颈。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Note/">Note</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/04/13/systemtap/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
