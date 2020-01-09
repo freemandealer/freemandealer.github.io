@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/success.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/success2.png">
 <meta property="og:image" content="https://freemandealer.github.io/gallery/img/hex.png">
-<meta property="og:updated_time" content="2015-10-14T05:56:08.000Z">
+<meta property="og:updated_time" content="2019-08-15T04:17:44.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录一次OSX软件破解">
 <meta name="twitter:description" content="这不是一篇教你破解苹果软件的简明教程，而是一篇斗智斗勇的曲折故事。请支持正版！">
@@ -313,10 +313,19 @@ var _hmt = _hmt || [];
 <h1 id="稳固胜利果实">稳固胜利果实</h1><p>试验成功了，我们的毒已经注入了程序的内存空间。但是这个破解可不是永久的，每次重新打开程序，就得重复上述步骤进行破解。现在我们要把胜利的果实固定住。这可以通过修改程序二进制文件进行。用到的工具就是vim。</p>
 <p>利用vim打开二进制程序看起来不是一个好主意——一片乱码啊！不过在vim中敲<code>:</code>然后在下面输入<code>%!xxd</code>回车后看到了可是另一番景象。通过搜索匹配到我们的目标代码，然后逐一替换，保存即可。</p>
 <p><img src="/img/hex.png" alt=""></p>
-<p>具体操作时有一些问题，比如说目标代码不好定位。这里提供一个小的脚本工具：<a href="http://reverse.put.as/wp-content/uploads/2011/02/offset1.3.pl_.gz" target="_blank" rel="external">offset</a>用来定位。</p>
+<p>具体操作时有一些问题，比如说目标代码不好定位。这里提供一个小的脚本工具：<a href="https://github.com/freemandealer/scripts/blob/master/offset1.3.pl_" target="_blank" rel="external">offset</a>可以方便地把otx中的内存地址转换成二进制文件中的偏移。</p>
 <p>替换完成后别急着<code>wq</code>保存退出。而是先<code>%!xxd -r</code>重新转码然后再保存退出。</p>
 <p>这样，我们就可以优雅地运行程序了。</p>
-<p>哦，对了请支持正版！</p>
+<h1 id="技术总结">技术总结</h1><p>对于看完故事还意犹未尽的技术人，我还准备了一份简单的路线：</p>
+<ul>
+<li>收集信息和探索：对二进制文件展开成人类可读的形式后，使用关键词进行搜索，定位阻碍我们流畅使用该应用的函数。这一步耗时最长，需要仔细摆弄软件获得灵感，并且直接决定能否成功。一般搜索关键词如 activate、purchase、register、trial 之类，也可以结合具体应用和想要的效果选取。例如对于弹窗的应用，不一定非要“破解”，只要能屏蔽广告就行，那么可以使用 dialog、window 之类的关键词搜索。这个阶段使用的工具主要目的是为了把 binary format 妆换成 human-readable format，工具例如：hopper、otx、class-dump 都可以满足，class-dump 信息清晰一下。</li>
+<li>如果上一步定位了目标函数，则需要弄清这个函数的输入输出，并撰写编译自己后面用来替换的函数。比如目标函数通过判断用户身份返回是否合法，合法true不合法false。那么我们就建立一个C文件写一个永远返回true的函数编译出二进制。如果一个目标是一个返回void的弹窗函数，那么我们就让这个函数调用后立马return，跳过后面花里胡哨的广告展示逻辑。这个阶段用到的工具是 C 语言编译器，如 gcc。</li>
+<li>找到目标函数的虚拟内存地址。工具: hopper 或 otx 都可以满足。</li>
+<li>通过上面的内存地址获取代码在二进制文件中的位置。工具： <a href="https://github.com/freemandealer/scripts/blob/master/offset1.3.pl_" target="_blank" rel="external">offset</a> 脚本。</li>
+<li>使用自己的函数逻辑替换二进制文件 offset 处原逻辑。工具：vim &amp;&amp; xxds</li>
+<li>测试是否成功。不成功重复上述步骤，或者google 高阶破解技巧，或者放弃。</li>
+</ul>
+<p>请支持正版！</p>
 <h1 id="参考资料">参考资料</h1><ul>
 <li><p><a href="https://reverse.put.as/wp-content/uploads/2011/02/beginners-tut-II.txt" target="_blank" rel="external">https://reverse.put.as/wp-content/uploads/2011/02/beginners-tut-II.txt</a></p>
 </li>
@@ -377,7 +386,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 Zhengyu Zhang
+    		&copy; 2020 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

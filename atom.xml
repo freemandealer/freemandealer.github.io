@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="https://freemandealer.github.io/gallery/"/>
-  <updated>2016-12-18T01:58:31.000Z</updated>
+  <updated>2020-01-09T05:44:49.197Z</updated>
   <id>https://freemandealer.github.io/gallery/</id>
   
   <author>
@@ -13,6 +13,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[tabnine试用体验]]></title>
+    <link href="https://freemandealer.github.io/gallery/2019/07/23/tabnine-experience/"/>
+    <id>https://freemandealer.github.io/gallery/2019/07/23/tabnine-experience/</id>
+    <published>2019-07-23T05:42:43.000Z</published>
+    <updated>2020-01-09T05:44:49.197Z</updated>
+    <content type="html"><![CDATA[<p>tabnine 已经推出大半年了，网上资料很少，中文网站更是只限于翻译其广告大吹“AI辅助写代码神器”，也没有个正经使用报告。于是我写这篇文章分享一下实际使用的体验。</p>
+<a id="more"></a>
+<h2 id="安装体验">安装体验</h2><p>从官网上的指南来看，tabnine 安装非常容易。我试了sublime和vim的配置，基本按照说明无痛安装，装好也不用配置，做到了开箱即用。只是vim的安装指南有些坑：tabnine的vim插件实际上是通过YCM改的，官方指南漏掉了需要运行YCM install.py 编译core的过程。</p>
+<p>开箱即用的tabnine只有基于AI的补全功能，如果需要基于语义的补全功能，还需要安装第三方 language server。不同语言有不同的 language server，c++默认使用的是 cquery。在OS X下可以用homebrew一键安装。但到了一台老版本的cent os下就比较麻烦了，包管理器没有相关资源。</p>
+<p>值得一提的是，在这台老版本的centos 上，tabnine 无法被执行。这是因为 tabnine 是闭源软件，软件包中提供的是二进制文件，兼容性比较差。好消息是这个问题只存在部分linux系统上，Windows/OS X 这类标准的系统没有问题。</p>
+<h2 id="使用体验">使用体验</h2><p>第一感觉：没广告中那么智能。广告 gif 中可以看到，tabnine可以识别if-else语义自动针对if中的yes不缺else中的no。甚至还可以识别函数头注释中的自然语言，为函数头定义代码给出建议。实际体验中，并没有感受到这种智能，可能这些功能是付费内容，也可能只针对特定语言。不过对比同样是开箱即用状态下的YCM，确实补全建议要有意义一些。我的YCM开启了基于语义的自动补全，在开箱即用的状态下，补全建议很多但相关性很差，摸不清它补全的逻辑。而同样开箱状态下的额tabnine，建议就精简但是有意义很多。当然这里的“有意义”不等于有用，只是能够感觉到tabnine是能感知到上下文的。总体来说，我的测试中，tabnine提供的建议相对更有帮助一些，但仅限于矮子里面拔将军，对于实际工程效率的提升可以说还是比较有限的，没有广告gif中用的飞起的感觉。注意，本测试是开箱即用的情况下，对c/c++所做的测试。</p>
+<p>半年后更新体验：经过一段时间，发现tabnine确实如广告那样智能，它真的知道你在做什么！比如你在一个分支 print success 并 return true，然后写完 else 这个词后它真的会提示你 print failed 及 return false。另外它不仅学习你的代码，还有强大的 github 库作为支撑。有时候忘记 c++ 模板库的用法，大概写一个开头 tabnine 就会替你补完——不仅省了打字时间，还省了查小本本的时间。</p>
+<h2 id="云服务和隐私保护">云服务和隐私保护</h2><p>reddit上对tabnine的隐私保护问题质疑比较多。tabnine 提供了云服务（截止本文写作时间，tabnine cloud 还处于公测版），需要把用户代码上传到它的云上进行加速解析。尽管作者把自己的云说的很值得信任（用了SSL啦、处理完就删除信息啦），但大家还是担心自己的代码会在过程中泄漏。实际上使用 tabnine 时完全可以不使用它的云服务。它的云主要是为了加速，提供更好的延迟体验。如果不使用云，这些处理将会在本地完成，比较消耗本地资源，但这个过程不需要联网（除了liscence 验证需要网络）。</p>
+<h2 id="价格">价格</h2><p>tabnine可以无限期免费体验，但索引的工程大小不能超过400K。同时作为一个商业软件，tabnine提供了49\$个人版、企业版99\$ 。收费版同样有工程大小的限制，目前是 100MB。收费版这个限制主要是因为索引超过100MB 的内容对内存的消耗非常大，延迟也会很高。纵观tabnine的历史，通过作者不断改进技术，相信收费版的这个限制会慢慢改善。</p>
+<p>这个索引大小还有两点想分享。首先，这个索引大小是所有的源代码文件，不包含二进制文件。而且可以配置索引包含或不包含哪些目录，所以100MB估计可以cover大部分工程。另外值得一提的就是，这个限制不是一个硬性限制，而是类似一个滑动窗口的大小。比如我可以在一个超过400K的工程中使用免费版的400K的额度，只不过给我提示补全的建议是基于400K的代码数据，而不是整个工程的数据。这400K的窗口会随着编辑文件进行滑动，从而始终保证能够给出补全建议。</p>
+<h2 id="可能的使用场景">可能的使用场景</h2><p>整个体验下来，感觉tabnine的补全提示还是不够智能，但是比较惊喜的是它能感知到上下文。我虽然不能用它通过注释的自然语言直接转换成可用的代码，但是它可以利用我输入的只言片语联想到源文件中出现过的代码片段。也就是说，tabnine很适合做一些模板感很强、重复性很强的代码编写，类似写 setter/getter以及写 HTTP 页面的感觉。对于一些没有明显重复模式、实验性很强的代码，比如编写算法、试探API，tabnine 可能就没什么用武之地了。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>tabnine 已经推出大半年了，网上资料很少，中文网站更是只限于翻译其广告大吹“AI辅助写代码神器”，也没有个正经使用报告。于是我写这篇文章分享一下实际使用的体验。</p>]]>
+    
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[开源操作系统技术年会会后杂谈]]></title>
@@ -297,7 +322,7 @@ platform_driver_register(xxx_drv)
     <link href="https://freemandealer.github.io/gallery/2016/06/04/device-driver-in-a-nutshell/"/>
     <id>https://freemandealer.github.io/gallery/2016/06/04/device-driver-in-a-nutshell/</id>
     <published>2016-06-04T11:55:55.000Z</published>
-    <updated>2016-09-01T03:30:03.000Z</updated>
+    <updated>2020-01-09T05:50:53.517Z</updated>
     <content type="html"><![CDATA[<center><br><img src="/img/device_driver_monkey.jpg" alt=""><br></center>
 
 <a id="more"></a>
@@ -629,7 +654,7 @@ platform_driver_register(xxx_drv)
     <link href="https://freemandealer.github.io/gallery/2015/10/10/hacking-osx-app/"/>
     <id>https://freemandealer.github.io/gallery/2015/10/10/hacking-osx-app/</id>
     <published>2015-10-10T05:02:54.000Z</published>
-    <updated>2015-10-14T05:56:08.000Z</updated>
+    <updated>2019-08-15T04:17:44.459Z</updated>
     <content type="html"><![CDATA[<p>这不是一篇教你破解苹果软件的简明教程，而是一篇斗智斗勇的曲折故事。请支持正版！</p>
 <a id="more"></a>
 <h1 id="序章：惹错人了">序章：惹错人了</h1><p>听说精致的Mac和优雅的MarkDown很配。你知道Markdown也可以用来写作幻灯片吗？首先给大家推荐一个Mac平台上优雅的应用叫做DeckSet。售价29.99$，挺贵的，呵呵。</p>
@@ -697,10 +722,19 @@ platform_driver_register(xxx_drv)
 <h1 id="稳固胜利果实">稳固胜利果实</h1><p>试验成功了，我们的毒已经注入了程序的内存空间。但是这个破解可不是永久的，每次重新打开程序，就得重复上述步骤进行破解。现在我们要把胜利的果实固定住。这可以通过修改程序二进制文件进行。用到的工具就是vim。</p>
 <p>利用vim打开二进制程序看起来不是一个好主意——一片乱码啊！不过在vim中敲<code>:</code>然后在下面输入<code>%!xxd</code>回车后看到了可是另一番景象。通过搜索匹配到我们的目标代码，然后逐一替换，保存即可。</p>
 <p><img src="/img/hex.png" alt=""></p>
-<p>具体操作时有一些问题，比如说目标代码不好定位。这里提供一个小的脚本工具：<a href="http://reverse.put.as/wp-content/uploads/2011/02/offset1.3.pl_.gz" target="_blank" rel="external">offset</a>用来定位。</p>
+<p>具体操作时有一些问题，比如说目标代码不好定位。这里提供一个小的脚本工具：<a href="https://github.com/freemandealer/scripts/blob/master/offset1.3.pl_" target="_blank" rel="external">offset</a>可以方便地把otx中的内存地址转换成二进制文件中的偏移。</p>
 <p>替换完成后别急着<code>wq</code>保存退出。而是先<code>%!xxd -r</code>重新转码然后再保存退出。</p>
 <p>这样，我们就可以优雅地运行程序了。</p>
-<p>哦，对了请支持正版！</p>
+<h1 id="技术总结">技术总结</h1><p>对于看完故事还意犹未尽的技术人，我还准备了一份简单的路线：</p>
+<ul>
+<li>收集信息和探索：对二进制文件展开成人类可读的形式后，使用关键词进行搜索，定位阻碍我们流畅使用该应用的函数。这一步耗时最长，需要仔细摆弄软件获得灵感，并且直接决定能否成功。一般搜索关键词如 activate、purchase、register、trial 之类，也可以结合具体应用和想要的效果选取。例如对于弹窗的应用，不一定非要“破解”，只要能屏蔽广告就行，那么可以使用 dialog、window 之类的关键词搜索。这个阶段使用的工具主要目的是为了把 binary format 妆换成 human-readable format，工具例如：hopper、otx、class-dump 都可以满足，class-dump 信息清晰一下。</li>
+<li>如果上一步定位了目标函数，则需要弄清这个函数的输入输出，并撰写编译自己后面用来替换的函数。比如目标函数通过判断用户身份返回是否合法，合法true不合法false。那么我们就建立一个C文件写一个永远返回true的函数编译出二进制。如果一个目标是一个返回void的弹窗函数，那么我们就让这个函数调用后立马return，跳过后面花里胡哨的广告展示逻辑。这个阶段用到的工具是 C 语言编译器，如 gcc。</li>
+<li>找到目标函数的虚拟内存地址。工具: hopper 或 otx 都可以满足。</li>
+<li>通过上面的内存地址获取代码在二进制文件中的位置。工具： <a href="https://github.com/freemandealer/scripts/blob/master/offset1.3.pl_" target="_blank" rel="external">offset</a> 脚本。</li>
+<li>使用自己的函数逻辑替换二进制文件 offset 处原逻辑。工具：vim &amp;&amp; xxds</li>
+<li>测试是否成功。不成功重复上述步骤，或者google 高阶破解技巧，或者放弃。</li>
+</ul>
+<p>请支持正版！</p>
 <h1 id="参考资料">参考资料</h1><ul>
 <li><p><a href="https://reverse.put.as/wp-content/uploads/2011/02/beginners-tut-II.txt" target="_blank" rel="external">https://reverse.put.as/wp-content/uploads/2011/02/beginners-tut-II.txt</a></p>
 </li>
@@ -1099,23 +1133,6 @@ img.show()
     </summary>
     
       <category term="Note" scheme="https://freemandealer.github.io/gallery/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[个人管理参考]]></title>
-    <link href="https://freemandealer.github.io/gallery/2015/08/09/personal-management-reference/"/>
-    <id>https://freemandealer.github.io/gallery/2015/08/09/personal-management-reference/</id>
-    <published>2015-08-09T02:30:56.000Z</published>
-    <updated>2015-10-04T14:38:35.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>
-<a id="more"></a>]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="/img/personal-management.png" alt="个人管理参考"></p>]]>
-    
-    </summary>
-    
-      <category term="Meta" scheme="https://freemandealer.github.io/gallery/tags/Meta/"/>
     
   </entry>
   
