@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="https://freemandealer.github.io/gallery/"/>
-  <updated>2020-01-09T06:42:37.241Z</updated>
+  <updated>2020-01-09T07:04:37.723Z</updated>
   <id>https://freemandealer.github.io/gallery/</id>
   
   <author>
@@ -19,15 +19,14 @@
     <link href="https://freemandealer.github.io/gallery/2020/01/06/dont-hack-me/"/>
     <id>https://freemandealer.github.io/gallery/2020/01/06/dont-hack-me/</id>
     <published>2020-01-06T13:52:03.000Z</published>
-    <updated>2020-01-09T06:42:37.241Z</updated>
+    <updated>2020-01-09T07:04:37.723Z</updated>
     <content type="html"><![CDATA[<p>2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：</p>
 <a id="more"></a>
-<p><img src="/img/2D1352707033F95409E6E9833.jpg?10" alt=""></p>
-<p><img src="/img/2D1352707033F95409E6E9833.jpg" alt="2D1352707033F95409E6E9833" style="zoom:33%;"></p>
+<p><img src="/img/2D1352707033F95409E6E9833.jpg?30" alt=""></p>
 <p>登陆百度云后，收到了站内信：</p>
-<p><img src="/img/adasd.png" alt="adasd" style="zoom:50%;"></p>
+<p><img src="/img/adasd.png?80" alt=""></p>
 <p>作为一个良民，我从来不琢磨攻击别人这件事。无辜又疑惑的我提工单寻求帮助，技术支持提供了具体的攻击手段SYNC_FLOOD（查了一下属于DDoS的一种）和攻击时间（12-30 的 12:05 至 18:41）。</p>
-<p><img src="/img/E86A7D8EC6E9D9F5CF515AB0AC8862E8.png" alt="E86A7D8EC6E9D9F5CF515AB0AC8862E8" style="zoom:50%;"></p>
+<p><img src="/img/E86A7D8EC6E9D9F5CF515AB0AC8862E8.png?40" alt=""></p>
 <p>对着时间，往上查了一下系统日志，马上就精神了。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &#36825;&#37324;&#26159;&#33021;&#30475;&#21040;&#30340;&#26368;&#26089;&#30340;&#26085;&#24535;&#10;Dec 30 03:42:01 instance-3eq6v61r cron[1064]: (*system*) RELOAD (/etc/crontab)&#10;Dec 30 04:17:01 instance-3eq6v61r CRON[15653]: (root) CMD (   cd / &#38;&#38; run-parts --report /etc/cron.hourly)&#10;Dec 30 05:17:01 instance-3eq6v61r CRON[23129]: (root) CMD (   cd / &#38;&#38; run-parts --report /etc/cron.hourly)&#10;Dec 30 06:17:01 instance-3eq6v61r CRON[30198]: (root) CMD (   cd / &#38;&#38; run-parts --report /etc/cron.hourly)&#10;Dec 30 06:25:01 instance-3eq6v61r CRON[31138]: (root) CMD (test -x /usr/sbin/anacron || ( cd / &#38;&#38; run-parts --report /etc/cron.daily ))&#10;Dec 30 06:25:01 instance-3eq6v61r rsyslogd: [origin software=&#34;rsyslogd&#34; swVersion=&#34;8.16.0&#34; x-pid=&#34;1009&#34; x-info=&#34;http://www.rsyslog.com&#34;] rsyslogd was HUPed&#10;Dec 30 06:25:01 instance-3eq6v61r kernel: [151273.108068] EXT4-fs warning (device sda): htree_dirblock_to_tree:959: inode #2: lblock 0: comm updatedb.mlocat: error -5 reading directory block&#10;Dec 30 07:17:01 instance-3eq6v61r CRON[5112]: (root) CMD (   cd / &#38;&#38; run-parts --report /etc/cron.hourly)&#10;Dec 30 08:17:01 instance-3eq6v61r CRON[12087]: (root) CMD (   cd / &#38;&#38; run-parts --report /etc/cron.hourly)&#10;#&#36825;&#37324;&#34987;&#25104;&#21151;&#30331;&#20837;&#20102;&#65292;&#30475;&#26102;&#38388;&#19981;&#26159;&#26412;&#20154;&#10;Dec 30 08:44:54 instance-3eq6v61r systemd[1]: Started Session 225 of user root.</span><br></pre></td></tr></table></figure>
 <p>syslog日志显示，在 Dec 30 08:44:54 有其他人登陆过我的系统。并且有一个奇怪的定时任务 ( cron.hourly ) 每小时都会执行一遍。接着我有看了一下 auth 日志，它会记录各种登陆时的验证信息，包括失败的验证和成功的验证。</p>
@@ -53,16 +52,16 @@
 </ul>
 <p>收集到的信息不多，我决定在系统上运行 script 并隐藏起来，等入侵者下次光临时录下他的一举一动，看看他们到底在干什么、怎么干的。</p>
 <p>过了一天后，在2020年的第一天，我发现入侵者果然再次光临了我的服务器。1月1号夜里23点24分，他潜入后进行了一波操作。不像上次留了很多历史记录给我追查，这次他谨慎地对入侵痕迹进行了清理：删掉了登陆记录和命令执行历史。不过由于之前开起了 script 对所有登陆者的操作进行录屏，所以还是捕捉到了他的一举一动。通过回放操作我发现，入侵者的操作基本上是复制粘贴现成脚本结合手动异常处理，并非是完全自动化脚本。这次进来，他同样熟练地关防火墙，然后开始下载运行他的 jdk 们，最后清理操作痕迹。通过记录可以看到，jdk 下载是成功的，同时也没有手动删除的操作，说明它们确实是运行中自销毁的程序。</p>
-<p><img src="/img/hackme_sadfdsfa.png" style="zoom: 50%;"></p>
+<p><img src="/img/hackme_sadfdsfa.png?40" alt=""></p>
 <p>另外这次他的操作明显与上次操作风格不一样，变得非常谨慎。他可能注意到我可能注意到他的入侵了。为了避免他发现我发现了他，我也尽量减少自己的足迹。之前我通过命令前加空格来避免自己排查黑客行为的命令被记录在历史中，但有时候命令敲快了就忘了，而且因为不能复用历史命令，这也降低了我的排查效率。考虑到linux会把当前会话的历史记录在内存中，只有回话退出时才写入文件，所以我只要不退出会话。这次我通过百度云提供的网页vnc来保持我的会话。这样做的一个额外好处是，我避免了 script 录制到我自己的操作。</p>
 <p>后来证明，我用 vnc 保持会话的决策是正确的。2020年1月2号凌晨1点18分，又有人登陆了会话。但是这次，我无法通过自己的密码登陆我的服务器了。入侵者竟然给我改了密码！虽然通过百度云提供的改密服务可以强行把密码设置回来，但这样一来他就会发现我发现了他的入侵，会比较尬。还好 vnc 保持的会话还在，登上去回放一下他的操作记录，原来是把我的密码改成了 BrrrrrBBBxgdQr37。再看紧接着后面的命令，背后后一阵冰凉：</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="constant">@instance</span>-<span class="number">3</span>eq6v61r:~<span class="preprocessor"># rm -rf /CloudResetPwdUpdateAgent</span></span><br></pre></td></tr></table></figure>
 <p>这是想把云服务提供的重设密码功能也给我停掉吗？太阴险了这个人，奔着霸占我的服务器来并且下了死手！再次感谢我的 vnc 的会话。另外被这两句命令戳中笑点：</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root<span class="constant">@instance</span>-<span class="number">3</span>eq6v61r:/<span class="built_in">opt</span>/nu<span class="preprocessor"># pkill -9 Trump<span class="comment">;</span></span></span><br><span class="line">root<span class="constant">@instance</span>-<span class="number">3</span>eq6v61r:/<span class="built_in">opt</span>/nu<span class="preprocessor"># pkill -9 Donald<span class="comment">;</span></span></span><br></pre></td></tr></table></figure>
 <p>接着继续观赏他的其它操作，他的工具是从up2www这个网站下载的，我也进入这个网站看看：</p>
-<p><img src="/img/hackme_uploader.png" style="zoom: 25%;"></p>
+<p><img src="/img/hackme_uploader.png?25" alt=""></p>
 <p>。。。不认识这个文字。Google翻译一下，在规则页面中发现原来是伊斯兰共和国的网站。</p>
-<p><img src="/img/image-20200102120937588.png" alt="image-20200102120937588" style="zoom:33%;"></p>
+<p><img src="/img/image-20200102120937588.png?30" alt=""></p>
 <p>据此判断是个外国入侵者的可能性挺大。顺手给这个网站举报一下工具上传者。</p>
 <p>另外判断是外国入侵者的依据是我观察到的一个现象：他总是用 bing.com 来判断网络联通性而不是 ping baidu.com 更不是 ping google.com。因此真相只有一个：他很有可能是知道我国国情的外国黑客。</p>
 <p>凌晨1点的这次登陆，除了改密码独占我的服务器，主要还是关闭系统防御，做入侵者的事，清楚记录这三步。当然受限于中国的绿色网络长城，他的很多操作都没能一下成功，也是折腾了不轻。GFW 干得漂亮！</p>
@@ -90,8 +89,8 @@
 <p>为了了解 udev 党的意图，我把可疑的 udev 文件交给了真正的黑客、0 day 漏洞挖掘机周宇做逆向分析（本来寻求他帮助是想让他帮我反击打击黑产的，结果他现在专心挖洞不搞渗透了。大神风范！）宇神告诉我 udev 就是我一直在找的 DDoS 发起者。同时他授人以渔地推荐给了我很多好用的逆向工具，让我直接从用 gdb 一点点 disassemble 一路升天到一键 decompile。然后自己顺利的地分析了 jdk 小子的两个可疑文件：</p>
 <p><img src="/img/image-20200102191830507.png" alt="image-20200102191830507" style="zoom:150%;"></p>
 <p>jdk8 和 9 应该是同样的目的，猜测入侵者是为了同时兼容 SystemV 和 linux 而做了两个版本。因为 jdk8带有符号信息，尝试 decompile，最终找到核心攻击代码：</p>
-<p><img src="/img/image-20200102191424119.png" alt="image-20200102191424119" style="zoom:50%;"></p>
-<p>竟然也是 DDoS!</p>
+<p><img src="/img/image-20200102191424119.png?60" alt=""></p>
+<p>竟然也是在 DDoS!</p>
 <p>完结撒花！</p>
 <p>通过这件事，我学到一个朴素的知识：弱口令是真的危险。入侵者有时候目的还是很邪恶的，不只是强行跟你共享服务器，可能会企图完全霸占。不能抱着“应该没有人会盯上我这台小破机器吧”的侥幸态度，一定要认真设置密码，哪怕只是试验机。</p>
 ]]></content>
