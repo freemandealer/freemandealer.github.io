@@ -4,7 +4,7 @@
   <subtitle><![CDATA[This world is a playground.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="https://freemandealer.github.io/gallery/"/>
-  <updated>2020-01-09T07:04:37.723Z</updated>
+  <updated>2020-01-10T05:21:38.535Z</updated>
   <id>https://freemandealer.github.io/gallery/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="https://freemandealer.github.io/gallery/2020/01/06/dont-hack-me/"/>
     <id>https://freemandealer.github.io/gallery/2020/01/06/dont-hack-me/</id>
     <published>2020-01-06T13:52:03.000Z</published>
-    <updated>2020-01-09T07:04:37.723Z</updated>
+    <updated>2020-01-10T05:21:38.535Z</updated>
     <content type="html"><![CDATA[<p>2019年的最后一天下午，突然收到了百度云发来的短信，说我的服务器正在恶意攻击别人：</p>
 <a id="more"></a>
 <p><img src="/img/2D1352707033F95409E6E9833.jpg?30" alt=""></p>
@@ -42,9 +42,9 @@
 <li>这几个文件运行时自销毁（高级！）</li>
 <li>这些命令是脚本敲入或是批量复制粘贴的，其实根本没有成功（这意味DDoS攻击的发起另有他人）</li>
 </ul>
-<p>如果说另有其人的话，会是上面那个每小时跑一遍的定时任务吗？我找到了 conb.hourly 所执行的二进制文件 /lib/udev/udev，用 gdb 反编译：</p>
+<p>如果说另有其人的话，会是上面那个每小时跑一遍的定时任务吗？我找到了 conb.hourly 所执行的二进制文件 /lib/udev/udev，用 gdb 反汇编：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code <span class="keyword">for</span> function main:</span><br><span class="line">	<span class="number">0x0804b759</span> &lt;+<span class="number">897</span>&gt;:	call   <span class="number">0x8049360</span> &lt;encrypt_code&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804b889</span> &lt;+<span class="number">1201</span>&gt;:	call   <span class="number">0x8048555</span> &lt;readfile&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804ba5d</span> &lt;+<span class="number">1669</span>&gt;:	call   <span class="number">0x8048cdc</span> &lt;DelService&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804bb1a</span> &lt;+<span class="number">1858</span>&gt;:	call   <span class="number">0x8048796</span> &lt;writefile&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804bdba</span> &lt;+<span class="number">2530</span>&gt;:	call   <span class="number">0x8048b8c</span> &lt;InstallSYS&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804bdcd</span> &lt;+<span class="number">2549</span>&gt;:	call   <span class="number">0x804a289</span> &lt;CheckLKM&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804be80</span> &lt;+<span class="number">2728</span>&gt;:	call   <span class="number">0x804d0ac</span> &lt;decrypt_remotestr&gt;</span><br><span class="line">	...</span><br><span class="line">	<span class="number">0x0804bea7</span> &lt;+<span class="number">2767</span>&gt;:	call   <span class="number">0x804a365</span> &lt;HidePidPort&gt;</span><br><span class="line">	...s s</span><br></pre></td></tr></table></figure>
-<p>不用仔细看，光读函数名就不自然。首先是这个刺眼驼峰拼写法，显然不想linux的产物。接着我们知道udev是linux管理设备和驱动的一个模块（具体可以看我之前的文章 <a href="http://freemandealer.github.io/2016/09/01/device-driver-linux-device-driver/">设备驱动 - Linux Device Driver Model</a>），它从不与 “remote” 进行交互。不管它是不是ddos攻击的发起程序，它一定不是真正的 udev。最后看那些 “encrypt” “decrypt” “Hide” 的字眼，偷偷摸摸一看就不正经。 </p>
+<p>不用仔细看，光读函数名就不自然。首先是这个刺眼驼峰拼写法，显然不像 udev 的作风。接着我们知道udev是linux管理设备和驱动的一个模块（具体可以看我之前的文章 <a href="http://freemandealer.github.io/2016/09/01/device-driver-linux-device-driver/">设备驱动 - Linux Device Driver Model</a>），它从不与 “remote” 进行交互。不管它是不是ddos攻击的发起程序，它一定不是真正的 udev。最后看那些 “encrypt” “decrypt” “Hide” 的字眼，偷偷摸摸一看就不正经。 </p>
 <p>到此，对于我被 DDoS 已经有了一些头绪：我的服务器被人入侵了，在里面跑了一些乱七八糟的程序。但是还有很多问题没搞清楚：</p>
 <ul>
 <li>入侵者有几个？jdk小子 和 udev小子 是同一人还是两波人吗？还会有第三个人、第四个人、第五个人吗？</li>
@@ -88,7 +88,7 @@
 <p>了解这个状况后，我陷入了深深的担忧：矿工党修改密码后岂不是其它黑客进不来了？由于矿工党单纯的意图我已经摸清了，我对他兴趣不大，所以决定撕破脸皮，直接把密码又改了回去，向其他入侵者重新开放怀抱。今天差不多这样，先抹掉自己的痕迹静观其变。</p>
 <p>为了了解 udev 党的意图，我把可疑的 udev 文件交给了真正的黑客、0 day 漏洞挖掘机周宇做逆向分析（本来寻求他帮助是想让他帮我反击打击黑产的，结果他现在专心挖洞不搞渗透了。大神风范！）宇神告诉我 udev 就是我一直在找的 DDoS 发起者。同时他授人以渔地推荐给了我很多好用的逆向工具，让我直接从用 gdb 一点点 disassemble 一路升天到一键 decompile。然后自己顺利的地分析了 jdk 小子的两个可疑文件：</p>
 <p><img src="/img/image-20200102191830507.png" alt="image-20200102191830507" style="zoom:150%;"></p>
-<p>jdk8 和 9 应该是同样的目的，猜测入侵者是为了同时兼容 SystemV 和 linux 而做了两个版本。因为 jdk8带有符号信息，尝试 decompile，最终找到核心攻击代码：</p>
+<p>jdk8 和 9 应该是同样的目的，猜测入侵者是为了同时兼容 SystemV 和 linux 而做了两个版本。因为 jdk8带有符号信息，尝试反编译，最终找到核心攻击代码：</p>
 <p><img src="/img/image-20200102191424119.png?60" alt=""></p>
 <p>竟然也是在 DDoS!</p>
 <p>完结撒花！</p>
