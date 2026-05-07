@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>修改Thunderbird的回复头语言和样式 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="当你回复一封邮件时，Thunder会自动增加一个类似这样的回复头(reply header):">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="修改Thunderbird的回复头语言和样式">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2014/11/28/change-thunderbird-reply-header/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="当你回复一封邮件时，Thunder会自动增加一个类似这样的回复头(reply header):">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-10-04T14:33:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="修改Thunderbird的回复头语言和样式">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -243,42 +245,42 @@ var _hmt = _hmt || [];
       
         <p>当你回复一封邮件时，Thunder会自动增加一个类似这样的回复头(reply header):</p>
 <a id="more"></a>
-<pre><code>在<span class="number">2014</span>年<span class="number">11</span>月<span class="number">28</span>日 <span class="number">1</span>-:<span class="number">32</span>, XXX写到：
+<pre><code>在2014年11月28日 1-:32, XXX写到：
 </code></pre><p>当我们回复英文邮件时，这句默认添加的中文就显得有些不适合了。那么我们怎么才能修改回复头的样式呢？有两种方式：</p>
-<h2 id="方法一：通过修改配置">方法一：通过修改配置</h2><p>Tools -&gt; Options -&gt; Advanced -&gt; General 使用Config Editor编辑配置文件。</p>
+<h2 id="方法一：通过修改配置"><a href="#方法一：通过修改配置" class="headerlink" title="方法一：通过修改配置"></a>方法一：通过修改配置</h2><p>Tools -&gt; Options -&gt; Advanced -&gt; General 使用Config Editor编辑配置文件。</p>
 <p>mailnews.reply_header_type 一项的值:</p>
 <pre><code>Value                   Elements                                Example
-<span class="number">0</span>                       mailnews.reply_header_originalmessage   -------- Original Message --------
-<span class="number">1</span> (SeaMonkey <span class="keyword">default</span>)   authorwrote colon                       Alf Aardvark wrote:
-<span class="number">2</span> (Thunderbird <span class="keyword">default</span>) ondate separator authorwrote colon      On <span class="number">01</span>-<span class="number">01</span>-<span class="number">2007</span> <span class="number">11</span>:<span class="number">00</span> AM, Alf Aardvark wrote:
-<span class="number">3</span>                       authorwrote separator ondate colon      Alf Aardvark wrote, on <span class="number">01</span>-<span class="number">01</span>-<span class="number">2007</span> <span class="number">11</span>:<span class="number">00</span> AM:
+0                       mailnews.reply_header_originalmessage   -------- Original Message --------
+1 (SeaMonkey default)   authorwrote colon                       Alf Aardvark wrote:
+2 (Thunderbird default) ondate separator authorwrote colon      On 01-01-2007 11:00 AM, Alf Aardvark wrote:
+3                       authorwrote separator ondate colon      Alf Aardvark wrote, on 01-01-2007 11:00 AM:
 </code></pre><p>具体说：</p>
 <pre><code>mailnews.reply_header_authorwrote
     Default: %s wrote
-    Thunderbird replaces <span class="keyword">the</span> %s <span class="keyword">with</span> <span class="keyword">the</span> author's <span class="property">name</span> <span class="keyword">or</span> e-mail address.
+    Thunderbird replaces the %s with the author&apos;s name or e-mail address.
 mailnews.reply_header_colon
     Default: : (colon)
-    You can add more <span class="type">text</span> here, <span class="keyword">before</span> <span class="keyword">the</span> colon <span class="keyword">or</span> replacing <span class="keyword">the</span> colon.
+    You can add more text here, before the colon or replacing the colon.
 mailnews.reply_header_separator
-    Default: , (comma <span class="constant">space</span>)
-    You can add more <span class="type">text</span> here, <span class="keyword">before</span> <span class="keyword">the</span> comma <span class="keyword">or</span> replacing <span class="keyword">the</span> comma.
+    Default: , (comma space)
+    You can add more text here, before the comma or replacing the comma.
 mailnews.reply_header_ondate
     Default: On %s
-    Thunderbird replaces <span class="keyword">the</span> %s <span class="keyword">with</span> <span class="keyword">the</span> <span class="type">date</span> <span class="keyword">and</span> <span class="property">time</span>.
+    Thunderbird replaces the %s with the date and time.
 mailnews.reply_header_locale
     Default: empty
-    Optionally specify a locale <span class="keyword">for</span> formatting <span class="keyword">the</span> <span class="type">date</span> <span class="keyword">and</span> <span class="property">time</span>—<span class="keyword">for</span> example: en-US
+    Optionally specify a locale for formatting the date and time—for example: en-US
 mailnews.reply_header_originalmessage
-    Default: <span class="comment">-------- Original Message --------</span>
-    Changes <span class="keyword">the</span> reply header <span class="keyword">to</span> <span class="keyword">the</span> <span class="type">text</span> you specify <span class="keyword">if</span> mailnews.reply_header_type <span class="keyword">is</span> <span class="keyword">set</span> <span class="keyword">to</span> <span class="number">0.</span>
+    Default: -------- Original Message --------
+    Changes the reply header to the text you specify if mailnews.reply_header_type is set to 0.
 </code></pre><p>其中的<code>mailnews.reply_header_locale</code>应该可以更改时间日期格式，但实验不成功。</p>
 <p>为了使邮件简洁，使用<code>mailnews.reply_header_type=0</code>。</p>
-<h2 id="方法二：通过安装插件">方法二：通过安装插件</h2><p><a href="https://nic-nac-project.org/~kaosmos/changequote-en.html" target="_blank" rel="external">hange quote and reply format</a>插件可以构造如下样式的reply header:</p>
+<h2 id="方法二：通过安装插件"><a href="#方法二：通过安装插件" class="headerlink" title="方法二：通过安装插件"></a>方法二：通过安装插件</h2><p><a href="https://nic-nac-project.org/~kaosmos/changequote-en.html" target="_blank" rel="noopener">hange quote and reply format</a>插件可以构造如下样式的reply header:</p>
 <pre><code>---- Original message -----
-<span class="string">From:</span> somebody<span class="annotation">@email</span>_provider.com
-<span class="string">To:</span> you<span class="annotation">@email</span>_provider.com
-<span class="string">Subject:</span> something
-<span class="string">Date:</span> <span class="number">09</span><span class="regexp">/07/</span><span class="number">2007</span>
+From: somebody@email_provider.com
+To: you@email_provider.com
+Subject: something
+Date: 09/07/2007
 </code></pre>
       
     </div>
@@ -333,7 +335,7 @@ mailnews.reply_header_originalmessage
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -344,7 +346,7 @@ mailnews.reply_header_originalmessage
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -360,8 +362,8 @@ mailnews.reply_header_originalmessage
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

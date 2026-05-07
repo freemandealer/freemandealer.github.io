@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>从零构建内核:BootLoader | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="一个简单的Loader代码">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零构建内核:BootLoader">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2015/01/02/kernel02/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="一个简单的Loader代码">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-10-04T14:48:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零构建内核:BootLoader">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -243,39 +245,39 @@ var _hmt = _hmt || [];
       
         <p>一个简单的Loader代码</p>
 <a id="more"></a>
-<pre><code>[<span class="built_in">SECTION</span> <span class="string">.loader</span>]
-        org    <span class="number">07c00h</span>
-        <span class="keyword">mov</span>    <span class="literal">ax</span>, <span class="literal">cs</span>
-        <span class="keyword">mov</span>    <span class="literal">ds</span>, <span class="literal">ax</span>
+<pre><code>[SECTION .loader]
+        org    07c00h
+        mov    ax, cs
+        mov    ds, ax
 
-        <span class="keyword">xor</span>    <span class="literal">ax</span>, <span class="literal">ax</span>
-        <span class="keyword">xor</span>    <span class="literal">dl</span>, <span class="literal">dl</span>
-        <span class="keyword">int</span>    <span class="number">13</span>
+        xor    ax, ax
+        xor    dl, dl
+        int    13
 
-        <span class="keyword">mov</span>    <span class="literal">ax</span>, kernel_base
-        <span class="keyword">mov</span>    <span class="literal">es</span>, <span class="literal">ax</span>
-        <span class="keyword">mov</span>    <span class="number">ah</span>, <span class="number">02h</span>
-        <span class="keyword">mov</span>    <span class="literal">al</span>, <span class="number">01h</span>    
-        <span class="keyword">mov</span>    <span class="number">ch</span>, <span class="number">00h</span>
-        <span class="keyword">mov</span>    <span class="literal">cl</span>, <span class="number">02h</span>
-        <span class="keyword">mov</span>    <span class="number">dh</span>, <span class="number">00h</span>
-        <span class="keyword">mov</span>    <span class="literal">dl</span>, <span class="number">00h</span>
-        <span class="keyword">mov</span>    <span class="literal">bx</span>, <span class="number">0</span>
-        <span class="keyword">int</span>    <span class="number">13h</span>
-        <span class="keyword">jmp</span>    kernel_base_phy
+        mov    ax, kernel_base
+        mov    es, ax
+        mov    ah, 02h
+        mov    al, 01h    
+        mov    ch, 00h
+        mov    cl, 02h
+        mov    dh, 00h
+        mov    dl, 00h
+        mov    bx, 0
+        int    13h
+        jmp    kernel_base_phy
 
-<span class="pseudo">times</span>    <span class="number">510</span>-($-$$)    <span class="pseudo">db</span>    <span class="number">0</span>
-    <span class="pseudo">dw</span>    <span class="number">0xaa55</span>
+times    510-($-$$)    db    0
+    dw    0xaa55
 </code></pre><p>这段代码编译后保存在磁盘的引导扇区。x86架构的计算机在开机阶段BIOS将会将这个扇区的代码复制到<code>0x7c00</code>这个地址开始的内存区域，并跳转到这个地址开始执行。BIOS只会复制这个扇区的内容（512字节的内容）无论代码编译后有多长。这个512字节能实现的功能有限，我们只用这段代码来加载更多的代码。</p>
 <p>具体说，该代码调用BIOS功能，初始化磁盘驱动器。然后再次调用BIOS功能，将引导扇区后面几个扇区的代码复制到内存指定地址(kernel_base_phy = kernel_base&lt;&lt;4)。并将控制权交给这些代码（跳转过去）。</p>
 <p>如何构造后面扇区的代码？</p>
 <p>可以选择在loader后面接着编写代码。因为loader正好是512字节。后面的代码将会被保存在第二个以及后面的扇区。但是代码在编译时，我们用<code>org</code>指令告诉编译器这段代码将会装载到<code>0x7c00</code>的地方执行。然而我们却把后面的指令转移到别处去执行了。这样带来的问题是汇编中的标号（地址）对应不上实际地址。可以通过相对的偏移量解决这个问题，但是过程复杂并容易出错，代码可读性也不好。</p>
 <p>那为什么不在后面再写一个<code>org</code>指令指定新的基准呢？汇编语言并不允许一个源文件中存在两个<code>org</code>。虽然行不通，但是给了我们一个启发：写两个源文件————一个文件编译好就是loader放引导区，另一个编译后在磁盘上紧接在引导扇区后面。第二个文件开头：</p>
 <pre><code>org    kernel_base_phy
-<span class="attribute">...</span><span class="attribute">...</span>
+......
 </code></pre><p>我们需要用<code>dd</code>命令将这个文件编译后的机器码拼接成我们需要的形式。</p>
-<pre><code><span class="tag">dd</span> <span class="keyword">if</span>=loader<span class="class">.asm</span> of=<span class="tag">a</span><span class="class">.img</span> conv=notrunc
-<span class="tag">dd</span> <span class="keyword">if</span>=other<span class="class">.asm</span> of=<span class="tag">a</span><span class="class">.img</span> conv=notrunc bs=<span class="number">512</span> seek=<span class="number">1</span>
+<pre><code>dd if=loader.asm of=a.img conv=notrunc
+dd if=other.asm of=a.img conv=notrunc bs=512 seek=1
 </code></pre><p>后一句跳过a.img前512字节，写入other.asm。</p>
 
       
@@ -331,7 +333,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -342,7 +344,7 @@ var _hmt = _hmt || [];
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -358,8 +360,8 @@ var _hmt = _hmt || [];
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

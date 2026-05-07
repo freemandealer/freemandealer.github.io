@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>提取Android手机的内核配置文件 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本文介绍几种从网络上搜集来的提取Android手机内核配置文件的方法．这是为真机编译内核的一个重要基础．">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="提取Android手机的内核配置文件">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2014/04/27/extract-kernel-config-for-android-devices/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="本文介绍几种从网络上搜集来的提取Android手机内核配置文件的方法．这是为真机编译内核的一个重要基础．">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-10-04T14:34:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="提取Android手机的内核配置文件">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -245,24 +247,24 @@ var _hmt = _hmt || [];
 <a id="more"></a>
 <p>##方法一 从当前运行内核中提取配置文件##<br>使用adb shell连接手机,从手机运行的系统中提取<code>/proc/config.gz</code>．</p>
 <p>使用adb shell时不太顺利，显示错误：</p>
-<pre><code>freeman<span class="variable">@freemanlaptop</span><span class="symbol">:~</span><span class="variable">$ </span>adb shell
-<span class="symbol">error:</span> insufficient permissions <span class="keyword">for</span> device
-freeman<span class="variable">@freemanlaptop</span><span class="symbol">:~</span><span class="variable">$ </span>adb devices
-<span class="constant">List</span> <span class="keyword">of</span> devices attached 
+<pre><code>freeman@freemanlaptop:~$ adb shell
+error: insufficient permissions for device
+freeman@freemanlaptop:~$ adb devices
+List of devices attached 
 ????????????    no permissions
 </code></pre><p>采用下面办法解决：</p>
 <p>使用root权限执行以下命令</p>
-<pre><code>adb <span class="operator"><span class="keyword">kill</span>-<span class="keyword">server</span>
-adb <span class="keyword">start</span>-<span class="keyword">server</span>
-<span class="keyword">exit</span></span>
+<pre><code>adb kill-server
+adb start-server
+exit
 </code></pre><p>可惜实验用机中并没有找到config.gz :-(</p>
 <p>##方法二 从现有内核镜像中提取配置文件##<br>可以通过这个脚本获取已经编译好内核的config文件<code>/usr/src/linux/scripts/extract-ikconfig</code>.</p>
-<pre><code><span class="regexp">/usr/</span>src<span class="regexp">/linux/</span>scripts<span class="regexp">/extract-ikconfig image &gt; my_config</span>
+<pre><code>/usr/src/linux/scripts/extract-ikconfig image &gt; my_config
 </code></pre><p>局限性是被提取的内核本身编译时开启<code>CONFIG_IKCONFIG</code>选项．另外，如果内核被压缩过也会出现错误．</p>
 <p>##方法三 手动配置或默认配置##<br><code>make menuconfig</code>手动配置，需要经验，难度较大:S</p>
 <p>顺便打开OTG功能吧:在<code>Device Drivers-&gt;USB support</code>里打开OTG相关选项．</p>
 <p>或者采用默认配置:</p>
-<pre><code><span class="built_in">make</span> config_file_name 
+<pre><code>make config_file_name 
 </code></pre>
       
     </div>
@@ -317,7 +319,7 @@ adb <span class="keyword">start</span>-<span class="keyword">server</span>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -328,7 +330,7 @@ adb <span class="keyword">start</span>-<span class="keyword">server</span>
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -344,8 +346,8 @@ adb <span class="keyword">start</span>-<span class="keyword">server</span>
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

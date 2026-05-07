@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>内核模块编译安装杂记 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="真男(tu)人(hao)敢于用实体机做内核实验，而善良的人用虚拟机，善良的真男人给虚拟机徒手装内核！ ————　我刚说的">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="内核模块编译安装杂记">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2015/08/08/note-on-make-kernel/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="真男(tu)人(hao)敢于用实体机做内核实验，而善良的人用虚拟机，善良的真男人给虚拟机徒手装内核！ ————　我刚说的">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-10-04T14:38:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内核模块编译安装杂记">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -245,19 +247,19 @@ var _hmt = _hmt || [];
 <p>真男(tu)人(hao)敢于用实体机做内核实验，而善良的人用虚拟机，善良的真男人给虚拟机徒手装内核！ ————　我刚说的</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="徒手装内核!">徒手装内核!</h2><p>虚拟机编译好慢好慢的，实验过程不爽快！所以之前在实体机上编译模块，传到虚拟机上测试。现在延生出了一个想法，就是在实体机上编译整个内核，然后到虚拟机上安装——也就是模拟了<code>make install</code>和 <code>make modules_install</code>的过程。</p>
+<h2 id="徒手装内核"><a href="#徒手装内核" class="headerlink" title="徒手装内核!"></a>徒手装内核!</h2><p>虚拟机编译好慢好慢的，实验过程不爽快！所以之前在实体机上编译模块，传到虚拟机上测试。现在延生出了一个想法，就是在实体机上编译整个内核，然后到虚拟机上安装——也就是模拟了<code>make install</code>和 <code>make modules_install</code>的过程。</p>
 <p>查看<code>/boot/grub.cfg</code>文件我们得知Grub启动系统需要两个文件：vmlinuz-x.y.z-m和initrd.img-x.y.z-m。但是人家也喜欢把System.map-x.y.z-m放在<code>/boot</code>中，不晓得有什么用，我们也放一个，反正不麻烦。</p>
 <p>获得vmlinuz的方法很简单，make完后<code>arch/x86_64/boot/</code>里的<code>bzImage</code>其实就是它，改个名字vmlinuz-x.y.z-m就好，其中x.y.z是版本号，m是魔法串。</p>
 <p>获得initrd.img文件过程有一些坎坷。它是由这个命令产生的：</p>
-<pre><code>sudo mkinitramfs -o initrd<span class="class">.img-x</span><span class="class">.y</span><span class="class">.z-m</span> x<span class="class">.y</span><span class="class">.z-m</span>
+<pre><code>sudo mkinitramfs -o initrd.img-x.y.z-m x.y.z-m
 </code></pre><p>在<code>/boot</code>目录执行这个命令会报错，提示你需要准备<code>/lib/modules/x.y.z-m/</code>目录。你需要在这个目录中提供modules.order文件和modules.builtin文件。你可以在编译源代码的目录中找到它们并拷贝过去。你还需要准备<code>/lib/modules/x.y.z-m/kernel</code>，让里面装着对应版本的内核模块文件，否则重启后连根文件系统都挂载不了，只能在initramdisk的busybox环境里飘荡(好像WindowsPE :( )。为了这些内核模块，我把整个源代码目录备份一遍，然后把不是*.ko的文件都删掉减小空间，然后拷贝到<code>/lib/modules/x.y.z-m/kernel</code>。</p>
 <p>最后修改<code>grub.cfg</code>文件为我们的内核增加一个启动项。</p>
-<h2 id="应万变的命令">应万变的命令</h2><p>如果要为一个已有内核编译模块，那过程将会很让人懊恼，这个老教程可能会给你一些提示。你需要编译一个模块，那么你最好安装自己的内核。然后你可以：1)脱离树独立编译 2)make menuconfig后整体编译(因为你已经编译过内核了，所以make的差量构建性质会使得这个过程快很多)但更好的办法是使用这条以不变应万变的命令：</p>
-<pre><code>make -C &lt;KERN-<span class="keyword">DIR</span>&gt; <span class="keyword">M</span>=&lt;MODULE-<span class="keyword">DIR</span>&gt; [CONFIG_XXX=<span class="keyword">m</span>]
+<h2 id="应万变的命令"><a href="#应万变的命令" class="headerlink" title="应万变的命令"></a>应万变的命令</h2><p>如果要为一个已有内核编译模块，那过程将会很让人懊恼，这个老教程可能会给你一些提示。你需要编译一个模块，那么你最好安装自己的内核。然后你可以：1)脱离树独立编译 2)make menuconfig后整体编译(因为你已经编译过内核了，所以make的差量构建性质会使得这个过程快很多)但更好的办法是使用这条以不变应万变的命令：</p>
+<pre><code>make -C &lt;KERN-DIR&gt; M=&lt;MODULE-DIR&gt; [CONFIG_XXX=m]
 </code></pre><p>如果想单独编译一个目录</p>
-<pre><code><span class="built_in">make</span> /xxx/yyy/zzz
+<pre><code>make /xxx/yyy/zzz
 </code></pre><p>但上述命令只能获得.o中间文件，要想得到.ko模块文件，需要执行：</p>
-<pre><code>make <span class="constant">M</span>=<span class="regexp">/xxx/yyy</span><span class="regexp">/zzz</span>
+<pre><code>make M=/xxx/yyy/zzz
 </code></pre>
       
     </div>
@@ -312,7 +314,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -323,7 +325,7 @@ var _hmt = _hmt || [];
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -339,8 +341,8 @@ var _hmt = _hmt || [];
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

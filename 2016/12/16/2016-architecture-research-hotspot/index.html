@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>2016年计算机体系结构领域研究热点调研报告 | Zhengyu Zhang</title>
@@ -11,20 +11,22 @@
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2016/12/16/2016-architecture-research-hotspot/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/new_tech_old_problem.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/new_tech_old_problem_count.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/surface.png">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://freemandealer.github.io/img/new_tech_old_problem.png">
+<meta property="og:image" content="https://freemandealer.github.io/img/new_tech_old_problem_count.png">
+<meta property="og:image" content="https://freemandealer.github.io/img/surface.png">
 <meta property="og:updated_time" content="2016-12-16T01:21:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2016年计算机体系结构领域研究热点调研报告">
 <meta name="twitter:description" content="2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。">
+<meta name="twitter:image" content="https://freemandealer.github.io/img/new_tech_old_problem.png">
   
     <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -38,7 +40,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -244,29 +246,29 @@ var _hmt = _hmt || [];
 <p>2016年计算机体系结构领域研究热点有哪些？为回答这个问题，本文分析了2016年CCF推荐会议中124篇关于计算机体系结构的前沿论文，对其研究主题进行分类和统计，归纳出了“新领域－老问题矩阵”。本文记录了这个矩阵的构成，以及通过这个矩阵得到的一些有意思的发现。</p>
 </blockquote>
 <a id="more"></a>
-<h3 id="1-_研究方法和原始数据">1. 研究方法和原始数据</h3><p>调研遍历了2016年CCF(中国计算机学会)推荐国际学术会议列表(以下简称列表)124篇计算机体系结构领域的论文，通过分析论文标题、关键词、摘要、引言等内容，提取研究主题。这些论文，来自列表A类会议中的前三个：ASPLOS (Architectural Support for Programming Languages and Operating Systems)、FAST (Conference on File and Storage Technologies)和 HPCA(High-Performance Computer Architecture)。</p>
+<h3 id="1-研究方法和原始数据"><a href="#1-研究方法和原始数据" class="headerlink" title="1. 研究方法和原始数据"></a>1. 研究方法和原始数据</h3><p>调研遍历了2016年CCF(中国计算机学会)推荐国际学术会议列表(以下简称列表)124篇计算机体系结构领域的论文，通过分析论文标题、关键词、摘要、引言等内容，提取研究主题。这些论文，来自列表A类会议中的前三个：ASPLOS (Architectural Support for Programming Languages and Operating Systems)、FAST (Conference on File and Storage Technologies)和 HPCA(High-Performance Computer Architecture)。</p>
 <p>按照这个方法，我们获得一张包含134个项目的表格，作为研究分析的原始数据。在分析论文研究主题的过程中，我发现部分论文的描述自己的研究主题采取一定格式：首先介绍大领域，接着介绍具体的问题，最后提出自己的解决方法。例如，一篇文章的研究内容可能是NVM (大领域)的功耗 (具体问题)，然后以”in this paper”引出自己的解决方案。在满足这个特征的论文中我还发现两个特性：大领域往往是一些热门技术，如NVM、事务内存等。而那些大领域下的具体问题，往往是一些共性的、经典的问题，如：功耗、可靠性等。基于这些特征，我把原始数据根据论文研究主题整理出一个表格，称之为“新领域－老问题矩阵”。矩阵剔除了部分与体系结构关系不密切的文章。</p>
-<center><br><img src="/img/new_tech_old_problem.png" alt=""><br></center>
+<center><br><img src="/img/new_tech_old_problem.png" alt><br></center>
 
 <p>下面具体描述新领域－老问题矩阵的构成。矩阵深灰色区域每一格代表一个“新领域”，浅灰色每一格代表一个“老问题”，浅色区域每个格子中的每个数值为一篇论文在本研究中的序号，多篇论文用逗号分开。格子的行列表示这篇论文研究的主题是行代表的“新领域”和列代表的“老问题”相结合。需要注意的是，不是所有的论文都满足上文中提到的三项特征，它们被列举在other一栏。”新领域“的other（行）表示主题为未列出的其它领域技术但是具有对应”老问题“的文章，问题的other（列）表示主题为未列出的其它问题可被归为对应”新领域“的文章。而落入“other领域-other问题”中的文章，是讨论其它技术领域的其它问题的文章，或者是完全不符合上述特征的、极具想象力的文章。</p>
-<h3 id="2-_结论">2. 结论</h3><p><strong>结论一：热门领域有这些</strong></p>
+<h3 id="2-结论"><a href="#2-结论" class="headerlink" title="2. 结论"></a>2. 结论</h3><p><strong>结论一：热门领域有这些</strong></p>
 <p>上面给出的“新领域－老问题矩阵”中，深色和浅灰色部分分别给出了热门研究领域和热门研究问题。其中热门领域包括：flash、GPU/GPGPU、NVM、并行／分布式／云计算、多核／众核、事务内存、CPU和微体系结构、数据中心、文件系统／存储系统、异构计算、新的存储技术、加速器、互连网络／片上网络、模糊计算、可重构硬件、虚拟化、移动计算、物联网。热门研究问题包括：安全性、可靠性、功耗、缓存、并发一致性、QoS／资源分配、性能、内存管理、I/O、反冗余、冷却。当然，“other领域-other问题”一格中还有一些讨论其它主题的论文，由于在本调研中这些论文研究的主题出现仅一次，暂时认为其不具备“热门”特征的。</p>
 <p>如果把“新领域－老问题矩阵”中每一格内容由原来的论文编号替换成格子中包含的论文数量，那么可以得到“新技术－老问题计数矩阵”。</p>
-<center><br><img src="/img/new_tech_old_problem_count.png" alt=""><br></center>
+<center><br><img src="/img/new_tech_old_problem_count.png" alt><br></center>
 
 <p>计数矩阵的最右列是以该“新领域”为研究主题论文数量的总计。同样，最后一行是以每个“老问题”为讨论主题论文数量的总计。我们很容易发现，讨论激烈的新领域集中在Flash、GPU/GPGPU、NVM、并行／分布式／云计算、事务内存、CPU／微体系结构。研究问题集中在安全／可靠性、功耗方面。</p>
 <p><strong>结论二：以“新技术－老问题”为主题的研究较普遍</strong></p>
 <p>根据新技术－老问题计数矩阵，我绘制了下图：</p>
-<center><br><img src="/img/surface.png" alt=""><br></center>
+<center><br><img src="/img/surface.png" alt><br></center>
 
 <p>图中，横轴、纵轴与矩阵的行、列对应，分别表示新技术／热门领域和共性问题。锥形的高度表示相应“新领域－老问题”论文的数量。从图中可以看出，靠近坐标轴的other部分相对突出（对应矩阵的深色和浅灰色部分），但中间部分也占据相当分量（对应矩阵白色部分）。这表明“新技术－老问题”为主题的研究较普遍。研究者会在新兴的技术被提出后，联系之前自己的研究经历，使用一些经典评价指标和通用分析方法去评价新技术，如果存在问题，那么着手研究解决方案。我们看到研究相对集中的几个热门领域，如：Flash、GPU/GPGPU、NVM、并行／分布式／云计算、事务内存、CPU／微体系结构，与相对集中的几个热门研究问题，如：安全／可靠性、功耗，两者交织情况十分显著。</p>
-<h3 id="3-_启发">3. 启发</h3><p><strong>启发一：围绕矩阵发掘研究主题</strong></p>
+<h3 id="3-启发"><a href="#3-启发" class="headerlink" title="3. 启发"></a>3. 启发</h3><p><strong>启发一：围绕矩阵发掘研究主题</strong></p>
 <p>研究过程得到的新领域－老问题矩阵，不仅仅定位了2016年体系结构领域的的研究前沿热点，还提供了一些启发：这个矩阵作为一种文献主题归类方式和分析方法，可以被用来分类、理解其它论文的研究内容。更重要的是，它可以被用来挖掘潜在的研究主题。</p>
 <p><strong>启发二：基准 -&gt; 新设计， 特征 -&gt; 新设计</strong></p>
 <p>在分析文章的过程中，我发现部分文章的工作集中在提出了一种新的基准 (benchmark)，并利用自己的基准去评价现有系统，发现系统不足，接着提出改进方案或是新的设计。这意味着，提出一种新的基准，可以作为研究的一个可能的起点。另一个起点可能是特征分析。调研过程中浏览的一些文章开始于系统、应用场景特征的分析。得到特征分析结果后，再针对性地提出改进或新的设计。</p>
 <p><strong>启发三：合作</strong></p>
 <p>被分析的论文中，有大量工作是由多个研究机构共同完成的，体现出科研领域合作的重要性。值得一提的是，大量的合作来自大学和工业界共同建立。如Google和德州大学奥斯汀分校、耶鲁大学和多伦多大学有良好的合作。在它们合作的文章中，Google不仅积极参与研究，同时提供了真实应用环境。这样的结合，提升了学术成果实用价值，加速了技术到市场的转换效率。国内，华为公司跟一些学术机构也保持同样的合作关系。</p>
-<h3 id="4-_未来工作">4. 未来工作</h3><p>由于时间有限，本工作调研的文章数量极为有限，通过增加会议数量会使得热门领域的判断更加准确且完备。如果能扩展调研论文的发表年份，会为结论增加时间维度，得到热门领域的变迁关系。</p>
+<h3 id="4-未来工作"><a href="#4-未来工作" class="headerlink" title="4. 未来工作"></a>4. 未来工作</h3><p>由于时间有限，本工作调研的文章数量极为有限，通过增加会议数量会使得热门领域的判断更加准确且完备。如果能扩展调研论文的发表年份，会为结论增加时间维度，得到热门领域的变迁关系。</p>
 <p>本文是按照CCF推荐列表展开调研的，而从实验室角度展开调查或许是另一个增强结论、发现新结论的方法。具体说，可以从国际上影响力较大实验室的项目和发表论文中获取一些信息，分析研究主题，有可能得到一些有意思的结论。</p>
 
       
@@ -322,7 +324,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -333,7 +335,7 @@ var _hmt = _hmt || [];
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -349,8 +351,8 @@ var _hmt = _hmt || [];
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

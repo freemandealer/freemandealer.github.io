@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>用QEMU来调试内核 -- 亲身体验篇 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本文记录了用QEMU构建最小Linux系统并进行调试的过程。">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用QEMU来调试内核 -- 亲身体验篇">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2015/10/04/debug-kernel-with-qemu-2/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="本文记录了用QEMU构建最小Linux系统并进行调试的过程。">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-01-07T03:38:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用QEMU来调试内核 -- 亲身体验篇">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -246,7 +248,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>修改：<br>v1 2015-10-04 原稿<br>v2 2016-02-07 将initrd启动替换成硬盘启动</p>
 </blockquote>
-<h2 id="愿景">愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
+<h2 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p>
 <ul>
 <li>QEMU调试果然爽快</li>
 <li>调试环境搭建过程中有很多细节需要注意</li>
@@ -255,12 +257,12 @@ var _hmt = _hmt || [];
 <ul>
 <li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。执行</p>
 <pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \    # 指定编译好的内核
--<span class="ruby">hda rootfs.img \        <span class="comment"># 指定硬盘</span>
-</span>-<span class="ruby">append <span class="string">"root=/dev/sda"</span>      <span class="comment"># 告诉内核硬盘上有根文件系统</span></span>
+-hda rootfs.img \        # 指定硬盘
+-append &quot;root=/dev/sda&quot;      # 告诉内核硬盘上有根文件系统
 </code></pre></li>
 <li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">上篇文章的末尾</a>)。</p>
 <pre><code>gdb vmlinux
-&gt; <span class="keyword">target</span> remote localhost:1234
+&gt; target remote localhost:1234
 </code></pre></li>
 <li><p>进入弹出的QEMU窗口，<code>CTRL+ALT+2</code>进入QEMU控制台，输入<code>gdbserver</code>。</p>
 </li>
@@ -270,88 +272,88 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>上述步骤针对图形模式，如果工作在字符界面下，第一步的命令需要替换成：</p>
 <pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \
- -<span class="ruby">hda rootfs.img \
-</span> -<span class="ruby">append <span class="string">"root=/dev/sda console=ttyS0"</span></span>
+ -hda rootfs.img \
+ -append &quot;root=/dev/sda console=ttyS0&quot;
 </code></pre><p>最后添加的<code>console=ttyS0</code>把QEMU的输入输出定向到当前终端上，即让我们可以使用执行qemu-system-x86命令的终端操作虚拟机中的系统，而不需要开启qemu的GUI窗口。不过这样上述第三步进入QEMU控制台的方式就不好使了。如果需要控制台，那么第一步命令需要替换成：</p>
 <pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \
- -<span class="ruby">hda rootfs.img \
-</span> -<span class="ruby">append <span class="string">"root=/dev/sda console=ttyS0"</span> -monitor stdio</span>
+ -hda rootfs.img \
+ -append &quot;root=/dev/sda console=ttyS0&quot; -monitor stdio
 </code></pre><p>这样一来，QEMU控制台的输入输出就定向到当前终端上了，不过同时我们无法利用该终端操作虚拟机中的系统了。两全其美的方法还有待探寻。</p>
 </blockquote>
 <p>再也不用像使用VMware那样等一万年去<code>make modules&amp;&amp;make install &amp;&amp;make modules_install</code>以及费尽心思去调教grub了。节省了大量时间，同时资源占用也少太多。一切都是整整齐齐的模样。</p>
 <p>上面就是我们的目标啦。怎么才能实现呢？分析上述qemu-system-x86_64的参数，我们需要为它准备两样东西：内核镜像bzImage和rootfs。这两个东西构成了一个刚好可用的运行系统。</p>
-<h2 id="为什么要构建自己的运行系统">为什么要构建自己的运行系统</h2><p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="external">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p>
-<h2 id="调试环境的搭建">调试环境的搭建</h2><p>内核编译我想不必再说了。使用默认配置文件即可。唯一需要注意的是，为了避免交叉编译，我们最后使用与自己正在使用的机器架构一致的配置。例如，我的机器是64位x86，所以我使用下面的命令：</p>
-<pre><code><span class="built_in">make</span> x86_64_defconfig
+<h2 id="为什么要构建自己的运行系统"><a href="#为什么要构建自己的运行系统" class="headerlink" title="为什么要构建自己的运行系统"></a>为什么要构建自己的运行系统</h2><p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="noopener">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p>
+<h2 id="调试环境的搭建"><a href="#调试环境的搭建" class="headerlink" title="调试环境的搭建"></a>调试环境的搭建</h2><p>内核编译我想不必再说了。使用默认配置文件即可。唯一需要注意的是，为了避免交叉编译，我们最后使用与自己正在使用的机器架构一致的配置。例如，我的机器是64位x86，所以我使用下面的命令：</p>
+<pre><code>make x86_64_defconfig
 </code></pre><p>然后再用<code>make menuconfig</code>命令配置一下DEBUG_INFO。最后<code>make</code>即可得到bzImage文件。</p>
 <p>现在我们还需要准备一个rootfs.img文件，这是一个装有根文件系统的磁盘镜像文件，里面有一些像shell之类的二进制工具，让操作系统能够和用户交互。更重要的是，根文件系统往往还包含init程序，正是它完成了系统初始化的工作。那么如何制作这个rootfs.img呢？</p>
 <p>第一步，创建一个磁盘镜像文件并格式化之:</p>
-<pre><code><span class="tag">dd</span> <span class="keyword">if</span>=/dev/zero of=rootfs<span class="class">.img</span> bs=<span class="number">1</span>M count=<span class="number">10</span>
-mkfs<span class="class">.ext3</span> rootfs.img
+<pre><code>dd if=/dev/zero of=rootfs.img bs=1M count=10
+mkfs.ext3 rootfs.img
 </code></pre><p>第二步，下载、配置、编译busybox。配置时需要注意的是，busybox采用静态链接会减去很多麻烦。具体说在 make menuconfig时，勾选:</p>
-<pre><code>BusyboxSettings-&gt;Build options-&gt;BuildBusybox <span class="keyword">as</span> a <span class="keyword">static</span> binary
+<pre><code>BusyboxSettings-&gt;Build options-&gt;BuildBusybox as a static binary
 </code></pre><p>第三步，安装busybox到rootfs文件夹:</p>
-<pre><code>mkdir /path/<span class="keyword">to</span>/rootfs
-sudo mount -t ext3 -o <span class="keyword">loop</span> rootfs.img /path/<span class="keyword">to</span>/rootfs
-<span class="comment"># busybox源代码目录中执行</span>
-make install CONFIG_PREFIX=/path/<span class="keyword">to</span>/rootfs
+<pre><code>mkdir /path/to/rootfs
+sudo mount -t ext3 -o loop rootfs.img /path/to/rootfs
+# busybox源代码目录中执行
+make install CONFIG_PREFIX=/path/to/rootfs
 </code></pre><p>第四步，配置busybox的init:</p>
-<pre><code>mkdir /path/to/rootfs/<span class="keyword">proc</span> /path/to/rootfs/dev /path/to/rootfs/etc
+<pre><code>mkdir /path/to/rootfs/proc /path/to/rootfs/dev /path/to/rootfs/etc
 cp busybox-source-code/examples/bootfloppy/* /path/to/rootfs/etc/
 sudo umount /path/to/rootfs
 </code></pre><p>rootfs.img准备完成了！一切都准备就绪，快试试吧！</p>
-<h2 id="附：initrd方式的启动">附：initrd方式的启动</h2><p>您现在正在阅读的这篇文章是多次修改后的版本。在原版中，我们的环境搭建可不是用了rootfs.img这种快捷简单的构建方式，而是采用了initrd的方式。<del>这部分内容舍不得删</del> initrd功不可没，留在这里提供给需要的人看。</p>
+<h2 id="附：initrd方式的启动"><a href="#附：initrd方式的启动" class="headerlink" title="附：initrd方式的启动"></a>附：initrd方式的启动</h2><p>您现在正在阅读的这篇文章是多次修改后的版本。在原版中，我们的环境搭建可不是用了rootfs.img这种快捷简单的构建方式，而是采用了initrd的方式。<del>这部分内容舍不得删</del> initrd功不可没，留在这里提供给需要的人看。</p>
 <p>initrd是个啥呢？首先它也是一种根文件系统，不过它存在于内存中，而不是硬盘上。它的存在是为了解决这个问题：根文件系统存在于硬盘上，内核可能需要加载一些支持模块才能使用硬盘，而这些模块又是存放在根文件系统上，这样问题就死锁了。initrd全称initial RamDisk，它是一个用内存虚拟出的磁盘，不依赖具体的磁盘硬件，因此是通用的，既不需要特殊的支持模块。这样，上述过程就变成了：临时的根文件系统存在于initrd中，这个临时根文件系统里包含一些必要模块驱动真正的根文件系统所在的磁盘，用这些模块挂载真正的根文件系统，最后一个change root操作，真正的根文件系统顺利上位，而initrd退休。</p>
 <p>有两种方式获得这个initrd。一种方式是在内核编译前生成，另一种通过内核编译选项在内核编译后生成。</p>
-<h3 id="方法一：编译前生成">方法一：编译前生成</h3><p>先用下面的命令下载并解压缩BusyBox:</p>
-<pre><code>curl <span class="string">http:</span><span class="comment">//busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -</span>
+<h3 id="方法一：编译前生成"><a href="#方法一：编译前生成" class="headerlink" title="方法一：编译前生成"></a>方法一：编译前生成</h3><p>先用下面的命令下载并解压缩BusyBox:</p>
+<pre><code>curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -
 </code></pre><p>为BusyBox创建工作目录:</p>
-<pre><code><span class="label">mkdir</span> -pv obj/<span class="keyword">busybox-x86
-</span><span class="label">make</span> O<span class="label">=obj</span>/<span class="keyword">busybox-x86 </span>defconfig
+<pre><code>mkdir -pv obj/busybox-x86
+make O=obj/busybox-x86 defconfig
 </code></pre><p>使用menuconfig配置BusyBox:</p>
-<pre><code><span class="label">make</span> O<span class="label">=obj</span>/<span class="keyword">busybox-x86 </span>menuconfig
+<pre><code>make O=obj/busybox-x86 menuconfig
 </code></pre><p>选择静态链接:</p>
-<pre><code>-&gt; <span class="keyword">Busybox </span>Settings
-    -&gt; <span class="keyword">Build </span>Options
-    [ ] <span class="keyword">Build </span><span class="keyword">BusyBox </span>as a static <span class="keyword">binary </span>(no shared libs)
+<pre><code>-&gt; Busybox Settings
+    -&gt; Build Options
+    [ ] Build BusyBox as a static binary (no shared libs)
 </code></pre><p>编译、安装BusyBox:</p>
-<pre><code><span class="keyword">cd</span> obj/busybox-x86
-<span class="keyword">make</span> -j2
-<span class="keyword">make</span> install
+<pre><code>cd obj/busybox-x86
+make -j2
+make install
 </code></pre><p>拷贝安装目录中的工具到initramfs目录中，这个文件夹就是日后的initramfs:</p>
 <pre><code>mkdir -p initramfs/x86-busybox
 cd initramfs/x86-busybox
-mkdir -pv {bin,sbin,etc,<span class="keyword">proc</span>,sys,usr/{bin,sbin}}
+mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
 cp -av obj/busybox-x86/_install/* ./
 </code></pre><p>initramfs目录中没有init脚本，这可不行，我们的内核起来以后运行什么程序呢？我们手动创建一个：</p>
-<pre><code><span class="comment">#!/bin/sh</span>
+<pre><code>#!/bin/sh
 
-/bin/mount -t <span class="keyword">proc</span> none /<span class="keyword">proc</span>
+/bin/mount -t proc none /proc
 /bin/mount -t sysfs sysfs /sys
-echo '<span class="type">Enjoy</span> your new system!'
+echo &apos;Enjoy your new system!&apos;
 /bin/sh
 </code></pre><p>生成initramfs:</p>
-<pre><code><span class="comment">find</span> <span class="string">.</span> <span class="literal">-</span><span class="comment">print0</span> <span class="comment">|</span> <span class="comment">cpio</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">null</span> <span class="literal">-</span><span class="comment">ov</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">format=newc</span> <span class="comment">|</span> <span class="comment">gzip</span> <span class="literal">-</span><span class="comment">9</span> &gt; <span class="comment">initramfs</span><span class="literal">-</span><span class="comment">busybox</span><span class="literal">-</span><span class="comment">x86</span><span class="string">.</span><span class="comment">cpio</span><span class="string">.</span><span class="comment">gz</span>
+<pre><code>find . -print0 | cpio --null -ov --format=newc | gzip -9 &gt; initramfs-busybox-x86.cpio.gz
 </code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p>
 <p>同时这里给出生成initramfs的逆操作－－拆分initramfs:</p>
-<pre><code>cpio -<span class="tag">i</span> -d -H newc -F initramfs_data<span class="class">.cpio</span> --no-absolute-filenames
-</code></pre><h3 id="方法二：编译后生成">方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
-<pre><code>dir /dev <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-nod /dev/console <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> c <span class="number">5</span> <span class="number">1</span>
-nod /dev/loop0 <span class="number">644</span> <span class="number">0</span> <span class="number">0</span> b <span class="number">7</span> <span class="number">0</span>
-dir /bin <span class="number">755</span> <span class="number">1000</span> <span class="number">1000</span>
-slink /bin/sh busybox <span class="number">777</span> <span class="number">0</span> <span class="number">0</span>
-file /bin/busybox initramfs/busybox <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-dir /proc <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-dir /sys <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-dir /mnt <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-file /init initramfs/init.sh <span class="number">755</span> <span class="number">0</span> <span class="number">0</span>
-</code></pre><h2 id="参考">参考</h2><p>如果你想弄清楚内核的初始化过程，这里有一份阅读列表：</p>
-<p><a href="http://mgalgs.github.io/2012/03/23/how-to-build-a-custom-linux-kernel-for-qemu.html" target="_blank" rel="external">How to Build a Custom Linux Kernel for Qemu</a></p>
-<p><a href="http://www.linuxfromscratch.org/lfs/view/stable/" target="_blank" rel="external">Linux From Scratch</a></p>
-<p><a href="https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt" target="_blank" rel="external">Kernel Doc：Ramfs, Rootfs and Initramfs</a></p>
-<p><a href="https://www.kernel.org/doc/Documentation/early-userspace/README" target="_blank" rel="external">Kernel Doc: Early Userspace Support</a></p>
-<p><a href="http://free-electrons.com/docs/elfs/" target="_blank" rel="external">Embedded Linux From Scratch… in 40 minutes</a></p>
+<pre><code>cpio -i -d -H newc -F initramfs_data.cpio --no-absolute-filenames
+</code></pre><h3 id="方法二：编译后生成"><a href="#方法二：编译后生成" class="headerlink" title="方法二：编译后生成"></a>方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p>
+<pre><code>dir /dev 755 0 0
+nod /dev/console 644 0 0 c 5 1
+nod /dev/loop0 644 0 0 b 7 0
+dir /bin 755 1000 1000
+slink /bin/sh busybox 777 0 0
+file /bin/busybox initramfs/busybox 755 0 0
+dir /proc 755 0 0
+dir /sys 755 0 0
+dir /mnt 755 0 0
+file /init initramfs/init.sh 755 0 0
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>如果你想弄清楚内核的初始化过程，这里有一份阅读列表：</p>
+<p><a href="http://mgalgs.github.io/2012/03/23/how-to-build-a-custom-linux-kernel-for-qemu.html" target="_blank" rel="noopener">How to Build a Custom Linux Kernel for Qemu</a></p>
+<p><a href="http://www.linuxfromscratch.org/lfs/view/stable/" target="_blank" rel="noopener">Linux From Scratch</a></p>
+<p><a href="https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt" target="_blank" rel="noopener">Kernel Doc：Ramfs, Rootfs and Initramfs</a></p>
+<p><a href="https://www.kernel.org/doc/Documentation/early-userspace/README" target="_blank" rel="noopener">Kernel Doc: Early Userspace Support</a></p>
+<p><a href="http://free-electrons.com/docs/elfs/" target="_blank" rel="noopener">Embedded Linux From Scratch… in 40 minutes</a></p>
 
       
     </div>
@@ -406,7 +408,7 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -417,7 +419,7 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -433,8 +435,8 @@ file /init initramfs/init.sh <span class="number">755</span> <span class="number
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>从零构建内核:环境搭建 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="安装 build-essential">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零构建内核:环境搭建">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2014/12/16/kernel01/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="安装 build-essential">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/kernel1-freedos-in-bochs.png">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://freemandealer.github.io/img/kernel1-freedos-in-bochs.png">
 <meta property="og:updated_time" content="2015-10-04T14:35:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零构建内核:环境搭建">
 <meta name="twitter:description" content="安装 build-essential">
+<meta name="twitter:image" content="https://freemandealer.github.io/img/kernel1-freedos-in-bochs.png">
   
     <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -36,7 +39,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -242,66 +245,66 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="安装_build-essential">安装 <code>build-essential</code></h2><a id="more"></a>
-<h2 id="安装_nasm_汇编器">安装 <code>nasm</code> 汇编器</h2><h2 id="安装_bochs_仿真器">安装 <code>bochs</code> 仿真器</h2><p>使用源代码编译的方法。</p>
-<p>bochs官网：<a href="http://bochs.sourceforge.net/" target="_blank" rel="external">http://bochs.sourceforge.net/</a></p>
-<p>最新源代码下载：<a href="http://sourceforge.net/projects/bochs/files/bochs/2.6.7/bochs-2.6.7.tar.gz/download" target="_blank" rel="external">http://sourceforge.net/projects/bochs/files/bochs/2.6.7/bochs-2.6.7.tar.gz/download</a></p>
-<p>用户手册(编译安装指南):<a href="http://bochs.sourceforge.net/cgi-bin/topper.pl?name=New+Bochs+Documentation&amp;url=http://bochs.sourceforge.net/doc/docbook/user/index.html" target="_blank" rel="external">http://bochs.sourceforge.net/cgi-bin/topper.pl?name=New+Bochs+Documentation&amp;url=http://bochs.sourceforge.net/doc/docbook/user/index.html</a></p>
+        <h2 id="安装-build-essential"><a href="#安装-build-essential" class="headerlink" title="安装 build-essential"></a>安装 <code>build-essential</code></h2><a id="more"></a>
+<h2 id="安装-nasm-汇编器"><a href="#安装-nasm-汇编器" class="headerlink" title="安装 nasm 汇编器"></a>安装 <code>nasm</code> 汇编器</h2><h2 id="安装-bochs-仿真器"><a href="#安装-bochs-仿真器" class="headerlink" title="安装 bochs 仿真器"></a>安装 <code>bochs</code> 仿真器</h2><p>使用源代码编译的方法。</p>
+<p>bochs官网：<a href="http://bochs.sourceforge.net/" target="_blank" rel="noopener">http://bochs.sourceforge.net/</a></p>
+<p>最新源代码下载：<a href="http://sourceforge.net/projects/bochs/files/bochs/2.6.7/bochs-2.6.7.tar.gz/download" target="_blank" rel="noopener">http://sourceforge.net/projects/bochs/files/bochs/2.6.7/bochs-2.6.7.tar.gz/download</a></p>
+<p>用户手册(编译安装指南):<a href="http://bochs.sourceforge.net/cgi-bin/topper.pl?name=New+Bochs+Documentation&amp;url=http://bochs.sourceforge.net/doc/docbook/user/index.html" target="_blank" rel="noopener">http://bochs.sourceforge.net/cgi-bin/topper.pl?name=New+Bochs+Documentation&amp;url=http://bochs.sourceforge.net/doc/docbook/user/index.html</a></p>
 <p>编译之前，安装相关库：</p>
-<pre><code>xorg-<span class="built_in">dev</span>
-gtk-<span class="number">2.0</span>-<span class="built_in">dev</span>
+<pre><code>xorg-dev
+gtk-2.0-dev
 </code></pre><p>未安装前者会报错：</p>
-<pre><code><span class="label">ERROR</span>: X windows gui was <span class="keyword">selected, </span><span class="keyword">but </span>X windows
+<pre><code>ERROR: X windows gui was selected, but X windows
 </code></pre><p>未安装后者会报错：</p>
-<pre><code>gtk/gtk.h: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> directory
+<pre><code>gtk/gtk.h: No such file or directory
 </code></pre><p>解压源代码：</p>
-<pre><code><span class="tag">tar</span> <span class="tag">-xf</span> <span class="tag">bochs-2</span><span class="class">.6</span><span class="class">.7</span><span class="class">.tar</span><span class="class">.gz</span>
+<pre><code>tar -xf bochs-2.6.7.tar.gz
 </code></pre><p>配置：    </p>
-<pre><code><span class="string">.</span><span class="comment">/configure</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">enable</span><span class="literal">-</span><span class="comment">debugger</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">enable</span><span class="literal">-</span><span class="comment">disasm</span>
+<pre><code>./configure --enable-debugger --enable-disasm
 </code></pre><p>可选配置：</p>
-<pre><code>--<span class="keyword">with</span>-nogui
+<pre><code>--with-nogui
 </code></pre><p>不使用GUI，即能在终端中运行bochs但是无法显示视频输出。其他配置内容参考上面的用户手册链接。</p>
 <p>修改Makefile的86、87行,在后面加上<code>-pthread</code>参数，即：</p>
-<pre><code><span class="setting">CC = <span class="value">gcc -pthread</span></span>
-<span class="setting">CXX = <span class="value">g++ -pthread</span></span>
+<pre><code>CC = gcc -pthread
+CXX = g++ -pthread
 </code></pre><p>否则编译报错：</p>
-<pre><code>    <span class="keyword">g</span>++ -o bochs -<span class="keyword">g</span> -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DBX_SHARE_PATH=\<span class="string">"/usr/local/share/bochs\"</span> logio.o main.o config.o load32bitOShack.o pc_system.o osdep.o <span class="keyword">plugin</span>.o <span class="keyword">crc</span>.o -Wl,--export-dynamic  iodev/libiodev.a iodev/<span class="keyword">display</span>/libdisplay.a iodev/hdimage/libhdimage.a bx_debug/libdebug.a cpu/libcpu.a cpu/cpudb/libcpudb.a <span class="keyword">memory</span>/libmemory.a gui/libgui.a disasm/libdisasm.a cpu/fpu/libfpu.a -lX11 -lXpm -lXrandr -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 /usr/lib/x86_64-linux-gnu/libcairo.<span class="keyword">so</span> -lpango-1.0 -lfontconfig -lgobject-2.0 -lglib-2.0 /usr/lib/x86_64-linux-gnu/libfreetype.<span class="keyword">so</span> -Wl,--rpath -Wl,/usr/lib/x86_64-linux-gnu -Wl,--rpath -Wl,/usr/lib/x86_64-linux-gnu
-/usr/bin/ld: gui/libgui.a(gtk_enh_dbg_osdep.o): undefined reference to symbol 'pthread_create@@GLIBC_2.2.5'
-<span class="comment">//lib/x86_64-linux-gnu/libpthread.so.0: error adding symbols: DSO missing from command line</span>
-collect2: <span class="keyword">error</span>: ld returned 1 <span class="keyword">exit</span> status
-make: *** [bochs] <span class="keyword">Error</span> 1
+<pre><code>    g++ -o bochs -g -O2 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DBX_SHARE_PATH=\&quot;/usr/local/share/bochs\&quot; logio.o main.o config.o load32bitOShack.o pc_system.o osdep.o plugin.o crc.o -Wl,--export-dynamic  iodev/libiodev.a iodev/display/libdisplay.a iodev/hdimage/libhdimage.a bx_debug/libdebug.a cpu/libcpu.a cpu/cpudb/libcpudb.a memory/libmemory.a gui/libgui.a disasm/libdisasm.a cpu/fpu/libfpu.a -lX11 -lXpm -lXrandr -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 /usr/lib/x86_64-linux-gnu/libcairo.so -lpango-1.0 -lfontconfig -lgobject-2.0 -lglib-2.0 /usr/lib/x86_64-linux-gnu/libfreetype.so -Wl,--rpath -Wl,/usr/lib/x86_64-linux-gnu -Wl,--rpath -Wl,/usr/lib/x86_64-linux-gnu
+/usr/bin/ld: gui/libgui.a(gtk_enh_dbg_osdep.o): undefined reference to symbol &apos;pthread_create@@GLIBC_2.2.5&apos;
+//lib/x86_64-linux-gnu/libpthread.so.0: error adding symbols: DSO missing from command line
+collect2: error: ld returned 1 exit status
+make: *** [bochs] Error 1
 </code></pre><p>安装：</p>
-<pre><code>sudo make <span class="keyword">install</span>
+<pre><code>sudo make install
 </code></pre><p>这样：</p>
-<pre><code><span class="regexp">/usr/</span>local/bin                  存放 binary executables (bochs, bximage)
-<span class="regexp">/usr/</span>local<span class="regexp">/lib/</span>bochs/plugins    存放 plugins (<span class="keyword">if</span> present)
-<span class="regexp">/usr/</span>local<span class="regexp">/man/</span>man1             存放 manpages <span class="keyword">for</span> installed binaries
-<span class="regexp">/usr/</span>local<span class="regexp">/man/</span>man5             存放 manpage <span class="keyword">for</span> the config file (bochsrc)
-<span class="regexp">/usr/</span>local<span class="regexp">/share/</span>bochs          存放 BIOS images, VGABIOS images, keymaps
-<span class="regexp">/usr/</span>local<span class="regexp">/share/</span>doc/bochs      存放 HTML docs, license, readme, changes, bochsrc sample
-</code></pre><h2 id="安装vgabios">安装vgabios</h2><h2 id="配置并试用bochs仿真器">配置并试用<code>bochs</code>仿真器</h2><p>使用<code>/usr/local/share/doc/bochs/bochsrc-sample</code>或者自己手写配置文件：</p>
-<pre><code> <span class="number">1</span> <span class="preprocessor">###############################################################</span>
- <span class="number">2</span> <span class="preprocessor"># Configuration file for Bochs</span>
- <span class="number">3</span> <span class="preprocessor">###############################################################</span>
- <span class="number">4</span> 
- <span class="number">5</span> <span class="preprocessor"># how much memory the emulated machine will have</span>
- <span class="number">6</span> megs: <span class="number">32</span>
- <span class="number">7</span> 
- <span class="number">8</span> <span class="preprocessor"># filename of ROM images</span>
- <span class="number">9</span> romimage: file=/usr/local/share/bochs/BIOS-bochs-latest
-<span class="number">10</span> vgaromimage: file=/usr/share/vgabios/vgabios.bin
-<span class="number">11</span> 
-<span class="number">12</span> <span class="preprocessor"># what disk images will be used </span>
-<span class="number">13</span> floppya: image=<span class="string">"freedos.img"</span>, status=inserted
-<span class="number">14</span> 
-<span class="number">15</span> <span class="preprocessor"># choose the boot disk.</span>
-<span class="number">16</span> boot: a
-<span class="number">17</span> 
-<span class="number">18</span> <span class="preprocessor"># where do we send log messages?</span>
-<span class="number">19</span> <span class="built_in">log</span>: bochsout.txt
-<span class="number">20</span> 
-<span class="number">21</span> <span class="preprocessor"># disable the mouse</span>
-<span class="number">22</span> mouse: enabled=<span class="number">0</span>
+<pre><code>/usr/local/bin                  存放 binary executables (bochs, bximage)
+/usr/local/lib/bochs/plugins    存放 plugins (if present)
+/usr/local/man/man1             存放 manpages for installed binaries
+/usr/local/man/man5             存放 manpage for the config file (bochsrc)
+/usr/local/share/bochs          存放 BIOS images, VGABIOS images, keymaps
+/usr/local/share/doc/bochs      存放 HTML docs, license, readme, changes, bochsrc sample
+</code></pre><h2 id="安装vgabios"><a href="#安装vgabios" class="headerlink" title="安装vgabios"></a>安装vgabios</h2><h2 id="配置并试用bochs仿真器"><a href="#配置并试用bochs仿真器" class="headerlink" title="配置并试用bochs仿真器"></a>配置并试用<code>bochs</code>仿真器</h2><p>使用<code>/usr/local/share/doc/bochs/bochsrc-sample</code>或者自己手写配置文件：</p>
+<pre><code> 1 ###############################################################
+ 2 # Configuration file for Bochs
+ 3 ###############################################################
+ 4 
+ 5 # how much memory the emulated machine will have
+ 6 megs: 32
+ 7 
+ 8 # filename of ROM images
+ 9 romimage: file=/usr/local/share/bochs/BIOS-bochs-latest
+10 vgaromimage: file=/usr/share/vgabios/vgabios.bin
+11 
+12 # what disk images will be used 
+13 floppya: image=&quot;freedos.img&quot;, status=inserted
+14 
+15 # choose the boot disk.
+16 boot: a
+17 
+18 # where do we send log messages?
+19 log: bochsout.txt
+20 
+21 # disable the mouse
+22 mouse: enabled=0
 </code></pre><p>在有配置文件的目录中执行<code>bochs -q</code>或者在任意目录下执行<code>bochs -f 配置文件路径</code>便可运行图形界面下的bochs并跑freedos。注意上面配置文件中的<code>freedos.img</code>需要在bochs官网上下载。</p>
 <p>因为启用了调试模式，需要键入<code>c</code>以继续运行系统。</p>
 <p><img src="/img/kernel1-freedos-in-bochs.png" alt="FreeDos in Box"></p>
@@ -359,7 +362,7 @@ make: *** [bochs] <span class="keyword">Error</span> 1
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -370,7 +373,7 @@ make: *** [bochs] <span class="keyword">Error</span> 1
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -386,8 +389,8 @@ make: *** [bochs] <span class="keyword">Error</span> 1
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

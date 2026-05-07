@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>理解mmap | Zhengyu Zhang</title>
@@ -11,6 +11,7 @@
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2016/10/20/understanding-mmap/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="mmap普通文件小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2016-10-20T10:59:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解mmap">
@@ -21,7 +22,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +36,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -237,33 +238,33 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="mmap普通文件">mmap普通文件</h2><p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>
+        <h2 id="mmap普通文件"><a href="#mmap普通文件" class="headerlink" title="mmap普通文件"></a>mmap普通文件</h2><p>小时候，我以为mmap就是用来把磁盘上的文件加载到内存中，是除了read/write系统调用外，读写文件的另一种方式。使用read/write系统调用读写文件时，我们需要提供一个指针，表明我们需要读写文件的位置。同时需要指明内存缓冲区的地址及其大小，来让read把文件的某一部分存进缓冲区，或是让write把缓冲区的数据写进文件的指定位置。如果使用mmap，系统会把整个文件一次性读取到内存中（对用户来说是一次性，但实现时可以使用缺页异常的方法按需读取，该操作对用户透明）。这段内存就成了磁盘中文件的映像，操作系统会把我们对这片内存的操作，同步到磁盘上。对于用户来说，操作这片内存就是在操作文件。</p>
 <a id="more"></a>
-<h2 id="mmap设备文件">mmap设备文件</h2><p>后来，当我看到设备文件也能被mmap到内存中，我开始尝试理解mmap这个称谓的由来—— 原来 memory map，就是把一段memory映射到其它memory空间的过程！设备驱动的作者通过书写自己的mmap回调函数，就可以引导操作系统把设备上的存储空间映射到进程虚拟地址空间上。对于用户来说，操作这片内存，就是在操作设备（上的存储器）。</p>
-<h2 id="“统一”的混乱">“统一”的混乱</h2><h3 id="回头再看mmap普通文件错误但深刻的理解">回头再看mmap普通文件错误但深刻的理解</h3><p>回想mmap把磁盘上的文件加载到内存的过程，和mmap设备文件的过程竟是完美统一的—— 感谢“一切皆设备”的unix理念！其实不仅设备文件本身也是文件，而且存储文件的磁盘也是设备。这样一来，mmap普通文件，是不是就是在mmap磁盘上某个文件占用的设备memory呢？当设备是可直接访存(如NVDIMM盘)的情况下也许想法是正确，但多数情况下不是这样的。为什么呢？</p>
+<h2 id="mmap设备文件"><a href="#mmap设备文件" class="headerlink" title="mmap设备文件"></a>mmap设备文件</h2><p>后来，当我看到设备文件也能被mmap到内存中，我开始尝试理解mmap这个称谓的由来—— 原来 memory map，就是把一段memory映射到其它memory空间的过程！设备驱动的作者通过书写自己的mmap回调函数，就可以引导操作系统把设备上的存储空间映射到进程虚拟地址空间上。对于用户来说，操作这片内存，就是在操作设备（上的存储器）。</p>
+<h2 id="“统一”的混乱"><a href="#“统一”的混乱" class="headerlink" title="“统一”的混乱"></a>“统一”的混乱</h2><h3 id="回头再看mmap普通文件错误但深刻的理解"><a href="#回头再看mmap普通文件错误但深刻的理解" class="headerlink" title="回头再看mmap普通文件错误但深刻的理解"></a>回头再看mmap普通文件错误但深刻的理解</h3><p>回想mmap把磁盘上的文件加载到内存的过程，和mmap设备文件的过程竟是完美统一的—— 感谢“一切皆设备”的unix理念！其实不仅设备文件本身也是文件，而且存储文件的磁盘也是设备。这样一来，mmap普通文件，是不是就是在mmap磁盘上某个文件占用的设备memory呢？当设备是可直接访存(如NVDIMM盘)的情况下也许想法是正确，但多数情况下不是这样的。为什么呢？</p>
 <p>因为mmap的目的就是想把对设备memory的操作抽象成对内存的操作。如果CPU没有办法直接寻址设备的memory，那么mmap本身是没有意义的。</p>
 <p>不幸的是，我们常见的机械硬盘、SSD啥的都没有把存储单元暴露给CPU，所以文件就得先读到内存中，再对内存进行操作，最后同步回设备。相比于直接操作SSD上的存储颗粒，这种做法是不是有一种“缓冲”的意思呢？</p>
-<h3 id="mmap块设备自身">mmap块设备自身</h3><p>一切皆设备的unix设计的大一统理念虽然完美，不过可能会造成一点混乱…… 除了上面说的：错误地认为mmap普通文件就是mmap磁盘上某个文件占用的设备memory，下面谈谈另一个疑虑——mmap一个磁盘块设备自己（块设备文件）会出现什么情况，跟我mmap这个磁盘块设备上的普通文件，有什么不同？</p>
+<h3 id="mmap块设备自身"><a href="#mmap块设备自身" class="headerlink" title="mmap块设备自身"></a>mmap块设备自身</h3><p>一切皆设备的unix设计的大一统理念虽然完美，不过可能会造成一点混乱…… 除了上面说的：错误地认为mmap普通文件就是mmap磁盘上某个文件占用的设备memory，下面谈谈另一个疑虑——mmap一个磁盘块设备自己（块设备文件）会出现什么情况，跟我mmap这个磁盘块设备上的普通文件，有什么不同？</p>
 <p>我们可以尝试写一个简单的例子看看mmap块设备文件会发生啥情况：</p>
-<pre><code>filp = fopen(“/dev/sda”, “r")<span class="comment">;</span>
-fd = fileno(filp)<span class="comment">;</span>
-buf = mmap(NULL, SIZE, PROT_READ, MAP_PRIVATE, fd, 0)<span class="comment">;</span>
-for (i=0<span class="comment">; i&lt;SIZE; i++)</span>
-     printf(“%x”, buf[i])<span class="comment">;</span>
-munmap(buf, SIZE)<span class="comment">;</span>
-fclose(filp)<span class="comment">;</span>
+<pre><code>filp = fopen(“/dev/sda”, “r&quot;);
+fd = fileno(filp);
+buf = mmap(NULL, SIZE, PROT_READ, MAP_PRIVATE, fd, 0);
+for (i=0; i&lt;SIZE; i++)
+     printf(“%x”, buf[i]);
+munmap(buf, SIZE);
+fclose(filp);
 </code></pre><p>输出结果（部分）：</p>
-<pre><code><span class="number">63</span>eb1090ffffd08ebcffffb8b00ffffd88effffc08effffbefb7c00bfffffb906200ffffa4f321ea6ffffbe00
-<span class="number">7</span>be438b75ffffc683ffff8110fffffefe7507ffffebf3ffffb416ffffb002ffffbb017c00ffff80b2748affff
+<pre><code>63eb1090ffffd08ebcffffb8b00ffffd88effffc08effffbefb7c00bfffffb906200ffffa4f321ea6ffffbe00
+7be438b75ffffc683ffff8110fffffefe7507ffffebf3ffffb416ffffb002ffffbb017c00ffff80b2748affff
 ...
 </code></pre><p>再看看磁盘头一个扇区的数据（部分）：</p>
-<pre><code>eb63 <span class="number">9010</span> <span class="number">8</span>ed0 bc00 b0b8 <span class="number">0000</span> <span class="number">8</span>ed8 <span class="number">8</span>ec0
-fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <span class="number">0002</span> f3a4 ea21 <span class="number">0600</span>
+<pre><code>eb63 9010 8ed0 bc00 b0b8 0000 8ed8 8ec0
+fbbe 007c bf00 06b9 0002 f3a4 ea21 0600
 ...
 </code></pre><p>忽略读数据时大小端的影响，是不是同一个东西？实验说明，mmap一个块设备文件，就相当于把整块磁盘给mmap了（而不是胡思乱想的什么mmap磁盘控制器页面啦、什么设备上的缓冲区啦等等高级的东西！）。这个mmap跟磁盘上的具体文件系统无关（所谓绕过文件系统），而是把磁盘作为一个超级大的、数据块都是连续的文件给mmap进虚拟内存了。相反看mmap磁盘块设备上的一个普通文件，是跟磁盘上的文件系统息息相关的——这个mmap操作本身就是在这个文件系统提供的。mmap普通文件的数据块在磁盘上不一定是连续的，需要文件系统给出了索引数据块的方法。</p>
 <p>扩展阅读：</p>
-<p><a href="http://hemming.blog.hexun.com/15094457_d.html" target="_blank" rel="external">malloc背后的故事</a>mmap在进程内存分配中扮演的角色及其它一些与文件相关的系统调用。</p>
-<p><a href="http://alanwu.blog.51cto.com/3652632/1288838" target="_blank" rel="external">一个IO的传奇一生</a> 介绍了mmap块设备文件和普通文件的区别。不止于此，这个系列对文件系统和块设备IO有总结性的讲解。</p>
+<p><a href="http://hemming.blog.hexun.com/15094457_d.html" target="_blank" rel="noopener">malloc背后的故事</a>mmap在进程内存分配中扮演的角色及其它一些与文件相关的系统调用。</p>
+<p><a href="http://alanwu.blog.51cto.com/3652632/1288838" target="_blank" rel="noopener">一个IO的传奇一生</a> 介绍了mmap块设备文件和普通文件的区别。不止于此，这个系列对文件系统和块设备IO有总结性的讲解。</p>
 
       
     </div>
@@ -318,7 +319,7 @@ fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <spa
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -329,7 +330,7 @@ fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <spa
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -345,8 +346,8 @@ fbbe <span class="number">007</span>c bf00 <span class="number">06</span>b9 <spa
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

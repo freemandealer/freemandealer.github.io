@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>内核补丁的创建和发送过程 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="1 确认补丁基点在制作补丁前，确认基点，并提交一次补丁前的状态。">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="内核补丁的创建和发送过程">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2015/07/05/making&sending_kernel_patches/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="1 确认补丁基点在制作补丁前，确认基点，并提交一次补丁前的状态。">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-10-04T14:38:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内核补丁的创建和发送过程">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -246,46 +248,46 @@ var _hmt = _hmt || [];
 <p><strong>2 创建补丁分支</strong></p>
 <p><strong>3 做出修改，并提交修改</strong></p>
 <p>提交时使用<code>-s</code>参数进行签名：</p>
-<pre><code>git <span class="operator"><span class="keyword">commit</span> -s -<span class="keyword">m</span> <span class="string">"fix something"</span></span>
+<pre><code>git commit -s -m &quot;fix something&quot;
 </code></pre><p><strong>4 生成补丁</strong></p>
-<pre><code>git <span class="keyword">format</span>-patch -&lt;<span class="keyword">number</span>&gt;
+<pre><code>git format-patch -&lt;number&gt;
 </code></pre><p><strong>5 检查补丁格式</strong></p>
-<pre><code><span class="comment">perl</span> <span class="comment">checkpatch</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">tree</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">strict</span>  &lt;<span class="comment">patch</span><span class="literal">-</span><span class="comment">name</span>&gt;
+<pre><code>perl checkpatch --no-tree --strict  &lt;patch-name&gt;
 </code></pre><p><strong>6 配置git-email</strong><br>通过git config配置邮件相关信息。修改的实际上是~/.gitconfig文件。</p>
-<pre><code>git config --global user<span class="class">.name</span> <span class="string">"Freeman Zhang"</span>
-git config --global user<span class="class">.email</span> freeman.zhang1992@live<span class="class">.com</span>
-git config --global sendemail<span class="class">.smtpserver</span> smtp<span class="class">.live</span><span class="class">.com</span>
-git config --global sendemail<span class="class">.smtpuser</span> freeman.zhang1992@live<span class="class">.com</span>
-git config --global sendemail<span class="class">.smtpserverport</span> <span class="number">587</span>
-git config --global sendemail<span class="class">.smtpencryption</span> tls
+<pre><code>git config --global user.name &quot;Freeman Zhang&quot;
+git config --global user.email freeman.zhang1992@live.com
+git config --global sendemail.smtpserver smtp.live.com
+git config --global sendemail.smtpuser freeman.zhang1992@live.com
+git config --global sendemail.smtpserverport 587
+git config --global sendemail.smtpencryption tls
 </code></pre><p>也可以跳过这一步骤，通过git send-email参数在发送时确定邮件服务器信息。</p>
 <p><strong>7 发送补丁</strong></p>
 <p>可以编辑补丁文件的Subject等信息。<br>补丁可以连续依次发送，也可以放在一个目录下，发送整个目录。<br><code>--chain-reply-to</code>参数将导致后一个补丁邮件作为前一个邮件的回复。对应<code>--no-chain-reply-to</code>会构造一个平坦的结构——这也是邮件列表要求的patch发送方式:</p>
-<pre><code><span class="comment">git</span> <span class="comment">send</span><span class="literal">-</span><span class="comment">email</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">compose</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">chain</span><span class="literal">-</span><span class="comment">reply</span><span class="literal">-</span><span class="comment">to</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">suppress</span><span class="literal">-</span><span class="comment">from</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">to</span> &lt;<span class="comment">target</span> <span class="comment">audiance</span>&gt; &lt;<span class="comment">patches</span>&gt;
+<pre><code>git send-email --compose --no-chain-reply-to --suppress-from --to &lt;target audiance&gt; &lt;patches&gt;
 </code></pre><p>下面弹出compose界面，这里有个’in reply to:’可以用来填写一个想与之构成thread chain的之前发送过去的邮件的MessageID(如果使用的是Thunderbird客户端，可以通过ViewSource查看邮件的MessageID)。举个例子：你先发送了一份cover letter（无论用什么客户端，只要plaintext就行）叫做’XXX CoverLetter‘，然后你的后续补丁就应该使用上文提到的<code>--chain-reply-to</code>将补丁们挨个串起来。最后填写这个<code>in reply to:</code>来将补丁与cover letter串起来。这样就构成了一个如下有深度的结构。</p>
 <pre><code>XXX CoverLetter
-└─&gt; [PATCH <span class="number">1</span>/<span class="number">2</span>] XXX1
-    └─&gt; [PATCH <span class="number">2</span>/<span class="number">2</span>] XXX2
+└─&gt; [PATCH 1/2] XXX1
+    └─&gt; [PATCH 2/2] XXX2
 </code></pre><p>但邮件列表建议我们使用<code>--no-chain-reply-to</code>方式，结果更加平坦便于审阅：</p>
 <pre><code>XXX CoverLetter
-    ├─&gt; [PATCH <span class="number">1</span>/<span class="number">2</span>] XXX1
-    └─&gt; [PATCH <span class="number">2</span>/<span class="number">2</span>] XXX2
+    ├─&gt; [PATCH 1/2] XXX1
+    └─&gt; [PATCH 2/2] XXX2
 </code></pre><p><strong> 可选 </strong><br>使用esmpt传输客户端发送邮件和补丁。<br>    sudo apt-get install esmtp<br>    touch ~/.esmtprc<br>    chmod g-rwx ~/.esmtprc<br>    chmod o-rwx ~/.esmtprc</p>
 <p>为esmtprc加上：</p>
-<pre><code><span class="title">identity</span> <span class="string">"my.email<span class="variable">@gmail</span>.com"</span>
-hostname smtp.gmail.com:<span class="number">587</span>
-username <span class="string">"my.email<span class="variable">@gmail</span>.com"</span>
-password <span class="string">"ThisIsNotARealPassWord"</span>
+<pre><code>identity &quot;my.email@gmail.com&quot;
+hostname smtp.gmail.com:587
+username &quot;my.email@gmail.com&quot;
+password &quot;ThisIsNotARealPassWord&quot;
 starttls required 
 </code></pre><p>使用命令行下的邮件客户端mutt处理PlainText邮件。</p>
-<pre><code>sudo apt-<span class="built_in">get</span> install mutt
-<span class="keyword">vi</span> ~/.muttrc
+<pre><code>sudo apt-get install mutt
+vi ~/.muttrc
 </code></pre><p>为.muttrc加上：</p>
-<pre><code><span class="keyword">set</span> sendmail=<span class="string">"/usr/bin/esmtp"</span>
-<span class="keyword">set</span> envelope_from=yes
-<span class="keyword">set</span> <span class="keyword">from</span>=<span class="string">"Your Name &lt;my.email@gmail.com&gt;"</span>
-<span class="keyword">set</span> use_from=yes
-<span class="keyword">set</span> edit_headers=yes
+<pre><code>set sendmail=&quot;/usr/bin/esmtp&quot;
+set envelope_from=yes
+set from=&quot;Your Name &lt;my.email@gmail.com&gt;&quot;
+set use_from=yes
+set edit_headers=yes
 </code></pre><p>输入<code>m</code>创建新邮件，保存后<code>y</code>发送，<code>e</code>继续编辑，<code>q</code>放弃发送并退出。</p>
 
       
@@ -341,7 +343,7 @@ starttls required
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -352,7 +354,7 @@ starttls required
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -368,8 +370,8 @@ starttls required
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

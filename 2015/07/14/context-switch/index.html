@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>上下文切换时堆栈的切换 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="上下文切换一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用INT指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="上下文切换时堆栈的切换">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2015/07/14/context-switch/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="上下文切换一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用INT指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/PCB-kernel-stack.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/context-switch-tss.jpg">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://freemandealer.github.io/img/PCB-kernel-stack.png">
+<meta property="og:image" content="https://freemandealer.github.io/img/context-switch-tss.jpg">
 <meta property="og:updated_time" content="2015-10-04T14:33:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="上下文切换时堆栈的切换">
 <meta name="twitter:description" content="上下文切换一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用INT指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。">
+<meta name="twitter:image" content="https://freemandealer.github.io/img/PCB-kernel-stack.png">
   
     <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -37,7 +40,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -243,9 +246,9 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="上下文切换">上下文切换</h2><p>一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用<code>INT</code>指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。</p>
+        <h2 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h2><p>一般指用户上下文与内核上下文的之间切换。内核上下文又分为中断/异常上下文、系统调用上下文 —— 区别是后者可以从用户空间使用<code>INT</code>指令陷入(即门描述符特权级别为DPL_USER)。上下文切换就是: 1)暂停执行、2) 保护现场、3) 恢复现场、4) 恢复执行的过程。这里的现场只CPU现场，就是各个寄存器以及标志位的状态。</p>
 <a id="more"></a>
-<h2 id="堆栈切换">堆栈切换</h2><p>保护现场的载体是堆栈。上下文切换伴随着堆栈的切换。我的理解是上下文切换实质就是堆栈的切换，毕竟CPU自己并没有进程的概念，它只知道把相关寄存器的值都push一遍，换个堆栈，然后再pop一圈，继续执行下面的指令。</p>
+<h2 id="堆栈切换"><a href="#堆栈切换" class="headerlink" title="堆栈切换"></a>堆栈切换</h2><p>保护现场的载体是堆栈。上下文切换伴随着堆栈的切换。我的理解是上下文切换实质就是堆栈的切换，毕竟CPU自己并没有进程的概念，它只知道把相关寄存器的值都push一遍，换个堆栈，然后再pop一圈，继续执行下面的指令。</p>
 <p>容易推想出下面结论：</p>
 <ul>
 <li><p>从进程角度看：不同的进程需要有独立的堆栈存放各自退出时的现场。这样才能保证一个进程的堆栈不会被其它进程破坏，从而实现进程间独立。</p>
@@ -255,11 +258,11 @@ var _hmt = _hmt || [];
 </ul>
 <p>这样，每个进程需要有两个堆栈，分别用于在运行用户/内核地址空间的代码时使用。（其实应该是不止两个栈，因为x86四个特权级每个特权级下都有自己的栈，只是很多操作系统只用了两个特权级区分用户和内核）</p>
 <p>特别需要注意的是，中断和调度器逻辑不属于任何进程(它们也不是进程，它们只是一段在某个时间内会被CPU执行的代码，一般被称作控制流或执行流）。中断响应硬件事件，与进程是并行的概念。调度器是管理进程的，概念上就比进程高一个层次。那么问题来了：这两个控制流运行时使用的是哪里的堆栈？中断借用当前进程(Linux的current或xv6的proc)的内核栈。调度器使用自己独立的内核堆栈。同时因为每个CPU都有一个自己的调度器，所以调度器的堆栈在系统中有多个，是per-CPU结构。</p>
-<h2 id="切换实例">切换实例</h2><p>x86体系下，各个系统的切换的思想如上所述，但实现上每个系统之间都有或多或少的差别。虽然基本上都是细节上的差别，但为了表述自信、方便，我在这里以小巧的xv6系统为例，分<code>用户上下文-&gt;内核上下文</code>、<code>内核上下文-&gt;用户上下文</code>两个方向，详细介绍切换的相关设计和保护现场、堆栈切换、恢复现场、恢复执行的过程。</p>
+<h2 id="切换实例"><a href="#切换实例" class="headerlink" title="切换实例"></a>切换实例</h2><p>x86体系下，各个系统的切换的思想如上所述，但实现上每个系统之间都有或多或少的差别。虽然基本上都是细节上的差别，但为了表述自信、方便，我在这里以小巧的xv6系统为例，分<code>用户上下文-&gt;内核上下文</code>、<code>内核上下文-&gt;用户上下文</code>两个方向，详细介绍切换的相关设计和保护现场、堆栈切换、恢复现场、恢复执行的过程。</p>
 <p>下面是一张气势磅礴而又充满美感的图：</p>
 <p><img src="/img/PCB-kernel-stack.png" alt="df"></p>
 <p>中间的空间是进程描述符。左右两边的都是内核栈，对于同一进程来说可能就是一个栈(kstack指向同一地址)。画成两个是因为两个不同时期，内核栈状态不同。</p>
-<h3 id="进程切换时期">进程切换时期</h3><p>左边描述进程切换时期。对应进程上下文切换到调度器上下文、再又调度器切换到另一个进程上下文的过程:</p>
+<h3 id="进程切换时期"><a href="#进程切换时期" class="headerlink" title="进程切换时期"></a>进程切换时期</h3><p>左边描述进程切换时期。对应进程上下文切换到调度器上下文、再又调度器切换到另一个进程上下文的过程:</p>
 <ul>
 <li>把进程old的寄存器压栈</li>
 <li>切换到调度器堆栈</li>
@@ -271,7 +274,7 @@ var _hmt = _hmt || [];
 <li>运行next</li>
 <li>GOTO BEGINNING</li>
 </ul>
-<h3 id="中断时期">中断时期</h3><p>右边描述中断时期栈的变化。中断处理程序运行于内核态。中断发生时CPU可能处于内核态（如执行系统调用的过程中）也可能处于用户态（执行应用空间代码）。所以前者不涉及特权级转换，后者涉及。</p>
+<h3 id="中断时期"><a href="#中断时期" class="headerlink" title="中断时期"></a>中断时期</h3><p>右边描述中断时期栈的变化。中断处理程序运行于内核态。中断发生时CPU可能处于内核态（如执行系统调用的过程中）也可能处于用户态（执行应用空间代码）。所以前者不涉及特权级转换，后者涉及。</p>
 <p>####不涉及特权级转换的情况 ####</p>
 <ul>
 <li>压入寄存器现场、错误代码等</li>
@@ -279,7 +282,7 @@ var _hmt = _hmt || [];
 <li>恢复寄存器现场</li>
 </ul>
 <p>可以看到这里并没有发生堆栈的切换——因为本来就运行在内核栈上嘛！中断处理程序借用了应用程序的内核栈。说“借用”是因为进程的内核栈是给进程执行内核空间代码使用的（通常就是系统调用），由于中断并不一定和正在运行的进程有什么关联。</p>
-<h4 id="涉及特权级转换的情况">涉及特权级转换的情况</h4><p>但是对于后者，也就是用户态中被中断，有一个<code>用户-&gt;内核-&gt;用户</code>的切换过程，伴随着相关栈的切换。具体过程：</p>
+<h4 id="涉及特权级转换的情况"><a href="#涉及特权级转换的情况" class="headerlink" title="涉及特权级转换的情况"></a>涉及特权级转换的情况</h4><p>但是对于后者，也就是用户态中被中断，有一个<code>用户-&gt;内核-&gt;用户</code>的切换过程，伴随着相关栈的切换。具体过程：</p>
 <ul>
 <li>根据TSS找到内核栈</li>
 <li>压入寄存器现场、错误代码</li>
@@ -293,12 +296,12 @@ var _hmt = _hmt || [];
 <p>而ss0、esp0它们是存在一个与CPU约定好的固定的结构里——CPU接到中断就去这个结构里自己找ss0、esp0。这个结构就是TSS:</p>
 <p><img src="/img/context-switch-tss.jpg" alt="TSS结构"></p>
 <p>而且我们发现TSS不止存折ss0和esp0。对于ring0 ~ ring2其实都有响应的ss1、esp1、ss2、esp2。这就是为什么上文提到其实每个进程可以有四个栈。</p>
-<h3 id="中断的进程切换">中断的进程切换</h3><p>我们说了进程上下文切换，中断时上下文切换。能不能在中断上下文中进行进程上下文切换呢？</p>
+<h3 id="中断的进程切换"><a href="#中断的进程切换" class="headerlink" title="中断的进程切换"></a>中断的进程切换</h3><p>我们说了进程上下文切换，中断时上下文切换。能不能在中断上下文中进行进程上下文切换呢？</p>
 <p>那就是时间片调度：在时间中断处理上下文中进行进程的切换。听起来很刺激，但实质上就是上述两中情况的组合：</p>
 <p>old进程上下文-&gt;时间中断上下文-&gt;next进程上下文</p>
 <p>对应堆栈切换就是：</p>
 <p>保护old进程现场-&gt;切换old进程内核栈执行时间中断处理（调度器）-&gt;保护内核现场-&gt;切换next进程栈执行next进程。</p>
-<p>xv6没有使用时间片调度。进程切换发生在睡眠、yield等进程主动放弃CPU的时刻。因此它的进程切换在用户空间完成，不涉及中断处理引来的复杂的特权级转换。但是，虽然没有特权级转换，没有用户&lt;-&gt;内核栈的切换，但是有用户空间栈的切换——而且还是三个栈：</p>
+<p>xv6没有使用时间片调度。进程切换发生在睡眠、yield等进程主动放弃CPU的时刻。因此它的进程切换在用户空间完成，不涉及中断处理引来的复杂的特权级转换。但是，虽然没有特权级转换，没有用户<->内核栈的切换，但是有用户空间栈的切换——而且还是三个栈：</-></p>
 <p>old用户栈-&gt;调度器栈-&gt;next用户栈。</p>
 <p>没有采用时间片调度的xv6有一个特例，使得存在这样的情况：在中断中进行进程上下文的切换。那就是exec系统调用。系统调用实际上是一个中断上下文，但是这个中断上下文又要为进程的运行准备栈结构。中断上下文中进行进程切换也是顺其自然。</p>
 
@@ -355,7 +358,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -366,7 +369,7 @@ var _hmt = _hmt || [];
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -382,8 +385,8 @@ var _hmt = _hmt || [];
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

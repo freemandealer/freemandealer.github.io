@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>在Android中使用JNI笔记 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="为什么在Android中使用JNIJNI是JAVA调用C的一个接口。在Android中使用JNI的原因很多：JNI调用C执行效率可能会提高、JNI的存在使得一些成熟的C库可以被JAVA程序调用。我这里使用JNI主要是和底层交互。JAVA可以调用C，C可以调用汇编，那么JAVA就没什么做不到的了。">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Android中使用JNI笔记">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2014/11/14/jni-in-android/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="为什么在Android中使用JNIJNI是JAVA调用C的一个接口。在Android中使用JNI的原因很多：JNI调用C执行效率可能会提高、JNI的存在使得一些成熟的C库可以被JAVA程序调用。我这里使用JNI主要是和底层交互。JAVA可以调用C，C可以调用汇编，那么JAVA就没什么做不到的了。">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-10-04T14:35:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Android中使用JNI笔记">
@@ -21,7 +23,7 @@
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -35,7 +37,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -241,73 +243,73 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="为什么在Android中使用JNI">为什么在Android中使用JNI</h2><p>JNI是JAVA调用C的一个接口。在Android中使用JNI的原因很多：JNI调用C执行效率可能会提高、JNI的存在使得一些成熟的C库可以被JAVA程序调用。我这里使用JNI主要是和底层交互。JAVA可以调用C，C可以调用汇编，那么JAVA就没什么做不到的了。</p>
+        <h2 id="为什么在Android中使用JNI"><a href="#为什么在Android中使用JNI" class="headerlink" title="为什么在Android中使用JNI"></a>为什么在Android中使用JNI</h2><p>JNI是JAVA调用C的一个接口。在Android中使用JNI的原因很多：JNI调用C执行效率可能会提高、JNI的存在使得一些成熟的C库可以被JAVA程序调用。我这里使用JNI主要是和底层交互。JAVA可以调用C，C可以调用汇编，那么JAVA就没什么做不到的了。</p>
 <a id="more"></a>
-<h2 id="一个JNI使用实例">一个JNI使用实例</h2><h3 id="在APP中的操作">在APP中的操作</h3><p>MainActivity是Android应用的主Activity类.在该类中新建两个native方法，并加上声明。当然也可以把JNI方法单独放置于一个类中，由主类调用。</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">native</span> <span class="function"><span class="keyword">int</span> <span class="title">reg</span><span class="params">(String pwd)</span></span>;
-<span class="keyword">public</span> <span class="keyword">native</span> <span class="function"><span class="keyword">int</span> <span class="title">auth</span><span class="params">(String pwd)</span></span>;         
-<span class="keyword">static</span>{
-    System.loadLibrary(<span class="string">"testJni"</span>);
+<h2 id="一个JNI使用实例"><a href="#一个JNI使用实例" class="headerlink" title="一个JNI使用实例"></a>一个JNI使用实例</h2><h3 id="在APP中的操作"><a href="#在APP中的操作" class="headerlink" title="在APP中的操作"></a>在APP中的操作</h3><p>MainActivity是Android应用的主Activity类.在该类中新建两个native方法，并加上声明。当然也可以把JNI方法单独放置于一个类中，由主类调用。</p>
+<pre><code>public native int reg(String pwd);
+public native int auth(String pwd);         
+static{
+    System.loadLibrary(&quot;testJni&quot;);
 }
 </code></pre><p>这里我增加了两个方法，名字分别为reg和auth，返回值是int，输入参数为String。 </p>
-<h3 id="生成头文件">生成头文件</h3><p>下面我们需要使用javah工具，根据含有native方法的类，生成一个包含C语言风格函数声明的头文件（其函数实现部分亦即后面需要被JAVA调用的代码）。</p>
+<h3 id="生成头文件"><a href="#生成头文件" class="headerlink" title="生成头文件"></a>生成头文件</h3><p>下面我们需要使用javah工具，根据含有native方法的类，生成一个包含C语言风格函数声明的头文件（其函数实现部分亦即后面需要被JAVA调用的代码）。</p>
 <p>首先，确保JAVA文件已被编译，生成.class文件。在Eclipse里面就是打包运行一下工程，会发现运行不了，因为loadLibrary的那个”testJni”我们还没有构建，会报错。这里我们不用真的运行，只要产生了apk就说明.class文件已经被构建。</p>
 <p>在项目根目录下敲入命令：</p>
-<pre><code>javah -classpath bin/classes -d jni com<span class="class">.example</span><span class="class">.tcptlibtest</span><span class="class">.MainActivity</span>
+<pre><code>javah -classpath bin/classes -d jni com.example.tcptlibtest.MainActivity
 </code></pre><p>javah是jdk中包含的一个工具，专门根据.class文件生成对应C的头文件。通过<code>-classpath</code>参数配置.class文件的路径。<code>-d</code>指定生成的头文件保存的目录。最后写操作对象，即完整的类名，注意大小写。</p>
 <p>命令执行完成后，会在工程根目录的jni目录中找到一个完整类名构成的头文件。打开头文件，里面包含native的方法名。如果没有，说明上述命令执行错了，可能是类名没写正确。</p>
-<h3 id="编写C代码">编写C代码</h3><p>新建一个C文件，开始处include 生成的头文件，实现头文件中的native函数。具体即复制头文件的声明部分，改写成实现。注意声明时只有类型，需要加上变量名。一个例子：</p>
+<h3 id="编写C代码"><a href="#编写C代码" class="headerlink" title="编写C代码"></a>编写C代码</h3><p>新建一个C文件，开始处include 生成的头文件，实现头文件中的native函数。具体即复制头文件的声明部分，改写成实现。注意声明时只有类型，需要加上变量名。一个例子：</p>
 <pre><code>JNIEXPORT jint JNICALL Java_com_example_tcptlibtest_MainActivity_reg
-  <span class="list">(<span class="keyword">JNIEnv</span> <span class="variable">*env, jobject obj, jstring content)
+  (JNIEnv *env, jobject obj, jstring content)
 {
-    const jbyte *</span>str = <span class="list">(<span class="keyword">const</span> jbyte*)</span><span class="list">(<span class="keyword">*env</span>)</span>-&gt;GetStringUTFChars<span class="list">(<span class="keyword">env</span>,content,JNI_FALSE)</span><span class="comment">; //获得字符串参数</span>
-    /* 各种操作 <span class="variable">*/
+    const jbyte *str = (const jbyte*)(*env)-&gt;GetStringUTFChars(env,content,JNI_FALSE); //获得字符串参数
+    /* 各种操作 */
     int ret;
     ret=reg_pwd(str); // 这里我们可以自由调用来自世界各地的C代码，java+jni -&gt; java+c
-    (*</span>env)</span>-&gt;ReleaseStringUTFChars<span class="list">(<span class="keyword">env</span>, content, <span class="list">(<span class="keyword">const</span> char <span class="variable">*)str ); //释放字符串资源
-    /*</span>
-     <span class="variable">* 如果我们的返回值类型是字符串，可以通过下面的语句返回字符串给JAVA环境下的调用者
-     *</span> return <span class="list">(<span class="keyword">*env</span>)</span>-&gt;NewStringUTF<span class="list">(<span class="keyword">env</span>, <span class="string">"Hello World! I am Native interface"</span>)</span><span class="comment">;</span>
-     <span class="variable">*/
+    (*env)-&gt;ReleaseStringUTFChars(env, content, (const char *)str ); //释放字符串资源
+    /*
+     * 如果我们的返回值类型是字符串，可以通过下面的语句返回字符串给JAVA环境下的调用者
+     * return (*env)-&gt;NewStringUTF(env, &quot;Hello World! I am Native interface&quot;);
+     */
     return ret;
-}</span></span></span>
-</code></pre><p>我们看到数据类型有些奇怪，字符串更是诡异。这主要是因为C和JAVA对数据类型定义不同造成（字节数，大小端，字符编码方式等），需要进行转换。调用时，参数的数据类型要从JAVA型转换为C,返回时再变换回去。更多的映射规则，请参看<a href="http://blog.csdn.net/conowen/article/details/7523145" target="_blank" rel="external">这篇博客</a>。</p>
+}
+</code></pre><p>我们看到数据类型有些奇怪，字符串更是诡异。这主要是因为C和JAVA对数据类型定义不同造成（字节数，大小端，字符编码方式等），需要进行转换。调用时，参数的数据类型要从JAVA型转换为C,返回时再变换回去。更多的映射规则，请参看<a href="http://blog.csdn.net/conowen/article/details/7523145" target="_blank" rel="noopener">这篇博客</a>。</p>
 <p>同时需要增加一个OnLoad函数，作为加载JNI的借口。我们可以在这个函数中实现一些JNI就被执行的代码。下面的例子仅仅是获得JNI版本号。</p>
-<pre><code>jint JNI_OnLoad(JavaVM* vm, <span class="literal">void</span>* reserved)
+<pre><code>jint JNI_OnLoad(JavaVM* vm, void* reserved)
 {
-    <span class="literal">void</span> *venv;
-    <span class="keyword">if</span> <span class="function"><span class="params">((*vm)-&gt;GetEnv(vm, (<span class="literal">void</span>**)&amp;venv, JNI_VERSION_1_4) != JNI_OK)</span> {
-        <span class="title">return</span> -1;
+    void *venv;
+    if ((*vm)-&gt;GetEnv(vm, (void**)&amp;venv, JNI_VERSION_1_4) != JNI_OK) {
+        return -1;
     }
-    <span class="title">return</span> <span class="title">JNI_VERSION_1_4</span>;
-}</span>
-</code></pre><h3 id="编译C代码">编译C代码</h3><p>App依然采用集成开发环境编译。但是JNI的C代码需要另外编译成库，才能被App调用，这是JNI原理决定的。在Windows中，JNI需要使用动态连接库（dll）。在Android中，库的后缀名是.so，这和Linux一致。</p>
+    return JNI_VERSION_1_4;
+}
+</code></pre><h3 id="编译C代码"><a href="#编译C代码" class="headerlink" title="编译C代码"></a>编译C代码</h3><p>App依然采用集成开发环境编译。但是JNI的C代码需要另外编译成库，才能被App调用，这是JNI原理决定的。在Windows中，JNI需要使用动态连接库（dll）。在Android中，库的后缀名是.so，这和Linux一致。</p>
 <p>首先，需要一个指导构建库文件的说明书：新建Android.mk，内容如下：</p>
-<pre><code>LO<span class="built_in">CAL_PATH</span>:= $(call my-dir)
+<pre><code>LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
-LO<span class="built_in">CAL_MODULE_TAGS</span> := optional
-LO<span class="built_in">CAL_MODULE</span> := libtestJNI   <span class="preprocessor"># 这里填写库的名字，就是Java文件中load的那个，前加上lib</span>
-LO<span class="built_in">CAL_SRC_FILES</span> := $(call all-subdir-c-files)
-LO<span class="built_in">CAL_PRELINK_MODULE</span> := <span class="literal">false</span>
-LO<span class="built_in">CAL_C_INCLUDES</span> += \
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE := libtestJNI   # 这里填写库的名字，就是Java文件中load的那个，前加上lib
+LOCAL_SRC_FILES := $(call all-subdir-c-files)
+LOCAL_PRELINK_MODULE := false
+LOCAL_C_INCLUDES += \
 $(JNI_H_INCLUDE)
-LO<span class="built_in">CAL_SHARED_LIBRARIES</span> := \
+LOCAL_SHARED_LIBRARIES := \
 libandroid_runtime \
 libnativehelper \
 libcutils \
 libutils \
 liblog \
 libhardware
-include $(B<span class="built_in">UILD_SHARED_LIBRARY</span>)
+include $(BUILD_SHARED_LIBRARY)
 </code></pre><p>用NDK编译。如果下载了AOSP(Android源代码)的读者可以将整个App工程拷贝或链接进AOSP/packages/app/下，运行</p>
-<pre><code>mmm packages<span class="regexp">/apps/</span>你的App工程名字
+<pre><code>mmm packages/apps/你的App工程名字
 </code></pre><p>这样你会在AOSP/out/target/product/generic/obj/lib/下找到编译好的库文件。该文件以lib打头，不用在意。</p>
-<h3 id="整合进系统">整合进系统</h3><p>现在App和库文件是分开的。也许有某种方式可以将.so文件打包进apk，但目前我的做法是将.so文件拷贝到手机<code>/system/lib</code>下，因为我发现那里存放着系统所使用的库文件。拷贝过程比平常的拷贝操作麻烦些，因为<code>/system/lib</code>挂载为只读，需要重挂。简单的方式是通过一个应用”R文件管理器”完成了这个操作。</p>
+<h3 id="整合进系统"><a href="#整合进系统" class="headerlink" title="整合进系统"></a>整合进系统</h3><p>现在App和库文件是分开的。也许有某种方式可以将.so文件打包进apk，但目前我的做法是将.so文件拷贝到手机<code>/system/lib</code>下，因为我发现那里存放着系统所使用的库文件。拷贝过程比平常的拷贝操作麻烦些，因为<code>/system/lib</code>挂载为只读，需要重挂。简单的方式是通过一个应用”R文件管理器”完成了这个操作。</p>
 <p>整合完毕后，安装apk，就可以运行了。如果log出现载入库错误，那就说明库文件没有被载入。可能是文件名输入错了。库文件名除了前面有lib前缀，必须和JAVA代码中的loadLibrary参数完全一样。</p>
-<h2 id="输出log">输出log</h2><p>在C文件头部加入:</p>
-<pre><code><span class="id">#include</span> &lt;android/log.h&gt;
-<span class="hexcolor">#def</span>ine LOG_TAG <span class="string">"cqEmbed"</span>
-<span class="hexcolor">#def</span>ine <span class="function"><span class="title">LOGI</span><span class="params">(...)</span></span> __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+<h2 id="输出log"><a href="#输出log" class="headerlink" title="输出log"></a>输出log</h2><p>在C文件头部加入:</p>
+<pre><code>#include &lt;android/log.h&gt;
+#define LOG_TAG &quot;cqEmbed&quot;
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 </code></pre>
       
     </div>
@@ -362,7 +364,7 @@ include $(B<span class="built_in">UILD_SHARED_LIBRARY</span>)
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -373,7 +375,7 @@ include $(B<span class="built_in">UILD_SHARED_LIBRARY</span>)
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -389,8 +391,8 @@ include $(B<span class="built_in">UILD_SHARED_LIBRARY</span>)
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 

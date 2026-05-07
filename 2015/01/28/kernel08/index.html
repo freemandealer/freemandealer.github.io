@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>从零构建内核:第一个进程 | Zhengyu Zhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。">
+<meta name="keywords" content="Note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零构建内核:第一个进程">
 <meta property="og:url" content="https://freemandealer.github.io/gallery/2015/01/28/kernel08/index.html">
 <meta property="og:site_name" content="Zhengyu Zhang">
 <meta property="og:description" content="“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/kernel_selector.png">
-<meta property="og:image" content="https://freemandealer.github.io/gallery/img/singer.jpg">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://freemandealer.github.io/img/kernel_selector.png">
+<meta property="og:image" content="https://freemandealer.github.io/img/singer.jpg">
 <meta property="og:updated_time" content="2015-10-04T14:37:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零构建内核:第一个进程">
 <meta name="twitter:description" content="“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。">
+<meta name="twitter:image" content="https://freemandealer.github.io/img/kernel_selector.png">
   
     <link rel="alternative" href="/atom.xml" title="Zhengyu Zhang" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 <script type="text/javascript">
 var _hmt = _hmt || [];
@@ -37,7 +40,7 @@ var _hmt = _hmt || [];
 
 
 </head>
-
+</html>
 <script src="/js/hexo_resize_image.js"></script>
 <body>
   <div id="container">
@@ -245,93 +248,93 @@ var _hmt = _hmt || [];
       
         <p>“内核”上成功运行了第一个进程。本文只涉及最基础的进程概念，主要探讨进程的要素和从高特权级跳转低特权级的方法。可以预告的是后面将紧接着进行多进程实验。</p>
 <a id="more"></a>
-<h2 id="进程控制块(PCB)">进程控制块(PCB)</h2><p>扯淡一分钟：本科保研资格面试，抽到这个题目：PCB是什么？包含什么内容？当时我就意识到这个题目最大的难点就在于，在关于PCB我知道的比在座所有考官加起来还要多的情况下如何保持谦虚和礼貌 :P</p>
+<h2 id="进程控制块-PCB"><a href="#进程控制块-PCB" class="headerlink" title="进程控制块(PCB)"></a>进程控制块(PCB)</h2><p>扯淡一分钟：本科保研资格面试，抽到这个题目：PCB是什么？包含什么内容？当时我就意识到这个题目最大的难点就在于，在关于PCB我知道的比在座所有考官加起来还要多的情况下如何保持谦虚和礼貌 :P</p>
 <p>扯淡完毕。出于拿来主义,我现在的PCB(TCB)长这样:</p>
 <pre><code>struct regs {
-        u32 gs<span class="comment">;</span>
-        u32 fs<span class="comment">;</span>
-        u32 es<span class="comment">;</span>
-        u32 ds<span class="comment">;</span>
-        u32 edi<span class="comment">;</span>
-        u32 esi<span class="comment">;</span>
-        u32 ebp<span class="comment">;</span>
-        u32 kernel_esp<span class="comment">;</span>
-        u32 ebx<span class="comment">;</span>
-        u32 edx<span class="comment">;</span>
-        u32 ecx<span class="comment">;</span>
-        u32 eax<span class="comment">;</span>
-        u32 retaddr<span class="comment">;</span>
-        u32 eip<span class="comment">;</span>
-        u32 cs<span class="comment">;</span>
-        u32 eflags<span class="comment">;</span>
-        u32 esp<span class="comment">;</span>
-        u32 ss<span class="comment">;</span>
-}<span class="comment">;</span>
+        u32 gs;
+        u32 fs;
+        u32 es;
+        u32 ds;
+        u32 edi;
+        u32 esi;
+        u32 ebp;
+        u32 kernel_esp;
+        u32 ebx;
+        u32 edx;
+        u32 ecx;
+        u32 eax;
+        u32 retaddr;
+        u32 eip;
+        u32 cs;
+        u32 eflags;
+        u32 esp;
+        u32 ss;
+};
 
 struct tcb {
-        struct regs regs<span class="comment">;</span>
-        selector_t ldt_sel<span class="comment">;</span>
-        struct descriptor ldt[LDT_SIZE]<span class="comment">;</span>
-        u32 pid<span class="comment">;</span>
-        char p_name[16]<span class="comment">;</span>
-        u16 stack[TASK_STACK_SIZE]<span class="comment">;</span>
-}<span class="comment">;</span>
+        struct regs regs;
+        selector_t ldt_sel;
+        struct descriptor ldt[LDT_SIZE];
+        u32 pid;
+        char p_name[16];
+        u16 stack[TASK_STACK_SIZE];
+};
 </code></pre><p>其中<code>struct regs</code>用来保护现场。</p>
-<h2 id="LDT">LDT</h2><p>新的进程需要自己的地址空间。之前的GDT中的描述的都是DPL0的段。我需要构建新的DPL1的段。不需要大动干戈地再搞一个GDT，一个局部LDT因地制宜。而且可以放进TCB被进程带着走。逻辑上和方便成度上都是合理的。</p>
+<h2 id="LDT"><a href="#LDT" class="headerlink" title="LDT"></a>LDT</h2><p>新的进程需要自己的地址空间。之前的GDT中的描述的都是DPL0的段。我需要构建新的DPL1的段。不需要大动干戈地再搞一个GDT，一个局部LDT因地制宜。而且可以放进TCB被进程带着走。逻辑上和方便成度上都是合理的。</p>
 <p>之前GDT是这样的（汇编）：</p>
-<pre><code>LABEL_GDT:        boot_descriptor    <span class="number">0</span>,    <span class="number">0</span>,    <span class="number">0</span>
-LABEL_DESC_FLAT_C:    boot_descriptor    <span class="number">0</span>,    <span class="number">0f</span>ffffh,DA_32|DA_CR|DA_LIMIT_4K
-LABEL_DESC_FLAT_RW:    boot_descriptor    <span class="number">0</span>,    <span class="number">0f</span>ffffh,DA_32|DA_DRW|DA_LIMIT_4K
-LABEL_DESC_VIDEO:    boot_descriptor    <span class="number">0</span>B8000h,<span class="number">0f</span>fffh,    DA_DRW|DA_DPL3
-LABEL_DESC_LDT:        boot_descriptor <span class="number">0</span>,    <span class="number">0</span>,    <span class="number">0</span>
-LABEL_DESC_TSS:        boot_descriptor <span class="number">0</span>,    <span class="number">0</span>,    <span class="number">0</span>
+<pre><code>LABEL_GDT:        boot_descriptor    0,    0,    0
+LABEL_DESC_FLAT_C:    boot_descriptor    0,    0fffffh,DA_32|DA_CR|DA_LIMIT_4K
+LABEL_DESC_FLAT_RW:    boot_descriptor    0,    0fffffh,DA_32|DA_DRW|DA_LIMIT_4K
+LABEL_DESC_VIDEO:    boot_descriptor    0B8000h,0ffffh,    DA_DRW|DA_DPL3
+LABEL_DESC_LDT:        boot_descriptor 0,    0,    0
+LABEL_DESC_TSS:        boot_descriptor 0,    0,    0
 </code></pre><p>其中GDT[0]是留白。GDT[3]是视频段，DPL为３，够低了。GDT[4]和GDT[5]是LDT和TSS的描述符，属于系统段/门描述符(S位置零)。GDT[1]和GDT[2]是代码段和数据段，是新进程需要的。<br>我只改代码段和数据段的DPL,应该是这样的(C语言)：</p>
-<pre><code>init_descriptor(&amp;(idle_task-&gt;ldt[<span class="number">0</span>]), <span class="number">0</span>, <span class="number">0</span>x0fffff, D<span class="built_in">A_32</span> | D<span class="built_in">A_LIMIT</span>_4K | D<span class="built_in">A_C</span> | D<span class="built_in">A_DPL1</span>)<span class="comment">;</span>
-init_descriptor(&amp;(idle_task-&gt;ldt[<span class="number">1</span>]), <span class="number">0</span>, <span class="number">0</span>x0fffff, D<span class="built_in">A_32</span> | D<span class="built_in">A_LIMIT</span>_4K | D<span class="built_in">A_DRW</span>| D<span class="built_in">A_DPL1</span>)<span class="comment">;</span>
+<pre><code>init_descriptor(&amp;(idle_task-&gt;ldt[0]), 0, 0x0fffff, DA_32 | DA_LIMIT_4K | DA_C | DA_DPL1);
+init_descriptor(&amp;(idle_task-&gt;ldt[1]), 0, 0x0fffff, DA_32 | DA_LIMIT_4K | DA_DRW| DA_DPL1);
 </code></pre><p>最后，修改GDT<a href="LABEL_DESC_LDT">4</a>，登记LDT：</p>
-<pre><code>init_descriptor<span class="list">(<span class="keyword">&amp;gdt</span>[<span class="number">4</span>], <span class="list">(<span class="keyword">u32</span>)</span><span class="list">(<span class="keyword">idle_task-&gt;ldt</span>)</span>, sizeof<span class="list">(<span class="keyword">struct</span> descriptor)</span> <span class="variable">* LDT_SIZE - 1, DA_LDT);</span></span>
-</code></pre><h2 id="选择子">选择子</h2><p>这里的选择子有：</p>
+<pre><code>init_descriptor(&amp;gdt[4], (u32)(idle_task-&gt;ldt), sizeof(struct descriptor) * LDT_SIZE - 1, DA_LDT);
+</code></pre><h2 id="选择子"><a href="#选择子" class="headerlink" title="选择子"></a>选择子</h2><p>这里的选择子有：</p>
 <p>TCB里的ldt_sel：在GDT中选择LDT描述符。</p>
 <p>赋值给tcp中regs中段寄存器的选择子：在LDT中选择代码段或数据段。</p>
-<pre><code>    cs_sel = (<span class="number">0</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
-ds_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
-es_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
-fs_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
-ss_sel = (<span class="number">8</span> &amp; S<span class="built_in">A_RPL</span>_MASK &amp; S<span class="built_in">A_TI</span>_MASK) | S<span class="built_in">A_TIL</span> | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+<pre><code>    cs_sel = (0 &amp; SA_RPL_MASK &amp; SA_TI_MASK) | SA_TIL | SA_RPL1;
+ds_sel = (8 &amp; SA_RPL_MASK &amp; SA_TI_MASK) | SA_TIL | SA_RPL1;
+es_sel = (8 &amp; SA_RPL_MASK &amp; SA_TI_MASK) | SA_TIL | SA_RPL1;
+fs_sel = (8 &amp; SA_RPL_MASK &amp; SA_TI_MASK) | SA_TIL | SA_RPL1;
+ss_sel = (8 &amp; SA_RPL_MASK &amp; SA_TI_MASK) | SA_TIL | SA_RPL1;
 </code></pre><p>这类选择子TI位置位，RPL1。告诉系统是LDT中的段，RPL为任务级。</p>
 <p>视频选择子：在GDT中选择视频段，但RPL=1。</p>
-<pre><code>gs_sel = (<span class="number">24</span> &amp; S<span class="built_in">A_RPL</span>_MASK) | S<span class="built_in">A_RPL1</span><span class="comment">;</span>
+<pre><code>gs_sel = (24 &amp; SA_RPL_MASK) | SA_RPL1;
 </code></pre><p>TSS选择子：在GDT中选择TSS段。</p>
 <p>另外关于选择子，前16-3位是GDT项相对于GDT头的偏移量，因为GDT项大小是8Byte，所以它是8Byte对齐，选择子后三位始终是零。充分利用空间，INTEL大叔在后三位中保存IT（是不是LDT段）和RPL。</p>
 <p><img src="/img/kernel_selector.png" alt="选择子"></p>
-<h2 id="TSS和堆栈切换">TSS和堆栈切换</h2><p>因为之前的代码都是运行在高特权级(0级)下，而进程需要运行在较低的特权级（实验用了1级）。所以要进行跳转。跳转的技巧就是retf指令——假装一次中断的完成，调“回”Ring1（原来我们从一开始都只是一个中断，这一定是个大阴谋。。）</p>
+<h2 id="TSS和堆栈切换"><a href="#TSS和堆栈切换" class="headerlink" title="TSS和堆栈切换"></a>TSS和堆栈切换</h2><p>因为之前的代码都是运行在高特权级(0级)下，而进程需要运行在较低的特权级（实验用了1级）。所以要进行跳转。跳转的技巧就是retf指令——假装一次中断的完成，调“回”Ring1（原来我们从一开始都只是一个中断，这一定是个大阴谋。。）</p>
 <p>跳转牵扯到堆栈的变化。目前我们是从内层到外层（ring0-&gt;ring1），ss和esp应该准备好在堆栈中，retf以后自动送寄存器。</p>
-<pre><code><span class="attribute">...</span>
-    idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>ss = ss_sel;
-idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>gs = gs_sel;
-idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>eip = (u32)idle_task_main;
-idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>esp = (u32) idle_task<span class="subst">-&gt;</span><span class="built_in">stack</span> + TASK_STACK_SIZE;
-<span class="attribute">...</span>
+<pre><code>...
+    idle_task-&gt;regs.ss = ss_sel;
+idle_task-&gt;regs.gs = gs_sel;
+idle_task-&gt;regs.eip = (u32)idle_task_main;
+idle_task-&gt;regs.esp = (u32) idle_task-&gt;stack + TASK_STACK_SIZE;
+...
 </code></pre><p>我们看到eip也是被准备好了。然后：</p>
-<pre><code><span class="comment">; void start_idle()</span>
-<span class="built_in">global</span> start_idle
-<span class="label">start_idle:</span>
-        <span class="keyword">mov</span>    <span class="literal">esp</span>, [idle_task]
-        <span class="keyword">lldt</span>    [<span class="literal">esp</span> + (<span class="number">18</span>*<span class="number">4</span>)]    <span class="comment">; ldt_sel offset in struct tcb</span>
-        <span class="keyword">lea</span>    <span class="literal">eax</span>, [<span class="literal">esp</span> + (<span class="number">18</span>*<span class="number">4</span>)]    <span class="comment">; stack offset in struct tcb</span>
-        <span class="keyword">mov</span>    <span class="preprocessor">dword</span> [itss + <span class="number">4</span>], <span class="literal">eax</span>    <span class="comment">; esp0 offset in tss, set it to be</span>
-                        <span class="comment">; the bottom of regs in struct tcp</span>
-                        <span class="comment">; prepare for next 'real' interupt</span>
-        <span class="keyword">pop</span>    <span class="literal">gs</span>
-        <span class="keyword">pop</span>    <span class="literal">fs</span>
-        <span class="keyword">pop</span>    <span class="literal">es</span>
-        <span class="keyword">pop</span>    <span class="literal">ds</span>
-        <span class="keyword">popad</span>
+<pre><code>; void start_idle()
+global start_idle
+start_idle:
+        mov    esp, [idle_task]
+        lldt    [esp + (18*4)]    ; ldt_sel offset in struct tcb
+        lea    eax, [esp + (18*4)]    ; stack offset in struct tcb
+        mov    dword [itss + 4], eax    ; esp0 offset in tss, set it to be
+                        ; the bottom of regs in struct tcp
+                        ; prepare for next &apos;real&apos; interupt
+        pop    gs
+        pop    fs
+        pop    es
+        pop    ds
+        popad
 
-        <span class="keyword">add</span>    <span class="literal">esp</span>, <span class="number">4</span> <span class="comment">;skip retaddr</span>
-        <span class="keyword">iretd</span>
+        add    esp, 4 ;skip retaddr
+        iretd
 </code></pre><p>其中有意思的是，我不仅完成了内层到外层相关的堆栈转换，还为下一次真正的中断时外层到内层的转换埋下伏笔：将<code>TSS</code>中的<code>esp0</code>初始化为<code>TCB</code>中用来保存现场的结构<code>struct regs</code>。这样，下次的中断过程中，堆栈就是这样变换了: 进程栈－&gt;TCB保存现场的结构(regs)-&gt;内核栈。</p>
-<h2 id="Debug感悟">Debug感悟</h2><p>这个实验思路还算清晰，但设计内容比往常多。自己也是一口气写了下来，结过debug了一整天。有些诡异的错误不知怎么地就好了。</p>
+<h2 id="Debug感悟"><a href="#Debug感悟" class="headerlink" title="Debug感悟"></a>Debug感悟</h2><p>这个实验思路还算清晰，但设计内容比往常多。自己也是一口气写了下来，结过debug了一整天。有些诡异的错误不知怎么地就好了。</p>
 <p>其中发现，因为异常和中断已经初始化，程序出错不会再“跑飞”了——一切尽在掌握。异常处理时可以在handler中通过tmp_dbg获得异常向量和异常代码，结合Intel开发手册，帮助排错。</p>
 <p>在debug过程中，把之前保护模式中一些模棱两可的概念和操作搞细致了，也算收获颇多，不然也没这么多写成这篇文章。</p>
 <p>现在“内核”真的是内核了！一开心，画了幅画,Happy coding~</p>
@@ -390,7 +393,7 @@ idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>esp 
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Zhengyu Zhang
+    		&copy; 2026 Zhengyu Zhang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -401,7 +404,7 @@ idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>esp 
 
     </div>
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
 
 <script>
@@ -417,8 +420,8 @@ idle_task<span class="subst">-&gt;</span>regs<span class="built_in">.</span>esp 
 		open_in_new: false
 	}
 </script>
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
 
 
 
