@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://freemandealer.github.io/gallery/"/>
-  <updated>2026-05-07T01:30:11.828Z</updated>
+  <updated>2026-05-07T02:00:25.483Z</updated>
   <id>https://freemandealer.github.io/gallery/</id>
   
   <author>
@@ -17,19 +17,19 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>OLAP Pipeline执行引擎 论文学习</title>
-    <link href="https://freemandealer.github.io/gallery/2024/06/17/OLAP-Pipeline%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E-%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://freemandealer.github.io/gallery/2024/06/17/OLAP-Pipeline执行引擎-论文学习/</id>
-    <published>2024-06-16T16:00:00.000Z</published>
-    <updated>2026-05-07T01:30:11.828Z</updated>
+    <title>手把手教你实现基于 Apache Doris 的 RAG 系统 - 大型DLC之 知识图谱的构建</title>
+    <link href="https://freemandealer.github.io/gallery/2026/01/24/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%AE%9E%E7%8E%B0%E5%9F%BA%E4%BA%8E-Apache-Doris-%E7%9A%84-RAG-%E7%B3%BB%E7%BB%9F-%E5%A4%A7%E5%9E%8BDLC%E4%B9%8B-%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E6%9E%84%E5%BB%BA/"/>
+    <id>https://freemandealer.github.io/gallery/2026/01/24/手把手教你实现基于-Apache-Doris-的-RAG-系统-大型DLC之-知识图谱的构建/</id>
+    <published>2026-01-23T16:00:00.000Z</published>
+    <updated>2026-05-07T02:00:25.483Z</updated>
     
-    <content type="html"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112627246171733&bvid=BV1xoVEe9EwK&cid=500001584615347&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>]]></content>
+    <content type="html"><![CDATA[<div class="video-embed"><br>  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115948413522408&bvid=BV19SzrBqEdT&cid=35579431636&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe><br></div>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=112627246171733&amp;bvid=BV1xoVEe9EwK&amp;cid=500001584615347&amp;p=1&quot; scrolling=&quot;no&quot; 
+        &lt;div class=&quot;video-embed&quot;&gt;&lt;br&gt;  &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=115948413522408&amp;bvid=BV19SzrBqEdT&amp;cid=35579
       
     
     </summary>
@@ -38,13 +38,104 @@
   </entry>
   
   <entry>
-    <title>post</title>
-    <link href="https://freemandealer.github.io/gallery/2020/01/15/post/"/>
-    <id>https://freemandealer.github.io/gallery/2020/01/15/post/</id>
-    <published>2020-01-14T17:00:59.000Z</published>
-    <updated>2020-01-14T17:00:59.000Z</updated>
+    <title>手把手教你实现基于 Apache Doris 的 RAG 系统</title>
+    <link href="https://freemandealer.github.io/gallery/2025/12/18/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%AE%9E%E7%8E%B0%E5%9F%BA%E4%BA%8E-Apache-Doris-%E7%9A%84-RAG-%E7%B3%BB%E7%BB%9F/"/>
+    <id>https://freemandealer.github.io/gallery/2025/12/18/手把手教你实现基于-Apache-Doris-的-RAG-系统/</id>
+    <published>2025-12-17T16:00:00.000Z</published>
+    <updated>2026-05-07T02:00:25.483Z</updated>
+    
+    <content type="html"><![CDATA[<div class="video-embed"><br>  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115735879752284&bvid=BV1KwqjB2EVH&cid=34805321159&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe><br></div>]]></content>
     
     <summary type="html">
+    
+      
+      
+        &lt;div class=&quot;video-embed&quot;&gt;&lt;br&gt;  &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=115735879752284&amp;bvid=BV1KwqjB2EVH&amp;cid=34805
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>OLAP 存算分离 Apache Doris FileCache 缓存预热(Warm Up)原理</title>
+    <link href="https://freemandealer.github.io/gallery/2024/10/15/OLAP-%E5%AD%98%E7%AE%97%E5%88%86%E7%A6%BB-Apache-Doris-FileCache-%E7%BC%93%E5%AD%98%E9%A2%84%E7%83%AD-Warm-Up-%E5%8E%9F%E7%90%86/"/>
+    <id>https://freemandealer.github.io/gallery/2024/10/15/OLAP-存算分离-Apache-Doris-FileCache-缓存预热-Warm-Up-原理/</id>
+    <published>2024-10-14T16:00:00.000Z</published>
+    <updated>2026-05-07T02:00:25.483Z</updated>
+    
+    <content type="html"><![CDATA[<div class="video-embed"><br>  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113311588949253&bvid=BV16c2ZYHEzm&cid=26304381043&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe><br></div>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;div class=&quot;video-embed&quot;&gt;&lt;br&gt;  &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=113311588949253&amp;bvid=BV16c2ZYHEzm&amp;cid=26304
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>OLAP Pipeline执行引擎 - DuckDB 的实现 - pipeline 构造过程</title>
+    <link href="https://freemandealer.github.io/gallery/2024/07/30/OLAP-Pipeline%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E-DuckDB-%E7%9A%84%E5%AE%9E%E7%8E%B0-pipeline-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B/"/>
+    <id>https://freemandealer.github.io/gallery/2024/07/30/OLAP-Pipeline执行引擎-DuckDB-的实现-pipeline-构造过程/</id>
+    <published>2024-07-29T16:00:00.000Z</published>
+    <updated>2026-05-07T02:00:25.483Z</updated>
+    
+    <content type="html"><![CDATA[<div class="video-embed"><br>  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112874693528162&bvid=BV1TMvreVERX&cid=500001632452895&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe><br></div>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;div class=&quot;video-embed&quot;&gt;&lt;br&gt;  &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=112874693528162&amp;bvid=BV1TMvreVERX&amp;cid=50000
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>OLAP Pipeline执行引擎 论文学习</title>
+    <link href="https://freemandealer.github.io/gallery/2024/06/17/OLAP-Pipeline%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E-%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://freemandealer.github.io/gallery/2024/06/17/OLAP-Pipeline执行引擎-论文学习/</id>
+    <published>2024-06-16T16:00:00.000Z</published>
+    <updated>2026-05-07T02:00:25.483Z</updated>
+    
+    <content type="html"><![CDATA[<div class="video-embed"><br>  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112627246171733&bvid=BV1xoVEe9EwK&cid=500001584615347&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe><br></div>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;div class=&quot;video-embed&quot;&gt;&lt;br&gt;  &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=112627246171733&amp;bvid=BV1xoVEe9EwK&amp;cid=50000
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>OLAP 存算分离 Apache Doris FileCache 设计与实现</title>
+    <link href="https://freemandealer.github.io/gallery/2024/06/17/OLAP-%E5%AD%98%E7%AE%97%E5%88%86%E7%A6%BB-Apache-Doris-FileCache-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://freemandealer.github.io/gallery/2024/06/17/OLAP-存算分离-Apache-Doris-FileCache-设计与实现/</id>
+    <published>2024-06-16T16:00:00.000Z</published>
+    <updated>2026-05-07T02:00:25.483Z</updated>
+    
+    <content type="html"><![CDATA[<div class="video-embed"><br>  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112746213411448&bvid=BV1ath9eGEqL&cid=500001608187536&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe><br></div>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;div class=&quot;video-embed&quot;&gt;&lt;br&gt;  &lt;iframe src=&quot;//player.bilibili.com/player.html?isOutside=true&amp;aid=112746213411448&amp;bvid=BV1ath9eGEqL&amp;cid=50000
+      
     
     </summary>
     
@@ -208,9 +299,9 @@
     <link href="https://freemandealer.github.io/gallery/2016/06/03/open-source-and-enterprise/"/>
     <id>https://freemandealer.github.io/gallery/2016/06/03/open-source-and-enterprise/</id>
     <published>2016-06-03T06:46:48.000Z</published>
-    <updated>2026-05-07T01:47:49.352Z</updated>
+    <updated>2026-05-07T01:52:35.498Z</updated>
     
-    <content type="html"><![CDATA[<p>之前接触开源纯粹是没项目做时找乐子以及被免费开放的源代码吸引，出于个人角度。通过近期与开源软件行业较为深入的合作，以及阅读的一些科普小文章，在这里谈谈我对开源和企业的理解。<br><a id="more"></a></p><p>提到开源，我想大家都会有至少这三个问题：</p><ul><li><p>为什么要使用开源软件？</p></li><li><p>为什么要投人力、财力给开源？</p></li><li><p>开源如何盈利？</p></li></ul><p>我发现站在不同的角度看这个问题，会有不同的答案。所以我将会以IT技术型企业、非IT技术型企业和开源技术方案提供商这三个企业的观点看这个问题。</p><p>作为互联网时代的企业，时不时地会用到信息技术解决方案，搭个数据分析平台、架设个站点啥的。如果他们使用商业解决方案，那似乎就踏上了一条不归路。商业解决方案很多都是黑盒子，一旦出了问题只能叫人来修，自己一边瞅着干插不了手干着急。对于那些分分钟交易上亿的企业，这个问题修复的周期是难以忍受的。另外，商业的方案坑比较多，想想最近的Win10强制升级吧…… 对于底层系统的完全掌控会给后期的系统维护、升级带来极大的便利。所以，企业想健康发展有两条路：自主研发，或者求助开源（当然也有自主研发再开源出去，暂且算在开源里了）。</p><p>作为一个IT技术型企业，例如互联网公司，他们应该是有能力进行资助研发的。但是如果有现成的，考虑到人力、财力和时间成本，当然会使用现成的。到这里，回答了第一个问题：为什么要使用开源？（不然呢……）</p><p>一般企业会对开源方案进行一圈调研，觉得合适的就用，差功能的就补上，渐渐地走上了投人力、财力给开源的路子。当然问了一圈没有适合的，那就自己开发呗。可是发现自身能力有限，又或是为了省成本，干脆把自己开发半拉子的方案开源出去，让其它人参与进来一起开发和维护，又不用给他们钱，何乐而不为呢？</p><p>企业参与开源当然是为了赚钱，毕竟企业一词的定义里明确说明“以盈利为目的”。企业求助开源方案，是在省成本没错。可是投精力狠搞开源似乎有些不靠谱？把自己的自主研发开源听起来简直是在为竞争对手做嫁衣！其实企业在投入开源时，也是在社区中树立威信。如果一个开源项目的80%代码都是你贡献的，你就有很大可能主导这个项目向着有利于自己的方向发展。站在长远角度看这个问题，企业绝对是从中获益的。那么把自己自主研发的项目开源是不是在扮演农夫与蛇呢？这得看企业对开源的“度”的把控。一般情况下，没人傻到把自己的赚钱核心公布出来。而且像现在80／20不平衡法则支配的互联网产业，相比用户和数据积累，想纯粹凭借技术力挽狂澜真的是非常难了。所以，开源自己的技术还是蛮安全的。</p><p>说完IT技术企业，开始说说非IT技术企业在开源里扮演什么样的角色。和IT技术企业一样，非IT们用相似的眼光考量着开源这块烙饼。它们的区别在于，非IT技术企业往往没有能力去自主研发或是参与开源。这种情况下，开源的优势就不能掩盖它的劣势了：首先很多开源软件不怎么易用，个人认为商业公司为用户考虑得还是挺周到的，说到底人家至少还有售后服务呢。例如OpenStack部署和架构的实施和维护成本较比VMware有了陡然提高。另外，一旦方案出问题，因为企业内部缺乏IT技术人员，所以只能求助社区。这种情况下，问题恢复周期远远长于商业方案。</p><p>所以怎么才能解决这些弊端呢？除了花钱自己维护一个开源团队（这样就类似IT技术企业了），还有个办法就是把维护外包给第三方——这就是我们要提到的第三类企业——专业的开源技术方案提供商。它们就像商业软件的客服，完成对开源软件使用培训、功能部署、稳定性维护。通过这个来获取利润，听起来有些不靠谱啊…… 可是开源技术方案提供商的龙头企业红帽(RedHat)2015年收入20.5亿美元（我对这些以亿为单位的钱没什么概念，反正他们自己很激动）不知道能不能说明一丢丢问题。</p><p>专业的开源技术方案提供商本身也是会投入人力、财力进开源项目的，原因和第一类企业不一样——第一类企业做出软件就是为了服务自己的商业目的。开源技术方案提供商真的只是一心想把软件做好，这样就会有更多的人使用这个软件，它就可以获得更多客户，通过卖出更多的服务赚钱，走“曲线赚钱”的路线。</p><p>以上就是我对开源的些许理解。这些理解可能很浅显，但已经使我相信，开源真的在改变世界。</p><p>update @2026-05-07:</p><p>距离原博文发表正好时隔10年… 自己也在一家以开源主导的商业化公司工作了快4年，想再补充两点盈利方式。第一个显而易见但是之前漏掉了：赞助。如果一个开源软件帮助了企业，但是没有收取任何费用，</p>]]></content>
+    <content type="html"><![CDATA[<p>之前接触开源纯粹是没项目做时找乐子以及被免费开放的源代码吸引，出于个人角度。通过近期与开源软件行业较为深入的合作，以及阅读的一些科普小文章，在这里谈谈我对开源和企业的理解。<br><a id="more"></a></p><p>提到开源，我想大家都会有至少这三个问题：</p><ul><li><p>为什么要使用开源软件？</p></li><li><p>为什么要投人力、财力给开源？</p></li><li><p>开源如何盈利？</p></li></ul><p>我发现站在不同的角度看这个问题，会有不同的答案。所以我将会以IT技术型企业、非IT技术型企业和开源技术方案提供商这三个企业的观点看这个问题。</p><p>作为互联网时代的企业，时不时地会用到信息技术解决方案，搭个数据分析平台、架设个站点啥的。如果他们使用商业解决方案，那似乎就踏上了一条不归路。商业解决方案很多都是黑盒子，一旦出了问题只能叫人来修，自己一边瞅着干插不了手干着急。对于那些分分钟交易上亿的企业，这个问题修复的周期是难以忍受的。另外，商业的方案坑比较多，想想最近的Win10强制升级吧…… 对于底层系统的完全掌控会给后期的系统维护、升级带来极大的便利。所以，企业想健康发展有两条路：自主研发，或者求助开源（当然也有自主研发再开源出去，暂且算在开源里了）。</p><p>作为一个IT技术型企业，例如互联网公司，他们应该是有能力进行资助研发的。但是如果有现成的，考虑到人力、财力和时间成本，当然会使用现成的。到这里，回答了第一个问题：为什么要使用开源？（不然呢……）</p><p>一般企业会对开源方案进行一圈调研，觉得合适的就用，差功能的就补上，渐渐地走上了投人力、财力给开源的路子。当然问了一圈没有适合的，那就自己开发呗。可是发现自身能力有限，又或是为了省成本，干脆把自己开发半拉子的方案开源出去，让其它人参与进来一起开发和维护，又不用给他们钱，何乐而不为呢？</p><p>企业参与开源当然是为了赚钱，毕竟企业一词的定义里明确说明“以盈利为目的”。企业求助开源方案，是在省成本没错。可是投精力狠搞开源似乎有些不靠谱？把自己的自主研发开源听起来简直是在为竞争对手做嫁衣！其实企业在投入开源时，也是在社区中树立威信。如果一个开源项目的80%代码都是你贡献的，你就有很大可能主导这个项目向着有利于自己的方向发展。站在长远角度看这个问题，企业绝对是从中获益的。那么把自己自主研发的项目开源是不是在扮演农夫与蛇呢？这得看企业对开源的“度”的把控。一般情况下，没人傻到把自己的赚钱核心公布出来。而且像现在80／20不平衡法则支配的互联网产业，相比用户和数据积累，想纯粹凭借技术力挽狂澜真的是非常难了。所以，开源自己的技术还是蛮安全的。</p><p>说完IT技术企业，开始说说非IT技术企业在开源里扮演什么样的角色。和IT技术企业一样，非IT们用相似的眼光考量着开源这块烙饼。它们的区别在于，非IT技术企业往往没有能力去自主研发或是参与开源。这种情况下，开源的优势就不能掩盖它的劣势了：首先很多开源软件不怎么易用，个人认为商业公司为用户考虑得还是挺周到的，说到底人家至少还有售后服务呢。例如OpenStack部署和架构的实施和维护成本较比VMware有了陡然提高。另外，一旦方案出问题，因为企业内部缺乏IT技术人员，所以只能求助社区。这种情况下，问题恢复周期远远长于商业方案。</p><p>所以怎么才能解决这些弊端呢？除了花钱自己维护一个开源团队（这样就类似IT技术企业了），还有个办法就是把维护外包给第三方——这就是我们要提到的第三类企业——专业的开源技术方案提供商。它们就像商业软件的客服，完成对开源软件使用培训、功能部署、稳定性维护。通过这个来获取利润，听起来有些不靠谱啊…… 可是开源技术方案提供商的龙头企业红帽(RedHat)2015年收入20.5亿美元（我对这些以亿为单位的钱没什么概念，反正他们自己很激动）不知道能不能说明一丢丢问题。</p><p>专业的开源技术方案提供商本身也是会投入人力、财力进开源项目的，原因和第一类企业不一样——第一类企业做出软件就是为了服务自己的商业目的。开源技术方案提供商真的只是一心想把软件做好，这样就会有更多的人使用这个软件，它就可以获得更多客户，通过卖出更多的服务赚钱，走“曲线赚钱”的路线。</p><p>以上就是我对开源的些许理解。这些理解可能很浅显，但已经使我相信，开源真的在改变世界。</p><p>update @2026-05-07:</p><p>距离原博文发表正好时隔10年… 自己也在一家以开源主导的商业化公司工作了快4年，想再补充两点盈利方式。</p><p>第一个显而易见但是之前漏掉了：赞助。如果一个开源软件帮助了人们，但是没有收取任何费用，人们可能会通过赞助的方式以自己能力之所及的金钱来感谢贡献者的付出。另外，一些企业也能通过赞助有名的项目来做广告。</p><p>第二个，就是在许可证允许的条件下进行商业化活动，不限于原文中的“卖服务”。比如 Apache Doris 尊许 Apache 协议，是可以进行商业化的，所以产生了 Enterprise 企业版的 Doris，其功能、稳定性增强 + 客户支持，本质属于卖服务；同时也推出了云原生的 SelectDB ，基于 Doris 改造而来，这个就是全新的产品了。</p>]]></content>
     
     <summary type="html">
     
@@ -323,85 +414,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>作业的本质</title>
-    <link href="https://freemandealer.github.io/gallery/2015/10/29/the-nature-of-homework/"/>
-    <id>https://freemandealer.github.io/gallery/2015/10/29/the-nature-of-homework/</id>
-    <published>2015-10-29T12:03:19.000Z</published>
-    <updated>2015-11-01T04:32:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://i13.tietuku.com/c2cd1b67bce0cff1.jpg" alt></p><a id="more"></a><p>最近一直在订正作业。周一晚上计算机体系结构上了一堂习题课。说真的，上次听“习题课”这一叫法还是在中学。为什么要上习题课呢？一是因为课后作业错得太多，而且又没有一个100%的正确答案可以对照，所以需要老师帮着把答案确定一遍。二是由于体系结构的作业太难，同学们私下讨论不出结果，百度谷歌又搜不出像样的专业领域专业问题的解答，需要一个权威人士讲解，学习专业的思路。这里不得不说，书后习题出得真赞。以至于每次做作业，题目都看不懂。回想过去单纯的中学时光，我们学会的一项重要技能就是揣测题意，做到知己知彼（也许你没注意，但仔细想想很大可能你已经在运用了）。计算机体系结构书后习题具有独特的延伸性和启发性了，根本不知道它想问你什么。乍一看很多题目与课本前面的内容、上课的内容都没什么关系啊，别提猜出题目在考察什么知识点了。但神奇的是，经老师这么一讲解，就都和课堂上、书上的知识点结合起来了，让人时不时地恍然大悟。</p><p>上习题课的第三个原因，是因为考试中会有原题。这一点乍一听很关键啊！试想这样一个让人冷汗直冒的场景：你有一题作业没搞懂，考试遇到类似题，其他人都奋笔疾书，信心十足又沾沾自喜地在你前面交上试卷。你岂不是要悔地直跺脚？这时你突然想起国科大某位老师曾经说过的一句话：“你考试分数高，我不能说你这一门课学得好；同样你学得好，考试成绩也不一定高”。你不禁陷入了对一个大问题的沉思中：考试到底算什么？作为局内人，我也说不清楚考试算什么。好消息是在国科大，在研究生阶段，课程作业、考核这些形式上的东西与知识的夹沟，我觉得已经很窄了。</p><!--本科阶段的成绩那是相当重要：出国留学得看GPA，保研名额分配也大幅度地参考综合成绩排名。奖学金的申请与成绩也是息息相关。一个漂亮的成绩单在找工作时当然没有一点坏处。研究生阶段和本科阶段怎么说得有些差别吧？我身为局中人，其中差别我还真说不清。但是我知道，相对于本科生，对于研究生的考察，至少增添了科研能力这一标准。增加的标准势必会降低其它标准的权重。由于我们精力有限，我们应该相应地减少应试时间，去为提高自己研究生身份应有的能力。哪些是研究生应培养的能力，我说不准，我暂且用“实力”一词指代。--><p>说作业是形式，我自己有些过意不去。对于作业的本质，我也是在学生生涯中断断续续思考良久。学习的过程不只要输入，输出也是重要环节。比如看书、听课那只是输入部分，而输出往往会被我们忽视。输出是指用知识影响周围世界。我们把刚刚学到的知识分享出去影响别人，我认为这就是“教学相长”的内涵。我们用实践去改造世界，我认为这就是“知行合一”的内涵。当然实践知识有时是一件麻烦事：我学会了电路设计，我要实践，那我得花些时间和金钱去买些电子器件吧。而作业，就是一种模拟性质的实践：把你放在一个用文字建立起来的情景中，给你一切想要的，你只要集中精力去运用学会的知识解决问题就可以了。是不是很神奇呢？我想，这才是作业的本质。学习然后实践，最简单的实践就是解题看看。解错了、解不出来那就去听讲解，再一遍仔细研究学习内容，再实践。通过迭代，让知识隐性化为常识或者本能反应。回头看我们小学时的“课前预习、课堂认真听讲、复习笔记、写作业”的学习回路，真是蕴含着大智慧呢！其实小时候有很多这样的大智慧由于太朴素而没有被我们赞美，这是另外一码事了。</p><p>通过对作业的重新思考，我们还能抱怨什么或者有什么额外的期待呢？一份好的作业永远不会是负担，也不会让人怀疑它和成绩之间的暧昧关系——它一直忠贞于知识。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://i13.tietuku.com/c2cd1b67bce0cff1.jpg&quot; alt&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="元知识" scheme="https://freemandealer.github.io/gallery/tags/%E5%85%83%E7%9F%A5%E8%AF%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记录一次OSX软件破解</title>
-    <link href="https://freemandealer.github.io/gallery/2015/10/10/hacking-osx-app/"/>
-    <id>https://freemandealer.github.io/gallery/2015/10/10/hacking-osx-app/</id>
-    <published>2015-10-10T05:02:54.000Z</published>
-    <updated>2019-08-15T04:17:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>这不是一篇教你破解苹果软件的简明教程，而是一篇斗智斗勇的曲折故事。请支持正版！</p><a id="more"></a><h1 id="序章：惹错人了"><a href="#序章：惹错人了" class="headerlink" title="序章：惹错人了"></a>序章：惹错人了</h1><p>听说精致的Mac和优雅的MarkDown很配。你知道Markdown也可以用来写作幻灯片吗？首先给大家推荐一个Mac平台上优雅的应用叫做DeckSet。售价29.99$，挺贵的，呵呵。</p><p>我真的是一个自由软件爱好者！我虽然穷我支持正版！但我同时是个愤青啊！AppStore慢也就算了，想注册个可以花钱的账号过程也太不友好了！关键是，安装完DeckSet你跟我说公式渲染要额外付费9.99$是几个意思？</p><p>而且我仔细观察软件的行为，发现它的公式解析使用的是MathJax——一款开源免费的程序。DeckSet从开源软件中免费获得了代码，转而将这些代码实现的功能通过收费的形式提供给消费者，太不人性了（不过这不构成侵权，因为MathJax遵循的Apache协议允许商业销售）。</p><p>如果你不付钱呢，它就给你这样弹警告：</p><p><img src="/img/extra-money.png" alt></p><p>给你这样(把你的公式给吞了，仔细看还有淡淡的影子):</p><p><img src="/img/no-formula.png" alt></p><p>不管怎么样，我想它是惹错人了。</p><h1 id="利其器"><a href="#利其器" class="headerlink" title="利其器"></a>利其器</h1><p>我并不是一个职业黑客。我之前也没破解过软件。既然放了狠话，也只能硬着头皮上。看看我已经有啥技能和工具：掌握C语言，有过软件设计的些许经验。由于踩过无数坑，渐渐总结出了软件调试技巧。加上一些新手的运气和对奸商的憎恶——可以付之一搏了。</p><p>再看看手头工具有哪些呢？静态观察程序代码，那就得要反汇编器，我觉得otx就不错。动态观察程序运行，那就得要调试器，就用Xcode自带的gdb吧。编辑二进制文件，系统自带的vim就可以。都是一些没有图形界面的土装备，但够用就行，烦不了太多——我是新手我怕谁。</p><p>otx用homebrew就可以安装。前提是必须先安装好Xcode。</p><p>gdb据说是Xcode自带。不过之前我用homebrew大法安装了独立版本。受限于系统权限，gdb想调试一个程序并不容易。你得用证书把gdb签名，赋予它调试其它进程的权限。具体过程可以参考<a href="http://www.csdn123.com/html/topnews201408/43/8443.htm" target="_blank" rel="noopener">这个</a>。</p><h1 id="了解你的敌人"><a href="#了解你的敌人" class="headerlink" title="了解你的敌人"></a>了解你的敌人</h1><p>为了破解一个软件，我们不得不先了解这个软件。为了了解我们的目标，我们得搜集它的各种信息。</p><p>搜集信息的第一个层面是你要知道敌人在哪？我是说你的知道软件的安装位置和目录结构。Mac系统上，软件被装在/Application/目录下。其中/Applications/XXX.app/Contents/MacOS/这个目录下就是程序的二进制文件——我们靶子！</p><p>搜集信息的第二个层面就是多用这个软件，对与一些提示要特别留意。比如第一幅图中那烦人的黄色警告条：”Buy formula support for $9.99”就变成了我的突破口。</p><p>首先我用下面命令对程序进行反汇编，汇编代码保存在deckset.asm文件里。</p><pre><code>otx Applications/Deckset.app/Contents/MacOS/Deckset &gt; deckset.asm</code></pre><p>打开保存结果的文件，里面全是汇编代码和各种零零碎碎的信息。我是新手，我看不懂。我不管，先Ctrl+F查找”Buy formula support”。果然，这样这样函数，对某个值进行了判断，并跳转到输出”Buy formula support”。跟踪这一线索，不说能不能了解程序判断你是否是合法用户的机制，倒是眼前肯定闪过了不少能让你想入非非的词汇，比如：</p><ul><li>initWithMASProduct(MAS是不是maths?Product！)</li><li>RecieptVerification(Verification?验证什么？)</li><li>systemMACAddress(是不是用了MAC地址进行验证啊？)</li><li>purchaseFormulas</li></ul><p>这个时候一些软件设计的经验就派上用场啦！用猫的思维去思考的老鼠活得才自在，用老鼠思维去思考的猫才能抓到最多的老鼠。知道怎么拼软件才知道怎么拆软件。</p><p>这时google到了一个工具叫class-dump（听到dump就来劲！），可以从面相对象编程的OC二进制文件中提取类的信息。这就是搜集信息的第三个层面，程序代码中蕴含的信息。otx反汇编时其实已经包含零零碎碎的信息啦，只不过class-dump的信息是按面向对象的思想整理过的。</p><p>otx也好，class-dump也好，不管用什么工具，意识最重要。刚刚看过的那些想入非非的字符串的最后一条“purchaseFormulas”激发了我的灵感。我Ctrl+F用purchase一搜，得到了下图信息：左边是otx反汇编的代码，右边是class-dump的结果，可以验证这些信息两个工具都是可以提供的，只是class-dump更便于阅读）:</p><p><img src="/img/purchase.png" alt></p><p>看到这个函数名”purchasedAddOnWithIdentifier”，加上返回值类型是BOOL，以及一些想当然，可以说任务已经完成一大半了。明白了吗？这个函数很可能是用来验证用户是否购买过这个AddOn，如果买过就返回True，否则False。所以我们只要让这个函数一值返回True很可能就大功告成啦！</p><h1 id="准备毒药"><a href="#准备毒药" class="headerlink" title="准备毒药"></a>准备毒药</h1><p>来，我们仔细看purchasedAddOnWithIdentifier代码！</p><p><img src="/img/purchase_code.png" alt></p><p>你真的仔细看了？我开玩笑的:P 我自己都看不懂！不需要看懂，我就是想让这个函数一直返回1而已。大神可能已经在用大脑编译一段实现这样功能代码然后直接用机器码填上了——这我可做不到，但我机灵着呐：我用C语言写一段一直返回1的函数，然后编译这段C代码，接着从里面提取这段机器码。</p><p>好，现在就开始做！写一段熟悉的C语言代码：</p><pre><code>#include &lt;stdio.h&gt;int freeman(){    return 1;}int main(){    if (freeman())        printf(&quot;hello&quot;);    return 0;}</code></pre><p>编译完了在用otx反汇编，得到：</p><p><img src="/img/alway_true.png" alt></p><p>用图中高亮显示的8字节机器码替换掉purchasedAddOnWithIdentifier开头的代码，就可以让purchasedAddOnWithIdentifier函数永远返回1，也就是True啦。这8字节机器码就是我们的毒药，下面我们来看看怎么把毒药喂给程序。</p><h1 id="下毒"><a href="#下毒" class="headerlink" title="下毒"></a>下毒</h1><p>明确任务，我们需要把图左边的8字节代码一一换成右边对应的代码。</p><p><img src="/img/paper.png" alt></p><p>但是还记得吗？我们上述操作都是建立在purchasedAddOnWithIdentifier是关键验证函数这个猜想上的，我可不想在可执行文件本身直接动手，而是选择在运行时内存镜像中进行动态hack。这里就用上了gdb和一些特殊的调试技巧。</p><pre><code>gdb deskset&gt; b *0x00000001000c43b2   #purchasedAddOnWithIdentifier函数开始地址&gt; r</code></pre><p>然后随便摆弄一下程序，直到其“卡”在断点上。谢天谢地，程序真的停下来了！然后开始用gdb的<code>set</code>命令修改<code>0x1000c43b2~0x1000c43be</code>范围内内存单元的值。set完了，再用<code>disas 开始地址，+区间长度</code>命令反汇编这一段内存区域，检查是否正确。从下图可以看到，我们的代码和C语言hello程序中的freeman函数反汇编的结果是一样的。</p><p><img src="/img/set_disas.png" alt></p><p>然后 <code>continue</code> 运行。成功了！</p><p>清爽的界面再没有警告！购买菜单也灰掉了。</p><p><img src="/img/success.png" alt></p><p>最重要的是公式终于清楚地显示啦！</p><p><img src="/img/success2.png" alt></p><h1 id="稳固胜利果实"><a href="#稳固胜利果实" class="headerlink" title="稳固胜利果实"></a>稳固胜利果实</h1><p>试验成功了，我们的毒已经注入了程序的内存空间。但是这个破解可不是永久的，每次重新打开程序，就得重复上述步骤进行破解。现在我们要把胜利的果实固定住。这可以通过修改程序二进制文件进行。用到的工具就是vim。</p><p>利用vim打开二进制程序看起来不是一个好主意——一片乱码啊！不过在vim中敲<code>:</code>然后在下面输入<code>%!xxd</code>回车后看到了可是另一番景象。通过搜索匹配到我们的目标代码，然后逐一替换，保存即可。</p><p><img src="/img/hex.png" alt></p><p>具体操作时有一些问题，比如说目标代码不好定位。这里提供一个小的脚本工具：<a href="https://github.com/freemandealer/scripts/blob/master/offset1.3.pl_" target="_blank" rel="noopener">offset</a>可以方便地把otx中的内存地址转换成二进制文件中的偏移。</p><p>替换完成后别急着<code>wq</code>保存退出。而是先<code>%!xxd -r</code>重新转码然后再保存退出。</p><p>这样，我们就可以优雅地运行程序了。</p><h1 id="技术总结"><a href="#技术总结" class="headerlink" title="技术总结"></a>技术总结</h1><p>对于看完故事还意犹未尽的技术人，我还准备了一份简单的路线：</p><ul><li>收集信息和探索：对二进制文件展开成人类可读的形式后，使用关键词进行搜索，定位阻碍我们流畅使用该应用的函数。这一步耗时最长，需要仔细摆弄软件获得灵感，并且直接决定能否成功。一般搜索关键词如 activate、purchase、register、trial 之类，也可以结合具体应用和想要的效果选取。例如对于弹窗的应用，不一定非要“破解”，只要能屏蔽广告就行，那么可以使用 dialog、window 之类的关键词搜索。这个阶段使用的工具主要目的是为了把 binary format 妆换成 human-readable format，工具例如：hopper、otx、class-dump 都可以满足，class-dump 信息清晰一下。</li><li>如果上一步定位了目标函数，则需要弄清这个函数的输入输出，并撰写编译自己后面用来替换的函数。比如目标函数通过判断用户身份返回是否合法，合法true不合法false。那么我们就建立一个C文件写一个永远返回true的函数编译出二进制。如果一个目标是一个返回void的弹窗函数，那么我们就让这个函数调用后立马return，跳过后面花里胡哨的广告展示逻辑。这个阶段用到的工具是 C 语言编译器，如 gcc。</li><li>找到目标函数的虚拟内存地址。工具: hopper 或 otx 都可以满足。</li><li>通过上面的内存地址获取代码在二进制文件中的位置。工具： <a href="https://github.com/freemandealer/scripts/blob/master/offset1.3.pl_" target="_blank" rel="noopener">offset</a> 脚本。</li><li>使用自己的函数逻辑替换二进制文件 offset 处原逻辑。工具：vim &amp;&amp; xxds</li><li>测试是否成功。不成功重复上述步骤，或者google 高阶破解技巧，或者放弃。</li></ul><p>请支持正版！</p><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul><li><p><a href="https://reverse.put.as/wp-content/uploads/2011/02/beginners-tut-II.txt" target="_blank" rel="noopener">https://reverse.put.as/wp-content/uploads/2011/02/beginners-tut-II.txt</a></p></li><li><p><a href="http://kswizz.com/2011-01-16/hacking-mac-apps/" target="_blank" rel="noopener">http://kswizz.com/2011-01-16/hacking-mac-apps/</a></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这不是一篇教你破解苹果软件的简明教程，而是一篇斗智斗勇的曲折故事。请支持正版！&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>用QEMU来调试内核 -- 亲身体验篇</title>
-    <link href="https://freemandealer.github.io/gallery/2015/10/04/debug-kernel-with-qemu-2/"/>
-    <id>https://freemandealer.github.io/gallery/2015/10/04/debug-kernel-with-qemu-2/</id>
-    <published>2015-10-04T05:37:39.000Z</published>
-    <updated>2017-01-07T03:38:39.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文记录了用QEMU构建最小Linux系统并进行调试的过程。</p><a id="more"></a><blockquote><p>修改：<br>v1 2015-10-04 原稿<br>v2 2016-02-07 将initrd启动替换成硬盘启动</p></blockquote><h2 id="愿景"><a href="#愿景" class="headerlink" title="愿景"></a>愿景</h2><p>我在<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">用QEMU来调试内核 – 亲身体验篇</a>中大致记录了邮件列表上和网上搜索到的内核调试方法，并没有完全进行验证。今天亲自实践了一番，发现：</p><ul><li>QEMU调试果然爽快</li><li>调试环境搭建过程中有很多细节需要注意</li></ul><p>先来看看有了QEMU内核调试环境后，我调试内核的大致步骤。</p><ul><li><p>修改内核，make编译（不用完整执行，生成bzImage就可以中断make）。执行</p><pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \    # 指定编译好的内核-hda rootfs.img \        # 指定硬盘-append &quot;root=/dev/sda&quot;      # 告诉内核硬盘上有根文件系统</code></pre></li><li><p>运行GDB(这个GDB是要自己编译的，见<a href="http://freemandealer.github.io/2015/08/27/debug-kernel-with-qemu/">上篇文章的末尾</a>)。</p><pre><code>gdb vmlinux&gt; target remote localhost:1234</code></pre></li><li><p>进入弹出的QEMU窗口，<code>CTRL+ALT+2</code>进入QEMU控制台，输入<code>gdbserver</code>。</p></li><li><p>调试开始！</p></li></ul><blockquote><p>上述步骤针对图形模式，如果工作在字符界面下，第一步的命令需要替换成：</p><pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \ -hda rootfs.img \ -append &quot;root=/dev/sda console=ttyS0&quot;</code></pre><p>最后添加的<code>console=ttyS0</code>把QEMU的输入输出定向到当前终端上，即让我们可以使用执行qemu-system-x86命令的终端操作虚拟机中的系统，而不需要开启qemu的GUI窗口。不过这样上述第三步进入QEMU控制台的方式就不好使了。如果需要控制台，那么第一步命令需要替换成：</p><pre><code>qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage \ -hda rootfs.img \ -append &quot;root=/dev/sda console=ttyS0&quot; -monitor stdio</code></pre><p>这样一来，QEMU控制台的输入输出就定向到当前终端上了，不过同时我们无法利用该终端操作虚拟机中的系统了。两全其美的方法还有待探寻。</p></blockquote><p>再也不用像使用VMware那样等一万年去<code>make modules&amp;&amp;make install &amp;&amp;make modules_install</code>以及费尽心思去调教grub了。节省了大量时间，同时资源占用也少太多。一切都是整整齐齐的模样。</p><p>上面就是我们的目标啦。怎么才能实现呢？分析上述qemu-system-x86_64的参数，我们需要为它准备两样东西：内核镜像bzImage和rootfs。这两个东西构成了一个刚好可用的运行系统。</p><h2 id="为什么要构建自己的运行系统"><a href="#为什么要构建自己的运行系统" class="headerlink" title="为什么要构建自己的运行系统"></a>为什么要构建自己的运行系统</h2><p>插一段话，解释什么是LFS。LFS是<a href="http://www.linuxfromscratch.org/lfs/view/stable/index.html" target="_blank" rel="noopener">Linux From Scratch</a>缩写，意思是利用网络上的开源代码，从头<strong>构建</strong>Linux<strong>发行版</strong>。“<strong>构建</strong>”这里指编译和安装，不是指设计程序和敲代码的过程。构建的目标Linux<strong>发行版</strong>，不是让你从头写Linux内核本身。Linux发行版有很多外延，比如CentOS、Ubuntu、Arch等等。我自个儿就琢磨着呗，我们做内核开发，不能老用别人的发行版：一来我们要分清什么是Linux的共性特征，什么是一些发行版加进去的个性特征；二来从头构建Linux发行版能加深我们对这个系统的理解。更重要的是，毕竟我们研究内核其实就是在溯源，我不希望在探求原理路途上有什么迷雾遮住自己的眼，而是喜欢“一切都在掌握之中”的良好感觉。</p><h2 id="调试环境的搭建"><a href="#调试环境的搭建" class="headerlink" title="调试环境的搭建"></a>调试环境的搭建</h2><p>内核编译我想不必再说了。使用默认配置文件即可。唯一需要注意的是，为了避免交叉编译，我们最后使用与自己正在使用的机器架构一致的配置。例如，我的机器是64位x86，所以我使用下面的命令：</p><pre><code>make x86_64_defconfig</code></pre><p>然后再用<code>make menuconfig</code>命令配置一下DEBUG_INFO。最后<code>make</code>即可得到bzImage文件。</p><p>现在我们还需要准备一个rootfs.img文件，这是一个装有根文件系统的磁盘镜像文件，里面有一些像shell之类的二进制工具，让操作系统能够和用户交互。更重要的是，根文件系统往往还包含init程序，正是它完成了系统初始化的工作。那么如何制作这个rootfs.img呢？</p><p>第一步，创建一个磁盘镜像文件并格式化之:</p><pre><code>dd if=/dev/zero of=rootfs.img bs=1M count=10mkfs.ext3 rootfs.img</code></pre><p>第二步，下载、配置、编译busybox。配置时需要注意的是，busybox采用静态链接会减去很多麻烦。具体说在 make menuconfig时，勾选:</p><pre><code>BusyboxSettings-&gt;Build options-&gt;BuildBusybox as a static binary</code></pre><p>第三步，安装busybox到rootfs文件夹:</p><pre><code>mkdir /path/to/rootfssudo mount -t ext3 -o loop rootfs.img /path/to/rootfs# busybox源代码目录中执行make install CONFIG_PREFIX=/path/to/rootfs</code></pre><p>第四步，配置busybox的init:</p><pre><code>mkdir /path/to/rootfs/proc /path/to/rootfs/dev /path/to/rootfs/etccp busybox-source-code/examples/bootfloppy/* /path/to/rootfs/etc/sudo umount /path/to/rootfs</code></pre><p>rootfs.img准备完成了！一切都准备就绪，快试试吧！</p><h2 id="附：initrd方式的启动"><a href="#附：initrd方式的启动" class="headerlink" title="附：initrd方式的启动"></a>附：initrd方式的启动</h2><p>您现在正在阅读的这篇文章是多次修改后的版本。在原版中，我们的环境搭建可不是用了rootfs.img这种快捷简单的构建方式，而是采用了initrd的方式。<del>这部分内容舍不得删</del> initrd功不可没，留在这里提供给需要的人看。</p><p>initrd是个啥呢？首先它也是一种根文件系统，不过它存在于内存中，而不是硬盘上。它的存在是为了解决这个问题：根文件系统存在于硬盘上，内核可能需要加载一些支持模块才能使用硬盘，而这些模块又是存放在根文件系统上，这样问题就死锁了。initrd全称initial RamDisk，它是一个用内存虚拟出的磁盘，不依赖具体的磁盘硬件，因此是通用的，既不需要特殊的支持模块。这样，上述过程就变成了：临时的根文件系统存在于initrd中，这个临时根文件系统里包含一些必要模块驱动真正的根文件系统所在的磁盘，用这些模块挂载真正的根文件系统，最后一个change root操作，真正的根文件系统顺利上位，而initrd退休。</p><p>有两种方式获得这个initrd。一种方式是在内核编译前生成，另一种通过内核编译选项在内核编译后生成。</p><h3 id="方法一：编译前生成"><a href="#方法一：编译前生成" class="headerlink" title="方法一：编译前生成"></a>方法一：编译前生成</h3><p>先用下面的命令下载并解压缩BusyBox:</p><pre><code>curl http://busybox.net/downloads/busybox-1.23.2.tar.bz2 | tar xjf -</code></pre><p>为BusyBox创建工作目录:</p><pre><code>mkdir -pv obj/busybox-x86make O=obj/busybox-x86 defconfig</code></pre><p>使用menuconfig配置BusyBox:</p><pre><code>make O=obj/busybox-x86 menuconfig</code></pre><p>选择静态链接:</p><pre><code>-&gt; Busybox Settings    -&gt; Build Options    [ ] Build BusyBox as a static binary (no shared libs)</code></pre><p>编译、安装BusyBox:</p><pre><code>cd obj/busybox-x86make -j2make install</code></pre><p>拷贝安装目录中的工具到initramfs目录中，这个文件夹就是日后的initramfs:</p><pre><code>mkdir -p initramfs/x86-busyboxcd initramfs/x86-busyboxmkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}cp -av obj/busybox-x86/_install/* ./</code></pre><p>initramfs目录中没有init脚本，这可不行，我们的内核起来以后运行什么程序呢？我们手动创建一个：</p><pre><code>#!/bin/sh/bin/mount -t proc none /proc/bin/mount -t sysfs sysfs /sysecho &apos;Enjoy your new system!&apos;/bin/sh</code></pre><p>生成initramfs:</p><pre><code>find . -print0 | cpio --null -ov --format=newc | gzip -9 &gt; initramfs-busybox-x86.cpio.gz</code></pre><p>得到initramfs了，任务结束了!看明白了吗？</p><p>同时这里给出生成initramfs的逆操作－－拆分initramfs:</p><pre><code>cpio -i -d -H newc -F initramfs_data.cpio --no-absolute-filenames</code></pre><h3 id="方法二：编译后生成"><a href="#方法二：编译后生成" class="headerlink" title="方法二：编译后生成"></a>方法二：编译后生成</h3><p>通过内核编译前配置<code>CONFIG_INITRAMFS_SOURCE</code>选项到一个存在的gzipped的initramfs、或是一个准initramfs目录、或是如下格式指定initramfs结构的txt文件:</p><pre><code>dir /dev 755 0 0nod /dev/console 644 0 0 c 5 1nod /dev/loop0 644 0 0 b 7 0dir /bin 755 1000 1000slink /bin/sh busybox 777 0 0file /bin/busybox initramfs/busybox 755 0 0dir /proc 755 0 0dir /sys 755 0 0dir /mnt 755 0 0file /init initramfs/init.sh 755 0 0</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>如果你想弄清楚内核的初始化过程，这里有一份阅读列表：</p><p><a href="http://mgalgs.github.io/2012/03/23/how-to-build-a-custom-linux-kernel-for-qemu.html" target="_blank" rel="noopener">How to Build a Custom Linux Kernel for Qemu</a></p><p><a href="http://www.linuxfromscratch.org/lfs/view/stable/" target="_blank" rel="noopener">Linux From Scratch</a></p><p><a href="https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt" target="_blank" rel="noopener">Kernel Doc：Ramfs, Rootfs and Initramfs</a></p><p><a href="https://www.kernel.org/doc/Documentation/early-userspace/README" target="_blank" rel="noopener">Kernel Doc: Early Userspace Support</a></p><p><a href="http://free-electrons.com/docs/elfs/" target="_blank" rel="noopener">Embedded Linux From Scratch… in 40 minutes</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本文记录了用QEMU构建最小Linux系统并进行调试的过程。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Note" scheme="https://freemandealer.github.io/gallery/tags/Note/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>野长城</title>
-    <link href="https://freemandealer.github.io/gallery/2015/10/01/the-wild-great-wall/"/>
-    <id>https://freemandealer.github.io/gallery/2015/10/01/the-wild-great-wall/</id>
-    <published>2015-10-01T09:07:59.000Z</published>
-    <updated>2015-11-04T10:49:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://i11.tietuku.com/2acd988527e65ae4.jpg" alt></p><p>写一篇文章，纪录在国科大的见闻，给我的父母、姐姐和可能关心我近况的朋友们。</p><a id="more"></a><p>##1 遇见国科大<br>现在是报到的第二天，我在国科大的第一个早晨。昨天幸幸苦苦赶了一天路，但没想到起得出奇的早。吃完早饭才六点多，便忍不住逛了校园。自己真真实实地走了完整一圈，停在图书馆前仰头看，真是感动的无法言语。精心修剪的草坪加上宏伟的建筑，配上怀柔才有的蓝天——在现实里，还真是浮夸呀；这估计就是高考前幻想中大学校园，终于在我的研究生阶段遇见了。</p><p><img src="http://i11.tietuku.com/d095c57ba0c0eb15.jpg" alt></p><p>##2 怀柔<br>网上有人说怀柔是北京最后一片净土。是不是最后一片，我没有考证。但是在这里，我见到的星星比在之前呆过的任何地方都多。开学典礼上那个“脱口秀”马校长称赞这里是天然氧吧，我看并不过分。连续几天打开天气App，都是十几的PM2.5（不过截至到敲这段文字的时候，空气质量已经中度污染了）。不过我现在也不怎么关注什么App呢，直接看看周围的山色就知道今天能不能贪婪地呼吸空气了。</p><p><img src="http://i11.tietuku.com/f4180cb2a7da5049.png" alt></p><p>##3 爬野长城，并活着回来<br>室友们似乎开始进入了早睡早起的节奏了。现在是下午一点，一个个困得不行都在拉窗帘、锁门、睡午觉。楼道里遇见黄班长，兴奋地拉着我说要组队去爬野长城，希望叫上我们宿舍的伙伴们。</p><p>野长城的事情，不久前学校刚刚警告我们不要试图去爬。危险不说，上去会被抓，要拘留。我一想拘留就不用去上课了，所以就答应黄班长的邀请。毕竟第一次班级“组织活动”，我们宿舍就不参加，不是一个好开头。舍友张刚也是一个特别有责任感的同志，尽管鞋子没有干，也是困得不行，还是硬着头皮一同上路了。就这样，我的小米手环告诉我这一天我步行了20公里。</p><p>我没有去过真正的长城，看来我不是好汉。但是我去过野长城。我觉得野长城没什么不好，可能就是游人不多，入口的地方有可爱的大妈守着（大妈说反正你们不能从我这里过，不过前面还有一个口子可以上长城）。很多修行的人坐在古老的石道上参禅打坐，很安静。有一段石道长满杂草，很怀旧。</p><p><img src="/img/wild-wall.jpg" alt></p><p>##4 第一堂课<br>昨天校车刚进大门的时候，看到了气派的建筑群，就听到车里有同学尖叫说：好像国外学校！我想说，果壳大不仅是外表洋气，上起课来格调也是拽的不行。</p><p>第一堂课是数据挖掘，老师用英语上的，课程安排、作业什么的给人感觉就像从coursera里蹦出来的。美中不足的就是共有500个人选，但国科大最大的教室才300人（你们在干什么啊，讲台都要坐满了呀！）记得我六点半过去位子就没有了——上课时间是八点半。在写这篇文章时，我已经把这门课退了。</p><p><img src="http://i11.tietuku.com/582cfa7ff56d520d.jpg" alt></p><p>##5 国科大的老师<br>我这一个星期见到的院士比以往一生都多。因为我之前从来没有见过院士。而国科大的老师呢？可把我这个乡下孩子看傻眼了。</p><p>胡伟武老师，龙芯设计组组长。关于他的新闻，网上很多。我很喜欢上他的课，说得很有带入感，有技术背景喜欢发挥。更关键地是他一直和蔼地笑着讲课。加上他的课都是在晚上，让我回忆起大一晚上上马廷淮的C语言启蒙课的日子。</p><p>林惠民。听不懂啊听不懂啊听不懂啊。不仅不知道他在讲什么，关键是不知道他为什么讲这些。一查卧槽——中科院院士——怪不得跟不上他的思维境界。不管怎么样，写这篇文章时我已经把他的课退了。</p><p>杨力祥，操作系统老师，讲Linux内核的老师我都喜欢……他如果不吹牛的话。“我第一次赚大钱的时候”“买一个地球仪在办公室里转着看”“花了10年把计算机做到世界顶级”。</p><p>##6 释放能量<br>依山伴水，天然氧吧，跑跑步便是极好。健身房就在宿舍楼前，虽不精致却能激发荷尔蒙，一次4块也算便宜。操场就在窗外，踢踢球也很娱乐。在国科大呆一年身体如果虚弱了，那真是没救了。</p><p><img src="http://i11.tietuku.com/1cb1cfde387c0bb8.jpg" alt></p><p>##7 友好邻居爱串门<br>明天是国庆节:) </p><p>今天晚上可不能浪费。正巧遇见孟轲溜去二食堂就餐，我毫不犹豫地把他拽回一食堂。吃饭时说道上个星期摆脱他给我写的一个课程同步工具ucs出现了一些bug，吃完饭便拿了电脑去他宿舍单元找他解决问题。</p><p>推开门这货竟然坐在飘窗上谈吉他。飘窗上铺了毯子，放了一个颇有质感的大靠垫，也是很有孟博士该有的智慧和情调。然后我就一边听他弹琴，一边想办法让bug重现。大前研一在他的《一万小时天才理论》里曾经说过：如果路人辨认出了练习的曲子，那么他的练习方法就不正确。这样看来，孟轲是真的在练琴。</p><p>孟博士充满激情地调着代码，不时地说着冷笑话。我感觉很冷，我就开始玩我自己的电脑。突然想到前几天在群里聊“科学上网”认识的大神刘洪亮，约好有机会见面聊聊天来着，这不正好有空，还正好住在孟博士楼上，果断抱着电脑去串门，让孟轲一个人好好静一静，不要老分神讲冷笑话。</p><p>推开门一看，倒是他先认出了我：“这不是一个小时前上操作系统课上坐我旁边那哥们儿？”我的天，原来我要找的人坐我边上上了半个下午的课。刘洪亮东北辽宁人，不过我本科宿舍就有一哥们儿大庆的，我也不害怕。聊了几句，发现他果然是计算机网络方面的大神，随随便便就带我入门IPv6，把我的科学上网能力有带进步了一大截。他人有非常好，我随随便便就把他拉进我的粉丝群，并且拉着他帮我们一块儿做计算机网络小组作业。</p><p>回到孟轲宿舍，果不其然，他把bug都解决了。我非常感激，就把楼上刘洪亮刚刚教我的科学上网大法传授给了他。我们都很开心。</p><p>年轻人，就应该快乐地生活在一起，互相学习。学杂了才能学精。不然为什么要有大学呢？</p><p>##8 UCS上线!<br>今天是国庆节:)</p><p>也是ucs上线的大日子！昨天孟轲辛辛苦苦解决了所有已知bug，我不能藏着这个宝贝不分享，而是要让它发挥更大的作用。我做了一系列“最终”测试，重新整理了软件说明书，在11点20分向各大社交网络的群体广播了ucs“上线”的消息：</p><blockquote><p>国庆快乐!可是大家不要忘了写作业和学习！<br>推荐大家一个国科大课程材料同步工具UCS</p><p>懒得天天打开网页挨个下课件，所以求计算机学院孟轲同学帮我写了一份，热气腾腾，大家也试试吧：）</p><p>同时欢迎报告Bug，更欢迎大家贡献代码  <a href="https://github.com/tianxianbaobao/UCS" target="_blank" rel="noopener">https://github.com/tianxianbaobao/UCS</a></p></blockquote><p>消息一发送，收到了无数个赞。当然，用户反应的问题比赞多，更比想象中的多——这时我才意识到Beta测试是多么的重要。</p><p>计算所的同学群无疑是给我们支持最多的一个群体。小伙伴们早已不把自己当用户很多年，纷纷撸起袖子测试、watch、star、fork我们的项目，耐心细致地报告bug，甚至已经操刀为ucs增加新特性了。</p><p>其实我的github账号注册几年了，也用了很久了，可是作为我亲手初始化的项目，这是第一次受到怎么多（几十次，至少对于我来说是多的）访问。Issue、fork、branch这些功能，我原以为是可有可无的，是无聊的教课书才会涉及的，或是高手卖弄才学的，而现在它们正灵活地运用在实际项目中——虽然它就像麻雀那般小。</p><p>代码这些事大家一起玩真的很刺激！感谢孟轲感谢大家，并希望ucs能为大家带来些许的方便。</p><p>##9 对床风雨</p><p>##10 人文熏陶<br>如何提问</p><p>##11 离科学最近的地方</p><p>##12 红螺寺</p><p>##13 山顶小屋</p><p>##14 又一个好老师<br>科研，讲述ppt</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://i11.tietuku.com/2acd988527e65ae4.jpg&quot; alt&gt;&lt;/p&gt;
-&lt;p&gt;写一篇文章，纪录在国科大的见闻，给我的父母、姐姐和可能关心我近况的朋友们。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Life" scheme="https://freemandealer.github.io/gallery/tags/Life/"/>
     
   </entry>
   
